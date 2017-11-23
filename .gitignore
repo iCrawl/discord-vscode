@@ -16,6 +16,7 @@ test/
 .vscode/bookmarks.json
 !.vscode/launch.json
 !.vscode/tasks.json
+.vscode-test/
 dist/
 out/
 package-lock.json
