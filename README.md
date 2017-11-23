@@ -1,4 +1,4 @@
-# discord-vscode
+# Discord Presence
 > Update your discord status with the newly added rich presence.
 
 <div align="center">
@@ -24,7 +24,7 @@ Give me a little bit of time and this will be resolved! 😉
 
 ## Author
 
-**discord-vscode** © [iCrawl](https://github.com/iCrawl).<br>
+**Discord Presence** © [iCrawl](https://github.com/iCrawl).<br>
 Authored and maintained by iCrawl.
 
 > GitHub [@iCrawl](https://github.com/iCrawl)
