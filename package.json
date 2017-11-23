@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
-	"displayName": "Discord VSCode",
-	"version": "0.3.0",
+	"displayName": "Discord Presence",
+	"version": "0.4.0",
 	"description": "Update your discord status with the newly added rich presence.",
 	"author": {
 		"name": "iCrawl",
