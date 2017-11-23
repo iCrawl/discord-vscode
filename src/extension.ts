@@ -1,20 +1,26 @@
 import { Client } from 'discord-rpc';
 import { basename, extname } from 'path';
 import { ExtensionContext, commands, window, workspace, Uri, TextDocumentChangeEvent, TextDocument } from 'vscode';
+import { setInterval, clearInterval } from 'timers';
 
 let rpc: Client;
 
 export function activate(context: ExtensionContext) {
-	rpc = new Client({ transport: 'ipc' });
 	const config = workspace.getConfiguration('discord');
 
-	rpc.once('ready', () => {
-		setActivity();
-		workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
+	if (config.get('enabled')) {
+		initRPC(config.get('clientID'));
+	}
+	const enabler = commands.registerCommand('discord.enable', () => {
+		config.update('enabled', true);
+		initRPC(config.get('clientID'));
 	});
-	rpc.login(config.get('clientID')).catch(error =>
-		window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`)
-	);
+	const disabler = commands.registerCommand('discord.disable', () => {
+		config.update('enabled', false);
+		rpc.setActivity({});
+	});
+
+	context.subscriptions.push(enabler, disabler);
 }
 
 export function deactivate(context: ExtensionContext) {
@@ -44,4 +50,17 @@ function setActivity(): void {
 		instance: false
 	};
 	rpc.setActivity(activity);
+}
+
+function initRPC(clientID: string): void {
+	rpc = new Client({ transport: 'ipc' });
+	rpc.once('ready', () => {
+		setActivity();
+		workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
+	});
+	rpc.login(clientID).catch(error =>
+		error.message.includes('ENOENT')
+			? window.showErrorMessage('No Discord Client detected!')
+			: window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`)
+	);
 }
