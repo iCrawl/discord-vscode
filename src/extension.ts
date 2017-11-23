@@ -24,11 +24,21 @@ export function deactivate(context: ExtensionContext) {
 function setActivity(): void {
 	if (!rpc) return;
 	const activity = {
-		details: window.activeTextEditor ? `Editing ${basename(window.activeTextEditor.document.fileName)}` : 'Idle.',
-		state: window.activeTextEditor ? `Workspace: ${workspace.getWorkspaceFolder(window.activeTextEditor.document.uri).name}` : 'Idling.',
+		details: window.activeTextEditor
+			? `Editing ${basename(window.activeTextEditor.document.fileName)}`
+			: 'Idle.',
+		state: window.activeTextEditor
+			? `Workspace: ${workspace.getWorkspaceFolder(window.activeTextEditor.document.uri).name}`
+			: 'Idling.',
 		startTimestamp: new Date().getTime() / 1000,
-		largeImageKey: window.activeTextEditor ? extname(basename(window.activeTextEditor.document.fileName)).substring(1) || basename(window.activeTextEditor.document.fileName).substring(1) || 'file' : 'vscode-big',
-		largeImageText: window.activeTextEditor ? window.activeTextEditor.document.languageId : 'Idling.',
+		largeImageKey: window.activeTextEditor
+			? extname(basename(window.activeTextEditor.document.fileName)).substring(1)
+				|| basename(window.activeTextEditor.document.fileName).substring(1)
+				|| 'file'
+			: 'vscode-big',
+		largeImageText: window.activeTextEditor
+			? window.activeTextEditor.document.languageId
+			: 'Idling',
 		smallImageKey: 'vscode',
 		smallImageText: 'Visual Studio Code',
 		instance: false
