@@ -9,14 +9,15 @@ export function activate(context: ExtensionContext) {
 	const config = workspace.getConfiguration('discord');
 
 	rpc.once('ready', () => {
+		console.log('RPC Connected, Setting Activity...')
 		setActivity();
 		workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
 	});
 	rpc.login(config.get('clientID')).catch(error =>
 		window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`)
 	);
-	const enabler = commands.registerCommand('discord.enable', () => config.update('enable', true));
-	const disabler = commands.registerCommand('discord.disable', () => config.update('enable', false));
+	const enabler = commands.registerCommand('discord.enable', () => config.update('enabled', true));
+	const disabler = commands.registerCommand('discord.disable', () => config.update('enabled', false));
 
 	context.subscriptions.push(enabler, disabler);
 }
