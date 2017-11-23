@@ -20,6 +20,46 @@
 	"activationEvents": [
 		"*"
 	],
+	"contributes": {
+		"configuration": [
+			{
+				"title": "Visual Studio Code Discord Configuration",
+				"type": "object",
+				"properties": {
+					"discord.clientID": {
+						"type": "string",
+						"default": "383226320970055681",
+						"description": "Only modify this if you know what you are doing (most of you don't)."
+					}
+				}
+			}
+		]
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/iCrawl/discord-vscode.git"
+	},
+	"bugs": {
+		"url": "https://github.com/iCrawl/discord-vscode/issues"
+	},
+	"keywords": [
+		"discord",
+		"vscode",
+		"status",
+		"update",
+		"rich",
+		"presence",
+		"rpc",
+		"rich presence"
+	],
+	"categories": [
+		"Other"
+	],
+	"homepage": "https://github.com/iCrawl/discord-vscode#readme",
+	"icon": "assets/icon.png",
+	"galleryBanner": {
+		"theme": "dark"
+	},
 	"dependencies": {
 		"discord-rpc": "^3.0.0-beta.2"
 	},

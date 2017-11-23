@@ -1,17 +1,16 @@
 import { Client } from 'discord-rpc';
 import { basename, extname } from 'path';
-import { ExtensionContext, commands, window, workspace, Uri, TextDocumentChangeEvent } from 'vscode';
+import { ExtensionContext, commands, window, workspace, Uri, TextDocumentChangeEvent, TextDocument } from 'vscode';
 
 export function activate(context: ExtensionContext) {
 	const rpc = new Client({ transport: 'ipc' });
+	const config = workspace.getConfiguration('discord');
 
 	rpc.once('ready', () => {
 		setActivity(rpc);
-		workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => {
-			setActivity(rpc);
-		});
+		workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity(rpc));
 	});
-	rpc.login('').catch(error =>
+	rpc.login(config.get('clientID')).catch(error =>
 		window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`)
 	);
 }
