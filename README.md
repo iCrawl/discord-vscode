@@ -7,6 +7,9 @@
 	</p>
 </div>
 
+This is currently in heavy development, so while it does work it is still not very feature rich. 
+Give me a little bit of time and this will be resolved! 😉
+
 ## Contributing
 
 1. Fork it!
