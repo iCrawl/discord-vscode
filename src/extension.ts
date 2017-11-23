@@ -15,6 +15,10 @@ export function activate(context: ExtensionContext) {
 	rpc.login(config.get('clientID')).catch(error =>
 		window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`)
 	);
+	const enabler = commands.registerCommand('discord.enable', () => config.update('enable', true));
+	const disabler = commands.registerCommand('discord.disable', () => config.update('enable', false));
+
+	context.subscriptions.push(enabler, disabler);
 }
 
 export function deactivate(context: ExtensionContext) {
