@@ -7,8 +7,12 @@
 	</p>
 </div>
 
-This is currently in heavy development, so while it does work it is still not very feature rich. 
+This is currently in heavy development, so while it does work it is still not very feature rich.  
 Give me a little bit of time and this will be resolved! 😉
+
+## Features
+
+* Shows what you are editing in VSCode with no bullsh*t involved.
 
 ## Contributing
 
