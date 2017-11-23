@@ -45,12 +45,10 @@
 	"keywords": [
 		"discord",
 		"vscode",
-		"status",
-		"update",
 		"rich",
 		"presence",
-		"rpc",
-		"rich presence"
+		"rich presence",
+		"rpc"
 	],
 	"categories": [
 		"Other"
@@ -61,7 +59,7 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"discord-rpc": "^3.0.0-beta.2"
+		"discord-rpc": "github:iCrawl/discord-rpc#no-peer-deps"
 	},
 	"devDependencies": {
 		"@types/node": "^8.0.0",
