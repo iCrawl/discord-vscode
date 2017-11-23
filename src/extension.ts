@@ -2,22 +2,26 @@ import { Client } from 'discord-rpc';
 import { basename, extname } from 'path';
 import { ExtensionContext, commands, window, workspace, Uri, TextDocumentChangeEvent, TextDocument } from 'vscode';
 
+let rpc: Client;
+
 export function activate(context: ExtensionContext) {
-	const rpc = new Client({ transport: 'ipc' });
+	rpc = new Client({ transport: 'ipc' });
 	const config = workspace.getConfiguration('discord');
 
 	rpc.once('ready', () => {
-		setActivity(rpc);
-		workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity(rpc));
+		setActivity();
+		workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
 	});
 	rpc.login(config.get('clientID')).catch(error =>
 		window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`)
 	);
 }
 
-export function deactivate(context: ExtensionContext) {}
+export function deactivate(context: ExtensionContext) {
+	if (rpc) rpc.destroy();
+}
 
-function setActivity(rpc: Client): void {
+function setActivity(): void {
 	if (!rpc) return;
 	const activity = {
 		details: window.activeTextEditor ? `Editing ${basename(window.activeTextEditor.document.fileName)}` : 'Idle.',
