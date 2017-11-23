@@ -17,7 +17,7 @@ export function activate(context: ExtensionContext) {
 	});
 	const disabler = commands.registerCommand('discord.disable', () => {
 		config.update('enabled', false);
-		if (rpc) rpc.destroy();
+		rpc.setActivity({});
 	});
 
 	context.subscriptions.push(enabler, disabler);
