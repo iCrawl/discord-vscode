@@ -22,17 +22,17 @@
 	],
 	"contributes": {
 		"commands": [
-            {
-                "command": "discord.enable",
-                "title": "Enable Visual Studio Code Discord in the current workspace",
-                "category": "VS-Discord"
-            },
-            {
-                "command": "discord.disable",
-                "title": "Disable Visual Studio Code Discord in the current workspace",
-                "category": "VS-Discord"
-            }
-        ],
+			{
+				"command": "discord.enable",
+				"title": "Enable Visual Studio Code Discord in the current workspace",
+				"category": "VS-Discord"
+			},
+			{
+				"command": "discord.disable",
+				"title": "Disable Visual Studio Code Discord in the current workspace",
+				"category": "VS-Discord"
+			}
+		],
 		"configuration": [
 			{
 				"title": "Visual Studio Code Discord Configuration",
@@ -44,10 +44,10 @@
 						"description": "Only modify this if you know what you are doing (most of you don't)."
 					},
 					"discord.enabled": {
-                        "type": "boolean",
-                        "default": true,
-                        "description": "Controls if Visual Studio Code Discord is active"
-                    }
+						"type": "boolean",
+						"default": true,
+						"description": "Controls if Visual Studio Code Discord is active"
+					}
 				}
 			}
 		]
