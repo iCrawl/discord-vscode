@@ -1,0 +1,9 @@
+.vscode/**
+.vscode-test/**
+test/**
+.gitattributes
+.gitignore
+*.md
+tsconfig.json
+tslint.json
+yarn.lock

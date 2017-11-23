@@ -33,5 +33,3 @@ function setActivity(rpc: Client): void {
 		window.showErrorMessage(`DiscordRPC: ${error.message}`)
 	);
 }
-
-process.on('unhandledRejection', err => console.error(err));
