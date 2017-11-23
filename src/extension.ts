@@ -59,7 +59,7 @@ function initRPC(clientID: string): void {
 		workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
 	});
 	rpc.login(clientID).catch(error =>
-		error.includes('ENOENT')
+		error.message.includes('ENOENT')
 			? window.showErrorMessage('No Discord Client detected!')
 			: window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`)
 	);
