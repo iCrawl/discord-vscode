@@ -56,6 +56,7 @@
 	"homepage": "https://github.com/iCrawl/discord-vscode#readme",
 	"icon": "assets/icon.png",
 	"galleryBanner": {
+		"color": "#6477C1",
 		"theme": "dark"
 	},
 	"dependencies": {

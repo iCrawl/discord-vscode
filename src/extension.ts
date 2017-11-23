@@ -21,15 +21,13 @@ function setActivity(rpc: Client): void {
 	if (!rpc) return;
 	const activity = {
 		details: window.activeTextEditor ? `Editing ${basename(window.activeTextEditor.document.fileName)}` : 'Idle.',
-		state: typeof workspace.workspaceFolders !== 'undefined' ? `Workspaces: ${workspace.workspaceFolders.map(folder => folder.name).join(' | ')}` : 'Idling.',
+		state: window.activeTextEditor ? `Workspace: ${workspace.getWorkspaceFolder(window.activeTextEditor.document.uri).name}` : 'Idling.',
 		startTimestamp: new Date().getTime() / 1000,
-		largeImageKey: window.activeTextEditor ? extname(basename(window.activeTextEditor.document.fileName)).substring(1) : 'vscode-big',
+		largeImageKey: window.activeTextEditor ? extname(basename(window.activeTextEditor.document.fileName)).substring(1) || basename(window.activeTextEditor.document.fileName).substring(1) || 'vscode-big' : 'vscode-big',
 		largeImageText: window.activeTextEditor ? window.activeTextEditor.document.languageId : 'Idling.',
 		smallImageKey: 'vscode',
 		smallImageText: 'Visual Studio Code',
 		instance: false
 	};
-	rpc.setActivity(activity).catch(error =>
-		window.showErrorMessage(`DiscordRPC: ${error.message}`)
-	);
+	rpc.setActivity(activity);
 }
