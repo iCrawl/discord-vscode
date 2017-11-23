@@ -20,18 +20,19 @@ export function deactivate(context: ExtensionContext) {}
 
 function setActivity(rpc: Client): void {
 	if (!rpc) return;
-	const startTimestamp = Date.now();
 	const activity = {
-		details: window.activeTextEditor ? `${basename(window.activeTextEditor.document.fileName)}` : 'Idle.',
-		state: 'No idea.',
-		startTimestamp,
-		largeImageKey: 'vscode-big',
-		largeImageText: 'No really, nothing yet',
+		details: window.activeTextEditor ? `Editing ${basename(window.activeTextEditor.document.fileName)}` : 'Idle.',
+		state: typeof workspace.workspaceFolders !== 'undefined' ? `Workspaces: ${workspace.workspaceFolders.map(folder => folder.name).join(' | ')}` : 'Idling.',
+		startTimestamp: new Date().getTime() / 1000,
+		largeImageKey: window.activeTextEditor ? extname(basename(window.activeTextEditor.document.fileName)).substring(1) : 'vscode-big',
+		largeImageText: window.activeTextEditor ? window.activeTextEditor.document.languageId : 'Idling.',
 		smallImageKey: 'vscode',
-		smallImageText: 'What did you expect?',
+		smallImageText: 'Visual Studio Code',
 		instance: false
 	};
 	rpc.setActivity(activity).catch(error =>
 		window.showErrorMessage(`DiscordRPC: ${error.message}`)
 	);
 }
+
+process.on('unhandledRejection', err => console.error(err));
