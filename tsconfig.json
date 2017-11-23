@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es6",
+		"lib": [
+			"esnext",
+			"esnext.asynciterable"
+		],
+		"outDir": "out",
+		"rootDir": ".",
+		"declaration": true,
+		"sourceMap": true,
+		"removeComments": false,
+		"experimentalDecorators": true
+	},
+	"exclude": [
+		"node_modules",
+		".vscode-test"
+	]
+}

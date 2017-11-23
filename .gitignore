@@ -1,0 +1,21 @@
+# Packages
+node_modules/
+
+# Log files
+logs/
+*.log
+
+# Authentication
+
+# Test files
+test/
+!test/**/*.ts
+
+# Miscellaneous
+.tmp/
+.vscode/bookmarks.json
+!.vscode/launch.json
+!.vscode/tasks.json
+dist/
+out/
+package-lock.json
