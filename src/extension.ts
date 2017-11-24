@@ -84,7 +84,7 @@ function initRPC(clientID: string): void {
 	rpc.login(clientID).catch(error => {
 		if (reconnect && !error.message.includes('ENOENT')) return;
 		if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
-		else window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`);
+		else window.showErrorMessage(`Couldn't connect to discord via rpc: ${error.message}`);
 	});
 }
 
