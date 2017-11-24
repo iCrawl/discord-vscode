@@ -21,6 +21,7 @@ let config;
 let reconnect: NodeJS.Timer;
 // Define the reconnect counter and its type.
 let reconnectCounter = 0;
+let lastKnownFileName: string;
 
 // `Activate` is fired when the extension is enabled. This SHOULD only fire once.
 export function activate(context: ExtensionContext) {
@@ -116,6 +117,8 @@ function destroyRPC(): void {
 function setActivity(): void {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
+	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFileName) return;
+	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
 
 	// Create a JSON Object with the user's activity information.
 	const activity = {
@@ -142,3 +145,5 @@ function setActivity(): void {
 	// Update the user's activity to the `activity` variable.
 	rpc.setActivity(activity);
 }
+
+process.on('unhandledRejection', err => console.error(err));
