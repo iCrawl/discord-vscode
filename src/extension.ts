@@ -32,23 +32,22 @@ export function activate(context: ExtensionContext) {
 		initRPC(config.get('clientID'));
 	}
 
-	// Register the `discord.enable` command, and set the `enabled` config option to true.
-	const enabler = commands.registerCommand('discord.enable', () => {
-		if (rpc) return;
-		config.update('enabled', true);
-		initRPC(config.get('clientID'));
-	});
-
-	// Register the `discord.disable` command, and set the `enabled` config option to false.
-	const disabler = commands.registerCommand('discord.disable', () => {
-		if (!rpc) return;
-		config.update('enabled', false);
-		rpc.setActivity({});
-		destroyRPC();
+	// Register the `discord.toggle` command.
+	const toggler = commands.registerCommand('discord.toggle', () => {
+		if (rpc) {
+			config.update('enabled', false);
+			rpc.setActivity({});
+			destroyRPC();
+			window.showInformationMessage('Disabled Rich Presence for Discord.');
+		} else {
+			config.update('enabled', true);
+			initRPC(config.get('clientID'));
+			window.showInformationMessage('Enabled Rich Presence for Discord.');
+		}
 	});
 
 	// Push the new commands into the subscriptions.
-	context.subscriptions.push(enabler, disabler);
+	context.subscriptions.push(toggler);
 }
 
 // `Deactivate` is fired whenever the extension is deactivated.
@@ -75,6 +74,7 @@ function initRPC(clientID: string): void {
 		eventHandler = workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
 		rpc.transport.once('close', () => {
+			if (!config.get('enabled')) return;
 			destroyRPC();
 			// Set an interval for reconnecting.
 			reconnect = setInterval(() => {

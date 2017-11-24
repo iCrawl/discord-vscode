@@ -23,13 +23,8 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "discord.enable",
-				"title": "Enable Visual Studio Code Discord in the current workspace",
-				"category": "VS-Discord"
-			},
-			{
-				"command": "discord.disable",
-				"title": "Disable Visual Studio Code Discord in the current workspace",
+				"command": "discord.toggle",
+				"title": "Wether Visual Studio Code Discord in the current workspace is enabled or not",
 				"category": "VS-Discord"
 			}
 		],
