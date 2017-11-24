@@ -23,14 +23,19 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "discord.toggle",
-				"title": "Wether Visual Studio Code Discord in the current workspace is enabled or not",
+				"command": "discord.enable",
+				"title": "Enable Discord Presence in the current workspace",
+				"category": "VS-Discord"
+			},
+			{
+				"command": "discord.disable",
+				"title": "Disable Discord Presence in the current workspace",
 				"category": "VS-Discord"
 			}
 		],
 		"configuration": [
 			{
-				"title": "Visual Studio Code Discord Configuration",
+				"title": "Discord Presence Configuration",
 				"type": "object",
 				"properties": {
 					"discord.clientID": {
@@ -41,7 +46,7 @@
 					"discord.enabled": {
 						"type": "boolean",
 						"default": true,
-						"description": "Controls if Visual Studio Code Discord is active"
+						"description": "Controls if Discord Presence is active"
 					}
 				}
 			}

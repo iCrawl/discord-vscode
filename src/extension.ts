@@ -21,6 +21,7 @@ let config;
 let reconnect: NodeJS.Timer;
 // Define the reconnect counter and its type.
 let reconnectCounter = 0;
+// Define the last known file name and its type.
 let lastKnownFileName: string;
 
 // `Activate` is fired when the extension is enabled. This SHOULD only fire once.
@@ -33,22 +34,25 @@ export function activate(context: ExtensionContext) {
 		initRPC(config.get('clientID'));
 	}
 
-	// Register the `discord.toggle` command.
-	const toggler = commands.registerCommand('discord.toggle', () => {
-		if (rpc) {
-			config.update('enabled', false);
-			rpc.setActivity({});
-			destroyRPC();
-			window.showInformationMessage('Disabled Rich Presence for Discord.');
-		} else {
-			config.update('enabled', true);
-			initRPC(config.get('clientID'));
-			window.showInformationMessage('Enabled Rich Presence for Discord.');
-		}
+	// Register the `discord.enable` command, and set the `enabled` config option to true.
+	const enabler = commands.registerCommand('discord.enable', () => {
+		if (rpc) destroyRPC();
+		config.update('enabled', true);
+		initRPC(config.get('clientID'));
+		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
+	});
+
+	// Register the `discord.disable` command, and set the `enabled` config option to false.
+	const disabler = commands.registerCommand('discord.disable', () => {
+		if (!rpc) return;
+		config.update('enabled', false);
+		rpc.setActivity({});
+		destroyRPC();
+		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
 
 	// Push the new commands into the subscriptions.
-	context.subscriptions.push(toggler);
+	context.subscriptions.push(enabler, disabler);
 }
 
 // `Deactivate` is fired whenever the extension is deactivated.
@@ -70,6 +74,7 @@ function initRPC(clientID: string): void {
 			// Null reconnect variable.
 			reconnect = null;
 		}
+		// Reset the reconnect counter to 0 on a successful reconnect.
 		reconnectCounter = 0;
 		setActivity();
 		eventHandler = workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
@@ -145,5 +150,3 @@ function setActivity(): void {
 	// Update the user's activity to the `activity` variable.
 	rpc.setActivity(activity);
 }
-
-process.on('unhandledRejection', err => console.error(err));

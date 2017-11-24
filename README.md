@@ -13,6 +13,7 @@ Give me a little bit of time and this will be resolved! 😉
 ## Features
 
 * Shows what you are editing in VSCode with no bullsh*t involved.
+* Enable/Disable Rich Presence for individual workspaces (enabled by default).
 
 ## Contributing
 
