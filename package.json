@@ -73,6 +73,11 @@
 						"default": "Idling.",
 						"description": "Custom string for the state section of the rich presence when idling"
 					},
+					"discord.workspaceNotFound": {
+						"type": "string",
+						"default": "No workspace.",
+						"description": "Custom string for the state section of the rich presence when no workspace is found"
+					},
 					"discord.largeImage": {
 						"type": "string",
 						"default": "",

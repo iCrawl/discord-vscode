@@ -126,14 +126,23 @@ function setActivity(): void {
 	if (!rpc) return;
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFileName) return;
 	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : null;
+
+	const details = window.activeTextEditor
+		? config.get('details').replace('{filename}', basename(window.activeTextEditor.document.fileName))
+		: config.get('detailsIdle');
+	const checkState = window.activeTextEditor
+		? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
+		: false;
+	const state = window.activeTextEditor
+		? checkState
+			? config.get('workspace').replace('{workspace}', workspace.getWorkspaceFolder(window.activeTextEditor.document.uri).name)
+			: config.get('workspaceNotFound')
+		: config.get('workspaceIdle');
+
 	// Create a JSON Object with the user's activity information.
 	const activity = {
-		details: window.activeTextEditor
-			? config.get('details').replace('{filename}', basename(window.activeTextEditor.document.fileName))
-			: config.get('detailsIdle'),
-		state: window.activeTextEditor
-			? config.get('workspace').replace('{workspace}', workspace.getWorkspaceFolder(window.activeTextEditor.document.uri).name)
-			: config.get('workspaceIdle'),
+		details,
+		state,
 		startTimestamp: new Date().getTime() / 1000,
 		largeImageKey: window.activeTextEditor
 			? extname(basename(window.activeTextEditor.document.fileName)).substring(1)
