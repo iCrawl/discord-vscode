@@ -43,7 +43,6 @@ export function activate(context: ExtensionContext) {
 	const disabler = commands.registerCommand('discord.disable', () => {
 		if (!rpc) return;
 		config.update('enabled', false);
-		eventHandler.dispose();
 		rpc.setActivity({});
 		destroyRPC();
 	});
@@ -76,7 +75,6 @@ function initRPC(clientID: string): void {
 		eventHandler = workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
 		rpc.transport.once('close', () => {
-			eventHandler.dispose();
 			destroyRPC();
 			// Set an interval for reconnecting.
 			reconnect = setInterval(() => {
@@ -89,15 +87,9 @@ function initRPC(clientID: string): void {
 	// Log in to the RPC Client, and check whether or not it errors.
 	rpc.login(clientID).catch(error => {
 		if (reconnect) {
-			if (reconnectCounter >= 20) {
-				clearInterval(reconnect);
-				reconnect = null;
-				eventHandler.dispose();
-				destroyRPC();
-				rpc = null;
-			} else {
-				return;
-			}
+			// Destroy and dispose of everything after 20 reconnect attempts
+			if (reconnectCounter >= 20) destroyRPC();
+			else return;
 		}
 		if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 		else window.showErrorMessage(`Couldn't connect to discord via rpc: ${error.message}`);
@@ -108,6 +100,12 @@ function initRPC(clientID: string): void {
 function destroyRPC(): void {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
+	// Clear the reconnect interval.
+	if (reconnect) clearInterval(reconnect);
+	// Null reconnect variable.
+	reconnect = null;
+	// Dispose of the event handler.
+	eventHandler.dispose();
 	// If there's an RPC Client initalized, destroy it.
 	rpc.destroy();
 	// Null the RPC variable.
