@@ -12,8 +12,9 @@ Give me a little bit of time and this will be resolved! 😉
 
 ## Features
 
-* Shows what you are editing in VSCode with no bullsh*t involved.
-* Enable/Disable Rich Presence for individual workspaces (enabled by default).
+* Shows what you are editing in VSCode with no bullsh*t involved
+* Support for over 50 of the most popular languages
+* Enable/Disable Rich Presence for individual workspaces (enabled by default)
 * Automatic reconnect after losing internet or a discord restart/crash. (defaults to 20 reconnect attempts)
 * Custom string support
 
