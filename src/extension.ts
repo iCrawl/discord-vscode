@@ -116,6 +116,8 @@ function destroyRPC(): void {
 	rpc.destroy();
 	// Null the RPC variable.
 	rpc = null;
+	// Null the last known file name
+	lastKnownFileName = null;
 }
 
 // This function updates the activity (The Client's Rich Presence status).
@@ -123,7 +125,7 @@ function setActivity(): void {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFileName) return;
-	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : '';
+	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : null;
 
 	// Create a JSON Object with the user's activity information.
 	const activity = {
