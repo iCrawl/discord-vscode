@@ -15,6 +15,9 @@ Give me a little bit of time and this will be resolved! 😉
 * Shows what you are editing in VSCode with no bullsh*t involved.
 * Enable/Disable Rich Presence for individual workspaces (enabled by default).
 
+## The rich presence won't show after my PC has been put to sleep / after I lost internet!
+It will only attempt to reconnect 20 times. After it hit that threshold you will have to manually enable it again. Just open the command pallette and execute the enable command for the extension.
+
 ## Contributing
 
 1. Fork it!
