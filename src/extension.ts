@@ -32,12 +32,14 @@ export function activate(context: ExtensionContext) {
 
 	// Register the `discord.enable` command, and set the `enabled` config option to true.
 	const enabler = commands.registerCommand('discord.enable', () => {
+		if (rpc) return;
 		config.update('enabled', true);
 		initRPC(config.get('clientID'));
 	});
 
 	// Register the `discord.disable` command, and set the `enabled` config option to false.
 	const disabler = commands.registerCommand('discord.disable', () => {
+		if (!rpc) return;
 		config.update('enabled', false);
 		eventHandler.dispose();
 		rpc.setActivity({});
