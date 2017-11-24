@@ -81,11 +81,11 @@ function initRPC(clientID: string): void {
 	});
 
 	// Log in to the RPC Client, and check whether or not it errors.
-	rpc.login(clientID).catch(error =>
-		error.message.includes('ENOENT')
-			? window.showErrorMessage('No Discord Client detected!')
-			: window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`)
-	);
+	rpc.login(clientID).catch(error => {
+		if (reconnect) return;
+		if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
+		else window.showErrorMessage(`Could not connect to discord via rpc: ${error.message}`);
+	});
 }
 
 // Cleanly destroy the RPC client (if it isn't already).
