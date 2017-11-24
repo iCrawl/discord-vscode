@@ -41,12 +41,52 @@
 					"discord.clientID": {
 						"type": "string",
 						"default": "383226320970055681",
-						"description": "Only modify this if you know what you are doing (most of you don't)."
+						"description": "Only modify this if you know what you are doing (most of you don't)"
 					},
 					"discord.enabled": {
 						"type": "boolean",
 						"default": true,
 						"description": "Controls if Discord Presence is active"
+					},
+					"discord.reconnectThreshold": {
+						"type": "number",
+						"default": 20,
+						"description": "Decides how often a reconnect attempt should be made before stopping"
+					},
+					"discord.details": {
+						"type": "string",
+						"default": "Editing {filename}",
+						"description": "Custom string for the details section of the rich presence"
+					},
+					"discord.detailsIdle": {
+						"type": "string",
+						"default": "Idling.",
+						"description": "Custom string for the details section of the rich presence when idling"
+					},
+					"discord.workspace": {
+						"type": "string",
+						"default": "Workspace: {workspace}",
+						"description": "Custom string for the state section of the rich presence"
+					},
+					"discord.workspaceIdle": {
+						"type": "string",
+						"default": "Idling.",
+						"description": "Custom string for the state section of the rich presence when idling"
+					},
+					"discord.largeImage": {
+						"type": "string",
+						"default": "",
+						"description": "Custom string for the largeImageText section of the rich presence"
+					},
+					"discord.largeImageIdle": {
+						"type": "string",
+						"default": "Idling",
+						"description": "Custom string for the largeImageText section of the rich presence when idling"
+					},
+					"discord.smallImage": {
+						"type": "string",
+						"default": "Visual Studio Code",
+						"description": "Custom string for the smallImageText section of the rich presence"
 					}
 				}
 			}

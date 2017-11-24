@@ -93,8 +93,8 @@ function initRPC(clientID: string): void {
 	// Log in to the RPC Client, and check whether or not it errors.
 	rpc.login(clientID).catch(error => {
 		if (reconnect) {
-			// Destroy and dispose of everything after 20 reconnect attempts
-			if (reconnectCounter >= 20) destroyRPC();
+			// Destroy and dispose of everything after a default of 20 reconnect attempts
+			if (reconnectCounter >= config.get('reconnectThreshold')) destroyRPC();
 			else return;
 		}
 		if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
@@ -126,15 +126,14 @@ function setActivity(): void {
 	if (!rpc) return;
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFileName) return;
 	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : null;
-
 	// Create a JSON Object with the user's activity information.
 	const activity = {
 		details: window.activeTextEditor
-			? `Editing ${basename(window.activeTextEditor.document.fileName)}`
-			: 'Idle.',
+			? config.get('details').replace('{filename}', basename(window.activeTextEditor.document.fileName))
+			: config.get('detailsIdle'),
 		state: window.activeTextEditor
-			? `Workspace: ${workspace.getWorkspaceFolder(window.activeTextEditor.document.uri).name}`
-			: 'Idling.',
+			? config.get('workspace').replace('{workspace}', workspace.getWorkspaceFolder(window.activeTextEditor.document.uri).name)
+			: config.get('workspaceIdle'),
 		startTimestamp: new Date().getTime() / 1000,
 		largeImageKey: window.activeTextEditor
 			? extname(basename(window.activeTextEditor.document.fileName)).substring(1)
@@ -142,10 +141,10 @@ function setActivity(): void {
 				|| 'file'
 			: 'vscode-big',
 		largeImageText: window.activeTextEditor
-			? window.activeTextEditor.document.languageId
-			: 'Idling',
+			? config.get('largeImage') || window.activeTextEditor.document.languageId
+			: config.get('largeImageIdle'),
 		smallImageKey: 'vscode',
-		smallImageText: 'Visual Studio Code',
+		smallImageText: config.get('smallImage'),
 		instance: false
 	};
 
