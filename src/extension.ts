@@ -19,6 +19,8 @@ let eventHandler: Disposable;
 let config;
 // Define the reconnect timer and its type.
 let reconnect: NodeJS.Timer;
+// Define the reconnect counter and its type.
+let reconnectCounter = 0;
 
 // `Activate` is fired when the extension is enabled. This SHOULD only fire once.
 export function activate(context: ExtensionContext) {
@@ -69,6 +71,7 @@ function initRPC(clientID: string): void {
 			// Null reconnect variable.
 			reconnect = null;
 		}
+		reconnectCounter = 0;
 		setActivity();
 		eventHandler = workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
@@ -76,13 +79,26 @@ function initRPC(clientID: string): void {
 			eventHandler.dispose();
 			destroyRPC();
 			// Set an interval for reconnecting.
-			reconnect = setInterval(() => initRPC(config.get('clientID')), 5000);
+			reconnect = setInterval(() => {
+				reconnectCounter++;
+				initRPC(config.get('clientID'));
+			}, 5000);
 		});
 	});
 
 	// Log in to the RPC Client, and check whether or not it errors.
 	rpc.login(clientID).catch(error => {
-		if (reconnect && !error.message.includes('ENOENT')) return;
+		if (reconnect) {
+			if (reconnectCounter >= 20) {
+				clearInterval(reconnect);
+				reconnect = null;
+				eventHandler.dispose();
+				destroyRPC();
+				rpc = null;
+			} else {
+				return;
+			}
+		}
 		if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 		else window.showErrorMessage(`Couldn't connect to discord via rpc: ${error.message}`);
 	});
