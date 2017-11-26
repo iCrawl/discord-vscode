@@ -3,6 +3,7 @@
 	"displayName": "Discord Presence",
 	"version": "0.7.0",
 	"description": "Update your discord status with the newly added rich presence.",
+	"private": true,
 	"author": {
 		"name": "iCrawl",
 		"email": "icrawltogo@gmail.com"
