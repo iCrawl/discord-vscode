@@ -155,7 +155,7 @@
 	".dart": {
 		"image": "dart"
 	},
-	"/\\.(h|geo|topo)?json$/i": {
+	"/\\.(h|geo|topo)$/i": {
 		"image": "manifest"
 	},
 	".cson": {
