@@ -91,7 +91,7 @@
 					},
 					"discord.smallImage": {
 						"type": "string",
-						"default": "Visual Studio Code",
+						"default": "{appname}",
 						"description": "Custom string for the smallImageText section of the rich presence"
 					}
 				}

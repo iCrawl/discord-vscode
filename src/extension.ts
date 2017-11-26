@@ -3,6 +3,7 @@ import { Client } from 'discord-rpc';
 import { basename, extname } from 'path';
 import { setInterval, clearInterval } from 'timers';
 import {
+	env,
 	ExtensionContext,
 	commands,
 	window,
@@ -183,8 +184,8 @@ function setActivity(): void {
 		largeImageText: window.activeTextEditor
 			? config.get('largeImage') || window.activeTextEditor.document.languageId
 			: config.get('largeImageIdle'),
-		smallImageKey: 'vscode',
-		smallImageText: config.get('smallImage'),
+		smallImageKey: env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
+		smallImageText: config.get('smallImage').replace('{appname}', env.appName),
 		instance: false
 	};
 }
