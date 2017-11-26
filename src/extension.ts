@@ -7,6 +7,7 @@ import {
 	commands,
 	window,
 	workspace,
+	TextDocument,
 	TextDocumentChangeEvent,
 	Disposable
 } from 'vscode';
@@ -15,15 +16,19 @@ const languages = require('./data/languages.json');
 // Define the RPC variable and its type.
 let rpc: Client;
 // Define the eventHandler variable and its type.
-let eventHandler: Disposable;
+const eventHandlers: Set<Disposable> = new Set();
 // Define the config variable and its type.
 let config;
 // Define the reconnect timer and its type.
-let reconnect: NodeJS.Timer;
+let reconnectTimer: NodeJS.Timer;
 // Define the reconnect counter and its type.
 let reconnectCounter = 0;
 // Define the last known file name and its type.
 let lastKnownFileName: string;
+// Define the activity object.
+let activity: object;
+// Define the activity timer to not spam the API with requests.
+let activityTimer: NodeJS.Timer;
 
 // `Activate` is fired when the extension is enabled. This SHOULD only fire once.
 export function activate(context: ExtensionContext) {
@@ -47,7 +52,6 @@ export function activate(context: ExtensionContext) {
 	const disabler = commands.registerCommand('discord.disable', () => {
 		if (!rpc) return;
 		config.update('enabled', false);
-		rpc.setActivity({});
 		destroyRPC();
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
@@ -69,31 +73,46 @@ function initRPC(clientID: string): void {
 
 	// Once the RPC Client is ready, set the activity.
 	rpc.once('ready', () => {
-		if (reconnect) {
+		// This is purely for safety measures.
+		if (reconnectTimer) {
 			// Clear the reconnect interval.
-			clearInterval(reconnect);
+			clearInterval(reconnectTimer);
 			// Null reconnect variable.
-			reconnect = null;
+			reconnectTimer = null;
+		}
+		// This is purely for safety measures.
+		if (activityTimer) {
+			// Clear the activity interval.
+			clearInterval(activityTimer);
+			// Null activity variable.
+			activityTimer = null;
 		}
 		// Reset the reconnect counter to 0 on a successful reconnect.
 		reconnectCounter = 0;
 		setActivity();
-		eventHandler = workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity());
+		// Set the activity once on ready
+		setTimeout(() => rpc.setActivity(activity), 500);
+		eventHandlers.add(workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity()))
+			.add(workspace.onDidOpenTextDocument((e: TextDocument) => setActivity()))
+			.add(workspace.onDidCloseTextDocument((e: TextDocument) => setActivity()));
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
 		rpc.transport.once('close', () => {
 			if (!config.get('enabled')) return;
 			destroyRPC();
 			// Set an interval for reconnecting.
-			reconnect = setInterval(() => {
+			reconnectTimer = setInterval(() => {
 				reconnectCounter++;
 				initRPC(config.get('clientID'));
 			}, 5000);
 		});
+
+		// Update the user's activity to the `activity` variable.
+		activityTimer = setInterval(() => rpc.setActivity(activity), 15000);
 	});
 
 	// Log in to the RPC Client, and check whether or not it errors.
 	rpc.login(clientID).catch(error => {
-		if (reconnect) {
+		if (reconnectTimer) {
 			// Destroy and dispose of everything after a default of 20 reconnect attempts
 			if (reconnectCounter >= config.get('reconnectThreshold')) destroyRPC();
 			else return;
@@ -108,11 +127,17 @@ function destroyRPC(): void {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
 	// Clear the reconnect interval.
-	if (reconnect) clearInterval(reconnect);
+	if (reconnectTimer) clearInterval(reconnectTimer);
 	// Null reconnect variable.
-	reconnect = null;
-	// Dispose of the event handler.
-	eventHandler.dispose();
+	reconnectTimer = null;
+	// Clear the activity interval.
+	if (activityTimer) clearInterval(activityTimer);
+	// Null the activity timer.
+	activityTimer = null;
+	// Reset the activity.
+	rpc.setActivity({});
+	// Dispose of the event handlers.
+	eventHandlers.forEach(event => event.dispose());
 	// If there's an RPC Client initalized, destroy it.
 	rpc.destroy();
 	// Null the RPC variable.
@@ -150,11 +175,11 @@ function setActivity(): void {
 		: 'vscode-big';
 
 	// Create a JSON Object with the user's activity information.
-	const activity = {
+	activity = {
 		details,
 		state,
 		startTimestamp: new Date().getTime() / 1000,
-		largeImageKey: largeImageKey ? largeImageKey.image : 'txt',
+		largeImageKey: largeImageKey ? largeImageKey.image || largeImageKey : 'txt',
 		largeImageText: window.activeTextEditor
 			? config.get('largeImage') || window.activeTextEditor.document.languageId
 			: config.get('largeImageIdle'),
@@ -162,7 +187,4 @@ function setActivity(): void {
 		smallImageText: config.get('smallImage'),
 		instance: false
 	};
-
-	// Update the user's activity to the `activity` variable.
-	rpc.setActivity(activity);
 }
