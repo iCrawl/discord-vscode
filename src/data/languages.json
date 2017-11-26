@@ -155,6 +155,96 @@
 	".dart": {
 		"image": "dart"
 	},
+	"/\\.(h|geo|topo)?json$/i": {
+		"image": "manifest"
+	},
+	".cson": {
+		"image": "manifest"
+	},
+	".json5": {
+		"image": "manifest"
+	},
+	".http": {
+		"image": "manifest"
+	},
+	".ndjson": {
+		"image": "manifest"
+	},
+	".fea": {
+		"image": "manifest"
+	},
+	".json.eex": {
+		"image": "manifest"
+	},
+	".proto": {
+		"image": "manifest"
+	},
+	".pytb": {
+		"image": "manifest"
+	},
+	".pydeps": {
+		"image": "manifest"
+	},
+	"/\\.pot?$/i": {
+		"image": "manifest"
+	},
+	".ejson": {
+		"image": "manifest"
+	},
+	".edn": {
+		"image": "manifest"
+	},
+	".eam.fs": {
+		"image": "manifest"
+	},
+	".qml": {
+		"image": "manifest"
+	},
+	".qbs": {
+		"image": "manifest"
+	},
+	".ston": {
+		"image": "manifest"
+	},
+	".ttl": {
+		"image": "manifest"
+	},
+	".rviz": {
+		"image": "manifest"
+	},
+	".syntax": {
+		"image": "manifest"
+	},
+	".webmanifest": {
+		"image": "manifest"
+	},
+	"/^pkginfo$/": {
+		"image": "manifest"
+	},
+	"/^mime\\.types$/i": {
+		"image": "manifest"
+	},
+	"/^METADATA\\.pb$/": {
+		"image": "manifest"
+	},
+	"/[\\/\\\\](?:magic[\\/\\\\]Magdir|file[\\/\\\\]magic)[\\/\\\\][-.\\w]+$/i": {
+		"image": "manifest"
+	},
+	"/(\\\\|\\/)dev[-\\w]+\\1(?:[^\\\\\\/]+\\1)*(?!DESC|NOTES)(?:[A-Z][-A-Z]*)(?:\\.in)?$/": {
+		"image": "manifest"
+	},
+	"lib/icons/.icondb.js": {
+		"image": "manifest"
+	},
+	"/\\.git[\\/\\\\](.*[\\/\\\\])?(HEAD|ORIG_HEAD|packed-refs|logs[\\/\\\\](.+[\\/\\\\])?[^\\/\\\\]+)$/": {
+		"image": "manifest"
+	},
+	".dfm": {
+		"image": "delphi"
+	},
+	".dpr": {
+		"image": "delphi"
+	},
 	"/^(Dockerfile|docker-compose)|\\.docker(file|ignore)$/i": {
 		"image": "docker"
 	},
@@ -217,6 +307,12 @@
 	},
 	".go": {
 		"image": "go"
+	},
+	".gradle": {
+		"image": "gradle"
+	},
+	"gradlew": {
+		"image": "gradle"
 	},
 	".graphql": {
 		"image": "graphql"
@@ -286,6 +382,27 @@
 	},
 	".kts": {
 		"image": "kotlin"
+	},
+	".lsp": {
+		"image": "lisp"
+	},
+	".lisp": {
+		"image": "lisp"
+	},
+	".l": {
+		"image": "lisp"
+	},
+	".nl": {
+		"image": "lisp"
+	},
+	".ny": {
+		"image": "lisp"
+	},
+	".podsl": {
+		"image": "lisp"
+	},
+	".sexp": {
+		"image": "lisp"
 	},
 	".lua": {
 		"image": "lua"
@@ -515,6 +632,51 @@
 	"/\\.(sc|scala)$/i": {
 		"image": "scala"
 	},
+	"/\\.(sh|rc|bats|bash|tool|install|command)$/i": {
+		"image": "shell"
+	},
+	"/^(\\.?bash(rc|[-_]?(profile|login|logout|history|prompt))|_osc|config|install-sh|PKGBUILD)$/i": {
+		"image": "shell"
+	},
+	"/\\.(ksh|mksh|pdksh)$/i": {
+		"image": "shell"
+	},
+	".sh-session": {
+		"image": "shell"
+	},
+	"/\\.zsh(-theme|_history)?$|^\\.?(antigen|zpreztorc|zlogin|zlogout|zprofile|zshenv|zshrc)$/i": {
+		"image": "shell"
+	},
+	"/\\.fish$|^\\.fishrc$/i": {
+		"image": "shell"
+	},
+	"/^\\.?(login|profile)$/": {
+		"image": "shell"
+	},
+	".inputrc": {
+		"image": "shell"
+	},
+	".tmux": {
+		"image": "shell"
+	},
+	"/^(configure|config\\.(guess|rpath|status|sub)|depcomp|libtool|compile)$/": {
+		"image": "shell"
+	},
+	"/^\\/(private\\/)?etc\\/([^\\/]+\\/)*(profile$|nanorc$|rc\\.|csh\\.)/i": {
+		"image": "shell"
+	},
+	"/^\\.?cshrc$/i": {
+		"image": "shell"
+	},
+	".profile": {
+		"image": "shell"
+	},
+	".tcsh": {
+		"image": "shell"
+	},
+	".csh": {
+		"image": "shell"
+	},
 	"/\\.(my)?sql$/i": {
 		"image": "sql"
 	},
@@ -623,11 +785,14 @@
 	".vue": {
 		"image": "vue"
 	},
-	".yaml": {
+	"/\\.ya?ml$/i": {
 		"image": "yaml"
 	},
-	".yml": {
-		"image": "yml"
+	"/^yarn(\\.lock)?$/i": {
+		"image": "yarn"
+	},
+	".yarnrc": {
+		"image": "yarn"
 	},
 	".bat": {
 		"image": "bat"

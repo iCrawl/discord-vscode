@@ -26,12 +26,12 @@
 			{
 				"command": "discord.enable",
 				"title": "Enable Discord Presence in the current workspace",
-				"category": "VS-Discord"
+				"category": "Discord Presence"
 			},
 			{
 				"command": "discord.disable",
 				"title": "Disable Discord Presence in the current workspace",
-				"category": "VS-Discord"
+				"category": "Discord Presence"
 			}
 		],
 		"configuration": [

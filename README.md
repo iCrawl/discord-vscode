@@ -7,13 +7,10 @@
 	</p>
 </div>
 
-This is currently in heavy development, so while it does work it is still not very feature rich.  
-Give me a little bit of time and this will be resolved! 😉
-
 ## Features
 
 * Shows what you are editing in VSCode with no bullsh*t involved
-* Support for over 50 of the most popular languages
+* Support for over 70 of the most popular languages
 * Enable/Disable Rich Presence for individual workspaces (enabled by default)
 * Automatic reconnect after losing internet or a discord restart/crash. (defaults to 20 reconnect attempts)
 * Custom string support
