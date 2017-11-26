@@ -10,7 +10,9 @@ import {
 	workspace,
 	TextDocument,
 	TextDocumentChangeEvent,
-	Disposable
+	Disposable,
+	debug,
+	DebugSession
 } from 'vscode';
 const languages = require('./data/languages.json');
 
@@ -95,7 +97,10 @@ function initRPC(clientID: string): void {
 		setTimeout(() => rpc.setActivity(activity), 500);
 		eventHandlers.add(workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity()))
 			.add(workspace.onDidOpenTextDocument((e: TextDocument) => setActivity()))
-			.add(workspace.onDidCloseTextDocument((e: TextDocument) => setActivity()));
+			.add(workspace.onDidCloseTextDocument((e: TextDocument) => setActivity()))
+			.add(debug.onDidChangeActiveDebugSession((e: DebugSession) => setActivity()))
+			.add(debug.onDidStartDebugSession((e: DebugSession) => setActivity()))
+			.add(debug.onDidTerminateDebugSession((e: DebugSession) => setActivity()));
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
 		rpc.transport.once('close', () => {
 			if (!config.get('enabled')) return;
@@ -155,7 +160,9 @@ function setActivity(): void {
 	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : null;
 
 	const details = window.activeTextEditor
-		? config.get('details').replace('{filename}', basename(window.activeTextEditor.document.fileName))
+		? debug.activeDebugSession
+		? `${config.get('details').replace('{filename}', basename(window.activeTextEditor.document.fileName))} (Debug)`
+		: config.get('details').replace('{filename}', basename(window.activeTextEditor.document.fileName))
 		: config.get('detailsIdle');
 	const checkState = window.activeTextEditor
 		? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
@@ -180,11 +187,19 @@ function setActivity(): void {
 		details,
 		state,
 		startTimestamp: new Date().getTime() / 1000,
-		largeImageKey: largeImageKey ? largeImageKey.image || largeImageKey : 'txt',
+		largeImageKey: largeImageKey
+			? largeImageKey.image
+				|| largeImageKey
+			: 'txt',
 		largeImageText: window.activeTextEditor
-			? config.get('largeImage') || window.activeTextEditor.document.languageId
+			? config.get('largeImage')
+				|| window.activeTextEditor.document.languageId
 			: config.get('largeImageIdle'),
-		smallImageKey: env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
+		smallImageKey: debug.activeDebugSession
+			? 'debug'
+			: env.appName.includes('Insiders')
+			? 'vscode-insiders'
+			: 'vscode',
 		smallImageText: config.get('smallImage').replace('{appname}', env.appName),
 		instance: false
 	};
