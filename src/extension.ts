@@ -10,6 +10,7 @@ import {
 	TextDocumentChangeEvent,
 	Disposable
 } from 'vscode';
+const languages = require('./data/languages.json');
 
 // Define the RPC variable and its type.
 let rpc: Client;
@@ -138,17 +139,22 @@ function setActivity(): void {
 			? config.get('workspace').replace('{workspace}', workspace.getWorkspaceFolder(window.activeTextEditor.document.uri).name)
 			: config.get('workspaceNotFound')
 		: config.get('workspaceIdle');
+	const largeImageKey = window.activeTextEditor
+		? languages[Object.keys(languages).find(key => {
+			if (key.startsWith('.') && basename(window.activeTextEditor.document.fileName).endsWith(key)) return true;
+			const match = key.match(/^\/(.*)\/([mgiy]+)$/);
+			if (!match) return false;
+			const regex = new RegExp(match[1], match[2]);
+			return regex.test(basename(window.activeTextEditor.document.fileName));
+		})]
+		: 'vscode-big';
 
 	// Create a JSON Object with the user's activity information.
 	const activity = {
 		details,
 		state,
 		startTimestamp: new Date().getTime() / 1000,
-		largeImageKey: window.activeTextEditor
-			? extname(basename(window.activeTextEditor.document.fileName)).substring(1)
-				|| basename(window.activeTextEditor.document.fileName).substring(1)
-				|| 'file'
-			: 'vscode-big',
+		largeImageKey: largeImageKey ? largeImageKey.image : 'txt',
 		largeImageText: window.activeTextEditor
 			? config.get('largeImage') || window.activeTextEditor.document.languageId
 			: config.get('largeImageIdle'),
