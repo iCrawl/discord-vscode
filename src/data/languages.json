@@ -252,7 +252,7 @@
 		"image": "pug"
 	},
 	".jar": {
-		"image": "java"
+		"image": "jar"
 	},
 	".java": {
 		"image": "java"
