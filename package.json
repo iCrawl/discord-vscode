@@ -54,27 +54,37 @@
 						"default": 20,
 						"description": "Decides how often a reconnect attempt should be made before stopping"
 					},
-					"discord.details": {
+					"discord.detailsEditing": {
 						"type": "string",
 						"default": "Editing {filename}",
 						"description": "Custom string for the details section of the rich presence"
 					},
+					"discord.detailsDebugging": {
+						"type": "string",
+						"default": "Editing {filename}",
+						"description": "Custom string for the details section of the rich presence when debugging"
+					},
 					"discord.detailsIdle": {
 						"type": "string",
-						"default": "Idling.",
+						"default": "Idling",
 						"description": "Custom string for the details section of the rich presence when idling"
 					},
-					"discord.workspace": {
+					"discord.lowerDetailsEditing": {
 						"type": "string",
 						"default": "Workspace: {workspace}",
 						"description": "Custom string for the state section of the rich presence"
 					},
-					"discord.workspaceIdle": {
+					"discord.lowerDetailsDebugging": {
 						"type": "string",
-						"default": "Idling.",
+						"default": "Debugging: {workspace}",
+						"description": "Custom string for the state section of the rich presence when debugging"
+					},
+					"discord.lowerDetailsIdle": {
+						"type": "string",
+						"default": "Idling",
 						"description": "Custom string for the state section of the rich presence when idling"
 					},
-					"discord.workspaceNotFound": {
+					"discord.lowerDetailsNotFound": {
 						"type": "string",
 						"default": "No workspace.",
 						"description": "Custom string for the state section of the rich presence when no workspace is found"
