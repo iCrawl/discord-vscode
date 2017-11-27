@@ -3,16 +3,17 @@ import { Client } from 'discord-rpc';
 import { basename, extname } from 'path';
 import { setInterval, clearInterval } from 'timers';
 import {
+	commands,
+	debug,
+	DebugSession,
+	Disposable,
 	env,
 	ExtensionContext,
-	commands,
-	window,
-	workspace,
 	TextDocument,
 	TextDocumentChangeEvent,
-	Disposable,
-	debug,
-	DebugSession
+	window,
+	workspace,
+	WorkspaceFolder
 } from 'vscode';
 const languages = require('./data/languages.json');
 
@@ -159,33 +160,21 @@ function setActivity(): void {
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFileName) return;
 	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : null;
 
-	const details = window.activeTextEditor
-		? debug.activeDebugSession
-		? `${config.get('details').replace('{filename}', basename(window.activeTextEditor.document.fileName))} (Debug)`
-		: config.get('details').replace('{filename}', basename(window.activeTextEditor.document.fileName))
-		: config.get('detailsIdle');
-	const checkState = window.activeTextEditor
-		? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
-		: false;
-	const state = window.activeTextEditor
-		? checkState
-			? config.get('workspace').replace('{workspace}', workspace.getWorkspaceFolder(window.activeTextEditor.document.uri).name)
-			: config.get('workspaceNotFound')
-		: config.get('workspaceIdle');
+	const fileName: string = window.activeTextEditor ? basename(window.activeTextEditor.document.fileName) : null;
 	const largeImageKey = window.activeTextEditor
 		? languages[Object.keys(languages).find(key => {
-			if (key.startsWith('.') && basename(window.activeTextEditor.document.fileName).endsWith(key)) return true;
+			if (key.startsWith('.') && fileName.endsWith(key)) return true;
 			const match = key.match(/^\/(.*)\/([mgiy]+)$/);
 			if (!match) return false;
 			const regex = new RegExp(match[1], match[2]);
-			return regex.test(basename(window.activeTextEditor.document.fileName));
+			return regex.test(fileName);
 		})]
 		: 'vscode-big';
 
 	// Create a JSON Object with the user's activity information.
 	activity = {
-		details,
-		state,
+		details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle'),
+		state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle'),
 		startTimestamp: new Date().getTime() / 1000,
 		largeImageKey: largeImageKey
 			? largeImageKey.image
@@ -203,4 +192,26 @@ function setActivity(): void {
 		smallImageText: config.get('smallImage').replace('{appname}', env.appName),
 		instance: false
 	};
+}
+
+function generateDetails(debugging, editing, idling): string {
+	const fileName: string = window.activeTextEditor ? basename(window.activeTextEditor.document.fileName) : null;
+	const checkState: boolean = window.activeTextEditor
+		? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
+		: false;
+	const workspaceFolder: WorkspaceFolder = checkState ? workspace.getWorkspaceFolder(window.activeTextEditor.document.uri) : null;
+
+	return window.activeTextEditor
+		? debug.activeDebugSession
+		? config.get(debugging)
+			.replace('{filename}', fileName)
+			.replace('{workspace}', checkState
+				? workspaceFolder.name
+				: config.get('lowerDetailsNotFound'))
+		: config.get(editing)
+			.replace('{filename}', fileName)
+			.replace('{workspace}', checkState
+				? workspaceFolder.name
+				: config.get('lowerDetailsNotFound'))
+		: config.get(idling);
 }
