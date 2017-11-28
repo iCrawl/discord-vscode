@@ -777,7 +777,16 @@
 		"image": "vb"
 	},
 	".vbs": {
-		"image": "vbs"
+		"image": "vb"
+	},
+	".vba": {
+		"image": "vba"
+	},
+	".vbhtml": {
+		"image": "vbhtml"
+	},
+	".vbproj": {
+		"image": "vbproj"
 	},
 	".vcxproj": {
 		"image": "vcxproj"
