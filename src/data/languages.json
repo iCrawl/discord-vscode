@@ -776,6 +776,9 @@
 	".vb": {
 		"image": "vb"
 	},
+	".vbs": {
+		"image": "vbs"
+	},
 	".vcxproj": {
 		"image": "vcxproj"
 	},
@@ -795,6 +798,9 @@
 		"image": "yarn"
 	},
 	".bat": {
+		"image": "bat"
+	},
+	".batch": {
 		"image": "bat"
 	},
 	".cmd": {
