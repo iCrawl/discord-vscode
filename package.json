@@ -34,79 +34,77 @@
 				"category": "Discord Presence"
 			}
 		],
-		"configuration": [
-			{
-				"title": "Discord Presence Configuration",
-				"type": "object",
-				"properties": {
-					"discord.clientID": {
-						"type": "string",
-						"default": "383226320970055681",
-						"description": "Only modify this if you know what you are doing (most of you don't)"
-					},
-					"discord.enabled": {
-						"type": "boolean",
-						"default": true,
-						"description": "Controls if Discord Presence is active"
-					},
-					"discord.reconnectThreshold": {
-						"type": "number",
-						"default": 20,
-						"description": "Decides how often a reconnect attempt should be made before stopping"
-					},
-					"discord.detailsEditing": {
-						"type": "string",
-						"default": "Editing {filename}",
-						"description": "Custom string for the details section of the rich presence"
-					},
-					"discord.detailsDebugging": {
-						"type": "string",
-						"default": "Editing {filename}",
-						"description": "Custom string for the details section of the rich presence when debugging"
-					},
-					"discord.detailsIdle": {
-						"type": "string",
-						"default": "Idling",
-						"description": "Custom string for the details section of the rich presence when idling"
-					},
-					"discord.lowerDetailsEditing": {
-						"type": "string",
-						"default": "Workspace: {workspace}",
-						"description": "Custom string for the state section of the rich presence"
-					},
-					"discord.lowerDetailsDebugging": {
-						"type": "string",
-						"default": "Debugging: {workspace}",
-						"description": "Custom string for the state section of the rich presence when debugging"
-					},
-					"discord.lowerDetailsIdle": {
-						"type": "string",
-						"default": "Idling",
-						"description": "Custom string for the state section of the rich presence when idling"
-					},
-					"discord.lowerDetailsNotFound": {
-						"type": "string",
-						"default": "No workspace.",
-						"description": "Custom string for the state section of the rich presence when no workspace is found"
-					},
-					"discord.largeImage": {
-						"type": "string",
-						"default": "",
-						"description": "Custom string for the largeImageText section of the rich presence"
-					},
-					"discord.largeImageIdle": {
-						"type": "string",
-						"default": "Idling",
-						"description": "Custom string for the largeImageText section of the rich presence when idling"
-					},
-					"discord.smallImage": {
-						"type": "string",
-						"default": "{appname}",
-						"description": "Custom string for the smallImageText section of the rich presence"
-					}
+		"configuration": {
+			"title": "Discord Presence Configuration",
+			"type": "object",
+			"properties": {
+				"discord.clientID": {
+					"type": "string",
+					"default": "383226320970055681",
+					"description": "Only modify this if you know what you are doing (most of you don't)"
+				},
+				"discord.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "Controls if Discord Presence is active"
+				},
+				"discord.reconnectThreshold": {
+					"type": "number",
+					"default": 20,
+					"description": "Decides how often a reconnect attempt should be made before stopping"
+				},
+				"discord.detailsEditing": {
+					"type": "string",
+					"default": "Editing {filename}",
+					"description": "Custom string for the details section of the rich presence"
+				},
+				"discord.detailsDebugging": {
+					"type": "string",
+					"default": "Editing {filename}",
+					"description": "Custom string for the details section of the rich presence when debugging"
+				},
+				"discord.detailsIdle": {
+					"type": "string",
+					"default": "Idling",
+					"description": "Custom string for the details section of the rich presence when idling"
+				},
+				"discord.lowerDetailsEditing": {
+					"type": "string",
+					"default": "Workspace: {workspace}",
+					"description": "Custom string for the state section of the rich presence"
+				},
+				"discord.lowerDetailsDebugging": {
+					"type": "string",
+					"default": "Debugging: {workspace}",
+					"description": "Custom string for the state section of the rich presence when debugging"
+				},
+				"discord.lowerDetailsIdle": {
+					"type": "string",
+					"default": "Idling",
+					"description": "Custom string for the state section of the rich presence when idling"
+				},
+				"discord.lowerDetailsNotFound": {
+					"type": "string",
+					"default": "No workspace.",
+					"description": "Custom string for the state section of the rich presence when no workspace is found"
+				},
+				"discord.largeImage": {
+					"type": "string",
+					"default": "",
+					"description": "Custom string for the largeImageText section of the rich presence"
+				},
+				"discord.largeImageIdle": {
+					"type": "string",
+					"default": "Idling",
+					"description": "Custom string for the largeImageText section of the rich presence when idling"
+				},
+				"discord.smallImage": {
+					"type": "string",
+					"default": "{appname}",
+					"description": "Custom string for the smallImageText section of the rich presence"
 				}
 			}
-		]
+		}
 	},
 	"repository": {
 		"type": "git",
