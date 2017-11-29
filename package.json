@@ -141,10 +141,5 @@
 	},
 	"engines": {
 		"vscode": "^1.15.0"
-	},
-	"__metadata": {
-		"id": "2bbe1392-1ad3-4f59-82bc-fccaa3afc3a5",
-		"publisherId": "5ccbcc66-3677-482b-9f60-f342bfe54f8d",
-		"publisherDisplayName": "Noel"
 	}
 }
