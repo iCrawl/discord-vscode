@@ -141,8 +141,6 @@ function destroyRPC(): void {
 	if (activityTimer) clearInterval(activityTimer);
 	// Null the activity timer.
 	activityTimer = null;
-	// Reset the activity.
-	rpc.setActivity({});
 	// Dispose of the event handlers.
 	eventHandlers.forEach(event => event.dispose());
 	// If there's an RPC Client initalized, destroy it.
