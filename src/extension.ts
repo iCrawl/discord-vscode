@@ -119,12 +119,12 @@ function initRPC(clientID: string): void {
 
 	// Log in to the RPC Client, and check whether or not it errors.
 	rpc.login(clientID).catch(error => {
+		if (reconnectTimer) {
+			// Destroy and dispose of everything after a default of 20 reconnect attempts
+			if (reconnectCounter >= config.get('reconnectThreshold')) destroyRPC();
+			else return;
+		}
 		if(!config.get('silent')) {
-			if (reconnectTimer) {
-				// Destroy and dispose of everything after a default of 20 reconnect attempts
-				if (reconnectCounter >= config.get('reconnectThreshold')) destroyRPC();
-				else return;
-			}
 			if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 			else window.showErrorMessage(`Couldn't connect to discord via rpc: ${error.message}`);
 		}
