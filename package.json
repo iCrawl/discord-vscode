@@ -103,6 +103,11 @@
 						"type": "string",
 						"default": "{appname}",
 						"description": "Custom string for the smallImageText section of the rich presence"
+					},
+					"discord.silent": {
+						"type": "boolean",
+						"default": false,
+						"description": "Decides if error messages are shown to the user"
 					}
 				}
 			}

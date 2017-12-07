@@ -124,8 +124,10 @@ function initRPC(clientID: string): void {
 			if (reconnectCounter >= config.get('reconnectThreshold')) destroyRPC();
 			else return;
 		}
-		if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
-		else window.showErrorMessage(`Couldn't connect to discord via rpc: ${error.message}`);
+		if(!config.get('silent')) {
+			if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
+			else window.showErrorMessage(`Couldn't connect to discord via rpc: ${error.message}`);
+		}
 	});
 }
 
