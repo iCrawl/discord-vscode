@@ -5,12 +5,9 @@ import { setInterval, clearInterval } from 'timers';
 import {
 	commands,
 	debug,
-	DebugSession,
 	Disposable,
 	env,
 	ExtensionContext,
-	TextDocument,
-	TextDocumentChangeEvent,
 	window,
 	workspace,
 	WorkspaceFolder
@@ -96,12 +93,12 @@ function initRPC(clientID: string): void {
 		setActivity();
 		// Set the activity once on ready
 		setTimeout(() => rpc.setActivity(activity), 500);
-		eventHandlers.add(workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setActivity()))
-			.add(workspace.onDidOpenTextDocument((e: TextDocument) => setActivity()))
-			.add(workspace.onDidCloseTextDocument((e: TextDocument) => setActivity()))
-			.add(debug.onDidChangeActiveDebugSession((e: DebugSession) => setActivity()))
-			.add(debug.onDidStartDebugSession((e: DebugSession) => setActivity()))
-			.add(debug.onDidTerminateDebugSession((e: DebugSession) => setActivity()));
+		eventHandlers.add(workspace.onDidChangeTextDocument(() => setActivity()))
+			.add(workspace.onDidOpenTextDocument(() => setActivity()))
+			.add(workspace.onDidCloseTextDocument(() => setActivity()))
+			.add(debug.onDidChangeActiveDebugSession(() => setActivity()))
+			.add(debug.onDidStartDebugSession(() => setActivity()))
+			.add(debug.onDidTerminateDebugSession(() => setActivity()));
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
 		rpc.transport.once('close', () => {
 			if (!config.get('enabled')) return;
@@ -182,7 +179,7 @@ function setActivity(): void {
 			: 'txt',
 		largeImageText: window.activeTextEditor
 			? config.get('largeImage')
-				|| window.activeTextEditor.document.languageId
+				|| window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
 			: config.get('largeImageIdle'),
 		smallImageKey: debug.activeDebugSession
 			? 'debug'
