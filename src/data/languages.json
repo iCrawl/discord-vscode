@@ -32,6 +32,39 @@
 	".axd": {
 		"image": "asp"
 	},
+	"/\\.(l?a|[ls]?o|out|s|a51|asm|axf|elf|prx|puff|z80)$/i": {
+		"image": "assembly"
+	},
+	".agc": {
+		"image": "assembly"
+	},
+	".ko": {
+		"image": "assembly"
+	},
+	".lst": {
+		"image": "assembly"
+	},
+	"/\\.((c([+px]{2}?)?-?)?objdump|bsdiff|bin|dat|pak|pdb)$/i": {
+		"image": "assembly"
+	},
+	".d-objdump": {
+		"image": "assembly"
+	},
+	"/\\.gcode|\\.gco/i": {
+		"image": "assembly"
+	},
+	"/\\.rpy[bc]$/i": {
+		"image": "assembly"
+	},
+	"/\\.py[co]$/i": {
+		"image": "assembly"
+	},
+	".swp": {
+		"image": "assembly"
+	},
+	".DS_Store": {
+		"image": "assembly"
+	},
 	".ahk": {
 		"image": "ahk"
 	},
