@@ -93,18 +93,13 @@ function initRPC(clientID: string): void {
 		setActivity();
 		// Set the activity once on ready
 		setTimeout(() => rpc.setActivity(activity), 500);
-		eventHandlers.add(debug.onDidChangeActiveDebugSession(() => setActivity()))
+		const workspaceElapsedTime = Boolean(config.get('workspaceElapsedTime'));
+		eventHandlers.add(workspace.onDidChangeTextDocument(() => setActivity(workspaceElapsedTime)))
+			.add(workspace.onDidOpenTextDocument(() => setActivity(workspaceElapsedTime)))
+			.add(workspace.onDidCloseTextDocument(() => setActivity(workspaceElapsedTime)))
+			.add(debug.onDidChangeActiveDebugSession(() => setActivity()))
 			.add(debug.onDidStartDebugSession(() => setActivity()))
 			.add(debug.onDidTerminateDebugSession(() => setActivity()));
-		if (config.get('workspaceElapsedTime')) {
-			eventHandlers.add(workspace.onDidChangeTextDocument(() => setActivity(true)))
-				.add(workspace.onDidOpenTextDocument(() => setActivity(true)))
-				.add(workspace.onDidCloseTextDocument(() => setActivity(true)));
-		} else {
-			eventHandlers.add(workspace.onDidChangeTextDocument(() => setActivity()))
-				.add(workspace.onDidOpenTextDocument(() => setActivity()))
-				.add(workspace.onDidCloseTextDocument(() => setActivity()));
-		}
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
 		rpc.transport.once('close', () => {
 			if (!config.get('enabled')) return;
