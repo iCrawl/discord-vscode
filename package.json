@@ -108,6 +108,11 @@
 						"type": "boolean",
 						"default": false,
 						"description": "Decides if error messages are shown to the user"
+					},
+					"discord.workspaceElapsedTime": {
+						"type": "boolean",
+						"default": false,
+						"description": "Decides whether to display elapsed time for a workspace or a single file"
 					}
 				}
 			}
