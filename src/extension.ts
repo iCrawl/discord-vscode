@@ -93,9 +93,10 @@ function initRPC(clientID: string): void {
 		setActivity();
 		// Set the activity once on ready
 		setTimeout(() => rpc.setActivity(activity), 500);
-		eventHandlers.add(workspace.onDidChangeTextDocument(() => setActivity()))
-			.add(workspace.onDidOpenTextDocument(() => setActivity()))
-			.add(workspace.onDidCloseTextDocument(() => setActivity()))
+		const workspaceElapsedTime = Boolean(config.get('workspaceElapsedTime'));
+		eventHandlers.add(workspace.onDidChangeTextDocument(() => setActivity(workspaceElapsedTime)))
+			.add(workspace.onDidOpenTextDocument(() => setActivity(workspaceElapsedTime)))
+			.add(workspace.onDidCloseTextDocument(() => setActivity(workspaceElapsedTime)))
 			.add(debug.onDidChangeActiveDebugSession(() => setActivity()))
 			.add(debug.onDidStartDebugSession(() => setActivity()))
 			.add(debug.onDidTerminateDebugSession(() => setActivity()));
@@ -151,7 +152,7 @@ function destroyRPC(): void {
 }
 
 // This function updates the activity (The Client's Rich Presence status).
-function setActivity(): void {
+function setActivity(workspaceElapsedTime: boolean = false): void {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFileName) return;
@@ -168,11 +169,14 @@ function setActivity(): void {
 		})]
 		: 'vscode-big';
 
+	// Get the previous activity start timestamp (if available) to preserve workspace elapsed time
+	let previousTimestamp = null;
+	if (activity) previousTimestamp = activity['startTimestamp'];
 	// Create a JSON Object with the user's activity information.
 	activity = {
 		details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle'),
 		state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle'),
-		startTimestamp: new Date().getTime() / 1000,
+		startTimestamp: !previousTimestamp && !workspaceElapsedTime ? new Date().getTime() / 1000 : previousTimestamp,
 		largeImageKey: largeImageKey
 			? largeImageKey.image
 				|| largeImageKey
