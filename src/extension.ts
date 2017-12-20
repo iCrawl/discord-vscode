@@ -37,23 +37,21 @@ export function activate(context: ExtensionContext) {
 	config = workspace.getConfiguration('discord');
 
 	// Obtain whether or not the extension is activated.
-	if (config.get('enabled')) {
-		initRPC(config.get('clientID'));
-	}
+	if (config.get('enabled')) initRPC(config.get('clientID'));
 
 	// Register the `discord.enable` command, and set the `enabled` config option to true.
-	const enabler = commands.registerCommand('discord.enable', () => {
-		if (rpc) destroyRPC();
+	const enabler = commands.registerCommand('discord.enable', async () => {
+		if (rpc) await destroyRPC();
 		config.update('enabled', true);
 		initRPC(config.get('clientID'));
 		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
 
 	// Register the `discord.disable` command, and set the `enabled` config option to false.
-	const disabler = commands.registerCommand('discord.disable', () => {
+	const disabler = commands.registerCommand('discord.disable', async () => {
 		if (!rpc) return;
 		config.update('enabled', false);
-		destroyRPC();
+		await destroyRPC();
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
 
@@ -62,9 +60,9 @@ export function activate(context: ExtensionContext) {
 }
 
 // `Deactivate` is fired whenever the extension is deactivated.
-export function deactivate(context: ExtensionContext) {
+export async function deactivate() {
 	// If there's an RPC Client initalized, destroy it.
-	destroyRPC();
+	await destroyRPC();
 }
 
 // Initalize the RPC systems.
@@ -101,9 +99,9 @@ function initRPC(clientID: string): void {
 			.add(debug.onDidStartDebugSession(() => setActivity()))
 			.add(debug.onDidTerminateDebugSession(() => setActivity()));
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
-		rpc.transport.once('close', () => {
+		rpc.transport.once('close', async () => {
 			if (!config.get('enabled')) return;
-			destroyRPC();
+			await destroyRPC();
 			// Set an interval for reconnecting.
 			reconnectTimer = setInterval(() => {
 				reconnectCounter++;
@@ -116,10 +114,10 @@ function initRPC(clientID: string): void {
 	});
 
 	// Log in to the RPC Client, and check whether or not it errors.
-	rpc.login(clientID).catch(error => {
+	rpc.login(clientID).catch(async error => {
 		if (reconnectTimer) {
 			// Destroy and dispose of everything after a default of 20 reconnect attempts
-			if (reconnectCounter >= config.get('reconnectThreshold')) destroyRPC();
+			if (reconnectCounter >= config.get('reconnectThreshold')) await destroyRPC();
 			else return;
 		}
 		if (!config.get('silent')) {
@@ -130,7 +128,7 @@ function initRPC(clientID: string): void {
 }
 
 // Cleanly destroy the RPC client (if it isn't already).
-function destroyRPC(): void {
+async function destroyRPC(): Promise<void> {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
 	// Clear the reconnect interval.
@@ -144,7 +142,7 @@ function destroyRPC(): void {
 	// Dispose of the event handlers.
 	eventHandlers.forEach(event => event.dispose());
 	// If there's an RPC Client initalized, destroy it.
-	rpc.destroy();
+	await rpc.destroy();
 	// Null the RPC variable.
 	rpc = null;
 	// Null the last known file name
