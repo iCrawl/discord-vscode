@@ -174,7 +174,7 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 	activity = {
 		details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle'),
 		state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle'),
-		startTimestamp: !previousTimestamp && !workspaceElapsedTime ? new Date().getTime() / 1000 : previousTimestamp,
+		startTimestamp: previousTimestamp && workspaceElapsedTime ? previousTimestamp : new Date().getTime() / 1000,
 		largeImageKey: largeImageKey
 			? largeImageKey.image
 				|| largeImageKey
