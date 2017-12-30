@@ -167,7 +167,6 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 	// Get the previous activity start timestamp (if available) to preserve workspace elapsed time
 	let previousTimestamp = null;
 	if (activity) previousTimestamp = activity['startTimestamp'];
-
 	// Create a JSON Object with the user's activity information.
 	activity = {
 		details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle'),
@@ -187,8 +186,6 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 		smallImageText: config.get('smallImage').replace('{appname}', env.appName),
 		instance: false
 	};
-
-	console.log(activity);
 }
 
 function generateDetails(debugging, editing, idling): string {
