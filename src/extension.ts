@@ -191,8 +191,6 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 		smallImageText: config.get('smallImage').replace('{appname}', env.appName),
 		instance: false
 	};
-
-	console.log(activity);
 }
 
 function generateDetails(debugging, editing, idling): string {
