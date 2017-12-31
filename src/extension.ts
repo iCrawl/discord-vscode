@@ -12,7 +12,10 @@ import {
 	workspace,
 	WorkspaceFolder
 } from 'vscode';
-// const languages = require('./data/languages.json');
+const lang = require('./data/languages.json');
+
+const knownExtentions: { [x: string]: {image: string}} = lang.knownExtentions;
+const knownLanguages: string[] = lang.knownLanguages;
 
 // Define the RPC variable and its type.
 let rpc: Client;
@@ -92,13 +95,6 @@ function initRPC(clientID: string): void {
 		// Set the activity once on ready
 		setTimeout(() => rpc.setActivity(activity), 500);
 		const workspaceElapsedTime = Boolean(config.get('workspaceElapsedTime'));
-		// eventHandlers.add(workspace.onDidChangeTextDocument(() => setActivity(workspaceElapsedTime)))
-		// 	.add(workspace.onDidSaveTextDocument(() => setActivity(workspaceElapsedTime)))
-		// 	.add(workspace.onDidOpenTextDocument(() => setActivity(workspaceElapsedTime)))
-		// 	.add(workspace.onDidCloseTextDocument(() => setActivity(workspaceElapsedTime)))
-		// 	.add(debug.onDidChangeActiveDebugSession(() => setActivity()))
-		// 	.add(debug.onDidStartDebugSession(() => setActivity()))
-		// 	.add(debug.onDidTerminateDebugSession(() => setActivity()));
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
 		rpc.transport.once('close', async () => {
 			if (!config.get('enabled')) return;
@@ -160,8 +156,15 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFileName) return;
 	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : null;
 
-	const largeImageKey = window.activeTextEditor
-		? window.activeTextEditor.document.languageId
+	const fileName: string = window.activeTextEditor ? basename(window.activeTextEditor.document.fileName) : null;
+	const largeImageKey: any = window.activeTextEditor
+		? knownExtentions[Object.keys(knownExtentions).find(key => {
+			if (key.startsWith('.') && fileName.endsWith(key)) return true;
+			const match = key.match(/^\/(.*)\/([mgiy]+)$/);
+			if (!match) return false;
+			const regex = new RegExp(match[1], match[2]);
+			return regex.test(fileName);
+		})] || (knownLanguages.includes(window.activeTextEditor.document.languageId) ? window.activeTextEditor.document.languageId : null)
 		: 'vscode-big';
 
 	// Get the previous activity start timestamp (if available) to preserve workspace elapsed time
@@ -173,7 +176,9 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 		state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle'),
 		startTimestamp: previousTimestamp && workspaceElapsedTime ? previousTimestamp : new Date().getTime() / 1000,
 		largeImageKey: largeImageKey
-			? largeImageKey : 'txt',
+			? largeImageKey.image
+					|| largeImageKey
+			: 'txt',
 		largeImageText: window.activeTextEditor
 			? config.get('largeImage')
 				|| window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
@@ -186,6 +191,8 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 		smallImageText: config.get('smallImage').replace('{appname}', env.appName),
 		instance: false
 	};
+
+	console.log(activity);
 }
 
 function generateDetails(debugging, editing, idling): string {
