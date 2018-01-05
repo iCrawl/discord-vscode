@@ -8,11 +8,11 @@ import {
 	Disposable,
 	env,
 	ExtensionContext,
+	StatusBarItem,
+	StatusBarAlignment,
 	window,
 	workspace,
-	WorkspaceFolder,
-	StatusBarItem,
-	StatusBarAlignment
+	WorkspaceFolder
 } from 'vscode';
 const lang = require('./data/languages.json');
 
@@ -68,8 +68,7 @@ export function activate(context: ExtensionContext) {
 		initRPC(config.get('clientID'), true);
 		window.showInformationMessage('Reconnecting to Discord RPC');
 
-		if (statusBarIcon)
-			statusBarIcon.text = '$(pulse) Reconnecting';
+		if (statusBarIcon) statusBarIcon.text = '$(pulse) Reconnecting';
 	});
 
 	// Push the new commands into the subscriptions.
@@ -89,14 +88,10 @@ function initRPC(clientID: string, loud?: boolean): void {
 
 	// Once the RPC Client is ready, set the activity.
 	rpc.once('ready', () => {
-		if (loud) {
-			window.showInformationMessage('Successfully reconnected to Discord RPC');
-		}
+		if (loud) window.showInformationMessage('Successfully reconnected to Discord RPC');
 
 		// Remove icon if connected
-		if (statusBarIcon) {
-			statusBarIcon.dispose();
-		}
+		if (statusBarIcon) statusBarIcon.dispose();
 
 		// This is purely for safety measures.
 		if (reconnectTimer) {
@@ -143,7 +138,9 @@ function initRPC(clientID: string, loud?: boolean): void {
 			if (reconnectCounter >= config.get('reconnectThreshold')) {
 				createButon();
 				await destroyRPC();
-			} else return;
+			} else {
+				return;
+			}
 		}
 		if (!config.get('silent')) {
 			if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
