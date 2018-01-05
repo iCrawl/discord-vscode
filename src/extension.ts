@@ -150,7 +150,7 @@ function initRPC(clientID: string, loud?: boolean): void {
 	});
 }
 
-/** Create reconnect button */
+// Create reconnect button
 function createButon(): void {
 	if (!statusBarIcon) {
 		statusBarIcon = window.createStatusBarItem(StatusBarAlignment.Left);
