@@ -99,9 +99,7 @@ function initRPC(clientID: string, loud?: boolean): void {
 		}
 
 		// Stop from reconnecing.
-		if (reconnecting) {
-			reconnecting = false;
-		}
+		reconnecting = false;
 		// This is purely for safety measures.
 		if (activityTimer) {
 			// Clear the activity interval.
