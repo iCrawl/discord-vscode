@@ -25,8 +25,8 @@ let rpc: Client;
 const eventHandlers: Set<Disposable> = new Set();
 // Define the config variable and its type.
 let config;
-// Define the reconnect timer and its type.
-let reconnectTimer: NodeJS.Timer;
+// Define the reconnecting var and its type.
+let reconnecting: boolean;
 // Define the reconnect counter and its type.
 let reconnectCounter = 0;
 // Define the last known file name and its type.
@@ -66,7 +66,8 @@ export function activate(context: ExtensionContext) {
 	const reconnecter = commands.registerCommand('discord.reconnect', async () => {
 		if (rpc) try { await destroyRPC(); } catch {}
 		initRPC(config.get('clientID'), true);
-		window.showInformationMessage('Reconnecting to Discord RPC');
+
+		if (!config.get('silent')) window.showInformationMessage('Reconnecting to Discord RPC');
 
 		if (statusBarIcon) statusBarIcon.text = '$(pulse) Reconnecting';
 	});
@@ -88,18 +89,17 @@ function initRPC(clientID: string, loud?: boolean): void {
 
 	// Once the RPC Client is ready, set the activity.
 	rpc.once('ready', () => {
-		if (loud) window.showInformationMessage('Successfully reconnected to Discord RPC');
+		// Announce the reconnection
+		if (loud && !config.get('silent')) window.showInformationMessage('Successfully reconnected to Discord RPC');
 
 		// Remove icon if connected
-		if (statusBarIcon) statusBarIcon.dispose();
-
-		// This is purely for safety measures.
-		if (reconnectTimer) {
-			// Clear the reconnect interval.
-			clearInterval(reconnectTimer);
-			// Null reconnect variable.
-			reconnectTimer = null;
+		if (statusBarIcon) {
+			statusBarIcon.dispose();
+			statusBarIcon = null;
 		}
+
+		// Stop from reconnecing.
+		reconnecting = false;
 		// This is purely for safety measures.
 		if (activityTimer) {
 			// Clear the activity interval.
@@ -117,11 +117,12 @@ function initRPC(clientID: string, loud?: boolean): void {
 		rpc.transport.once('close', async () => {
 			if (!config.get('enabled')) return;
 			await destroyRPC();
-			// Set an interval for reconnecting.
-			reconnectTimer = setInterval(() => {
-				reconnectCounter++;
-				initRPC(config.get('clientID'));
-			}, 5000);
+
+			// Set the client to begin reconnecting
+			reconnecting = true;
+			initRPC(config.get('clientID'));
+			// Create reconnecting button
+			createButon(true);
 		});
 
 		// Update the user's activity to the `activity` variable.
@@ -133,15 +134,24 @@ function initRPC(clientID: string, loud?: boolean): void {
 
 	// Log in to the RPC Client, and check whether or not it errors.
 	rpc.login(clientID).catch(async error => {
-		if (reconnectTimer) {
-			// Destroy and dispose of everything after a default of 20 reconnect attempts
+		// Check if the client is reconnecting
+		if (reconnecting) {
+			// Destroy and dispose of everything after the set reconnect attempts
 			if (reconnectCounter >= config.get('reconnectThreshold')) {
+				// Create reconnect button
 				createButon();
 				await destroyRPC();
 			} else {
+				// Increment the counter
+				reconnectCounter++;
+				// Create reconnecting button
+				createButon(true);
+				// Retry connection
+				initRPC(config.get('clientID'));
 				return;
 			}
 		}
+		// Announce failure
 		if (!config.get('silent')) {
 			if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 			else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.message}`);
@@ -151,14 +161,36 @@ function initRPC(clientID: string, loud?: boolean): void {
 }
 
 // Create reconnect button
-function createButon(): void {
+function createButon(isReconnecting?: boolean): void {
+	// Check if the button already
 	if (!statusBarIcon) {
+		// Create the icon
 		statusBarIcon = window.createStatusBarItem(StatusBarAlignment.Left);
-		statusBarIcon.text = '$(plug) Reconnect to Discord';
-		statusBarIcon.command = 'discord.reconnect';
+		// Check if the client is reconnecting
+		if (isReconnecting) {
+			// Show attempts left
+			const attempts = config.get('reconnectThreshold') - reconnectCounter;
+			statusBarIcon.text = `$(issue-reopened) Reconnecting: ${attempts} attempt${attempts === 1 ? '' : 's'} left`;
+			statusBarIcon.command = '';
+		} else {
+			// Show button to reconnect
+			statusBarIcon.text = '$(plug) Reconnect to Discord';
+			statusBarIcon.command = 'discord.reconnect';
+		}
+		// Show the button
 		statusBarIcon.show();
 	} else  {
-		statusBarIcon.text = '$(plug) Reconnect to Discord';
+		// Check if the client is reconnecting
+		if (isReconnecting) {
+			// Show attempts left
+			const attempts = config.get('reconnectThreshold') - reconnectCounter;
+			statusBarIcon.text = `$(issue-reopened) Reconnecting: ${attempts} attempt${attempts === 1 ? '' : 's'} left`;
+			statusBarIcon.command = '';
+		} else {
+			// Show button to reconnect
+			statusBarIcon.text = '$(plug) Reconnect to Discord';
+			statusBarIcon.command = 'discord.reconnect';
+		}
 	}
 }
 
@@ -166,10 +198,8 @@ function createButon(): void {
 async function destroyRPC(): Promise<void> {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
-	// Clear the reconnect interval.
-	if (reconnectTimer) clearInterval(reconnectTimer);
-	// Null reconnect variable.
-	reconnectTimer = null;
+	// Stop reconnecting.
+	reconnecting = false;
 	// Clear the activity interval.
 	if (activityTimer) clearInterval(activityTimer);
 	// Null the activity timer.
