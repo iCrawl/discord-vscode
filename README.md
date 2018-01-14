@@ -25,11 +25,12 @@ It will only attempt to reconnect 20 times. After it hit that threshold you will
 
 ## Contributing
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+1. [Fork the repository](https://github.com/iCrawl/discord-vscode/fork)!
+2. Clone your fork: `git clone https://github.com/your-username/discord-vscode.git`
+3. Create your feature branch: `git checkout -b my-new-feature`
+4. Commit your changes: `git commit -am 'Add some feature'`
+5. Push to the branch: `git push origin my-new-feature`
+6. Submit a pull request :D
 
 ## Author
 
