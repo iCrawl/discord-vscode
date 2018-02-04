@@ -153,5 +153,11 @@
 	},
 	"engines": {
 		"vscode": "^1.15.0"
-	}
+	},
+	"contributors": [
+		{
+			"name": "Frangu Vlad",
+			"email": "kingdgrizzle@gmail.com"
+		}
+	]
 }
