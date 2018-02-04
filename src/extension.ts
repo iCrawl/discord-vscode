@@ -126,6 +126,8 @@ function initRPC(clientID: string, loud?: boolean): void {
 
 		// Update the user's activity to the `activity` variable.
 		activityTimer = setInterval(() => {
+			// Update the config before updating the activity
+			config = workspace.getConfiguration('discord');
 			setActivity(Boolean(config.get('workspaceElapsedTime')));
 			rpc.setActivity(activity);
 		}, 15000);
@@ -217,8 +219,6 @@ async function destroyRPC(): Promise<void> {
 function setActivity(workspaceElapsedTime: boolean = false): void {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
-	// Update the config before updating the activity
-	config = workspace.getConfiguration('discord');
 
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFileName) return;
 	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : null;
