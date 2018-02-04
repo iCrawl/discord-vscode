@@ -8,6 +8,12 @@
 		"name": "iCrawl",
 		"email": "icrawltogo@gmail.com"
 	},
+	"contributors": [
+		{
+			"name": "Frangu Vlad",
+			"email": "kingdgrizzle@gmail.com"
+		}
+	],
 	"publisher": "icrawl",
 	"license": "MIT",
 	"main": "./out/src/extension",
