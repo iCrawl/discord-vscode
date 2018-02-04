@@ -49,15 +49,17 @@ export function activate(context: ExtensionContext) {
 	// Register the `discord.enable` command, and set the `enabled` config option to true.
 	const enabler = commands.registerCommand('discord.enable', async () => {
 		if (rpc) await destroyRPC();
-		config.update('enabled', true);
+		await config.update('enabled', true);
+		config = workspace.getConfiguration('discord');
 		initRPC(config.get('clientID'));
 		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
 
 	// Register the `discord.disable` command, and set the `enabled` config option to false.
 	const disabler = commands.registerCommand('discord.disable', async () => {
-		if (!rpc) return;
-		config.update('enabled', false);
+		if (!rpc) return window.showWarningMessage('Discord Rich Presence is already disabled in this workspace.');
+		await config.update('enabled', false);
+		config = workspace.getConfiguration('discord');
 		await destroyRPC();
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
@@ -162,7 +164,7 @@ function initRPC(clientID: string, loud?: boolean): void {
 
 // Create reconnect button
 function createButon(isReconnecting?: boolean): void {
-	// Check if the button already
+	// Check if the button exists already
 	if (!statusBarIcon) {
 		// Create the icon
 		statusBarIcon = window.createStatusBarItem(StatusBarAlignment.Left);
@@ -179,7 +181,7 @@ function createButon(isReconnecting?: boolean): void {
 		}
 		// Show the button
 		statusBarIcon.show();
-	} else  {
+	} else {
 		// Check if the client is reconnecting
 		if (isReconnecting) {
 			// Show attempts left
@@ -206,6 +208,8 @@ async function destroyRPC(): Promise<void> {
 	activityTimer = null;
 	// Dispose of the event handlers.
 	eventHandlers.forEach(event => event.dispose());
+	// Reset the current RPC value
+	await rpc.setActivity({});
 	// If there's an RPC Client initalized, destroy it.
 	await rpc.destroy();
 	// Null the RPC variable.
