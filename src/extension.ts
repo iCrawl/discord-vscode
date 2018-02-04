@@ -112,7 +112,6 @@ function initRPC(clientID: string, loud?: boolean): void {
 		setActivity();
 		// Set the activity once on ready
 		setTimeout(() => rpc.setActivity(activity), 500);
-		const workspaceElapsedTime = Boolean(config.get('workspaceElapsedTime'));
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
 		rpc.transport.once('close', async () => {
 			if (!config.get('enabled')) return;
@@ -127,7 +126,9 @@ function initRPC(clientID: string, loud?: boolean): void {
 
 		// Update the user's activity to the `activity` variable.
 		activityTimer = setInterval(() => {
-			setActivity(workspaceElapsedTime);
+			// Update the config before updating the activity
+			config = workspace.getConfiguration('discord');
+			setActivity(Boolean(config.get('workspaceElapsedTime')));
 			rpc.setActivity(activity);
 		}, 15000);
 	});
@@ -218,6 +219,7 @@ async function destroyRPC(): Promise<void> {
 function setActivity(workspaceElapsedTime: boolean = false): void {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
+
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFileName) return;
 	lastKnownFileName = window.activeTextEditor ? window.activeTextEditor.document.fileName : null;
 
