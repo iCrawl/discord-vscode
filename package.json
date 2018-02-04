@@ -91,8 +91,8 @@
 					},
 					"discord.largeImage": {
 						"type": "string",
-						"default": "",
-						"description": "Custom string for the largeImageText section of the rich presence"
+						"default": "Editing a {LANG} file",
+						"description": "Custom string for the largeImageText section of the rich presence.\n\t- '{lang}' will be replaced with the lowercased language ID\n\t- '{LANG}' will be replaced with the uppercased language ID"
 					},
 					"discord.largeImageIdle": {
 						"type": "string",

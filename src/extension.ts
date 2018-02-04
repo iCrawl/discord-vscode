@@ -245,7 +245,7 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 					|| largeImageKey
 			: 'txt',
 		largeImageText: window.activeTextEditor
-			? config.get('largeImage')
+			? config.get('largeImage').replace('{lang}', largeImageKey.image || largeImageKey).replace('{LANG}', largeImageKey.image.toUpperCase() || largeImageKey.toUpperCase())
 				|| window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
 			: config.get('largeImageIdle'),
 		smallImageKey: debug.activeDebugSession
