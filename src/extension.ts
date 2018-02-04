@@ -124,7 +124,7 @@ function initRPC(clientID: string, loud?: boolean): void {
 			reconnecting = true;
 			initRPC(config.get('clientID'));
 			// Create reconnecting button
-			createButon(true);
+			createButton(true);
 		});
 
 		// Update the user's activity to the `activity` variable.
@@ -141,13 +141,13 @@ function initRPC(clientID: string, loud?: boolean): void {
 			// Destroy and dispose of everything after the set reconnect attempts
 			if (reconnectCounter >= config.get('reconnectThreshold')) {
 				// Create reconnect button
-				createButon();
+				createButton();
 				await destroyRPC();
 			} else {
 				// Increment the counter
 				reconnectCounter++;
 				// Create reconnecting button
-				createButon(true);
+				createButton(true);
 				// Retry connection
 				initRPC(config.get('clientID'));
 				return;
@@ -157,13 +157,13 @@ function initRPC(clientID: string, loud?: boolean): void {
 		if (!config.get('silent')) {
 			if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 			else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.message}`);
-			createButon();
+			createButton();
 		}
 	});
 }
 
 // Create reconnect button
-function createButon(isReconnecting?: boolean): void {
+function createButton(isReconnecting?: boolean): void {
 	// Check if the button exists already
 	if (!statusBarIcon) {
 		// Create the icon
@@ -196,7 +196,7 @@ function createButon(isReconnecting?: boolean): void {
 	}
 }
 
-// Cleanly destroy the RPC client (if it isn't already). && add icon to reconnect
+// Cleanly destroy the RPC client (if it isn't already) && add icon to reconnect
 async function destroyRPC(): Promise<void> {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
@@ -208,8 +208,6 @@ async function destroyRPC(): Promise<void> {
 	activityTimer = null;
 	// Dispose of the event handlers.
 	eventHandlers.forEach(event => event.dispose());
-	// Reset the current RPC value
-	await rpc.setActivity({});
 	// If there's an RPC Client initalized, destroy it.
 	await rpc.destroy();
 	// Null the RPC variable.
