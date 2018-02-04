@@ -49,15 +49,17 @@ export function activate(context: ExtensionContext) {
 	// Register the `discord.enable` command, and set the `enabled` config option to true.
 	const enabler = commands.registerCommand('discord.enable', async () => {
 		if (rpc) await destroyRPC();
-		config.update('enabled', true);
+		await config.update('enabled', true);
+		config = workspace.getConfiguration('discord');
 		initRPC(config.get('clientID'));
 		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
 
 	// Register the `discord.disable` command, and set the `enabled` config option to false.
 	const disabler = commands.registerCommand('discord.disable', async () => {
-		if (!rpc) return;
-		config.update('enabled', false);
+		if (!rpc) return window.showWarningMessage('Discord Rich Presence is already disabled in this workspace.');
+		await config.update('enabled', false);
+		config = workspace.getConfiguration('discord');
 		await destroyRPC();
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
@@ -121,7 +123,7 @@ function initRPC(clientID: string, loud?: boolean): void {
 			reconnecting = true;
 			initRPC(config.get('clientID'));
 			// Create reconnecting button
-			createButon(true);
+			createButton(true);
 		});
 
 		// Update the user's activity to the `activity` variable.
@@ -140,13 +142,13 @@ function initRPC(clientID: string, loud?: boolean): void {
 			// Destroy and dispose of everything after the set reconnect attempts
 			if (reconnectCounter >= config.get('reconnectThreshold')) {
 				// Create reconnect button
-				createButon();
+				createButton();
 				await destroyRPC();
 			} else {
 				// Increment the counter
 				reconnectCounter++;
 				// Create reconnecting button
-				createButon(true);
+				createButton(true);
 				// Retry connection
 				initRPC(config.get('clientID'));
 				return;
@@ -156,14 +158,14 @@ function initRPC(clientID: string, loud?: boolean): void {
 		if (!config.get('silent')) {
 			if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 			else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.message}`);
-			createButon();
+			createButton();
 		}
 	});
 }
 
 // Create reconnect button
-function createButon(isReconnecting?: boolean): void {
-	// Check if the button already
+function createButton(isReconnecting?: boolean): void {
+	// Check if the button exists already
 	if (!statusBarIcon) {
 		// Create the icon
 		statusBarIcon = window.createStatusBarItem(StatusBarAlignment.Left);
@@ -180,7 +182,7 @@ function createButon(isReconnecting?: boolean): void {
 		}
 		// Show the button
 		statusBarIcon.show();
-	} else  {
+	} else {
 		// Check if the client is reconnecting
 		if (isReconnecting) {
 			// Show attempts left
@@ -195,7 +197,7 @@ function createButon(isReconnecting?: boolean): void {
 	}
 }
 
-// Cleanly destroy the RPC client (if it isn't already). && add icon to reconnect
+// Cleanly destroy the RPC client (if it isn't already) && add icon to reconnect
 async function destroyRPC(): Promise<void> {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
