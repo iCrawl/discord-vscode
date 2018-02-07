@@ -21,8 +21,6 @@ const knownLanguages: string[] = lang.knownLanguages;
 
 // Define the RPC variable and its type.
 let rpc: Client;
-// Define the eventHandler variable and its type.
-const eventHandlers: Set<Disposable> = new Set();
 // Define the config variable and its type.
 let config;
 // Define the reconnecting var and its type.
@@ -207,8 +205,6 @@ async function destroyRPC(): Promise<void> {
 	if (activityTimer) clearInterval(activityTimer);
 	// Null the activity timer.
 	activityTimer = null;
-	// Dispose of the event handlers.
-	eventHandlers.forEach(event => event.dispose());
 	// If there's an RPC Client initalized, destroy it.
 	await rpc.destroy();
 	// Null the RPC variable.
