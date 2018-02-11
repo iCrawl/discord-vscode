@@ -269,17 +269,20 @@ function generateDetails(debugging, editing, idling): string {
 		: false;
 	const workspaceFolder: WorkspaceFolder = checkState ? workspace.getWorkspaceFolder(window.activeTextEditor.document.uri) : null;
 
+	const emptyDebugState: boolean = config.get(debugging) === '{null}';
+	const emptyEditingState: boolean = config.get(editing) === '{null}';
+
 	return window.activeTextEditor
 		? debug.activeDebugSession
-		? config.get(debugging)
-			.replace('{filename}', fileName)
-			.replace('{workspace}', checkState
-				? workspaceFolder.name
-				: config.get('lowerDetailsNotFound'))
-		: config.get(editing)
-			.replace('{filename}', fileName)
-			.replace('{workspace}', checkState
-				? workspaceFolder.name
-				: config.get('lowerDetailsNotFound'))
+			? emptyDebugState
+			? '\u200b\u200b'
+			: config.get(debugging)
+				.replace('{filename}', fileName)
+				.replace('{workspace}', checkState ? workspaceFolder.name : config.get('lowerDetailsNotFound'))
+		: emptyEditingState
+			? '\u200b\u200b'
+			: config.get(editing)
+				.replace('{filename}', fileName)
+				.replace('{workspace}', checkState ? workspaceFolder.name : config.get('lowerDetailsNotFound'))
 		: config.get(idling);
 }
