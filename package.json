@@ -63,12 +63,12 @@
 					"discord.detailsEditing": {
 						"type": "string",
 						"default": "Editing {filename}",
-						"description": "Custom string for the details section of the rich presence"
+						"description": "Custom string for the details section of the rich presence\nIf this is set to '{null}', it will be replaced with an empty space"
 					},
 					"discord.detailsDebugging": {
 						"type": "string",
 						"default": "Editing {filename}",
-						"description": "Custom string for the details section of the rich presence when debugging"
+						"description": "Custom string for the details section of the rich presence when debugging\nIf this is set to '{null}', it will be replaced with an empty space"
 					},
 					"discord.detailsIdle": {
 						"type": "string",
@@ -78,12 +78,12 @@
 					"discord.lowerDetailsEditing": {
 						"type": "string",
 						"default": "Workspace: {workspace}",
-						"description": "Custom string for the state section of the rich presence"
+						"description": "Custom string for the state section of the rich presence\nIf this is set to '{null}', it will be replaced with an empty space"
 					},
 					"discord.lowerDetailsDebugging": {
 						"type": "string",
 						"default": "Debugging: {workspace}",
-						"description": "Custom string for the state section of the rich presence when debugging"
+						"description": "Custom string for the state section of the rich presence when debugging\nIf this is set to '{null}', it will be replaced with an empty space"
 					},
 					"discord.lowerDetailsIdle": {
 						"type": "string",
