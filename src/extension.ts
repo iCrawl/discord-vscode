@@ -16,7 +16,7 @@ import {
 } from 'vscode';
 const lang = require('./data/languages.json');
 
-const knownExtentions: { [x: string]: {image: string}} = lang.knownExtentions;
+const knownExtentions: { [x: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
 
 // Define the RPC variable and its type.
@@ -245,7 +245,7 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 					|| largeImageKey
 			: 'txt',
 		largeImageText: window.activeTextEditor
-			? config.get('largeImage').replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : "txt").replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : "TXT")
+			? config.get('largeImage').replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt').replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT')
 				|| window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
 			: config.get('largeImageIdle'),
 		smallImageKey: debug.activeDebugSession
