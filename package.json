@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "2.2.2",
+	"version": "2.2.4",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -149,7 +149,7 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"discord-rpc": "github:iCrawl/discord-rpc#no-peer-deps"
+		"discord-rpc": "github:discordjs/rpc"
 	},
 	"devDependencies": {
 		"@types/node": "^9.0.0",
