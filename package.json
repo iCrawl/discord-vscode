@@ -53,7 +53,7 @@
 					"discord.enabled": {
 						"type": "boolean",
 						"default": true,
-						"description": "Controls if Discord Presence is active globally"
+						"description": "Controls if the Discord Presence should show across all workspaces"
 					},
 					"discord.reconnectThreshold": {
 						"type": "number",
