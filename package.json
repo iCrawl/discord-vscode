@@ -58,42 +58,42 @@
 					"discord.reconnectThreshold": {
 						"type": "number",
 						"default": 20,
-						"description": "Decides how often a reconnect attempt should be made before stopping"
+						"description": "Decides how many reconnect attempts should be made before stopping"
 					},
 					"discord.detailsEditing": {
 						"type": "string",
 						"default": "Editing {filename}",
-						"description": "Custom string for the details section of the rich presence\nIf this is set to '{null}', it will be replaced with an empty space"
+						"description": "Custom string for the details section of the rich presence\n\t- '{null}' will be replaced by an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
 					},
 					"discord.detailsDebugging": {
 						"type": "string",
 						"default": "Editing {filename}",
-						"description": "Custom string for the details section of the rich presence when debugging\nIf this is set to '{null}', it will be replaced with an empty space"
+						"description": "Custom string for the details section of the rich presence when debugging\n\t- '{null}' will be replaced by an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
 					},
 					"discord.detailsIdle": {
 						"type": "string",
 						"default": "Idling",
-						"description": "Custom string for the details section of the rich presence when idling"
+						"description": "Custom string for the details section of the rich presence when idling\n\t- '{null}' will be replaced with an empty space."
 					},
 					"discord.lowerDetailsEditing": {
 						"type": "string",
 						"default": "Workspace: {workspace}",
-						"description": "Custom string for the state section of the rich presence\nIf this is set to '{null}', it will be replaced with an empty space"
+						"description": "Custom string for the state section of the rich presence\n\t- '{null}' will be replaced by an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
 					},
 					"discord.lowerDetailsDebugging": {
 						"type": "string",
 						"default": "Debugging: {workspace}",
-						"description": "Custom string for the state section of the rich presence when debugging\nIf this is set to '{null}', it will be replaced with an empty space"
+						"description": "Custom string for the state section of the rich presence when debugging\n\t- '{null}' will be replaced by an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
 					},
 					"discord.lowerDetailsIdle": {
 						"type": "string",
 						"default": "Idling",
-						"description": "Custom string for the state section of the rich presence when idling"
+						"description": "Custom string for the state section of the rich presence when idling\n\t- '{null}' will be replaced with an empty space."
 					},
 					"discord.lowerDetailsNotFound": {
 						"type": "string",
 						"default": "No workspace.",
-						"description": "Custom string for the state section of the rich presence when no workspace is found"
+						"description": "Custom string for the state section of the rich presence when no workspace is found.\nIf set to '{null}', this will be an empty space."
 					},
 					"discord.largeImage": {
 						"type": "string",
@@ -108,7 +108,7 @@
 					"discord.smallImage": {
 						"type": "string",
 						"default": "{appname}",
-						"description": "Custom string for the smallImageText section of the rich presence"
+						"description": "Custom string for the smallImageText section of the rich presence\n\t- '{appname}' will get replaced with the current Visual Studio Code version."
 					},
 					"discord.silent": {
 						"type": "boolean",
