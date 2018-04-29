@@ -53,7 +53,7 @@
 					"discord.enabled": {
 						"type": "boolean",
 						"default": true,
-						"description": "Controls if Discord Presence is active"
+						"description": "Controls if Discord Presence is active globally"
 					},
 					"discord.reconnectThreshold": {
 						"type": "number",
@@ -63,12 +63,12 @@
 					"discord.detailsEditing": {
 						"type": "string",
 						"default": "Editing {filename}",
-						"description": "Custom string for the details section of the rich presence\n\t- '{null}' will be replaced by an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
+						"description": "Custom string for the details section of the rich presence\n\t- '{null}' will be replaced with an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
 					},
 					"discord.detailsDebugging": {
 						"type": "string",
 						"default": "Editing {filename}",
-						"description": "Custom string for the details section of the rich presence when debugging\n\t- '{null}' will be replaced by an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
+						"description": "Custom string for the details section of the rich presence when debugging\n\t- '{null}' will be replaced with an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
 					},
 					"discord.detailsIdle": {
 						"type": "string",
@@ -78,12 +78,12 @@
 					"discord.lowerDetailsEditing": {
 						"type": "string",
 						"default": "Workspace: {workspace}",
-						"description": "Custom string for the state section of the rich presence\n\t- '{null}' will be replaced by an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
+						"description": "Custom string for the state section of the rich presence\n\t- '{null}' will be replaced with an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
 					},
 					"discord.lowerDetailsDebugging": {
 						"type": "string",
 						"default": "Debugging: {workspace}",
-						"description": "Custom string for the state section of the rich presence when debugging\n\t- '{null}' will be replaced by an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
+						"description": "Custom string for the state section of the rich presence when debugging\n\t- '{null}' will be replaced with an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any."
 					},
 					"discord.lowerDetailsIdle": {
 						"type": "string",
