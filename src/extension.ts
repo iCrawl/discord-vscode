@@ -271,10 +271,18 @@ function generateDetails(debugging, editing, idling): string {
 		dirName = split[split.length - 1];
 	}
 	const checkState: boolean = window.activeTextEditor
-		? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
-		: false;
+	? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
+	: false;
 
 	const workspaceFolder: WorkspaceFolder = checkState ? workspace.getWorkspaceFolder(window.activeTextEditor.document.uri) : null;
+
+	let fullDirName: string = null;
+	if (workspaceFolder) {
+		const { name } = workspaceFolder;
+		const relativePath = workspace.asRelativePath(window.activeTextEditor.document.fileName).split(sep);
+		relativePath.splice(-1, 1);
+		fullDirName = `${name}${sep}${relativePath.join(sep)}`;
+	}
 
 	if (window.activeTextEditor) {
 		if (debug.activeDebugSession) {
@@ -284,6 +292,7 @@ function generateDetails(debugging, editing, idling): string {
 				.replace('{null}', emptySpaces)
 				.replace('{filename}', fileName)
 				.replace('{dirname}', dirName)
+				.replace('{fulldirname}', fullDirName)
 				.replace('{workspace}',
 					checkState ?
 					workspaceFolder.name :
@@ -300,6 +309,7 @@ function generateDetails(debugging, editing, idling): string {
 				.replace('{null}', emptySpaces)
 				.replace('{filename}', fileName)
 				.replace('{dirname}', dirName)
+				.replace('{fulldirname}', fullDirName)
 				.replace('{workspace}',
 					checkState ?
 					workspaceFolder.name :
