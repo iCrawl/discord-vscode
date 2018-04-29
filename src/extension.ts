@@ -339,7 +339,7 @@ function getFileDetails(rawString): FileDetail {
 }
 
 type FileDetail = {
-	size: string,
-	totalLines: string,
-	currentLine: string,
+	size: string | null,
+	totalLines: string | null,
+	currentLine: string | null,
 };
