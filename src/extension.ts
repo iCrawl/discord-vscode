@@ -1,6 +1,6 @@
 // Import the required functions & object types from various packages.
 import { Client } from 'discord-rpc';
-import { basename, extname } from 'path';
+import { basename, extname, parse, sep } from 'path';
 import { setInterval, clearInterval } from 'timers';
 import {
 	commands,
@@ -264,6 +264,12 @@ function generateDetails(debugging, editing, idling): string {
 	const emptySpaces = '\u200b\u200b';
 
 	const fileName: string = window.activeTextEditor ? basename(window.activeTextEditor.document.fileName) : null;
+	let dirName: string = null;
+	if (window.activeTextEditor) {
+		const { dir } = parse(window.activeTextEditor.document.fileName);
+		const split = dir.split(sep);
+		dirName = split[split.length - 1];
+	}
 	const checkState: boolean = window.activeTextEditor
 		? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
 		: false;
@@ -277,6 +283,7 @@ function generateDetails(debugging, editing, idling): string {
 			rawString = rawString
 				.replace('{null}', emptySpaces)
 				.replace('{filename}', fileName)
+				.replace('{dirname}', dirName)
 				.replace('{workspace}',
 					checkState ?
 					workspaceFolder.name :
@@ -292,6 +299,7 @@ function generateDetails(debugging, editing, idling): string {
 			rawString = rawString
 				.replace('{null}', emptySpaces)
 				.replace('{filename}', fileName)
+				.replace('{dirname}', dirName)
 				.replace('{workspace}',
 					checkState ?
 					workspaceFolder.name :
