@@ -14,9 +14,7 @@ import {
 	workspace,
 	WorkspaceFolder
 } from 'vscode';
-import {
-	statSync,
-} from 'fs';
+import { statSync } from 'fs';
 const lang = require('./data/languages.json');
 
 const knownExtentions: { [x: string]: { image: string } } = lang.knownExtentions;
