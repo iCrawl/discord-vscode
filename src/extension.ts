@@ -17,6 +17,12 @@ import {
 import { statSync } from 'fs';
 const lang = require('./data/languages.json');
 
+interface FileDetail {
+	size: string | null;
+	totalLines: string | null;
+	currentLine: string | null;
+}
+
 const knownExtentions: { [x: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
 
@@ -156,7 +162,7 @@ function initRPC(clientID: string, loud?: boolean): void {
 		// Announce failure
 		if (!config.get('silent')) {
 			if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
-			else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.message}`);
+			else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.toString()}`);
 			createButton();
 		}
 	});
@@ -271,8 +277,8 @@ function generateDetails(debugging, editing, idling): string {
 		dirName = split[split.length - 1];
 	}
 	const checkState: boolean = window.activeTextEditor
-	? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
-	: false;
+		? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
+		: false;
 
 	const workspaceFolder: WorkspaceFolder = checkState ? workspace.getWorkspaceFolder(window.activeTextEditor.document.uri) : null;
 
@@ -355,9 +361,3 @@ function getFileDetails(rawString): FileDetail {
 	}
 	return obj;
 }
-
-type FileDetail = {
-	size: string | null,
-	totalLines: string | null,
-	currentLine: string | null,
-};
