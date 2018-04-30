@@ -267,8 +267,8 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 }
 
 function generateDetails(debugging, editing, idling): string {
-	let string: string = config.get(idling);
 	const emptySpaces = '\u200b\u200b';
+	let string: string = config.get(idling).replace('{null}', emptySpaces);
 
 	const fileName: string = window.activeTextEditor ? basename(window.activeTextEditor.document.fileName) : null;
 	let dirName: string = null;
