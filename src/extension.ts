@@ -1,6 +1,6 @@
 // Import the required functions & object types from various packages.
 import { Client } from 'discord-rpc';
-import { basename, extname } from 'path';
+import { basename, extname, parse, sep } from 'path';
 import { setInterval, clearInterval } from 'timers';
 import {
 	commands,
@@ -14,6 +14,7 @@ import {
 	workspace,
 	WorkspaceFolder
 } from 'vscode';
+import { statSync } from 'fs';
 const lang = require('./data/languages.json');
 
 const knownExtentions: { [x: string]: { image: string } } = lang.knownExtentions;
@@ -259,26 +260,104 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 }
 
 function generateDetails(debugging, editing, idling): string {
+	let string: string = config.get(idling);
+	const emptySpaces = '\u200b\u200b';
+
 	const fileName: string = window.activeTextEditor ? basename(window.activeTextEditor.document.fileName) : null;
+	let dirName: string = null;
+	if (window.activeTextEditor) {
+		const { dir } = parse(window.activeTextEditor.document.fileName);
+		const split = dir.split(sep);
+		dirName = split[split.length - 1];
+	}
 	const checkState: boolean = window.activeTextEditor
-		? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
-		: false;
+	? Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri))
+	: false;
+
 	const workspaceFolder: WorkspaceFolder = checkState ? workspace.getWorkspaceFolder(window.activeTextEditor.document.uri) : null;
 
-	const emptyDebugState: boolean = config.get(debugging) === '{null}';
-	const emptyEditingState: boolean = config.get(editing) === '{null}';
+	let fullDirName: string = null;
+	if (workspaceFolder) {
+		const { name } = workspaceFolder;
+		const relativePath = workspace.asRelativePath(window.activeTextEditor.document.fileName).split(sep);
+		relativePath.splice(-1, 1);
+		fullDirName = `${name}${sep}${relativePath.join(sep)}`;
+	}
 
-	return window.activeTextEditor
-		? debug.activeDebugSession
-			? emptyDebugState
-			? '\u200b\u200b'
-			: config.get(debugging)
+	if (window.activeTextEditor) {
+		if (debug.activeDebugSession) {
+			let rawString = config.get(debugging);
+			const { totalLines, size, currentLine } = getFileDetails(rawString);
+			rawString = rawString
+				.replace('{null}', emptySpaces)
 				.replace('{filename}', fileName)
-				.replace('{workspace}', checkState ? workspaceFolder.name : config.get('lowerDetailsNotFound'))
-		: emptyEditingState
-			? '\u200b\u200b'
-			: config.get(editing)
+				.replace('{dirname}', dirName)
+				.replace('{fulldirname}', fullDirName)
+				.replace('{workspace}',
+					checkState ?
+					workspaceFolder.name :
+					config.get('lowerDetailsNotFound').replace('{null}', emptySpaces)
+				);
+			if (totalLines) rawString = rawString.replace('{totallines}', totalLines);
+			if (size) rawString = rawString.replace('{filesize}', size);
+			if (currentLine) rawString = rawString.replace('{currentline}', currentLine);
+			string = rawString;
+		} else {
+			let rawString = config.get(editing);
+			const { totalLines, size, currentLine } = getFileDetails(rawString);
+			rawString = rawString
+				.replace('{null}', emptySpaces)
 				.replace('{filename}', fileName)
-				.replace('{workspace}', checkState ? workspaceFolder.name : config.get('lowerDetailsNotFound'))
-		: config.get(idling);
+				.replace('{dirname}', dirName)
+				.replace('{fulldirname}', fullDirName)
+				.replace('{workspace}',
+					checkState ?
+					workspaceFolder.name :
+					config.get('lowerDetailsNotFound').replace('{null}', emptySpaces)
+				);
+			if (totalLines) rawString = rawString.replace('{totallines}', totalLines);
+			if (size) rawString = rawString.replace('{filesize}', size);
+			if (currentLine) rawString = rawString.replace('{currentline}', currentLine);
+			string = rawString;
+		}
+	}
+
+	return string;
 }
+
+function getFileDetails(rawString): FileDetail {
+	const obj = {
+		size: null,
+		totalLines: null,
+		currentLine: null,
+	};
+	if (!rawString) return obj;
+	if (rawString.includes('{totallines}')) {
+		obj.totalLines = window.activeTextEditor.document.lineCount.toLocaleString();
+	}
+	if (rawString.includes('{currentline}')) {
+		obj.currentLine = (window.activeTextEditor.selection.active.line + 1).toLocaleString();
+	}
+	if (rawString.includes('{filesize}')) {
+		const sizes = ['bytes', 'kb', 'mb', 'gb', 'tb'];
+		let currentDivision = 0;
+		let { size } = statSync(window.activeTextEditor.document.fileName);
+		const originalSize = size;
+		if (originalSize > 1000) {
+			size = size / 1000;
+			currentDivision++;
+			while (size > 1000) {
+				currentDivision++;
+				size = size / 1000;
+			}
+		}
+		obj.size = `${originalSize > 1000 ? size.toFixed(2) : size}${sizes[currentDivision]}`;
+	}
+	return obj;
+}
+
+type FileDetail = {
+	size: string | null,
+	totalLines: string | null,
+	currentLine: string | null,
+};
