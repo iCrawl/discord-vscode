@@ -34,6 +34,8 @@ let config;
 let reconnecting: boolean;
 // Define the reconnect counter and its type.
 let reconnectCounter = 0;
+// Define the last known file and its type.
+let lastKnownFile: string;
 // Define the activity object.
 let activity: object;
 // Define the activity timer to not spam the API with requests.
@@ -214,12 +216,30 @@ async function destroyRPC(): Promise<void> {
 	await rpc.destroy();
 	// Null the RPC variable.
 	rpc = null;
+	// Null the last known file.
+	lastKnownFile = null;
 }
 
 // This function updates the activity (The Client's Rich Presence status).
 function setActivity(workspaceElapsedTime: boolean = false): void {
 	// Do not continue if RPC isn't initalized.
 	if (!rpc) return;
+
+	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFile) {
+		activity = {
+			...activity,
+			details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle'),
+			state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle'),
+			smallImageKey: debug.activeDebugSession
+				? 'debug'
+				: env.appName.includes('Insiders')
+				? 'vscode-insiders'
+				: 'vscode',
+		};
+		return;
+	}
+	lastKnownFile = window.activeTextEditor ? window.activeTextEditor.document.fileName : null;
+
 	const fileName: string = window.activeTextEditor ? basename(window.activeTextEditor.document.fileName) : null;
 	const largeImageKey: any = window.activeTextEditor
 		? knownExtentions[Object.keys(knownExtentions).find(key => {
