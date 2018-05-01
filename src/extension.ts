@@ -21,6 +21,7 @@ interface FileDetail {
 	size: string | null;
 	totalLines: string | null;
 	currentLine: string | null;
+	currentColumn: string | null;
 }
 
 const knownExtentions: { [x: string]: { image: string } } = lang.knownExtentions;
@@ -278,8 +279,8 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 }
 
 function generateDetails(debugging, editing, idling): string {
-	let string: string = config.get(idling);
 	const emptySpaces = '\u200b\u200b';
+	let string: string = config.get(idling).replace('{null}', emptySpaces);
 
 	const fileName: string = window.activeTextEditor ? basename(window.activeTextEditor.document.fileName) : null;
 	let dirName: string = null;
@@ -305,7 +306,7 @@ function generateDetails(debugging, editing, idling): string {
 	if (window.activeTextEditor) {
 		if (debug.activeDebugSession) {
 			let rawString = config.get(debugging);
-			const { totalLines, size, currentLine } = getFileDetails(rawString);
+			const { totalLines, size, currentLine, currentColumn } = getFileDetails(rawString);
 			rawString = rawString
 				.replace('{null}', emptySpaces)
 				.replace('{filename}', fileName)
@@ -319,10 +320,11 @@ function generateDetails(debugging, editing, idling): string {
 			if (totalLines) rawString = rawString.replace('{totallines}', totalLines);
 			if (size) rawString = rawString.replace('{filesize}', size);
 			if (currentLine) rawString = rawString.replace('{currentline}', currentLine);
+			if (currentColumn) rawString = rawString.replace('{currentcolumn}', currentColumn);
 			string = rawString;
 		} else {
 			let rawString = config.get(editing);
-			const { totalLines, size, currentLine } = getFileDetails(rawString);
+			const { totalLines, size, currentLine, currentColumn } = getFileDetails(rawString);
 			rawString = rawString
 				.replace('{null}', emptySpaces)
 				.replace('{filename}', fileName)
@@ -336,6 +338,7 @@ function generateDetails(debugging, editing, idling): string {
 			if (totalLines) rawString = rawString.replace('{totallines}', totalLines);
 			if (size) rawString = rawString.replace('{filesize}', size);
 			if (currentLine) rawString = rawString.replace('{currentline}', currentLine);
+			if (currentColumn) rawString = rawString.replace('{currentcolumn}', currentColumn);
 			string = rawString;
 		}
 	}
@@ -348,6 +351,7 @@ function getFileDetails(rawString): FileDetail {
 		size: null,
 		totalLines: null,
 		currentLine: null,
+		currentColumn: null,
 	};
 	if (!rawString) return obj;
 	if (rawString.includes('{totallines}')) {
@@ -355,6 +359,9 @@ function getFileDetails(rawString): FileDetail {
 	}
 	if (rawString.includes('{currentline}')) {
 		obj.currentLine = (window.activeTextEditor.selection.active.line + 1).toLocaleString();
+	}
+	if (rawString.includes('{currentcolumn}')) {
+		obj.currentColumn = (window.activeTextEditor.selection.active.character + 1).toLocaleString();
 	}
 	if (rawString.includes('{filesize}')) {
 		const sizes = ['bytes', 'kb', 'mb', 'gb', 'tb'];
