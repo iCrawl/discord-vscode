@@ -376,7 +376,7 @@ function getFileDetails(rawString): FileDetail {
 				size = size / 1000;
 			}
 		}
-		obj.size = `${originalSize > 1000 ? size.toFixed(2) : size}${sizes[currentDivision]}`;
+		obj.size = `${originalSize > 1000 ? size.toFixed(2) : size} ${sizes[currentDivision]}`;
 	}
 	return obj;
 }
