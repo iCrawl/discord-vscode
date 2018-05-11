@@ -364,7 +364,7 @@ function getFileDetails(rawString): FileDetail {
 		obj.currentColumn = (window.activeTextEditor.selection.active.character + 1).toLocaleString();
 	}
 	if (rawString.includes('{filesize}')) {
-		const sizes = ['bytes', 'kb', 'mb', 'gb', 'tb'];
+		const sizes = [' bytes', 'kb', 'mb', 'gb', 'tb'];
 		let currentDivision = 0;
 		let { size } = statSync(window.activeTextEditor.document.fileName);
 		const originalSize = size;
@@ -376,7 +376,7 @@ function getFileDetails(rawString): FileDetail {
 				size = size / 1000;
 			}
 		}
-		obj.size = `${originalSize > 1000 ? size.toFixed(2) : size} ${sizes[currentDivision]}`;
+		obj.size = `${originalSize > 1000 ? size.toFixed(2) : size}${sizes[currentDivision]}`;
 	}
 	return obj;
 }
