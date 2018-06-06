@@ -364,7 +364,7 @@ function getFileDetails(rawString): FileDetail {
 		obj.currentColumn = (window.activeTextEditor.selection.active.character + 1).toLocaleString();
 	}
 	if (rawString.includes('{filesize}')) {
-		const sizes = ['bytes', 'kb', 'mb', 'gb', 'tb'];
+		const sizes = [' bytes', 'kb', 'mb', 'gb', 'tb'];
 		let currentDivision = 0;
 		let { size } = statSync(window.activeTextEditor.document.fileName);
 		const originalSize = size;
