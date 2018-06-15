@@ -67,7 +67,7 @@
 					},
 					"discord.detailsDebugging": {
 						"type": "string",
-						"default": "Editing {filename}",
+						"default": "Debugging {filename}",
 						"description": "Custom string for the details section of the rich presence when debugging\n\t- '{null}' will be replaced with an empty space.\n\t- '{filename}' will be replaced with the current file name.\n\t- '{dirname}' will get replaced with the folder name that has the current file.\n\t- '{fulldirname}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{currentcolumn}' will get replaced with the current column of the current line.\n\t- '{currentline}' will get replaced with the current line number.\n\t- '{totallines}' will get replaced with the total line number.\n\t- '{filesize}' will get replaced with the current file's size."
 					},
 					"discord.detailsIdle": {
