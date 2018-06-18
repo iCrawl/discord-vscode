@@ -54,6 +54,7 @@
 		"objc",
 		"ocaml",
 		"pascal",
+		"pawn",
 		"perl",
 		"php",
 		"powershell",
@@ -671,6 +672,9 @@
 		},
 		".ps1xml": {
 			"image": "powershell"
+		},
+		".p": {
+			"image": "pawn"
 		},
 		".py": {
 			"image": "python"
