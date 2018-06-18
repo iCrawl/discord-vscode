@@ -21,6 +21,7 @@
 		"scss",
 		"d",
 		"dart",
+		"dm",
 		"manifest",
 		"delphi",
 		"docker",
@@ -271,6 +272,15 @@
 		},
 		".dart": {
 			"image": "dart"
+		},
+		".dm": {
+			"image": "dm"
+		},
+		".dme": {
+			"image": "dm"
+		},
+		".dmm": {
+			"image": "dm"
 		},
 		"/\\.(h|geo|topo)$/i": {
 			"image": "manifest"
