@@ -26,7 +26,7 @@
 
 ## The rich presence won't show after my PC has been put to sleep / after I lost internet!
 
-It will only attempt to reconnect 20 times.<br>
+It will only attempt to reconnect 20 times.  
 After it hit that threshold you will have to manually click the `Reconnect to Discord` button in the bottom left of the window.
 
 ## Contributing
@@ -40,7 +40,7 @@ After it hit that threshold you will have to manually click the `Reconnect to Di
 
 ## Author
 
-**Discord Presence** © [iCrawl](https://github.com/iCrawl).<br>
+**Discord Presence** © [iCrawl](https://github.com/iCrawl).  
 Authored and maintained by iCrawl.
 
 > GitHub [@iCrawl](https://github.com/iCrawl)
