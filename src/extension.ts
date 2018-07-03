@@ -46,6 +46,7 @@ let statusBarIcon: StatusBarItem;
 
 // `Activate` is fired when the extension is enabled. This SHOULD only fire once.
 export function activate(context: ExtensionContext) {
+	console.log('[Discord Presence]: Activated!');
 	// Get the workspace's configuration for "discord".
 	config = workspace.getConfiguration('discord');
 
@@ -97,6 +98,7 @@ function initRPC(clientID: string, loud?: boolean): void {
 
 	// Once the RPC Client is ready, set the activity.
 	rpc.once('ready', () => {
+		console.log('[Discord Presence]: Successfully connected to Discord');
 		// Announce the reconnection
 		if (loud && !config.get('silent')) window.showInformationMessage('Successfully reconnected to Discord RPC');
 
@@ -142,8 +144,9 @@ function initRPC(clientID: string, loud?: boolean): void {
 	});
 
 	// Log in to the RPC Client, and check whether or not it errors.
-	rpc.login(clientID).catch(async error => {
+	rpc.login({ clientId: clientID }).catch(async error => {
 		// Check if the client is reconnecting
+		console.error(`[Discord Presence]: ${error}`);
 		if (reconnecting) {
 			// Destroy and dispose of everything after the set reconnect attempts
 			if (reconnectCounter >= config.get('reconnectThreshold')) {
