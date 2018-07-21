@@ -11,6 +11,7 @@
 		"c",
 		"cpp",
 		"csharp",
+		"cshtml",
 		"clojure",
 		"cmake",
 		"coffee",
@@ -207,6 +208,9 @@
 		},
 		".csx": {
 			"image": "csharp"
+		},
+		".cshtml": {
+			"image": "cshtml"
 		},
 		".clj": {
 			"image": "clojure"
