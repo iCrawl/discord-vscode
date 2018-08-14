@@ -680,6 +680,9 @@
 		".p": {
 			"image": "pawn"
 		},
+		".sp": {
+			"image": "pawn"
+		},
 		".py": {
 			"image": "python"
 		},
