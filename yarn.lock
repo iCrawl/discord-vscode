@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@types/node@^10.5.2":
-  version "10.5.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.2.tgz#f19f05314d5421fe37e74153254201a7bf00a707"
+"@types/node@^10.7.1":
+  version "10.7.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.7.1.tgz#b704d7c259aa40ee052eec678758a68d07132a2e"
 
 ajv@^5.1.0:
   version "5.5.2"
@@ -1330,9 +1330,9 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
-typescript@^2.9.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
+typescript@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.1.tgz#43738f29585d3a87575520a4b93ab6026ef11fdb"
 
 unique-stream@^2.0.2:
   version "2.2.1"
@@ -1341,9 +1341,9 @@ unique-stream@^2.0.2:
     json-stable-stringify "^1.0.0"
     through2-filter "^2.0.0"
 
-url-parse@^1.1.9:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.4.1.tgz#4dec9dad3dc8585f862fed461d2e19bbf623df30"
+url-parse@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.4.3.tgz#bfaee455c889023219d757e045fa6a684ec36c15"
   dependencies:
     querystringify "^2.0.0"
     requires-port "^1.0.0"
@@ -1423,9 +1423,9 @@ vinyl@^2.0.1, vinyl@^2.0.2:
     remove-trailing-separator "^1.0.1"
     replace-ext "^1.0.0"
 
-vscode@^1.1.18:
-  version "1.1.18"
-  resolved "https://registry.yarnpkg.com/vscode/-/vscode-1.1.18.tgz#e9227265dc72fc826bd6cd7bd21193f4e48fa671"
+vscode@^1.1.21:
+  version "1.1.21"
+  resolved "https://registry.yarnpkg.com/vscode/-/vscode-1.1.21.tgz#1c8253d6238aefb4112d6e58cf975ad25313dafc"
   dependencies:
     glob "^7.1.2"
     gulp-chmod "^2.0.0"
@@ -1439,7 +1439,7 @@ vscode@^1.1.18:
     request "^2.83.0"
     semver "^5.4.1"
     source-map-support "^0.5.0"
-    url-parse "^1.1.9"
+    url-parse "^1.4.3"
     vinyl-source-stream "^1.1.0"
 
 wrappy@1:
