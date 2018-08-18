@@ -52,6 +52,7 @@
 		"lua",
 		"makefile",
 		"markdown",
+		"nim",
 		"objc",
 		"ocaml",
 		"pascal",
@@ -580,6 +581,15 @@
 		},
 		"/\\.(md|mdown|markdown|mkd|mkdown|mdwn|mkdn|rmd|ron|pmd)$/i": {
 			"image": "markdown"
+		},
+		".nim": {
+			"image": "nim"
+		},
+		".nims": {
+			"image": "nim"
+		},
+		".nimble": {
+			"image": "nim"
 		},
 		"/\\.mm?$/i": {
 			"image": "objc"
