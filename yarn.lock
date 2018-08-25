@@ -308,6 +308,13 @@ diff@^3.2.0:
     node-fetch "^2.1.2"
     ws "^5.2.1"
 
+discord-rpc@icrawl/rpc#ubuntu:
+  version "3.0.0"
+  resolved "https://codeload.github.com/icrawl/rpc/tar.gz/b1d5c07600fdd05d3847a50551414f8448b6dfc4"
+  dependencies:
+    node-fetch "^2.1.2"
+    ws "^5.2.1"
+
 duplexer@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
