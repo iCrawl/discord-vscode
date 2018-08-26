@@ -85,8 +85,6 @@
 		"yaml",
 		"yarn",
 		"bat",
-		"wat",
-		"wast",
 		"wasm"
 	],
 	"knownExtentions": {
@@ -973,13 +971,13 @@
 			"image": "bat"
 		},
 		".wat": {
-			"image": "webassembly"
+			"image": "wasm"
 		},
 		".wast": {
-			"image": "webassembly"
+			"image": "wasm"
 		},
 		".wasm": {
-			"image": "webassembly"
+			"image": "wasm"
 		}
 	}
 }
