@@ -84,7 +84,10 @@
 		"vue",
 		"yaml",
 		"yarn",
-		"bat"
+		"bat",
+		"wat",
+		"wast",
+		"wasm"
 	],
 	"knownExtentions": {
 		".swf": {
@@ -968,6 +971,15 @@
 		},
 		".reg": {
 			"image": "bat"
+		},
+		".wat": {
+			"image": "webassembly"
+		},
+		".wast": {
+			"image": "webassembly"
+		},
+		".wasm": {
+			"image": "webassembly"
 		}
 	}
 }
