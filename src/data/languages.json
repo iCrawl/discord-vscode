@@ -691,6 +691,12 @@
 		".p": {
 			"image": "pawn"
 		},
+		".pwn": {
+			"image": "pawn"
+		},
+		".inc{
+			"image": "pawn"
+		},
 		".sp": {
 			"image": "pawn"
 		},
