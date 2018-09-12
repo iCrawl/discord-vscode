@@ -694,7 +694,7 @@
 		".pwn": {
 			"image": "pawn"
 		},
-		".inc{
+		".inc": {
 			"image": "pawn"
 		},
 		".sp": {
