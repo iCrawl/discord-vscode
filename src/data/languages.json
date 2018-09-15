@@ -85,6 +85,7 @@
 		"yaml",
 		"yarn",
 		"bat",
+		"nix",
 		"wasm"
 	],
 	"knownExtentions": {
@@ -984,6 +985,9 @@
 		},
 		".wasm": {
 			"image": "wasm"
+		},
+		".nix": {
+			"image": "nix"
 		}
 	}
 }
