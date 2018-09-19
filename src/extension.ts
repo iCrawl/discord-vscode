@@ -121,7 +121,7 @@ function initRPC(clientID: string, loud?: boolean): void {
 		reconnectCounter = 0;
 		setActivity();
 		// Set the activity once on ready
-		setTimeout(() => rpc.setActivity(activity), 500);
+		setTimeout(() => rpc.setActivity(activity).catch(err => console.error(`[Discord Presence]: ${err}`)), 500);
 		// Make sure to listen to the close event and dispose and destroy everything accordingly.
 		rpc.transport.once('close', async () => {
 			if (!config.get('enabled')) return;
@@ -139,7 +139,7 @@ function initRPC(clientID: string, loud?: boolean): void {
 			// Update the config before updating the activity
 			config = workspace.getConfiguration('discord');
 			setActivity(Boolean(config.get('workspaceElapsedTime')));
-			rpc.setActivity(activity);
+			rpc.setActivity(activity).catch(err => console.error(`[Discord Presence]: ${err}`));
 		}, 15000);
 	});
 
@@ -262,7 +262,7 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 	activity = {
 		details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle'),
 		state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle'),
-		startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() / 1000 : null,
+		startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() : null,
 		largeImageKey: largeImageKey
 			? largeImageKey.image
 					|| largeImageKey
