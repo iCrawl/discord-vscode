@@ -52,7 +52,9 @@
 		"lua",
 		"makefile",
 		"markdown",
+		"marko",
 		"nim",
+		"nix",
 		"objc",
 		"ocaml",
 		"pascal",
@@ -86,9 +88,7 @@
 		"yaml",
 		"yarn",
 		"bat",
-		"nix",
-		"wasm",
-		"marko"
+		"wasm"
 	],
 	"knownExtentions": {
 		".swf": {
@@ -995,7 +995,7 @@
 			"image": "reasonml"
 		},
 		".marko": {
-      "image": "marko"
-    }
+			"image": "marko"
+		}
 	}
 }
