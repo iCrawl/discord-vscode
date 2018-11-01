@@ -86,7 +86,8 @@
 		"yarn",
 		"bat",
 		"nix",
-		"wasm"
+		"wasm",
+		"marko"
 	],
 	"knownExtentions": {
 		".swf": {
@@ -988,6 +989,9 @@
 		},
 		".nix": {
 			"image": "nix"
-		}
+		},
+		".marko": {
+			"image": "marko"
+                }
 	}
 }
