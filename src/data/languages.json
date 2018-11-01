@@ -62,6 +62,7 @@
 		"powershell",
 		"python",
 		"r",
+		"reasonml",
 		"ruby",
 		"rust",
 		"scala",
@@ -990,8 +991,11 @@
 		".nix": {
 			"image": "nix"
 		},
+		".re": {
+			"image": "reasonml"
+		},
 		".marko": {
-			"image": "marko"
-                }
+      "image": "marko"
+    }
 	}
 }
