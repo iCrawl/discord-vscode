@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "2.10.1",
+	"version": "2.11.0",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -18,8 +18,7 @@
 	"license": "MIT",
 	"main": "./out/src/extension",
 	"scripts": {
-		"vscode:prepublish": "tsc -p ./",
-		"compile": "tsc -watch -p ./",
+		"compile": "tsc -p ./",
 		"postinstall": "node ./node_modules/vscode/bin/install",
 		"test": "node ./node_modules/vscode/bin/test",
 		"lint": "tslint -p tsconfig.json -c tslint.json 'src/**/*.ts'"
