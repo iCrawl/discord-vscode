@@ -151,7 +151,7 @@
 		"discord-rpc": "icrawl/rpc#unix_timestamp"
 	},
 	"devDependencies": {
-		"@types/node": "^10.12.1",
+		"@types/node": "^10.12.2",
 		"tslint": "^5.11.0",
 		"typescript": "^3.1.6",
 		"vscode": "^1.1.21"
