@@ -232,8 +232,8 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFile) {
 		activity = {
 			...activity,
-			details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle'),
-			state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle'),
+			details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', this.largeImageKey),
+			state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this.largeImageKey),
 			smallImageKey: debug.activeDebugSession
 				? 'debug'
 				: env.appName.includes('Insiders')
@@ -260,8 +260,8 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 	if (activity) previousTimestamp = activity['startTimestamp'];
 	// Create a JSON Object with the user's activity information.
 	activity = {
-		details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle'),
-		state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle'),
+		details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', largeImageKey),
+		state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
 		startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() : null,
 		largeImageKey: largeImageKey
 			? largeImageKey.image
@@ -281,7 +281,7 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 	};
 }
 
-function generateDetails(debugging, editing, idling): string {
+function generateDetails(debugging, editing, idling, largeImageKey): string {
 	const emptySpaces = '\u200b\u200b';
 	let string: string = config.get(idling).replace('{null}', emptySpaces);
 
@@ -319,7 +319,9 @@ function generateDetails(debugging, editing, idling): string {
 					checkState ?
 					workspaceFolder.name :
 					config.get('lowerDetailsNotFound').replace('{null}', emptySpaces)
-				);
+				)
+				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
+				.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT');
 			if (totalLines) rawString = rawString.replace('{totallines}', totalLines);
 			if (size) rawString = rawString.replace('{filesize}', size);
 			if (currentLine) rawString = rawString.replace('{currentline}', currentLine);
@@ -337,7 +339,9 @@ function generateDetails(debugging, editing, idling): string {
 					checkState ?
 					workspaceFolder.name :
 					config.get('lowerDetailsNotFound').replace('{null}', emptySpaces)
-				);
+				)
+				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
+				.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT');
 			if (totalLines) rawString = rawString.replace('{totallines}', totalLines);
 			if (size) rawString = rawString.replace('{filesize}', size);
 			if (currentLine) rawString = rawString.replace('{currentline}', currentLine);
@@ -383,3 +387,5 @@ function getFileDetails(rawString): FileDetail {
 	}
 	return obj;
 }
+
+process.on('unhandledRejection', console.error);
