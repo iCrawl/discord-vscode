@@ -5,7 +5,6 @@ import { setInterval, clearInterval } from 'timers';
 import {
 	commands,
 	debug,
-	Disposable,
 	env,
 	ExtensionContext,
 	StatusBarItem,
@@ -24,6 +23,17 @@ interface FileDetail {
 	currentColumn: string | null;
 }
 
+interface Activity {
+	details: string;
+	state: string;
+	startTimestamp: number | null;
+	largeImageKey: string;
+	largeImageText: string;
+	smallImageKey: string;
+	smallImageText: string;
+	instance: boolean;
+}
+
 const knownExtentions: { [x: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
 
@@ -38,7 +48,7 @@ let reconnectCounter = 0;
 // Define the last known file and its type.
 let lastKnownFile: string;
 // Define the activity object.
-let activity: object;
+let activity: Activity;
 // Define the activity timer to not spam the API with requests.
 let activityTimer: NodeJS.Timer;
 // Define the status bar icon
@@ -232,8 +242,8 @@ function setActivity(workspaceElapsedTime: boolean = false): void {
 	if (window.activeTextEditor && window.activeTextEditor.document.fileName === lastKnownFile) {
 		activity = {
 			...activity,
-			details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', this.largeImageKey),
-			state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this.largeImageKey),
+			details: generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', activity.largeImageKey),
+			state: generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', activity.largeImageKey),
 			smallImageKey: debug.activeDebugSession
 				? 'debug'
 				: env.appName.includes('Insiders')
