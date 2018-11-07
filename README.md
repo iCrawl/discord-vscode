@@ -24,11 +24,6 @@
 * Debug mode detection
 * Easily manually reconnect to discord
 
-## The rich presence won't show after sleep / connection issues!
-
-It will only attempt to reconnect 20 times.  
-After it hit that threshold you will have to manually click the `Reconnect to Discord` button in the bottom left of the window.
-
 ## Contributing
 
 1. [Fork the repository](https://github.com/iCrawl/discord-vscode/fork)!
