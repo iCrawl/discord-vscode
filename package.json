@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "2.12.1",
+	"version": "3.0.0",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -16,12 +16,10 @@
 	],
 	"publisher": "icrawl",
 	"license": "MIT",
-	"main": "./out/src/extension",
+	"main": "./dist/extension",
 	"scripts": {
-		"compile": "tsc -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install",
-		"test": "node ./node_modules/vscode/bin/test",
-		"lint": "tslint -p tsconfig.json -c tslint.json 'src/**/*.ts'"
+		"build": "gulp",
+		"postinstall": "node ./node_modules/vscode/bin/install"
 	},
 	"activationEvents": [
 		"*"
@@ -53,11 +51,6 @@
 						"type": "boolean",
 						"default": true,
 						"description": "Controls if the Discord Presence should show across all workspaces"
-					},
-					"discord.reconnectThreshold": {
-						"type": "number",
-						"default": 20,
-						"description": "Decides how many reconnect attempts should be made before stopping"
 					},
 					"discord.detailsEditing": {
 						"type": "string",
@@ -152,6 +145,11 @@
 	},
 	"devDependencies": {
 		"@types/node": "^10.12.2",
+		"fs-nextra": "^0.3.7",
+		"gulp": "^3.9.1",
+		"gulp-sourcemaps": "^2.6.4",
+		"gulp-typescript": "^5.0.0-alpha.3",
+		"merge2": "^1.2.3",
 		"tslint": "^5.11.0",
 		"typescript": "^3.1.6",
 		"vscode": "^1.1.21"

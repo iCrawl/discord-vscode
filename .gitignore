@@ -18,5 +18,5 @@ test/
 !.vscode/tasks.json
 .vscode-test/
 dist/
-out/
+typings/
 package-lock.json
