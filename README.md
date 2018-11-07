@@ -24,6 +24,12 @@
 * Debug mode detection
 * Easily manually reconnect to discord
 
+## Troubleshooting
+
+### Can't connect to Discord? Check those:  
+https://github.com/iCrawl/discord-vscode/issues/77#issuecomment-435622205  
+https://github.com/iCrawl/discord-vscode/issues/85#issuecomment-417895483
+
 ## Contributing
 
 1. [Fork the repository](https://github.com/iCrawl/discord-vscode/fork)!
