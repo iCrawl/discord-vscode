@@ -52,12 +52,12 @@ export async function activate(context: ExtensionContext) {
 			if (!config.get('silent')) {
 				if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 				else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.toString()}`);
-				if (!statusBarIcon) {
-					statusBarIcon = window.createStatusBarItem(StatusBarAlignment.Left);
-					statusBarIcon.text = '$(plug) Reconnect to Discord';
-					statusBarIcon.command = 'discord.reconnect';
-					statusBarIcon.show();
-				}
+			}
+			if (!statusBarIcon) {
+				statusBarIcon = window.createStatusBarItem(StatusBarAlignment.Left);
+				statusBarIcon.text = '$(plug) Reconnect to Discord';
+				statusBarIcon.command = 'discord.reconnect';
+				statusBarIcon.show();
 			}
 		}
 	}
@@ -90,4 +90,4 @@ export async function deactivate() {
 	await rpc.dispose();
 }
 
-process.on('unhandledRejection', console.error);
+process.on('unhandledRejection', err => Logger.log(err));
