@@ -17,7 +17,6 @@
 * Shows what you are editing in VSCode with no bullsh*t involved
 * Support for over 80 of the most popular languages
 * Enable/Disable Rich Presence for individual workspaces (enabled by default)
-* Automatic reconnect after losing internet or a discord restart / crash (defaults to 20 reconnect attempts)
 * Custom string support
 * Respects Discords 15sec limit when it comes to updating your status
 * Stable or Insiders build detection
