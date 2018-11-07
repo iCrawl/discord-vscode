@@ -121,6 +121,7 @@ export default class Acivity implements Disposable {
 				.replace('{fulldirname}', fullDirname!)
 				.replace('{workspace}', checkState && workspaceFolder ? workspaceFolder.name : this._config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty))
 				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
+				.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase()) : 'Txt')
 				.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT');
 			if (totalLines) raw = raw!.replace('{totalline}', totalLines);
 			if (size) raw = raw!.replace('{filsize}', size);
