@@ -88,7 +88,8 @@
 		"yaml",
 		"yarn",
 		"bat",
-		"wasm"
+		"wasm",
+		"fortran"
 	],
 	"knownExtentions": {
 		".swf": {
@@ -996,6 +997,22 @@
 		},
 		".marko": {
 			"image": "marko"
+		},
+		".f90":{
+			"image":"fortran"
+		},
+		".f95":{
+			"image":"fortran"
+		},
+		".f03":{
+			"image":"fortran"
+		},
+		".f":{
+			"image":"fortran"
+		},
+		".for":{
+			"image":"fortran"
+		}
 		}
 	}
-}
+
