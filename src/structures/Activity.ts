@@ -71,7 +71,10 @@ export default class Acivity implements Disposable {
 			startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() : null,
 			largeImageKey: largeImageKey ? largeImageKey.image || largeImageKey : 'txt',
 			largeImageText: window.activeTextEditor
-				? this._config.get<string>('largeImage')!.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt').replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT')
+				? this._config.get<string>('largeImage')!
+					.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
+					.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase()) : 'Txt')
+					.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT')
 					|| window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
 				: this._config.get<string>('largeImageIdle'),
 			smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
@@ -123,8 +126,8 @@ export default class Acivity implements Disposable {
 				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
 				.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase()) : 'Txt')
 				.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT');
-			if (totalLines) raw = raw!.replace('{totalline}', totalLines);
-			if (size) raw = raw!.replace('{filsize}', size);
+			if (totalLines) raw = raw!.replace('{totallines}', totalLines);
+			if (size) raw = raw!.replace('{filesize}', size);
 			if (currentLine) raw = raw!.replace('{currentline}', currentLine);
 			if (currentColumn) raw = raw!.replace('{currentcolumn}', currentColumn);
 
