@@ -38,7 +38,7 @@ export async function activate(context: ExtensionContext) {
 	const enabler = commands.registerCommand('discord.enable', async () => {
 		await rpc.dispose();
 		await config.update('enabled', true);
-		rpc._config = workspace.getConfiguration('discord');
+		rpc.config = workspace.getConfiguration('discord');
 		rpc.statusBarIcon.text = '$(pulse) Connecting...';
 		rpc.statusBarIcon.show();
 		await rpc.login();
