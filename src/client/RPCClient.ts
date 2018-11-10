@@ -1,42 +1,77 @@
 const { Client } = require('discord-rpc');
 import {
 	Disposable,
-	workspace
+	StatusBarItem,
+	window,
+	workspace,
 } from 'vscode';
-import Acivity from '../structures/Activity';
+import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
 
+let activityTimer: NodeJS.Timer;
+
 export default class RPCClient implements Disposable {
-	private _rpc: any = new Client({ transport: 'ipc' });
+	statusBarIcon: StatusBarItem;
+	_config = workspace.getConfiguration('discord');
 
-	private _activity = new Acivity();
+	private _rpc: any;
 
-	private _config = workspace.getConfiguration('discord');
+	private _activity = new Activity();
 
-	private _clientId: string;
+	private _clientID: string;
 
-	public constructor(clientId: string) {
-		this._clientId = clientId;
+	constructor(clientID: string, statusBarIcon: StatusBarItem) {
+		this._clientID = clientID;
+		this.statusBarIcon = statusBarIcon;
 	}
 
-	public get client() {
+	get client() {
 		return this._rpc;
 	}
 
-	public setActivity(workspaceElapsedTime: boolean = false) {
+	setActivity(workspaceElapsedTime: boolean = false) {
 		if (!this._rpc) return;
 		const activity = this._activity.generate(workspaceElapsedTime);
 		Logger.log('Sending activity to Discord.');
 		this._rpc.setActivity(activity);
 	}
 
-	public async login() {
+	async login() {
+		if (this._rpc) return;
+		this._rpc = new Client({ transport: 'ipc' });
 		Logger.log('Logging into RPC.');
-		return this._rpc.login({ clientId: this._clientId });
+		this._rpc.once('ready', () => {
+			Logger.log('Successfully connected to Discord.');
+			if (!this._config.get<boolean>('silent')) window.showInformationMessage('Successfully connected to Discord RPC');
+
+			this.statusBarIcon.hide();
+
+			this.statusBarIcon.text = '$(plug) Reconnect to Discord';
+			this.statusBarIcon.command = 'discord.reconnect';
+
+			if (activityTimer) clearInterval(activityTimer);
+			this.setActivity();
+
+			this._rpc.transport.once('close', async () => {
+				if (!this._config.get<boolean>('enabled')) return;
+				await this.dispose();
+				this.statusBarIcon.show();
+			});
+
+			activityTimer = setInterval(() => {
+				this._config = workspace.getConfiguration('discord');
+				this.setActivity(this._config.get<boolean>('workspaceElapsedTime'));
+			}, 10000);
+		});
+		await this._rpc.login({ clientId: this._clientID });
 	}
 
-	public async dispose() {
+	async dispose() {
 		this._activity.dispose();
-		await this._rpc.destroy();
+		if (this._rpc) {
+			await this._rpc.destroy();
+			this._rpc = null;
+		}
+		clearInterval(activityTimer);
 	}
 }
