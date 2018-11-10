@@ -12,6 +12,7 @@ let activityTimer: NodeJS.Timer;
 
 export default class RPCClient implements Disposable {
 	public statusBarIcon: StatusBarItem;
+
 	public config = workspace.getConfiguration('discord');
 
 	private _rpc: any;
