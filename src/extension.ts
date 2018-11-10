@@ -47,7 +47,7 @@ export async function activate(context: ExtensionContext) {
 
 	const disabler = commands.registerCommand('discord.disable', async () => {
 		await config.update('enabled', false);
-		rpc._config = workspace.getConfiguration('discord');
+		rpc.config = workspace.getConfiguration('discord');
 		await rpc.dispose();
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});

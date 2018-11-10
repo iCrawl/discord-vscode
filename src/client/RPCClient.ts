@@ -12,7 +12,7 @@ let activityTimer: NodeJS.Timer;
 
 export default class RPCClient implements Disposable {
 	public statusBarIcon: StatusBarItem;
-	public _config = workspace.getConfiguration('discord');
+	public config = workspace.getConfiguration('discord');
 
 	private _rpc: any;
 
@@ -42,7 +42,7 @@ export default class RPCClient implements Disposable {
 		Logger.log('Logging into RPC.');
 		this._rpc.once('ready', () => {
 			Logger.log('Successfully connected to Discord.');
-			if (!this._config.get<boolean>('silent')) window.showInformationMessage('Successfully connected to Discord RPC');
+			if (!this.config.get<boolean>('silent')) window.showInformationMessage('Successfully connected to Discord RPC');
 
 			this.statusBarIcon.hide();
 
@@ -53,14 +53,14 @@ export default class RPCClient implements Disposable {
 			this.setActivity();
 
 			this._rpc.transport.once('close', async () => {
-				if (!this._config.get<boolean>('enabled')) return;
+				if (!this.config.get<boolean>('enabled')) return;
 				await this.dispose();
 				this.statusBarIcon.show();
 			});
 
 			activityTimer = setInterval(() => {
-				this._config = workspace.getConfiguration('discord');
-				this.setActivity(this._config.get<boolean>('workspaceElapsedTime'));
+				this.config = workspace.getConfiguration('discord');
+				this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 			}, 10000);
 		});
 		await this._rpc.login({ clientId: this._clientId });
