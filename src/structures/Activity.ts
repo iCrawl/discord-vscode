@@ -5,7 +5,7 @@ import {
 	Disposable,
 	env,
 	window,
-	workspace,
+	workspace
 } from 'vscode';
 const lang = require('../data/languages.json');
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
@@ -14,7 +14,7 @@ const knownLanguages: string[] = lang.knownLanguages;
 const empty = '\u200b\u200b';
 const sizes = [' bytes', 'kb', 'mb', 'gb', 'tb'];
 
-interface IActivity {
+interface State {
 	details?: string;
 	state?: string;
 	startTimestamp?: number | null;
@@ -25,7 +25,7 @@ interface IActivity {
 	instance?: boolean;
 }
 
-interface IFileDetail {
+interface FileDetail {
 	size?: string;
 	totalLines?: string;
 	currentLine?: string;
@@ -33,17 +33,17 @@ interface IFileDetail {
 }
 
 export default class Activity implements Disposable {
-
-	get state() {
-		return this._state;
-	}
-	private _state: IActivity | null = null;
+	private _state: State | null = null;
 
 	private _config = workspace.getConfiguration('discord');
 
 	private _lastKnownFile: string = '';
 
-	generate(workspaceElapsedTime: boolean = false) {
+	public get state() {
+		return this._state;
+	}
+
+	public generate(workspaceElapsedTime: boolean = false) {
 		let largeImageKey: any = 'vscode-big';
 		if (window.activeTextEditor) {
 			if (window.activeTextEditor.document.fileName === this._lastKnownFile) {
@@ -51,12 +51,12 @@ export default class Activity implements Disposable {
 					...this._state,
 					details: this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', this._state!.largeImageKey),
 					smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
-					state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this._state!.largeImageKey),
+					state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this._state!.largeImageKey)
 				};
 			}
 			this._lastKnownFile = window.activeTextEditor.document.fileName;
 			const filename = basename(window.activeTextEditor.document.fileName);
-			largeImageKey = knownExtentions[Object.keys(knownExtentions).find((key) => {
+			largeImageKey = knownExtentions[Object.keys(knownExtentions).find(key => {
 				if (key.startsWith('.') && filename.endsWith(key)) return true;
 				const match = key.match(/^\/(.*)\/([mgiy]+)$/);
 				if (!match) return false;
@@ -82,13 +82,13 @@ export default class Activity implements Disposable {
 				: this._config.get<string>('largeImageIdle'),
 			smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
 			smallImageText: this._config.get<string>('smallImage')!.replace('{appname}', env.appName),
-			instance: false,
+			instance: false
 		};
 
 		return this._state;
 	}
 
-	dispose() {
+	public dispose() {
 		this._state = null;
 		this._lastKnownFile = '';
 	}
@@ -118,7 +118,11 @@ export default class Activity implements Disposable {
 				fullDirname = `${name}${sep}${relativePath.join(sep)}`;
 			}
 
-			raw = debug.activeDebugSession ? this._config.get<string>(debugging)! : this._config.get<string>(editing)!;
+			if (debug.activeDebugSession) {
+				raw = this._config.get<string>(debugging)!;
+			} else {
+				raw = this._config.get<string>(editing)!;
+			}
 
 			const { totalLines, size, currentLine, currentColumn } = this._generateFileDetails(raw);
 			raw = raw!
@@ -141,18 +145,21 @@ export default class Activity implements Disposable {
 	}
 
 	private _generateFileDetails(str?: string) {
-		const fileDetail: IFileDetail = {};
+		const fileDetail: FileDetail = {};
 		if (!str) return fileDetail;
 
 		if (window.activeTextEditor) {
-			if (str.includes('{totallines}'))
+			if (str.includes('{totallines}')) {
 				fileDetail.totalLines = window.activeTextEditor.document.lineCount.toLocaleString();
+			}
 
-			if (str.includes('{currentline}'))
+			if (str.includes('{currentline}')) {
 				fileDetail.currentLine = (window.activeTextEditor.selection.active.line + 1).toLocaleString();
+			}
 
-			if (str.includes('{currentcolumn}'))
+			if (str.includes('{currentcolumn}')) {
 				fileDetail.currentColumn = (window.activeTextEditor.selection.active.character + 1).toLocaleString();
+			}
 
 			if (str.includes('{filesize}')) {
 				let currentDivision = 0;

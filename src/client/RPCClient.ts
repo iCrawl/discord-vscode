@@ -3,7 +3,7 @@ import {
 	Disposable,
 	StatusBarItem,
 	window,
-	workspace,
+	workspace
 } from 'vscode';
 import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
@@ -11,32 +11,32 @@ import Logger from '../structures/Logger';
 let activityTimer: NodeJS.Timer;
 
 export default class RPCClient implements Disposable {
-	statusBarIcon: StatusBarItem;
-	_config = workspace.getConfiguration('discord');
+	public statusBarIcon: StatusBarItem;
+	public _config = workspace.getConfiguration('discord');
 
 	private _rpc: any;
 
 	private _activity = new Activity();
 
-	private _clientID: string;
+	private _clientId: string;
 
-	constructor(clientID: string, statusBarIcon: StatusBarItem) {
-		this._clientID = clientID;
+	public constructor(clientId: string, statusBarIcon: StatusBarItem) {
+		this._clientId = clientId;
 		this.statusBarIcon = statusBarIcon;
 	}
 
-	get client() {
+	public get client() {
 		return this._rpc;
 	}
 
-	setActivity(workspaceElapsedTime: boolean = false) {
+	public setActivity(workspaceElapsedTime: boolean = false) {
 		if (!this._rpc) return;
 		const activity = this._activity.generate(workspaceElapsedTime);
 		Logger.log('Sending activity to Discord.');
 		this._rpc.setActivity(activity);
 	}
 
-	async login() {
+	public async login() {
 		if (this._rpc) return;
 		this._rpc = new Client({ transport: 'ipc' });
 		Logger.log('Logging into RPC.');
@@ -63,10 +63,10 @@ export default class RPCClient implements Disposable {
 				this.setActivity(this._config.get<boolean>('workspaceElapsedTime'));
 			}, 10000);
 		});
-		await this._rpc.login({ clientId: this._clientID });
+		await this._rpc.login({ clientId: this._clientId });
 	}
 
-	async dispose() {
+	public async dispose() {
 		this._activity.dispose();
 		if (this._rpc) {
 			await this._rpc.destroy();

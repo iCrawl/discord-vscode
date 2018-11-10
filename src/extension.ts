@@ -4,7 +4,7 @@ import {
 	StatusBarAlignment,
 	StatusBarItem,
 	window,
-	workspace,
+	workspace
 } from 'vscode';
 import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
@@ -67,4 +67,4 @@ export async function deactivate() {
 	await rpc.dispose();
 }
 
-process.on('unhandledRejection', (err) => Logger.log(err));
+process.on('unhandledRejection', err => Logger.log(err));
