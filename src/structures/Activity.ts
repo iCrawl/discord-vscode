@@ -1,3 +1,5 @@
+import { statSync } from 'fs';
+import { basename, parse, sep } from 'path';
 import {
 	debug,
 	Disposable,
@@ -5,13 +7,14 @@ import {
 	window,
 	workspace
 } from 'vscode';
-import { basename, sep, parse } from 'path';
-import { statSync } from 'fs';
 const lang = require('../data/languages.json');
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
 
-interface Activity {
+const empty = '\u200b\u200b';
+const sizes = [' bytes', 'kb', 'mb', 'gb', 'tb'];
+
+interface State {
 	details?: string;
 	state?: string;
 	startTimestamp?: number | null;
@@ -29,8 +32,8 @@ interface FileDetail {
 	currentColumn?: string;
 }
 
-export default class Acivity implements Disposable {
-	private _state: Activity | null = null;
+export default class Activity implements Disposable {
+	private _state: State | null = null;
 
 	private _config = workspace.getConfiguration('discord');
 
@@ -47,8 +50,8 @@ export default class Acivity implements Disposable {
 				return this._state = {
 					...this._state,
 					details: this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', this._state!.largeImageKey),
-					state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this._state!.largeImageKey),
-					smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode'
+					smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
+					state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this._state!.largeImageKey)
 				};
 			}
 			this._lastKnownFile = window.activeTextEditor.document.fileName;
@@ -59,7 +62,7 @@ export default class Acivity implements Disposable {
 				if (!match) return false;
 				const regex = new RegExp(match[1], match[2]);
 				return regex.test(filename);
-			})!] || (knownLanguages.includes(window.activeTextEditor.document.languageId) ? window.activeTextEditor.document.languageId : null)
+			})!] || (knownLanguages.includes(window.activeTextEditor.document.languageId) ? window.activeTextEditor.document.languageId : null);
 		}
 
 		let previousTimestamp = null;
@@ -67,8 +70,8 @@ export default class Acivity implements Disposable {
 
 		this._state = {
 			details: this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', largeImageKey),
-			state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
 			startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() : null,
+			state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
 			largeImageKey: largeImageKey ? largeImageKey.image || largeImageKey : 'txt',
 			largeImageText: window.activeTextEditor
 				? this._config.get<string>('largeImage')!
@@ -85,9 +88,13 @@ export default class Acivity implements Disposable {
 		return this._state;
 	}
 
+	public dispose() {
+		this._state = null;
+		this._lastKnownFile = '';
+	}
+
 	private _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any) {
-		const empty = '\u200b\u200b';
-		let raw = this._config.get<string>(idling);
+		let raw: string = this._config.get<string>(idling)!.replace('{null}', empty);
 		let filename = null;
 		let dirname = null;
 		let checkState = false;
@@ -112,10 +119,11 @@ export default class Acivity implements Disposable {
 			}
 
 			if (debug.activeDebugSession) {
-				raw = this._config.get<string>(debugging);
+				raw = this._config.get<string>(debugging)!;
 			} else {
-				raw = this._config.get<string>(editing);
+				raw = this._config.get<string>(editing)!;
 			}
+
 			const { totalLines, size, currentLine, currentColumn } = this._generateFileDetails(raw);
 			raw = raw!
 				.replace('{null}', empty)
@@ -144,14 +152,16 @@ export default class Acivity implements Disposable {
 			if (str.includes('{totallines}')) {
 				fileDetail.totalLines = window.activeTextEditor.document.lineCount.toLocaleString();
 			}
+
 			if (str.includes('{currentline}')) {
 				fileDetail.currentLine = (window.activeTextEditor.selection.active.line + 1).toLocaleString();
 			}
+
 			if (str.includes('{currentcolumn}')) {
 				fileDetail.currentColumn = (window.activeTextEditor.selection.active.character + 1).toLocaleString();
 			}
+
 			if (str.includes('{filesize}')) {
-				const sizes = [' bytes', 'kb', 'mb', 'gb', 'tb'];
 				let currentDivision = 0;
 				let { size } = statSync(window.activeTextEditor.document.fileName);
 				const originalSize = size;
@@ -166,12 +176,7 @@ export default class Acivity implements Disposable {
 				fileDetail.size = `${originalSize > 1000 ? size.toFixed(2) : size}${sizes[currentDivision]}`;
 			}
 		}
-		
-		return fileDetail;
-	}
 
-	public dispose() {
-		this._state = null;
-		this._lastKnownFile = '';
+		return fileDetail;
 	}
 }

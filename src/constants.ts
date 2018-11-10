@@ -5,4 +5,4 @@ export const LIVE_SHARE_COMMANDS = {
 	START: 'liveshare.start',
 	END: 'liveshare.end',
 	JOIN: 'liveshare.join'
-}
+};

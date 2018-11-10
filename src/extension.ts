@@ -1,50 +1,26 @@
-import RPCClient from './client/RPCClient';
-import Logger from './structures/Logger';
 import {
 	commands,
 	ExtensionContext,
-	StatusBarItem,
 	StatusBarAlignment,
+	StatusBarItem,
 	window,
 	workspace
 } from 'vscode';
-import { setInterval, clearInterval } from 'timers';
+import RPCClient from './client/RPCClient';
+import Logger from './structures/Logger';
 
-let activityTimer: NodeJS.Timer;
-let statusBarIcon: StatusBarItem;
+const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
+statusBarIcon.text = '$(pulse) Connecting...';
+statusBarIcon.command = 'discord.reconnect';
 
 const config = workspace.getConfiguration('discord');
-const rpc = new RPCClient(config.get<string>('clientID')!);
+const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 
 export async function activate(context: ExtensionContext) {
 	Logger.log('Discord Presence activated!');
-	
-	rpc.client.once('ready', () => {
-		Logger.log('Successfully connected to Discord.');
-		if (!config.get<boolean>('silent')) window.showInformationMessage('Successfully reconnected to Discord RPC');
 
-		if (statusBarIcon) statusBarIcon.dispose();
-		if (activityTimer) clearInterval(activityTimer);
-		rpc.setActivity();
-
-		rpc.client.transport.once('close', async () => {
-			if (!config.get<boolean>('enabled')) return;
-			await rpc.dispose();
-			await rpc.login();
-			if (!statusBarIcon) {
-				statusBarIcon = window.createStatusBarItem(StatusBarAlignment.Left);
-				statusBarIcon.text = '$(plug) Reconnect to Discord';
-				statusBarIcon.command = 'discord.reconnect';
-				statusBarIcon.show();
-			}
-		});
-
-		activityTimer = setInterval(() => {
-			rpc.setActivity(config.get<boolean>('workspaceElapsedTime'));
-		}, 10000);
-	})
-	
 	if (config.get<boolean>('enabled')) {
+		statusBarIcon.show();
 		try {
 			await rpc.login();
 		} catch (error) {
@@ -53,24 +29,25 @@ export async function activate(context: ExtensionContext) {
 				if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 				else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.toString()}`);
 			}
-			if (!statusBarIcon) {
-				statusBarIcon = window.createStatusBarItem(StatusBarAlignment.Left);
-				statusBarIcon.text = '$(plug) Reconnect to Discord';
-				statusBarIcon.command = 'discord.reconnect';
-				statusBarIcon.show();
-			}
+			rpc.statusBarIcon.text = '$(pulse) Reconnect';
+			rpc.statusBarIcon.command = 'discord.reconnect';
+			rpc.statusBarIcon.show();
 		}
 	}
 
 	const enabler = commands.registerCommand('discord.enable', async () => {
 		await rpc.dispose();
 		await config.update('enabled', true);
+		rpc._config = workspace.getConfiguration('discord');
+		rpc.statusBarIcon.text = '$(pulse) Connecting...';
+		rpc.statusBarIcon.show();
 		await rpc.login();
 		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
 
 	const disabler = commands.registerCommand('discord.disable', async () => {
 		await config.update('enabled', false);
+		rpc.config = workspace.getConfiguration('discord');
 		await rpc.dispose();
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
@@ -79,14 +56,14 @@ export async function activate(context: ExtensionContext) {
 		await rpc.dispose();
 		await rpc.login();
 		if (!config.get('silent')) window.showInformationMessage('Reconnecting to Discord RPC...');
-		if (statusBarIcon) statusBarIcon.text = '$(pulse) reconnecting...';
+		rpc.statusBarIcon.text = '$(pulse) Reconnecting...';
+		rpc.statusBarIcon.command = undefined;
 	});
 
 	context.subscriptions.push(enabler, disabler, reconnecter);
 }
 
 export async function deactivate() {
-	clearInterval(activityTimer);
 	await rpc.dispose();
 }
 
