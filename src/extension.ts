@@ -5,7 +5,7 @@ import {
 	StatusBarItem,
 	window,
 	workspace
-} from 'vscode';
+} from 'vscode'; // tslint:disable-line
 import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
 
@@ -37,7 +37,7 @@ export async function activate(context: ExtensionContext) {
 
 	const enabler = commands.registerCommand('discord.enable', async () => {
 		await rpc.dispose();
-		await config.update('enabled', true);
+		config.update('enabled', true);
 		rpc.config = workspace.getConfiguration('discord');
 		rpc.statusBarIcon.text = '$(pulse) Connecting...';
 		rpc.statusBarIcon.show();
@@ -46,7 +46,7 @@ export async function activate(context: ExtensionContext) {
 	});
 
 	const disabler = commands.registerCommand('discord.disable', async () => {
-		await config.update('enabled', false);
+		config.update('enabled', false);
 		rpc.config = workspace.getConfiguration('discord');
 		await rpc.dispose();
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');

@@ -6,8 +6,8 @@ import {
 	env,
 	window,
 	workspace
-} from 'vscode';
-const lang = require('../data/languages.json');
+} from 'vscode'; // tslint:disable-line
+const lang = require('../data/languages.json'); // tslint:disable-line
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
 
@@ -33,11 +33,11 @@ interface FileDetail {
 }
 
 export default class Activity implements Disposable {
-	private _state: State | null = null;
+	private _state: State | null = null; // tslint:disable-line
 
-	private _config = workspace.getConfiguration('discord');
+	private readonly _config = workspace.getConfiguration('discord'); // tslint:disable-line
 
-	private _lastKnownFile: string = '';
+	private _lastKnownFile: string = ''; // tslint:disable-line
 
 	public get state() {
 		return this._state;

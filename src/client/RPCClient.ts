@@ -1,10 +1,10 @@
-const { Client } = require('discord-rpc');
+const { Client } = require('discord-rpc'); // tslint:disable-line
 import {
 	Disposable,
 	StatusBarItem,
 	window,
 	workspace
-} from 'vscode';
+} from 'vscode'; // tslint:disable-line
 import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
 
@@ -15,11 +15,11 @@ export default class RPCClient implements Disposable {
 
 	public config = workspace.getConfiguration('discord');
 
-	private _rpc: any;
+	private _rpc: any; // tslint:disable-line
 
-	private _activity = new Activity();
+	private readonly _activity = new Activity(); // tslint:disable-line
 
-	private _clientId: string;
+	private readonly _clientId: string; // tslint:disable-line
 
 	public constructor(clientId: string, statusBarIcon: StatusBarItem) {
 		this._clientId = clientId;

@@ -151,6 +151,7 @@
 		"gulp-typescript": "^5.0.0-alpha.3",
 		"merge2": "^1.2.3",
 		"tslint": "^5.11.0",
+		"tslint-config-fire": "^1.0.0",
 		"typescript": "^3.1.6",
 		"vscode": "^1.1.21"
 	},
