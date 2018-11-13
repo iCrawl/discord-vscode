@@ -18,7 +18,9 @@
 	"license": "MIT",
 	"main": "./dist/extension",
 	"scripts": {
+		"prebuild": "yarn lint",
 		"build": "gulp",
+		"lint": "tslint -p tsconfig.json",
 		"postinstall": "node ./node_modules/vscode/bin/install"
 	},
 	"activationEvents": [
