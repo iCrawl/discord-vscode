@@ -146,7 +146,7 @@
 		"discord-rpc": "icrawl/rpc#unix_timestamp"
 	},
 	"devDependencies": {
-		"@types/node": "^10.12.8",
+		"@types/node": "^10.12.9",
 		"fs-nextra": "^0.3.7",
 		"gulp": "^3.9.1",
 		"gulp-sourcemaps": "^2.6.4",
