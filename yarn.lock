@@ -3119,10 +3119,10 @@ tslib@^1.8.0, tslib@^1.8.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
   integrity sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==
 
-tslint-config-fire@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/tslint-config-fire/-/tslint-config-fire-1.0.0.tgz#6445c0b5e38c00e78de25c9bab35dd7b690b55b6"
-  integrity sha512-wrbpfGwjNuJfPLiWeTIL3IcHy18krxRl3j074SO05ZZr44rg37gIR9DEgkLJnODqx6m5tSkRBV4FP/NEGKEebg==
+tslint-config-fire@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/tslint-config-fire/-/tslint-config-fire-1.0.1.tgz#07d80eb14140f084c488da5756e4623070a7db31"
+  integrity sha512-kSYiN7Jbk8MYNCW6Sjt1ay41q9/AtalgT+LvdzosIB+PTwTij8SHPfqZrPuFy7TW6Am0R6m9zKpskpqy2vEmpQ==
 
 tslint@^5.11.0:
   version "5.11.0"
