@@ -72,8 +72,9 @@ export default class RPCClient implements Disposable {
 		this._activity.dispose();
 		try {
 			await this._rpc.destroy();
-		} catch {}
-		this._rpc = null;
+		} finally {
+			this._rpc = null;
+		}
 
 		clearInterval(activityTimer);
 	}
