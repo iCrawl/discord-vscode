@@ -10,7 +10,7 @@ import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
-statusBarIcon.text = '$(pulse) Connecting...';
+statusBarIcon.text = '$(pulse) Connecting to Discord...';
 statusBarIcon.command = 'discord.reconnect';
 
 const config = workspace.getConfiguration('discord');
@@ -29,9 +29,8 @@ export async function activate(context: ExtensionContext) {
 				if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 				else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.toString()}`);
 			}
-			rpc.statusBarIcon.text = '$(pulse) Reconnect';
+			rpc.statusBarIcon.text = '$(pulse) Reconnect to Discord';
 			rpc.statusBarIcon.command = 'discord.reconnect';
-			rpc.statusBarIcon.show();
 		}
 	}
 
@@ -39,8 +38,7 @@ export async function activate(context: ExtensionContext) {
 		await rpc.dispose();
 		config.update('enabled', true);
 		rpc.config = workspace.getConfiguration('discord');
-		rpc.statusBarIcon.text = '$(pulse) Connecting...';
-		rpc.statusBarIcon.show();
+		rpc.statusBarIcon.text = '$(pulse) Connecting to Discord...';
 		await rpc.login();
 		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
@@ -56,7 +54,7 @@ export async function activate(context: ExtensionContext) {
 		await rpc.dispose();
 		await rpc.login();
 		if (!config.get('silent')) window.showInformationMessage('Reconnecting to Discord RPC...');
-		rpc.statusBarIcon.text = '$(pulse) Reconnecting...';
+		rpc.statusBarIcon.text = '$(pulse) Reconnecting to Discord...';
 		rpc.statusBarIcon.command = undefined;
 	});
 
