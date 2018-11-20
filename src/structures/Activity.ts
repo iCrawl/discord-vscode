@@ -98,7 +98,8 @@ export default class Activity implements Disposable {
 		const join = await liveshare.share();
 		this._state = {
 			...this._state,
-			joinSecret: join ? join.toString() : undefined
+			spectateSecret: join ? join.toString() : undefined,
+			instance: true
 		}
 
 		return this._state;
