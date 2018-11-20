@@ -7,6 +7,7 @@ import {
 	window,
 	workspace
 } from 'vscode'; // tslint:disable-line
+import * as vsls from 'vsls/vscode';
 const lang = require('../data/languages.json'); // tslint:disable-line
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
@@ -72,6 +73,7 @@ export default class Activity implements Disposable {
 		if (this.state && this.state.startTimestamp) previousTimestamp = this.state.startTimestamp;
 
 		this._state = {
+			...this._state,
 			details: this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', largeImageKey),
 			startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() : null,
 			state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
@@ -84,12 +86,20 @@ export default class Activity implements Disposable {
 					|| window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
 				: this._config.get<string>('largeImageIdle'),
 			smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
-			smallImageText: this._config.get<string>('smallImage')!.replace('{appname}', env.appName),
-			matchSecret: 'test',
-			joinSecret: 'test123',
-			spectateSecret: 'test456',
-			instance: true
+			smallImageText: this._config.get<string>('smallImage')!.replace('{appname}', env.appName)
 		};
+
+		return this._state;
+	}
+
+	public async spectate() {
+		const liveshare = await vsls.getApi();
+		if (!liveshare) return;
+		const join = await liveshare.share();
+		this._state = {
+			...this._state,
+			joinSecret: join ? join.toString() : undefined
+		}
 
 		return this._state;
 	}

@@ -2,9 +2,10 @@ const { Client } = require('discord-rpc'); // tslint:disable-line
 import {
 	Disposable,
 	StatusBarItem,
-	window,
-	workspace
+	workspace,
+	Uri
 } from 'vscode'; // tslint:disable-line
+import * as vsls from 'vsls/vscode';
 import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
 
@@ -63,16 +64,15 @@ export default class RPCClient implements Disposable {
 				this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 			}, 10000);
 
-			this._rpc.subscribe('ACTIVITY_JOIN', (user: any) => {
-				console.log('user wants to join game:', user);
-			});
-
-			this._rpc.subscribe('ACTIVITY_SPECTATE', ({ secret }: { secret: any }) => {
+			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: any }) => {
 				console.log('should spectate game with secret:', secret);
-			});
-
-			this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', ({ secret }: { secret: any }) => {
-				console.log('should spectate game with secret:', secret);
+				const liveshare = await vsls.getApi();
+				if (!liveshare) return;
+				try {
+					await liveshare.join(Uri.parse(secret));
+				} catch (error) {
+					Logger.log(error);
+				}
 			});
 		});
 		await this._rpc.login({ clientId: this._clientId });
