@@ -22,6 +22,9 @@ interface State {
 	largeImageText?: string;
 	smallImageKey?: string;
 	smallImageText?: string;
+	matchSecret?: string;
+	joinSecret?: string;
+	spectateSecret?: string;
 	instance?: boolean;
 }
 
@@ -82,7 +85,10 @@ export default class Activity implements Disposable {
 				: this._config.get<string>('largeImageIdle'),
 			smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
 			smallImageText: this._config.get<string>('smallImage')!.replace('{appname}', env.appName),
-			instance: false
+			matchSecret: 'test',
+			joinSecret: 'test123',
+			spectateSecret: 'test456',
+			instance: true
 		};
 
 		return this._state;
@@ -138,7 +144,6 @@ export default class Activity implements Disposable {
 			if (size) raw = raw!.replace('{filesize}', size);
 			if (currentLine) raw = raw!.replace('{currentline}', currentLine);
 			if (currentColumn) raw = raw!.replace('{currentcolumn}', currentColumn);
-
 		}
 
 		return raw;

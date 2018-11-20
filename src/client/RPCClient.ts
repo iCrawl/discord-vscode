@@ -62,6 +62,18 @@ export default class RPCClient implements Disposable {
 				this.config = workspace.getConfiguration('discord');
 				this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 			}, 10000);
+
+			this._rpc.subscribe('ACTIVITY_JOIN', (user: any) => {
+				console.log('user wants to join game:', user);
+			});
+
+			this._rpc.subscribe('ACTIVITY_SPECTATE', ({ secret }: { secret: any }) => {
+				console.log('should spectate game with secret:', secret);
+			});
+
+			this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', ({ secret }: { secret: any }) => {
+				console.log('should spectate game with secret:', secret);
+			});
 		});
 		await this._rpc.login({ clientId: this._clientId });
 	}
