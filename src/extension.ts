@@ -25,6 +25,7 @@ export async function activate(context: ExtensionContext) {
 			await rpc.login();
 		} catch (error) {
 			Logger.log(`Encountered following error after trying to login:\n${error}`);
+			await rpc.dispose();
 			if (!config.get('silent')) {
 				if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 				else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.toString()}`);
@@ -39,6 +40,7 @@ export async function activate(context: ExtensionContext) {
 		config.update('enabled', true);
 		rpc.config = workspace.getConfiguration('discord');
 		rpc.statusBarIcon.text = '$(pulse) Connecting to Discord...';
+		rpc.statusBarIcon.show();
 		await rpc.login();
 		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
@@ -47,6 +49,7 @@ export async function activate(context: ExtensionContext) {
 		config.update('enabled', false);
 		rpc.config = workspace.getConfiguration('discord');
 		await rpc.dispose();
+		rpc.statusBarIcon.hide();
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
 
