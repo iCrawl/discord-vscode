@@ -25,6 +25,7 @@ export async function activate(context: ExtensionContext) {
 			await rpc.login();
 		} catch (error) {
 			Logger.log(`Encountered following error after trying to login:\n${error}`);
+			await rpc.dispose(false);
 			if (!config.get('silent')) {
 				if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
 				else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.toString()}`);
@@ -51,7 +52,7 @@ export async function activate(context: ExtensionContext) {
 	});
 
 	const reconnecter = commands.registerCommand('discord.reconnect', async () => {
-		await rpc.dispose();
+		await rpc.dispose(false);
 		await rpc.login();
 		if (!config.get('silent')) window.showInformationMessage('Reconnecting to Discord RPC...');
 		rpc.statusBarIcon.text = '$(pulse) Reconnecting to Discord...';

@@ -46,33 +46,35 @@ export default class RPCClient implements Disposable {
 			this.statusBarIcon.text = '$(globe) Connected to Discord';
 			this.statusBarIcon.tooltip = 'Connected to Discord';
 
-			setTimeout(() => this.statusBarIcon.text = '$(globe)', 5000);
+			setTimeout(() => this.statusBarIcon.text = '$(globe)', 10000);
 
 			if (activityTimer) clearInterval(activityTimer);
 			this.setActivity();
-
-			this._rpc.transport.once('close', async () => {
-				if (!this.config.get<boolean>('enabled')) return;
-				await this.dispose();
-				this.statusBarIcon.text = '$(plug) Reconnect to Discord';
-				this.statusBarIcon.command = 'discord.reconnect';
-			});
 
 			activityTimer = setInterval(() => {
 				this.config = workspace.getConfiguration('discord');
 				this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 			}, 10000);
 		});
+
+		this._rpc.transport.once('close', async () => {
+			if (!this.config.get<boolean>('enabled')) return;
+			await this.dispose();
+			this.statusBarIcon.text = '$(plug) Reconnect to Discord';
+			this.statusBarIcon.command = 'discord.reconnect';
+		});
 		await this._rpc.login({ clientId: this._clientId });
 	}
 
-	public async dispose() {
+	public async dispose(clean = true) {
 		this._activity.dispose();
-		if (this._rpc) {
+		if (this._rpc && clean) {
 			await this._rpc.destroy();
+			this._rpc = null;
+		} else {
 			this._rpc = null;
 		}
 		clearInterval(activityTimer);
-		this.statusBarIcon.hide();
+		if (clean) this.statusBarIcon.hide();
 	}
 }
