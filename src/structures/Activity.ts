@@ -92,7 +92,7 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public async spectate() {
+	public async allowSpectate() {
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		const join = await liveshare.share();
@@ -100,7 +100,20 @@ export default class Activity implements Disposable {
 			...this._state,
 			spectateSecret: join ? join.toString() : undefined,
 			instance: true
-		}
+		};
+
+		return this._state;
+	}
+
+	public async disableSpectate() {
+		const liveshare = await vsls.getApi();
+		if (!liveshare) return;
+		await liveshare.end();
+		this._state = {
+			...this._state,
+			spectateSecret: undefined,
+			instance: false
+		};
 
 		return this._state;
 	}

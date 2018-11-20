@@ -58,11 +58,15 @@ export async function activate(context: ExtensionContext) {
 		rpc.statusBarIcon.command = undefined;
 	});
 
-	const spectate = commands.registerCommand('discord.spectate', async () => {
-		await rpc.spectate();
+	const allowSpectate = commands.registerCommand('discord.allowSpectate', async () => {
+		await rpc.allowSpectate();
+	});
+
+	const disableSpectate = commands.registerCommand('discord.disableSpectate', async () => {
+		await rpc.disableSpectate();
 	})
 
-	context.subscriptions.push(enabler, disabler, reconnecter, spectate);
+	context.subscriptions.push(enabler, disabler, reconnecter, allowSpectate, disableSpectate);
 }
 
 export async function deactivate() {

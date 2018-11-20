@@ -38,9 +38,14 @@ export default class RPCClient implements Disposable {
 		this._rpc.setActivity(activity);
 	}
 
-	public async spectate() {
+	public async allowSpectate() {
 		if (!this._rpc) return;
-		await this._activity.spectate();
+		await this._activity.allowSpectate();
+	}
+
+	public async disableSpectate() {
+		if (!this._rpc) return;
+		await this._activity.disableSpectate();
 	}
 
 	public async login() {
@@ -70,11 +75,10 @@ export default class RPCClient implements Disposable {
 			}, 10000);
 
 			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: any }) => {
-				console.log('should spectate game with secret:', secret);
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
-					await liveshare.join(Uri.parse(secret));
+					await liveshare.join(Uri.parse(secret), { newWindow: true });
 				} catch (error) {
 					Logger.log(error);
 				}
