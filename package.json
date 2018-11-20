@@ -37,6 +37,11 @@
 				"command": "discord.disable",
 				"title": "Disable Discord Presence in the current workspace",
 				"category": "Discord Presence"
+			},
+			{
+				"command": "discord.reconnect",
+				"title": "Reconnect Discord Presence to Discord RPC",
+				"category": "Discord Presence"
 			}
 		],
 		"configuration": [
