@@ -58,7 +58,11 @@ export async function activate(context: ExtensionContext) {
 		rpc.statusBarIcon.command = undefined;
 	});
 
-	context.subscriptions.push(enabler, disabler, reconnecter);
+	const spectate = commands.registerCommand('discord.spectate', async () => {
+		await rpc.spectate();
+	})
+
+	context.subscriptions.push(enabler, disabler, reconnecter, spectate);
 }
 
 export async function deactivate() {

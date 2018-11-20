@@ -42,6 +42,11 @@
 				"command": "discord.reconnect",
 				"title": "Reconnect Discord Presence to Discord RPC",
 				"category": "Discord Presence"
+			},
+			{
+				"command": "discord.spectate",
+				"title": "Spectate another User",
+				"category": "Discord Presence"
 			}
 		],
 		"configuration": [

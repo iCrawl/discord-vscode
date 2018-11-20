@@ -38,6 +38,11 @@ export default class RPCClient implements Disposable {
 		this._rpc.setActivity(activity);
 	}
 
+	public async spectate() {
+		if (!this._rpc) return;
+		await this._activity.spectate();
+	}
+
 	public async login() {
 		if (this._rpc) return;
 		this._rpc = new Client({ transport: 'ipc' });
