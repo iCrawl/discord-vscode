@@ -11,7 +11,6 @@ import Logger from './structures/Logger';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
-statusBarIcon.command = 'discord.reconnect';
 
 const config = workspace.getConfiguration('discord');
 const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);

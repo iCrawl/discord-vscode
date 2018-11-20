@@ -44,11 +44,9 @@ export default class RPCClient implements Disposable {
 		this._rpc.once('ready', () => {
 			Logger.log('Successfully connected to Discord.');
 			this.statusBarIcon.text = '$(globe) Connected to Discord';
+			this.statusBarIcon.tooltip = 'Connected to Discord';
 
-			setTimeout(() => {
-				this.statusBarIcon.text = '$(globe)';
-				this.statusBarIcon.tooltip = 'Connected to Discord';
-			}, 10000);
+			setTimeout(() => this.statusBarIcon.text = '$(globe)', 5000);
 
 			if (activityTimer) clearInterval(activityTimer);
 			this.setActivity();
@@ -64,6 +62,7 @@ export default class RPCClient implements Disposable {
 			await this.dispose();
 			this.statusBarIcon.text = '$(plug) Reconnect to Discord';
 			this.statusBarIcon.command = 'discord.reconnect';
+			this.statusBarIcon.tooltip = '';
 		});
 		await this._rpc.login({ clientId: this._clientId });
 	}
@@ -74,6 +73,7 @@ export default class RPCClient implements Disposable {
 			await this._rpc.destroy();
 		} catch {}
 		this._rpc = null;
+		this.statusBarIcon.tooltip = '';
 
 		clearInterval(activityTimer);
 	}
