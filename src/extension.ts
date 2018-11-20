@@ -40,6 +40,7 @@ export async function activate(context: ExtensionContext) {
 		config.update('enabled', true);
 		rpc.config = workspace.getConfiguration('discord');
 		rpc.statusBarIcon.text = '$(pulse) Connecting to Discord...';
+		rpc.statusBarIcon.show();
 		await rpc.login();
 		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
@@ -48,6 +49,7 @@ export async function activate(context: ExtensionContext) {
 		config.update('enabled', false);
 		rpc.config = workspace.getConfiguration('discord');
 		await rpc.dispose();
+		rpc.statusBarIcon.hide();
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
 
