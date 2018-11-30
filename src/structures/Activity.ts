@@ -23,6 +23,8 @@ interface State {
 	largeImageText?: string;
 	smallImageKey?: string;
 	smallImageText?: string;
+	partySize?: number;
+	partyMax?: number;
 	matchSecret?: string;
 	joinSecret?: string;
 	spectateSecret?: string;
@@ -112,6 +114,34 @@ export default class Activity implements Disposable {
 		this._state = {
 			...this._state,
 			spectateSecret: undefined,
+			instance: false
+		};
+
+		return this._state;
+	}
+
+	public async allowJoinRequests() {
+		const liveshare = await vsls.getApi();
+		if (!liveshare) return;
+		const join = await liveshare.share();
+		this._state = {
+			...this.state,
+			joinSecret: join ? join.toString() : undefined,
+			instance: true
+		};
+
+		return this._state;
+	}
+
+	public async disableJoinRequests() {
+		const liveshare = await vsls.getApi();
+		if (!liveshare) return;
+		await liveshare.end();
+		this._state = {
+			...this._state,
+			partySize: undefined,
+			partyMax: undefined,
+			joinSecret: undefined,
 			instance: false
 		};
 

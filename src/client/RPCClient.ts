@@ -3,7 +3,8 @@ import {
 	Disposable,
 	StatusBarItem,
 	workspace,
-	Uri
+	Uri,
+	window
 } from 'vscode'; // tslint:disable-line
 import * as vsls from 'vsls/vscode';
 import Activity from '../structures/Activity';
@@ -75,6 +76,25 @@ export default class RPCClient implements Disposable {
 			}, 10000);
 
 			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: any }) => {
+				const liveshare = await vsls.getApi();
+				if (!liveshare) return;
+				try {
+					await liveshare.join(Uri.parse(secret), { newWindow: true });
+				} catch (error) {
+					Logger.log(error);
+				}
+			});
+
+			this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: any }) => {
+				const liveshare = await vsls.getApi();
+				if (!liveshare) return;
+				window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'accept' }, { title: 'decline' })
+					.then(val => {
+						if (val && val.title === 'accept') this._rpc.sendJoinInvite(user);
+					});
+			});
+
+			this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: any }) => {
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
