@@ -8,12 +8,14 @@ import {
 } from 'vscode'; // tslint:disable-line
 import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
+const { register } = require('discord-rpc'); // tslint:disable-line
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 statusBarIcon.command = 'discord.reconnect';
 
 const config = workspace.getConfiguration('discord');
+register(config.get<string>('clientID'));
 const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 
 export async function activate(context: ExtensionContext) {

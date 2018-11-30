@@ -169,7 +169,8 @@
 	},
 	"dependencies": {
 		"discord-rpc": "iCrawl/rpc#custom",
-		"vsls": "^0.3.967"
+		"register-scheme": "devsnek/node-register-scheme",
+		"vsls": "0.3.896"
 	},
 	"devDependencies": {
 		"@types/node": "^10.12.9",

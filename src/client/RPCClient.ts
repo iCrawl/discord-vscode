@@ -86,29 +86,30 @@ export default class RPCClient implements Disposable {
 			}, 10000);
 
 			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: any }) => {
+				console.log('SECRET SPECTATE ' + secret);
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
-					await liveshare.join(Uri.parse(secret), { newWindow: true });
+					await liveshare.join(Uri.parse(secret));
 				} catch (error) {
 					Logger.log(error);
 				}
 			});
 
 			this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: any }) => {
-				const liveshare = await vsls.getApi();
-				if (!liveshare) return;
+				console.log('JOIN_REQUEST ' + user);
 				window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'accept' }, { title: 'decline' })
 					.then(val => {
-						if (val && val.title === 'accept') this._rpc.sendJoinInvite(user);
+						if (val && val.title === 'accept') this._rpc.sendJoinRequest(user);
 					});
 			});
 
 			this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: any }) => {
+				console.log('IM JOINING ' + secret);
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
-					await liveshare.join(Uri.parse(secret), { newWindow: true });
+					await liveshare.join(Uri.parse(secret));
 				} catch (error) {
 					Logger.log(error);
 				}
