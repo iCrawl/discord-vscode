@@ -148,7 +148,7 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"discord-rpc": "icrawl/rpc#unix_timestamp"
+		"discord-rpc": "iCrawl/rpc#custom"
 	},
 	"devDependencies": {
 		"@types/node": "^10.12.11",
