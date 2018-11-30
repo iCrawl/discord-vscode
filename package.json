@@ -44,8 +44,23 @@
 				"category": "Discord Presence"
 			},
 			{
-				"command": "discord.spectate",
-				"title": "Spectate another User",
+				"command": "discord.allowSpectate",
+				"title": "Allow spectating",
+				"category": "Discord Presence"
+			},
+			{
+				"command": "discord.disableSpectate",
+				"title": "Disable spectating",
+				"category": "Discord Presence"
+			},
+			{
+				"command": "discord.allowJoinRequests",
+				"title": "Allow join requests",
+				"category": "Discord Presence"
+			},
+			{
+				"command": "discord.disableJoinRequests",
+				"title": "Disable join requests",
 				"category": "Discord Presence"
 			}
 		],

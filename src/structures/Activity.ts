@@ -23,6 +23,7 @@ interface State {
 	largeImageText?: string;
 	smallImageKey?: string;
 	smallImageText?: string;
+	partyId?: string;
 	partySize?: number;
 	partyMax?: number;
 	matchSecret?: string;
@@ -126,6 +127,9 @@ export default class Activity implements Disposable {
 		const join = await liveshare.share();
 		this._state = {
 			...this.state,
+			partyId: 'test',
+			partySize: 1,
+			partyMax: 5,
 			joinSecret: join ? join.toString() : undefined,
 			instance: true
 		};
@@ -139,6 +143,7 @@ export default class Activity implements Disposable {
 		await liveshare.end();
 		this._state = {
 			...this._state,
+			partyId: undefined,
 			partySize: undefined,
 			partyMax: undefined,
 			joinSecret: undefined,

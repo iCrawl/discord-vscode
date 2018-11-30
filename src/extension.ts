@@ -64,9 +64,17 @@ export async function activate(context: ExtensionContext) {
 
 	const disableSpectate = commands.registerCommand('discord.disableSpectate', async () => {
 		await rpc.disableSpectate();
-	})
+	});
 
-	context.subscriptions.push(enabler, disabler, reconnecter, allowSpectate, disableSpectate);
+	const allowJoinRequests = commands.registerCommand('discord.allowJoinRequests', async () => {
+		await rpc.allowJoinRequests();
+	});
+
+	const disableJoinRequests = commands.registerCommand('discord.disableJoinRequests', async () => {
+		await rpc.disableJoinRequests();
+	});
+
+	context.subscriptions.push(enabler, disabler, reconnecter, allowSpectate, disableSpectate, allowJoinRequests, disableJoinRequests);
 }
 
 export async function deactivate() {

@@ -49,6 +49,16 @@ export default class RPCClient implements Disposable {
 		await this._activity.disableSpectate();
 	}
 
+	public async allowJoinRequests() {
+		if (!this._rpc) return;
+		await this._activity.allowJoinRequests();
+	}
+
+	public async disableJoinRequests() {
+		if (!this._rpc) return;
+		await this._activity.disableJoinRequests();
+	}
+
 	public async login() {
 		if (this._rpc) return;
 		this._rpc = new Client({ transport: 'ipc' });
