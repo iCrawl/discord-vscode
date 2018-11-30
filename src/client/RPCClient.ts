@@ -41,21 +41,27 @@ export default class RPCClient implements Disposable {
 
 	public async allowSpectate() {
 		if (!this._rpc) return;
+		Logger.log('Allowed spectating.');
+		Logger.log('Sending spectate activity to Discord.');
 		await this._activity.allowSpectate();
 	}
 
 	public async disableSpectate() {
 		if (!this._rpc) return;
+		Logger.log('Disabled spectating.');
 		await this._activity.disableSpectate();
 	}
 
 	public async allowJoinRequests() {
 		if (!this._rpc) return;
+		Logger.log('Allowed join requests.');
+		Logger.log('Sending join activity to Discord.');
 		await this._activity.allowJoinRequests();
 	}
 
 	public async disableJoinRequests() {
 		if (!this._rpc) return;
+		Logger.log('Disabled join requests.');
 		await this._activity.disableJoinRequests();
 	}
 
