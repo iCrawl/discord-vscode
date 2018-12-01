@@ -8,11 +8,13 @@ import {
 } from 'vscode'; // tslint:disable-line
 import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
+const { register } = require('discord-rpc'); // tslint:disable-line
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
 const config = workspace.getConfiguration('discord');
+register(config.get<string>('clientID'));
 const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 
 export async function activate(context: ExtensionContext) {
@@ -60,7 +62,23 @@ export async function activate(context: ExtensionContext) {
 		rpc.statusBarIcon.command = undefined;
 	});
 
-	context.subscriptions.push(enabler, disabler, reconnecter);
+	const allowSpectate = commands.registerCommand('discord.allowSpectate', async () => {
+		await rpc.allowSpectate();
+	});
+
+	const disableSpectate = commands.registerCommand('discord.disableSpectate', async () => {
+		await rpc.disableSpectate();
+	});
+
+	const allowJoinRequests = commands.registerCommand('discord.allowJoinRequests', async () => {
+		await rpc.allowJoinRequests();
+	});
+
+	const disableJoinRequests = commands.registerCommand('discord.disableJoinRequests', async () => {
+		await rpc.disableJoinRequests();
+	});
+
+	context.subscriptions.push(enabler, disabler, reconnecter, allowSpectate, disableSpectate, allowJoinRequests, disableJoinRequests);
 }
 
 export async function deactivate() {

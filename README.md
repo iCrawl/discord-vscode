@@ -21,7 +21,8 @@
 * Respects Discords 15sec limit when it comes to updating your status
 * Stable or Insiders build detection
 * Debug mode detection
-* Easily manually reconnect to discord
+* Easily manually reconnect to Discord
+* **(NEW)** VSCode Live Share support!
 
 ## Troubleshooting
 

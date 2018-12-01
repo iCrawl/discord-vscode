@@ -7,6 +7,7 @@ import {
 	window,
 	workspace
 } from 'vscode'; // tslint:disable-line
+import * as vsls from 'vsls/vscode';
 const lang = require('../data/languages.json'); // tslint:disable-line
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
@@ -22,6 +23,12 @@ interface State {
 	largeImageText?: string;
 	smallImageKey?: string;
 	smallImageText?: string;
+	partyId?: string;
+	partySize?: number;
+	partyMax?: number;
+	matchSecret?: string;
+	joinSecret?: string;
+	spectateSecret?: string;
 	instance?: boolean;
 }
 
@@ -69,6 +76,7 @@ export default class Activity implements Disposable {
 		if (this.state && this.state.startTimestamp) previousTimestamp = this.state.startTimestamp;
 
 		this._state = {
+			...this._state,
 			details: this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', largeImageKey),
 			startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() : null,
 			state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
@@ -81,8 +89,98 @@ export default class Activity implements Disposable {
 					|| window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
 				: this._config.get<string>('largeImageIdle'),
 			smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
-			smallImageText: this._config.get<string>('smallImage')!.replace('{appname}', env.appName),
+			smallImageText: this._config.get<string>('smallImage')!.replace('{appname}', env.appName)
+		};
+
+		return this._state;
+	}
+
+	public async allowSpectate() {
+		const liveshare = await vsls.getApi();
+		if (!liveshare) return;
+		const join = await liveshare.share();
+		this._state = {
+			...this._state,
+			spectateSecret: join ? Buffer.from(join.toString()).toString('base64') : undefined,
+			instance: true
+		};
+
+		return this._state;
+	}
+
+	public async disableSpectate() {
+		const liveshare = await vsls.getApi();
+		if (!liveshare) return;
+		await liveshare.end();
+		this._state = {
+			...this._state,
+			spectateSecret: undefined,
 			instance: false
+		};
+
+		return this._state;
+	}
+
+	public async allowJoinRequests() {
+		const liveshare = await vsls.getApi();
+		if (!liveshare) return;
+		const join = await liveshare.share();
+		this._state = {
+			...this.state,
+			partyId: join ? join.query : undefined,
+			partySize: 1,
+			partyMax: 5,
+			joinSecret: join ? Buffer.from(join.toString()).toString('base64') : undefined,
+			instance: true
+		};
+
+		return this._state;
+	}
+
+	public async disableJoinRequests() {
+		const liveshare = await vsls.getApi();
+		if (!liveshare) return;
+		await liveshare.end();
+		this._state = {
+			...this._state,
+			partyId: undefined,
+			partySize: undefined,
+			partyMax: undefined,
+			joinSecret: undefined,
+			instance: false
+		};
+
+		return this._state;
+	}
+
+	public changePartyId(id?: string) {
+		if (!this._state) return;
+		this._state = {
+			partyId: id,
+			partySize: this._state.partySize ? this._state.partySize + 1 : 2,
+			partyMax: id ? 5 : undefined
+		};
+
+		return this._state;
+	}
+
+	public increasePartySize() {
+		if (!this._state || !this._state.partySize) return;
+		if (this.state && this._state.partySize === 5) return;
+		this._state = {
+			...this._state,
+			partySize: this._state.partySize + 1
+		};
+
+		return this._state;
+	}
+
+	public decreasePartySize() {
+		if (!this._state || !this._state.partySize) return;
+		if (this.state && this._state.partySize === 1) return;
+		this._state = {
+			...this._state,
+			partySize: this._state.partySize - 1
 		};
 
 		return this._state;
@@ -138,7 +236,6 @@ export default class Activity implements Disposable {
 			if (size) raw = raw!.replace('{filesize}', size);
 			if (currentLine) raw = raw!.replace('{currentline}', currentLine);
 			if (currentColumn) raw = raw!.replace('{currentcolumn}', currentColumn);
-
 		}
 
 		return raw;
