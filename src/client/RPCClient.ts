@@ -96,6 +96,10 @@ export default class RPCClient implements Disposable {
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
+					// You might be asking yourself: "but why?"
+					// VS Liveshare has this annoying bug where you convert a URL string to a URI object to autofill
+					// But the autofill will be empty, so to circumvent this I need to add copying the link to the clipboard
+					// And immediately pasting it after the window pops up empty
 					await clipboardy.write(secret);
 					await liveshare.join(Uri.parse(secret));
 					await clipboardy.read();
@@ -103,6 +107,10 @@ export default class RPCClient implements Disposable {
 					Logger.log(error);
 				}
 			});
+
+			// You might be asking yourself again: "but why?"
+			// Same here, this is a real nasty race condition that happens inside the discord-rpc module currently
+			// To circumvent this we need to timeout sending the subscribe events to the discord client
 			setTimeout(() => {
 				this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: { username: string, discriminator: string } }) => {
 					window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'Accept' }, { title: 'Decline' })
@@ -117,6 +125,8 @@ export default class RPCClient implements Disposable {
 					const liveshare = await vsls.getApi();
 					if (!liveshare) return;
 					try {
+						// You might be asking yourself again again: "but why?"
+						// See first comment on clipboardy above
 						await clipboardy.write(secret);
 						await liveshare.join(Uri.parse(secret));
 						await clipboardy.read();
