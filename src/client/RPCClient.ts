@@ -92,8 +92,7 @@ export default class RPCClient implements Disposable {
 				this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 			}, 10000);
 
-			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: any }) => {
-				console.log('SECRET SPECTATE ' + secret);
+			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: string }) => {
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
@@ -105,18 +104,16 @@ export default class RPCClient implements Disposable {
 				}
 			});
 			setTimeout(() => {
-				this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: any }) => {
-					console.log('JOIN_REQUEST ' + user);
+				this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: { username: string, discriminator: string } }) => {
 					window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'Accept' }, { title: 'Decline' })
 						.then(async val => {
 							if (val && val.title === 'Accept') await this._rpc.sendJoinInvite(user);
 							else await this._rpc.closeJoinRequest(user);
 						});
 				});
-			}, 100);
+			}, 500);
 			setTimeout(() => {
-				this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: any }) => {
-					console.log('IM JOINING ' + secret);
+				this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: string }) => {
 					const liveshare = await vsls.getApi();
 					if (!liveshare) return;
 					try {
@@ -127,7 +124,7 @@ export default class RPCClient implements Disposable {
 						Logger.log(error);
 					}
 				});
-			}, 200);
+			}, 1000);
 		});
 
 		await this._rpc.login({ clientId: this._clientId });
