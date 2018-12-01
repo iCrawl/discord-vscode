@@ -73,7 +73,7 @@ export default class Activity implements Disposable {
 		}
 
 		let previousTimestamp = null;
-		if (this.state && this.state.startTimestamp) previousTimestamp = this.state.startTimestamp;
+		if (this._state && this._state.startTimestamp) previousTimestamp = this._state.startTimestamp;
 
 		this._state = {
 			...this._state,
@@ -98,7 +98,7 @@ export default class Activity implements Disposable {
 	public async allowSpectate() {
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
-		const join = await liveshare.share();
+		const join = await liveshare.share({ suppressNotification: true, access: vsls.Access.ReadOnly });
 		this._state = {
 			...this._state,
 			spectateSecret: join ? Buffer.from(join.toString()).toString('base64') : undefined,
@@ -124,9 +124,9 @@ export default class Activity implements Disposable {
 	public async allowJoinRequests() {
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
-		const join = await liveshare.share();
+		const join = await liveshare.share({ suppressNotification: true });
 		this._state = {
-			...this.state,
+			...this._state,
 			partyId: join ? join.query : undefined,
 			partySize: 1,
 			partyMax: 5,
@@ -156,6 +156,7 @@ export default class Activity implements Disposable {
 	public changePartyId(id?: string) {
 		if (!this._state) return;
 		this._state = {
+			...this._state,
 			partyId: id,
 			partySize: this._state.partySize ? this._state.partySize + 1 : 2,
 			partyMax: id ? 5 : undefined
