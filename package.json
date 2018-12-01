@@ -170,10 +170,12 @@
 	"dependencies": {
 		"clipboardy": "^1.2.3",
 		"discord-rpc": "iCrawl/rpc#custom",
+		"nanoid": "^2.0.0",
 		"register-scheme": "devsnek/node-register-scheme",
 		"vsls": "^0.3.967"
 	},
 	"devDependencies": {
+		"@types/nanoid": "^1.2.0",
 		"@types/node": "^10.12.9",
 		"fs-nextra": "^0.3.7",
 		"gulp": "^3.9.1",

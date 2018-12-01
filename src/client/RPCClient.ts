@@ -70,7 +70,7 @@ export default class RPCClient implements Disposable {
 		if (this._rpc) return;
 		this._rpc = new Client({ transport: 'ipc' });
 		Logger.log('Logging into RPC.');
-		this._rpc.once('ready', () => {
+		this._rpc.once('ready', async () => {
 			Logger.log('Successfully connected to Discord.');
 			this.statusBarIcon.text = '$(globe) Connected to Discord';
 			this.statusBarIcon.tooltip = 'Connected to Discord';
@@ -135,6 +135,13 @@ export default class RPCClient implements Disposable {
 					}
 				});
 			}, 1000);
+
+			const liveshare = await vsls.getApi();
+			if (!liveshare) return;
+			liveshare.onDidChangePeers(({ added, removed }) => {
+				if (added.length) return this._activity.increasePartySize();
+				else if (removed.length) return this._activity.decreasePartySize();
+			});
 		});
 
 		await this._rpc.login({ clientId: this._clientId });
