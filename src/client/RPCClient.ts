@@ -107,9 +107,10 @@ export default class RPCClient implements Disposable {
 			setTimeout(() => {
 				this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: any }) => {
 					console.log('JOIN_REQUEST ' + user);
-					window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'accept' }, { title: 'decline' })
-						.then(val => {
-							if (val && val.title === 'accept') this._rpc.sendJoinRequest(user);
+					window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'Accept' }, { title: 'Decline' })
+						.then(async val => {
+							if (val && val.title === 'Accept') await this._rpc.sendJoinInvite(user);
+							else await this._rpc.closeJoinRequest(user);
 						});
 				});
 			}, 100);
