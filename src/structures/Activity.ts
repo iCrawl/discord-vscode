@@ -251,11 +251,11 @@ export default class Activity implements Disposable {
 			}
 
 			if (str.includes('{currentline}')) {
-				fileDetail.currentLine = (window.activeTextEditor.selection.active.line + 1).toLocaleString();
+				fileDetail.currentLine = (window.activeTextEditor.selection.active.line + 1).toLocaleString(); // tslint:disable-line
 			}
 
 			if (str.includes('{currentcolumn}')) {
-				fileDetail.currentColumn = (window.activeTextEditor.selection.active.character + 1).toLocaleString();
+				fileDetail.currentColumn = (window.activeTextEditor.selection.active.character + 1).toLocaleString(); // tslint:disable-line
 			}
 
 			if (str.includes('{filesize}')) {

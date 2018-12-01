@@ -9,7 +9,7 @@ import {
 import * as vsls from 'vsls/vscode';
 import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
-const clipboardy = require('clipboardy');
+const clipboardy = require('clipboardy'); // tslint:disable-line
 
 let activityTimer: NodeJS.Timer;
 
@@ -108,7 +108,7 @@ export default class RPCClient implements Disposable {
 			setTimeout(() => {
 				this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: { username: string, discriminator: string } }) => {
 					window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'Accept' }, { title: 'Decline' })
-						.then(async val => {
+						.then(async (val: { title: string } | undefined) => {
 							if (val && val.title === 'Accept') await this._rpc.sendJoinInvite(user);
 							else await this._rpc.closeJoinRequest(user);
 						});
@@ -133,11 +133,11 @@ export default class RPCClient implements Disposable {
 
 			const liveshare = await vsls.getApi();
 			if (!liveshare) return;
-			liveshare.onDidChangeSession(({ session }) => {
+			liveshare.onDidChangeSession(({ session }: { session: vsls.Session }) => {
 				if (session.id) return this._activity.changePartyId(session.id);
 				else return this._activity.changePartyId();
 			});
-			liveshare.onDidChangePeers(({ added, removed }) => {
+			liveshare.onDidChangePeers(({ added, removed }: { added: vsls.Peer[], removed: vsls.Peer[] }) => {
 				if (added.length) return this._activity.increasePartySize();
 				else if (removed.length) return this._activity.decreasePartySize();
 			});
@@ -158,6 +158,7 @@ export default class RPCClient implements Disposable {
 		this._activity.dispose();
 		try {
 			await this._rpc.destroy();
+		// tslint:disable-next-line
 		} catch {}
 		this._rpc = null;
 		this.statusBarIcon.tooltip = '';
