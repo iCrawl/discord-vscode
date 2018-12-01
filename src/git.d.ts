@@ -78,7 +78,6 @@ export const enum Status {
 }
 
 export interface Change {
-
 	/**
 	 * Returns either `originalUri` or `renameUri`, depending
 	 * on whether this change is a rename change. When
@@ -110,7 +109,6 @@ export interface RepositoryUIState {
 }
 
 export interface Repository {
-
 	readonly rootUri: Uri;
 	readonly inputBox: InputBox;
 	readonly state: RepositoryState;
@@ -165,7 +163,6 @@ export interface API {
 }
 
 export interface GitExtension {
-
 	readonly enabled: boolean;
 	readonly onDidChangeEnablement: Event<boolean>;
 
