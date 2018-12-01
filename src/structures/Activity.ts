@@ -100,10 +100,9 @@ export default class Activity implements Disposable {
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		const join = await liveshare.share();
-		const secret = Buffer.from(JSON.stringify({ secret: join ? join.toString() : undefined })).toString('base64');
 		this._state = {
 			...this._state,
-			spectateSecret: join ? secret : undefined,
+			spectateSecret: join ? Buffer.from(join.toString()).toString('base64') : undefined,
 			instance: true
 		};
 
@@ -127,14 +126,12 @@ export default class Activity implements Disposable {
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		const join = await liveshare.share();
-		const id = nanoid();
-		const secret = Buffer.from(JSON.stringify({ id, secret: join ? join.toString() : undefined })).toString('base64');
 		this._state = {
 			...this.state,
-			partyId: id,
+			partyId: nanoid(),
 			partySize: 1,
 			partyMax: 5,
-			joinSecret: join ? secret : undefined,
+			joinSecret: join ? Buffer.from(join.toString()).toString('base64') : undefined,
 			instance: true
 		};
 

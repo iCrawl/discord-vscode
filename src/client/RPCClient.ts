@@ -96,13 +96,13 @@ export default class RPCClient implements Disposable {
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
-					const s = JSON.parse(Buffer.from(secret, 'base64').toString());
+					const s = Buffer.from(secret, 'base64').toString();
 					// You might be asking yourself: "but why?"
 					// VS Liveshare has this annoying bug where you convert a URL string to a URI object to autofill
 					// But the autofill will be empty, so to circumvent this I need to add copying the link to the clipboard
 					// And immediately pasting it after the window pops up empty
-					await clipboardy.write(s.secret);
-					await liveshare.join(Uri.parse(s.secret));
+					await clipboardy.write(s);
+					await liveshare.join(Uri.parse(s));
 					await clipboardy.read();
 				} catch (error) {
 					Logger.log(error);
@@ -126,11 +126,11 @@ export default class RPCClient implements Disposable {
 					const liveshare = await vsls.getApi();
 					if (!liveshare) return;
 					try {
-						const s = JSON.parse(Buffer.from(secret, 'base64').toString());
+						const s = Buffer.from(secret, 'base64').toString();
 						// You might be asking yourself again again: "but why?"
 						// See first comment on clipboardy above
-						await clipboardy.write(s.secret);
-						await liveshare.join(Uri.parse(s.secret));
+						await clipboardy.write(s);
+						await liveshare.join(Uri.parse(s));
 						await clipboardy.read();
 					} catch (error) {
 						Logger.log(error);
