@@ -9,6 +9,7 @@ import {
 import * as vsls from 'vsls/vscode';
 import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
+const clipboardy = require('clipboardy');
 
 let activityTimer: NodeJS.Timer;
 
@@ -96,31 +97,38 @@ export default class RPCClient implements Disposable {
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
+					await clipboardy.write(secret);
 					await liveshare.join(Uri.parse(secret));
+					await clipboardy.read();
 				} catch (error) {
 					Logger.log(error);
 				}
 			});
-
-			this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: any }) => {
-				console.log('JOIN_REQUEST ' + user);
-				window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'accept' }, { title: 'decline' })
-					.then(val => {
-						if (val && val.title === 'accept') this._rpc.sendJoinRequest(user);
-					});
-			});
-
-			this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: any }) => {
-				console.log('IM JOINING ' + secret);
-				const liveshare = await vsls.getApi();
-				if (!liveshare) return;
-				try {
-					await liveshare.join(Uri.parse(secret));
-				} catch (error) {
-					Logger.log(error);
-				}
-			});
+			setTimeout(() => {
+				this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: any }) => {
+					console.log('JOIN_REQUEST ' + user);
+					window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'accept' }, { title: 'decline' })
+						.then(val => {
+							if (val && val.title === 'accept') this._rpc.sendJoinRequest(user);
+						});
+				});
+			}, 100);
+			setTimeout(() => {
+				this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: any }) => {
+					console.log('IM JOINING ' + secret);
+					const liveshare = await vsls.getApi();
+					if (!liveshare) return;
+					try {
+						await clipboardy.write(secret);
+						await liveshare.join(Uri.parse(secret));
+						await clipboardy.read();
+					} catch (error) {
+						Logger.log(error);
+					}
+				});
+			}, 200);
 		});
+
 		await this._rpc.login({ clientId: this._clientId });
 	}
 
