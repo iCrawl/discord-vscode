@@ -20,7 +20,7 @@ export default class RPCClient implements Disposable {
 
 	private _rpc: any; // tslint:disable-line
 
-	private readonly _activity = new Activity(); // tslint:disable-line
+	private readonly _activity = new Activity(this); // tslint:disable-line
 
 	private readonly _clientId: string; // tslint:disable-line
 
@@ -35,9 +35,13 @@ export default class RPCClient implements Disposable {
 
 	public setActivity(workspaceElapsedTime: boolean = false) {
 		if (!this._rpc) return;
-		const activity = this._activity.generate(workspaceElapsedTime);
-		Logger.log('Sending activity to Discord.');
-		this._rpc.setActivity(activity);
+		try {
+			const activity = this._activity.generate(workspaceElapsedTime);
+			Logger.log('Sending activity to Discord.');
+			this._rpc.setActivity(activity);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	public async allowSpectate() {
@@ -78,7 +82,7 @@ export default class RPCClient implements Disposable {
 			setTimeout(() => this.statusBarIcon.text = '$(globe)', 5000);
 
 			if (activityTimer) clearInterval(activityTimer);
-			this.setActivity();
+			this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 
 			activityTimer = setInterval(() => {
 				this.config = workspace.getConfiguration('discord');
