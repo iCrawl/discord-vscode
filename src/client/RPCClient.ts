@@ -138,8 +138,8 @@ export default class RPCClient implements Disposable {
 				else return this._activity.changePartyId();
 			});
 			liveshare.onDidChangePeers(({ added, removed }: { added: vsls.Peer[], removed: vsls.Peer[] }) => {
-				if (added.length) return this._activity.increasePartySize();
-				else if (removed.length) return this._activity.decreasePartySize();
+				if (added.length) return this._activity.increasePartySize(added.length);
+				else if (removed.length) return this._activity.decreasePartySize(removed.length);
 			});
 		});
 

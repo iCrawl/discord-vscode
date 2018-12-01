@@ -164,23 +164,23 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public increasePartySize() {
-		if (!this._state || !this._state.partySize) return;
+	public increasePartySize(size?: number) {
+		if (!this._state) return;
 		if (this.state && this._state.partySize === 5) return;
 		this._state = {
 			...this._state,
-			partySize: this._state.partySize + 1
+			partySize: this._state.partySize ? this._state.partySize + 1 : size
 		};
 
 		return this._state;
 	}
 
-	public decreasePartySize() {
-		if (!this._state || !this._state.partySize) return;
+	public decreasePartySize(size?: number) {
+		if (!this._state) return;
 		if (this.state && this._state.partySize === 1) return;
 		this._state = {
 			...this._state,
-			partySize: this._state.partySize - 1
+			partySize: this._state.partySize ? this._state.partySize - 1 : size
 		};
 
 		return this._state;
