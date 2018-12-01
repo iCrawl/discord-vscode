@@ -8,7 +8,6 @@ import {
 	workspace
 } from 'vscode'; // tslint:disable-line
 import * as vsls from 'vsls/vscode';
-import GitUtils from './GitUtils';
 import RPCClient from '../client/RPCClient';
 const lang = require('../data/languages.json'); // tslint:disable-line
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
@@ -280,11 +279,11 @@ export default class Activity implements Disposable {
 			}
 
 			if (str.includes('{gitbranch}')) {
-				fileDetail.gitbranch = GitUtils.branchName(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri)!);
+				fileDetail.gitbranch = this.client.git.repositories.find((repo) => repo.ui.selected)!.state.HEAD!.name;
 			}
 
 			if (str.includes('{gitreponame}')) {
-				fileDetail.gitreponame = GitUtils.repoName(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri)!);
+				fileDetail.gitreponame = this.client.git.repositories.find((repo) => repo.ui.selected)!.state.remotes[0].fetchUrl!.split('/')[1].replace('.git', '');
 			}
 		}
 

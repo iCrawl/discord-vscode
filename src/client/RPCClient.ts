@@ -9,6 +9,7 @@ import {
 import * as vsls from 'vsls/vscode';
 import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
+import { API } from '../git';
 const clipboardy = require('clipboardy'); // tslint:disable-line
 
 let activityTimer: NodeJS.Timer;
@@ -17,6 +18,8 @@ export default class RPCClient implements Disposable {
 	public statusBarIcon: StatusBarItem;
 
 	public config = workspace.getConfiguration('discord');
+
+	public git!: API;
 
 	private _rpc: any; // tslint:disable-line
 
