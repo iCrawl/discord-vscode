@@ -8,7 +8,6 @@ import {
 	workspace
 } from 'vscode'; // tslint:disable-line
 import * as vsls from 'vsls/vscode';
-import nanoid = require('nanoid');
 const lang = require('../data/languages.json'); // tslint:disable-line
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
@@ -128,7 +127,7 @@ export default class Activity implements Disposable {
 		const join = await liveshare.share();
 		this._state = {
 			...this.state,
-			partyId: nanoid(),
+			partyId: join ? join.query : undefined,
 			partySize: 1,
 			partyMax: 5,
 			joinSecret: join ? Buffer.from(join.toString()).toString('base64') : undefined,
@@ -157,7 +156,9 @@ export default class Activity implements Disposable {
 	public changePartyId(id?: string) {
 		if (!this._state) return;
 		this._state = {
-			partyId: id
+			partyId: id,
+			partySize: this._state.partySize ? this._state.partySize + 1 : 2,
+			partyMax: id ? 5 : undefined
 		};
 
 		return this._state;
