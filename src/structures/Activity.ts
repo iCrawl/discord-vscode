@@ -158,7 +158,7 @@ export default class Activity implements Disposable {
 		this._state = {
 			...this._state,
 			partyId: id,
-			partySize: this._state.partySize ? this._state.partySize + 1 : 2,
+			partySize: this._state.partySize ? this._state.partySize + 1 : 1,
 			partyMax: id ? 5 : undefined
 		};
 
