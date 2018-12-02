@@ -178,7 +178,7 @@
 		"fs-nextra": "^0.3.7",
 		"gulp": "^3.9.1",
 		"gulp-sourcemaps": "^2.6.4",
-		"gulp-typescript": "^5.0.0-alpha.3",
+		"gulp-typescript": "^5.0.0",
 		"merge2": "^1.2.3",
 		"tslint": "^5.11.0",
 		"tslint-config-fire": "^1.0.1",
