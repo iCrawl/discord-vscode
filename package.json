@@ -174,7 +174,7 @@
 		"vsls": "^0.3.967"
 	},
 	"devDependencies": {
-		"@types/node": "^10.12.11",
+		"@types/node": "^10.12.12",
 		"fs-nextra": "^0.3.7",
 		"gulp": "^3.9.1",
 		"gulp-sourcemaps": "^2.6.4",
