@@ -30,12 +30,12 @@
 		"commands": [
 			{
 				"command": "discord.enable",
-				"title": "Enable Discord Presence in the current workspace",
+				"title": "Enable Discord Presence in the Current Workspace",
 				"category": "Discord Presence"
 			},
 			{
 				"command": "discord.disable",
-				"title": "Disable Discord Presence in the current workspace",
+				"title": "Disable Discord Presence in the Current Workspace",
 				"category": "Discord Presence"
 			},
 			{
@@ -45,22 +45,22 @@
 			},
 			{
 				"command": "discord.allowSpectate",
-				"title": "Allow spectating",
+				"title": "Allow Spectating",
 				"category": "Discord Presence"
 			},
 			{
 				"command": "discord.disableSpectate",
-				"title": "Disable spectating",
+				"title": "Disable Spectating",
 				"category": "Discord Presence"
 			},
 			{
 				"command": "discord.allowJoinRequests",
-				"title": "Allow join requests",
+				"title": "Allow Join Requests",
 				"category": "Discord Presence"
 			},
 			{
 				"command": "discord.disableJoinRequests",
-				"title": "Disable join requests",
+				"title": "Disable Join Requests",
 				"category": "Discord Presence"
 			}
 		],
