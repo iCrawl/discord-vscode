@@ -3552,10 +3552,10 @@ vinyl@^2.0.0, vinyl@^2.0.1, vinyl@^2.0.2, vinyl@^2.1.0:
     remove-trailing-separator "^1.0.1"
     replace-ext "^1.0.0"
 
-vscode@^1.1.24:
-  version "1.1.24"
-  resolved "https://registry.yarnpkg.com/vscode/-/vscode-1.1.24.tgz#e2464d638e23935d79e8ddb7822593557c271252"
-  integrity sha512-X2rFkk4OCYMmcIP/9uFvhvcmRB+J9te4d872Tup56Miax0h1O0o6WzsxyRog+V91yphdCgDmBbxsvjziEhxPkg==
+vscode@^1.1.25:
+  version "1.1.25"
+  resolved "https://registry.yarnpkg.com/vscode/-/vscode-1.1.25.tgz#682bc439d659152148b15967b206f2c92672c6ef"
+  integrity sha512-I3iA3CxyFcI/UqCYQT4ieTTIaMrA4pE4seZMJvio4yfrM3BzedXazHlHGISABkNcnjHdxorUX/mlJNFAqMT+4w==
   dependencies:
     glob "^7.1.2"
     gulp-chmod "^2.0.0"
@@ -3570,6 +3570,7 @@ vscode@^1.1.24:
     semver "^5.4.1"
     source-map-support "^0.5.0"
     url-parse "^1.4.3"
+    vinyl-fs "^3.0.3"
     vinyl-source-stream "^1.1.0"
 
 vsls@^0.3.967:
