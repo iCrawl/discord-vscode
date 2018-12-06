@@ -38,13 +38,9 @@ export default class RPCClient implements Disposable {
 
 	public setActivity(workspaceElapsedTime: boolean = false) {
 		if (!this._rpc) return;
-		try {
-			const activity = this._activity.generate(workspaceElapsedTime);
-			Logger.log('Sending activity to Discord.');
-			this._rpc.setActivity(activity);
-		} catch (error) {
-			console.error(error);
-		}
+		const activity = this._activity.generate(workspaceElapsedTime);
+		Logger.log('Sending activity to Discord.');
+		this._rpc.setActivity(activity);
 	}
 
 	public async allowSpectate() {
