@@ -85,6 +85,7 @@
 		"vcxproj",
 		"vscodeignore",
 		"vue",
+		"xml",
 		"yaml",
 		"yarn",
 		"bat",
@@ -954,6 +955,9 @@
 		},
 		".vue": {
 			"image": "vue"
+		},
+		".xml": {
+			"image": "xml"
 		},
 		"/\\.ya?ml$/i": {
 			"image": "yaml"
