@@ -62,6 +62,7 @@
 		"perl",
 		"php",
 		"powershell",
+		"purescript",
 		"python",
 		"r",
 		"reasonml",
@@ -691,6 +692,9 @@
 		},
 		".ps1xml": {
 			"image": "powershell"
+		},
+		".purs": {
+			"image": "purescript"
 		},
 		".p": {
 			"image": "pawn"
