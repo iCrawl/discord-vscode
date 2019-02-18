@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "3.3.2",
+	"version": "3.3.5",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -174,7 +174,7 @@
 		"vsls": "^0.3.967"
 	},
 	"devDependencies": {
-		"@types/node": "^11.9.4",
+		"@types/node": "^10.12.11",
 		"fs-nextra": "^0.3.7",
 		"gulp": "^3.9.1",
 		"gulp-sourcemaps": "^2.6.4",
