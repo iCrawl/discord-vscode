@@ -5,3 +5,7 @@ test/**
 .gitignore
 tsconfig.json
 tslint.json
+src/
+typings/
+dist/**/*.map
+gulpfile.js
