@@ -3255,10 +3255,10 @@ vscode@^1.1.30:
     vinyl-fs "^3.0.3"
     vinyl-source-stream "^1.1.0"
 
-vsls@^0.3.967:
-  version "0.3.967"
-  resolved "https://registry.yarnpkg.com/vsls/-/vsls-0.3.967.tgz#d762f1b10287c2a4ca8a54edb2f6b0f074a52583"
-  integrity sha512-FFaRZz4RBo/QmUHvQophkzMzrTrsV8g169jUPEaL7UWak3FdwGdGvm2DlSZIZl36MzLNb/43BPq6WDzoKDwR4g==
+vsls@^0.3.1291:
+  version "0.3.1291"
+  resolved "https://registry.yarnpkg.com/vsls/-/vsls-0.3.1291.tgz#55928c363b24d39a5d03d8e946ba85d7dcec3e38"
+  integrity sha512-8yJPN9p7k+XYyczOVtQmpun4K1CRDsw/hdnIzT/c40r5bIkpptfsBlHmmLemoIV+CAHvrTLdWKEf5OtRvdcn9A==
 
 which@^1.2.14, which@^1.2.9:
   version "1.3.1"

@@ -171,7 +171,7 @@
 		"clipboardy": "^1.2.3",
 		"discord-rpc": "iCrawl/rpc#custom",
 		"register-scheme": "devsnek/node-register-scheme",
-		"vsls": "^0.3.967"
+		"vsls": "^0.3.1291"
 	},
 	"devDependencies": {
 		"@types/node": "^11.10.4",
