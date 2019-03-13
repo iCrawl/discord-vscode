@@ -1252,10 +1252,10 @@ gulp-sourcemaps@^2.6.5:
     strip-bom-string "1.X"
     through2 "2.X"
 
-gulp-typescript@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/gulp-typescript/-/gulp-typescript-5.0.0.tgz#aac065a88bca95d1f960d4934a307feed2d091f8"
-  integrity sha512-lMj2U+Ni6HyFaY2nr1sSQ6D014eHil5L1i52XWBaAQUR9UAUUp9btnm4yRBT2Jb8xhrwqmhMssZf/g2B7cinCA==
+gulp-typescript@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/gulp-typescript/-/gulp-typescript-5.0.1.tgz#96c6565a6eb31e08c2aae1c857b1a079e6226d94"
+  integrity sha512-YuMMlylyJtUSHG1/wuSVTrZp60k1dMEFKYOvDf7OvbAJWrDtxxD4oZon4ancdWwzjj30ztiidhe4VXJniF0pIQ==
   dependencies:
     ansi-colors "^3.0.5"
     plugin-error "^1.0.1"
