@@ -175,7 +175,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^11.11.3",
-		"fs-nextra": "^0.4.3",
+		"fs-nextra": "^0.4.5",
 		"gulp": "^3.9.1",
 		"gulp-sourcemaps": "^2.6.5",
 		"gulp-typescript": "^5.0.1",
