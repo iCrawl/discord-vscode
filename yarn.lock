@@ -998,10 +998,10 @@ fs-mkdirp-stream@^1.0.0:
     graceful-fs "^4.1.11"
     through2 "^2.0.3"
 
-fs-nextra@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/fs-nextra/-/fs-nextra-0.4.3.tgz#9afff5435b445a507d16a081399782c3068b0784"
-  integrity sha512-apXnP4Bm/io1qjf9txX5glAP1Y50DqSVvKWE7wcrCc+U6mgJXBF0fp8QiITUqE1/xZQHzvJ/e212erj0rGCOAA==
+fs-nextra@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/fs-nextra/-/fs-nextra-0.4.4.tgz#d51e1a04492013b4648a077d3d1e3cb4181afa01"
+  integrity sha512-vlesexta1beF9MnfFMz8ZSF6d+8rEmY3jK7i/2ilZ1eS0LrfAj9nc/40JTdNCGt8hwpTt4WTYCC19svZkRGdCA==
 
 fs.realpath@^1.0.0:
   version "1.0.0"
