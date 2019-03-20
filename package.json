@@ -183,7 +183,7 @@
 		"tslint": "^5.14.0",
 		"tslint-config-fire": "^1.0.1",
 		"typescript": "^3.3.3333",
-		"vscode": "^1.1.30"
+		"vscode": "^1.1.32"
 	},
 	"engines": {
 		"vscode": "^1.15.0"
