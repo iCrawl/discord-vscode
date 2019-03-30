@@ -138,7 +138,15 @@
 						"type": "boolean",
 						"default": false,
 						"description": "Decides whether to display elapsed time for a workspace or a single file"
-					}
+					},
+					"discord.workspaceExcludePatterns": { 
+						"type": "array",
+						"items": { 
+							"type": "string"
+	 					},
+						"default": [],
+						"description": "Patterns of workspaces to ignore"
+	 				}
 				}
 			}
 		]
