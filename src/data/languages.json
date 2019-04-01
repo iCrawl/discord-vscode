@@ -4,12 +4,15 @@
     "asp",
     "assembly",
     "ahk",
+    "applescript",
+    "appveyor",
     "autoit",
     "babel",
     "bower",
     "brainfuck",
     "gemfile",
     "c",
+    "circleci",
     "cargo",
     "cpp",
     "csharp",
@@ -72,6 +75,7 @@
     "powershell",
     "purescript",
     "python",
+    "postcss",
     "r",
     "reasonml",
     "ruby",
@@ -176,6 +180,9 @@
     ".ahkl": {
       "image": "ahk"
     },
+    ".applescript": {
+      "image": "applescript"
+    },
     ".au3": {
       "image": "autoit"
     },
@@ -209,13 +216,19 @@
     "/(cargo.toml|cargo.lock)/i": {
       "image": "cargo"
     },
+    "circle.yml": {
+      "image": "circleci"
+    },
+    "/\\.codeclimate\\.(yml|json)/i": {
+      "image": "codeclimate"
+    },
     ".idc": {
       "image": "cpp"
     },
     ".w": {
       "image": "cpp"
     },
-    "webpack.config.js": {
+    "/webpack(\\.dev|\\.development|\\.prod|\\.production)?\\.config\\.js/i": {
       "image": "webpack"
     },
     ".nc": {
@@ -281,8 +294,14 @@
     "/\\.e?cr$/i": {
       "image": "crystal"
     },
+    ".css.map": {
+      "image": "cssmap"
+    },
     ".css": {
       "image": "css"
+    },
+    ".cu": {
+      "image": "cuda"
     },
     ".less": {
       "image": "less"
@@ -317,6 +336,9 @@
     ".cson": {
       "image": "manifest"
     },
+    "/(\\.firebaserc|firebase\\.json)/i": {
+      "image": "firebase"
+    },
     ".json5": {
       "image": "manifest"
     },
@@ -346,6 +368,9 @@
     },
     "/\\.pot?$/i": {
       "image": "manifest"
+    },
+    ".pcss": {
+      "image": "postcss"
     },
     ".ejson": {
       "image": "manifest"
@@ -404,6 +429,9 @@
     "/\\.git[\\/\\\\](.*[\\/\\\\])?(HEAD|ORIG_HEAD|packed-refs|logs[\\/\\\\](.+[\\/\\\\])?[^\\/\\\\]+)$/": {
       "image": "manifest"
     },
+    "/gatsby-(browser|node|ssr|config)\\.js/i": {
+      "image": "gatsbyjs"
+    },
     ".dfm": {
       "image": "delphi"
     },
@@ -439,6 +467,9 @@
     },
     ".app.src": {
       "image": "erlang"
+    },
+    "/(\\.)?appveyor\\.yml/i": {
+      "image": "appveyor"
     },
     "/^Emakefile$/": {
       "image": "erlang"
@@ -532,6 +563,9 @@
     },
     "jest.config.js": {
       "image": "jest"
+    },
+    ".js.map": {
+      "image": "jsmap"
     },
     ".js": {
       "image": "js"
@@ -1002,10 +1036,10 @@
       "image": "vba"
     },
     ".vbhtml": {
-      "image": "vbhtml"
+      "image": "vb"
     },
     ".vbproj": {
-      "image": "vbproj"
+      "image": "vb"
     },
     ".vcxproj": {
       "image": "vcxproj"
