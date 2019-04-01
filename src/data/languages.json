@@ -237,6 +237,9 @@
     ".nc": {
       "image": "cpp"
     },
+    ".npmrc": {
+      "image": "npm"
+    },
     ".upc": {
       "image": "cpp"
     },
