@@ -30,6 +30,7 @@
 		"elm",
 		"erlang",
 		"elixir",
+		"eslint",
 		"fsharp",
 		"git",
 		"go",
@@ -52,6 +53,7 @@
 		"lua",
 		"makefile",
 		"markdown",
+		"markdownx",
 		"marko",
 		"nim",
 		"nix",
@@ -79,6 +81,7 @@
 		"tsx",
 		"twig",
 		"text",
+		"travis",
 		"vb",
 		"vba",
 		"vbhtml",
@@ -90,7 +93,8 @@
 		"yaml",
 		"yarn",
 		"bat",
-		"wasm"
+		"wasm",
+		"webpack"
 	],
 	"knownExtentions": {
 		".swf": {
@@ -200,6 +204,9 @@
 		},
 		".w": {
 			"image": "cpp"
+		},
+		"webpack.config.js": {
+			"image": "webpack"
 		},
 		".nc": {
 			"image": "cpp"
@@ -347,6 +354,9 @@
 		},
 		".ttl": {
 			"image": "manifest"
+		},
+		".travis.yml": {
+			"image": "travis"
 		},
 		".rviz": {
 			"image": "manifest"
@@ -588,6 +598,9 @@
 		"/\\.(md|mdown|markdown|mkd|mkdown|mdwn|mkdn|rmd|ron|pmd)$/i": {
 			"image": "markdown"
 		},
+		".mdx": {
+			"image": "markdownx"
+		},
 		".nim": {
 			"image": "nim"
 		},
@@ -617,6 +630,9 @@
 		},
 		".eliomi": {
 			"image": "ocaml"
+		},
+		"/\\.(eslintrc|eslintignore)/i": {
+			"image": "eslint"
 		},
 		".ml4": {
 			"image": "ocaml"
