@@ -50,6 +50,7 @@
 		"json",
 		"kotlin",
 		"lisp",
+		"log",
 		"lua",
 		"makefile",
 		"markdown",
@@ -311,7 +312,7 @@
 			"image": "manifest"
 		},
 		".http": {
-			"image": "manifest"
+			"image": "http"
 		},
 		".ndjson": {
 			"image": "manifest"
@@ -357,6 +358,9 @@
 		},
 		".travis.yml": {
 			"image": "travis"
+		},
+		".rest": {
+			"image": "http"
 		},
 		".rviz": {
 			"image": "manifest"
@@ -552,6 +556,9 @@
 		},
 		".sexp": {
 			"image": "lisp"
+		},
+		".log": {
+			"image": "log"
 		},
 		".lua": {
 			"image": "lua"
