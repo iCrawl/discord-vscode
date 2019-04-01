@@ -88,6 +88,7 @@
     "twig",
     "text",
     "travis",
+    "typescript-def",
     "vb",
     "vba",
     "vbhtml",
@@ -963,6 +964,9 @@
     },
     ".toml": {
       "image": "toml"
+    },
+    "/.*\\.d\\.ts/i": {
+      "image": "typescript-def"
     },
     ".ts": {
       "image": "ts"
