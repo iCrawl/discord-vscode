@@ -5,6 +5,7 @@
     "assembly",
     "ahk",
     "autoit",
+    "babel",
     "bower",
     "brainfuck",
     "gemfile",
@@ -32,11 +33,13 @@
     "erlang",
     "elixir",
     "eslint",
+    "env",
     "fsharp",
     "git",
     "go",
     "gradle",
     "graphql",
+    "gulp",
     "handlebars",
     "haskell",
     "html",
@@ -44,6 +47,7 @@
     "ini",
     "pug",
     "jar",
+    "jest",
     "java",
     "julia",
     "js",
@@ -474,8 +478,14 @@
     "gradlew": {
       "image": "gradle"
     },
+    ".gql": {
+      "image": "graphql"
+    },
     ".graphql": {
       "image": "graphql"
+    },
+    "gulpfile.js": {
+      "image": "gulp"
     },
     "/\\.(hbs|handlebars|(mu)?stache)$/i": {
       "image": "handlebars"
@@ -516,6 +526,12 @@
     "/\\.(jil|jl)/i": {
       "image": "julia"
     },
+    "babel.config.js": {
+      "image": "babel"
+    },
+    "jest.config.js": {
+      "image": "jest"
+    },
     ".js": {
       "image": "js"
     },
@@ -524,6 +540,9 @@
     },
     ".es": {
       "image": "js"
+    },
+    ".env": {
+      "image": "env"
     },
     ".mjs": {
       "image": "js"
@@ -1005,6 +1024,9 @@
     ".yarnrc": {
       "image": "yarn"
     },
+    "/\\.babelrc/i": {
+      "image": "babel"
+    },
     ".bat": {
       "image": "bat"
     },
@@ -1040,4 +1062,3 @@
     }
   }
 }
-
