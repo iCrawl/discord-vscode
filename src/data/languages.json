@@ -330,6 +330,9 @@
     ".proto": {
       "image": "manifest"
     },
+    "/^procfile/i": {
+      "image": "heroku"
+    },
     ".pytb": {
       "image": "manifest"
     },
@@ -933,6 +936,9 @@
     ".texi": {
       "image": "tex"
     },
+    "heroku.yml": {
+      "image": "heroku"
+    },
     "/^hyphen(ex)?\\.(cs|den|det|fr|sv|us)$/": {
       "image": "tex"
     },
@@ -1034,3 +1040,4 @@
     }
   }
 }
+
