@@ -126,6 +126,9 @@
     "/angular.(component|guard|service|pipe|filter|directive|resolver).(ts|js)/i": {
       "image": "angular"
     },
+    "androidmanifest.xml": {
+      "image": "android"
+    },
     ".asp": {
       "image": "asp"
     },
@@ -404,6 +407,9 @@
     },
     ".ejson": {
       "image": "manifest"
+    },
+    ".editorconfig": {
+      "image": "editorconfig"
     },
     ".edn": {
       "image": "manifest"
