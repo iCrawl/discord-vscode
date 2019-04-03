@@ -120,6 +120,12 @@
     ".swc": {
       "image": "as"
     },
+    "/(\\.)?angular(-cli)?\\.json/i": {
+      "image": "angular"
+    },
+    "/angular.(component|guard|service|pipe|filter|directive|resolver).(ts|js)/i": {
+      "image": "angular"
+    },
     ".asp": {
       "image": "asp"
     },
