@@ -372,6 +372,9 @@
     ".fea": {
       "image": "manifest"
     },
+    ".flowconfig": {
+      "image": "flowconfig"
+    },
     ".json.eex": {
       "image": "manifest"
     },
@@ -821,6 +824,9 @@
     },
     ".inc": {
       "image": "pawn"
+    },
+    ".ino": {
+      "image": "arduino"
     },
     ".pwn": {
       "image": "pawn"
