@@ -182,7 +182,7 @@
 		"merge2": "^1.2.3",
 		"tslint": "^5.15.0",
 		"tslint-config-fire": "^1.0.1",
-		"typescript": "^3.4.1",
+		"typescript": "^3.4.2",
 		"vscode": "^1.1.33"
 	},
 	"engines": {
