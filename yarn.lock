@@ -21,10 +21,10 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@types/node@^11.13.0":
-  version "11.13.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.0.tgz#b0df8d6ef9b5001b2be3a94d909ce3c29a80f9e1"
-  integrity sha512-rx29MMkRdVmzunmiA4lzBYJNnXsW/PhG4kMBy2ATsYaDjGGR75dCFEVVROKpNwlVdcUX3xxlghKQOeDPBJobng==
+"@types/node@^11.13.1":
+  version "11.13.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.1.tgz#f977a12e97695663040581034b483f34c8dd4f6f"
+  integrity sha512-MeatbbUsZ80BEsKPXby6pUZjUM9ZuHIpWElN0siopih3fvnlpX2O9L6D5+dzDIb36lf9tM/8U4PVdLQ+L4qr4A==
 
 acorn@5.X, acorn@^5.0.3:
   version "5.7.3"
