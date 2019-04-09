@@ -168,7 +168,7 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"clipboardy": "^1.2.3",
+		"clipboardy": "^2.0.0",
 		"discord-rpc": "iCrawl/rpc#custom",
 		"register-scheme": "devsnek/node-register-scheme",
 		"vsls": "^0.3.1291"
