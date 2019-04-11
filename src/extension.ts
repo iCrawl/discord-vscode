@@ -85,4 +85,4 @@ export async function deactivate() {
 	await rpc.dispose();
 }
 
-process.on('unhandledRejection', err => Logger.log(err));
+process.on('unhandledRejection', err => Logger.log(err as string));
