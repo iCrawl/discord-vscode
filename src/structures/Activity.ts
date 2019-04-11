@@ -64,7 +64,7 @@ export default class Activity implements Disposable {
 			this._lastKnownFile = window.activeTextEditor.document.fileName;
 			const filename = basename(window.activeTextEditor.document.fileName);
 			largeImageKey = knownExtentions[Object.keys(knownExtentions).find(key => {
-				if (key.startsWith('.') && filename.endsWith(key)) return true;
+				if (filename.endsWith(key)) return true;
 				const match = key.match(/^\/(.*)\/([mgiy]+)$/);
 				if (!match) return false;
 				const regex = new RegExp(match[1], match[2]);
