@@ -72,7 +72,7 @@
 					"discord.clientID": {
 						"type": "string",
 						"default": "383226320970055681",
-						"description": "Only modify this if you know what you are doing (most of you don't)"
+						"description": "Only modify this if you know what you are doing"
 					},
 					"discord.enabled": {
 						"type": "boolean",
