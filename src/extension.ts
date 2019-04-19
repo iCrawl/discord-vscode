@@ -20,7 +20,21 @@ const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 export async function activate(context: ExtensionContext) {
 	Logger.log('Discord Presence activated!');
 
-	if (config.get<boolean>('enabled')) {
+	let isWorkspaceExcluded = false;
+	const excludePatterns = config.get<string[]>('workspaceExcludePatterns');
+	if (excludePatterns && excludePatterns.length > 0) {
+		for (const pattern of excludePatterns) {
+			const regex = new RegExp(pattern);
+			const folders = workspace.workspaceFolders;
+			if (!folders) break;
+			if (folders.some((folder) => regex.test(folder.uri.fsPath))) {
+				isWorkspaceExcluded = true;
+				break;
+			}
+		}
+	}
+
+	if (!isWorkspaceExcluded && config.get<boolean>('enabled')) {
 		statusBarIcon.show();
 		try {
 			await rpc.login();
