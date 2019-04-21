@@ -45,7 +45,7 @@ interface FileDetail {
 export default class Activity implements Disposable {
 	private _state: State | null = null;
 
-	private _lastKnownFile: string = ''; // tslint:disable-line
+	private _lastKnownFile: string = '';
 
 	public constructor(public client: RPCClient) {}
 
