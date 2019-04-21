@@ -23,7 +23,7 @@ export default class RPCClient implements Disposable {
 
 	private _rpc: any;
 
-	private readonly _activity = new Activity();
+	private readonly _activity = new Activity(this);
 
 	private readonly _clientId: string;
 
