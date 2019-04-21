@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "3.2.0",
+	"version": "3.5.0",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -19,8 +19,8 @@
 	"main": "./dist/extension",
 	"scripts": {
 		"prebuild": "yarn lint",
-		"build": "gulp",
-		"lint": "tslint -p tsconfig.json",
+		"build": "webpack --mode production",
+		"lint": "eslint src --ext .ts",
 		"postinstall": "node ./node_modules/vscode/bin/install"
 	},
 	"activationEvents": [
@@ -30,12 +30,12 @@
 		"commands": [
 			{
 				"command": "discord.enable",
-				"title": "Enable Discord Presence in the current workspace",
+				"title": "Enable Discord Presence in the Current Workspace",
 				"category": "Discord Presence"
 			},
 			{
 				"command": "discord.disable",
-				"title": "Disable Discord Presence in the current workspace",
+				"title": "Disable Discord Presence in the Current Workspace",
 				"category": "Discord Presence"
 			},
 			{
@@ -45,22 +45,22 @@
 			},
 			{
 				"command": "discord.allowSpectate",
-				"title": "Allow spectating",
+				"title": "Allow Spectating",
 				"category": "Discord Presence"
 			},
 			{
 				"command": "discord.disableSpectate",
-				"title": "Disable spectating",
+				"title": "Disable Spectating",
 				"category": "Discord Presence"
 			},
 			{
 				"command": "discord.allowJoinRequests",
-				"title": "Allow join requests",
+				"title": "Allow Join Requests",
 				"category": "Discord Presence"
 			},
 			{
 				"command": "discord.disableJoinRequests",
-				"title": "Disable join requests",
+				"title": "Disable Join Requests",
 				"category": "Discord Presence"
 			}
 		],
@@ -72,7 +72,7 @@
 					"discord.clientID": {
 						"type": "string",
 						"default": "383226320970055681",
-						"description": "Only modify this if you know what you are doing (most of you don't)"
+						"description": "Only modify this if you know what you are doing"
 					},
 					"discord.enabled": {
 						"type": "boolean",
@@ -138,6 +138,14 @@
 						"type": "boolean",
 						"default": false,
 						"description": "Decides whether to display elapsed time for a workspace or a single file"
+					},
+					"discord.workspaceExcludePatterns": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"default": [],
+						"description": "Patterns of workspaces to ignore"
 					}
 				}
 			}
@@ -168,24 +176,29 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"clipboardy": "^1.2.3",
-		"discord-rpc": "iCrawl/rpc#custom",
+		"clipboardy": "^2.0.0",
+		"discord-rpc": "discordjs/RPC",
 		"register-scheme": "devsnek/node-register-scheme",
-		"vsls": "^0.3.967"
+		"vsls": "^0.3.1291"
 	},
 	"devDependencies": {
-		"@types/node": "^10.12.11",
-		"fs-nextra": "^0.3.7",
-		"gulp": "^3.9.1",
-		"gulp-sourcemaps": "^2.6.4",
-		"gulp-typescript": "^5.0.0-alpha.3",
-		"merge2": "^1.2.3",
-		"tslint": "^5.11.0",
-		"tslint-config-fire": "^1.0.1",
-		"typescript": "^3.2.1",
-		"vscode": "^1.1.22"
+		"@types/node": "^11.13.6",
+		"@typescript-eslint/eslint-plugin": "^1.7.0",
+		"@typescript-eslint/parser": "^1.7.0",
+		"clean-webpack-plugin": "^2.0.1",
+		"eslint": "^5.16.0",
+		"eslint-config-marine": "^2.0.0",
+		"terser-webpack-plugin": "^1.2.3",
+		"ts-loader": "^5.3.3",
+		"typescript": "^3.4.4",
+		"vscode": "^1.1.33",
+		"webpack": "^4.30.0",
+		"webpack-cli": "^3.3.0"
 	},
 	"engines": {
 		"vscode": "^1.15.0"
+	},
+	"eslintConfig": {
+		"extends": "marine/node"
 	}
 }

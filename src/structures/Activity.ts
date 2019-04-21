@@ -6,10 +6,10 @@ import {
 	env,
 	window,
 	workspace
-} from 'vscode'; // tslint:disable-line
-import * as vsls from 'vsls/vscode';
+} from 'vscode';
+import * as vsls from 'vsls';
 import RPCClient from '../client/RPCClient';
-const lang = require('../data/languages.json'); // tslint:disable-line
+const lang = require('../data/languages.json'); // eslint-disable-line
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
 
@@ -43,17 +43,17 @@ interface FileDetail {
 }
 
 export default class Activity implements Disposable {
-	private _state: State | null = null; // tslint:disable-line
+	private _state: State | null = null;
 
 	private _lastKnownFile: string = ''; // tslint:disable-line
 
 	public constructor(public client: RPCClient) {}
 
-	public get state() {
+	public get state(): State | null {
 		return this._state;
 	}
 
-	public generate(workspaceElapsedTime: boolean = false) {
+	public generate(workspaceElapsedTime: boolean = false): State {
 		let largeImageKey: any = 'vscode-big';
 		if (window.activeTextEditor) {
 			if (window.activeTextEditor.document.fileName === this._lastKnownFile) {
@@ -66,8 +66,8 @@ export default class Activity implements Disposable {
 			}
 			this._lastKnownFile = window.activeTextEditor.document.fileName;
 			const filename = basename(window.activeTextEditor.document.fileName);
-			largeImageKey = knownExtentions[Object.keys(knownExtentions).find(key => {
-				if (key.startsWith('.') && filename.endsWith(key)) return true;
+			largeImageKey = knownExtentions[Object.keys(knownExtentions).find((key): boolean => {
+				if (filename.endsWith(key)) return true;
 				const match = key.match(/^\/(.*)\/([mgiy]+)$/);
 				if (!match) return false;
 				const regex = new RegExp(match[1], match[2]);
@@ -76,7 +76,7 @@ export default class Activity implements Disposable {
 		}
 
 		let previousTimestamp = null;
-		if (this.state && this.state.startTimestamp) previousTimestamp = this.state.startTimestamp;
+		if (this._state && this._state.startTimestamp) previousTimestamp = this._state.startTimestamp;
 
 		this._state = {
 			...this._state,
@@ -87,10 +87,10 @@ export default class Activity implements Disposable {
 			largeImageText: window.activeTextEditor
 				? this.client.config.get<string>('largeImage')!
 					.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
-					.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase()) : 'Txt')
-					.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT')
-					|| window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
-				: this.client.config.get<string>('largeImageIdle'),
+					.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string): string => c.toUpperCase()) : 'Txt')
+					.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT') ||
+					window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
+				: this._config.get<string>('largeImageIdle'),
 			smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
 			smallImageText: this.client.config.get<string>('smallImage')!.replace('{appname}', env.appName)
 		};
@@ -98,10 +98,10 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public async allowSpectate() {
+	public async allowSpectate(): Promise<State | void> {
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
-		const join = await liveshare.share();
+		const join = await liveshare.share({ suppressNotification: true, access: vsls.Access.ReadOnly });
 		this._state = {
 			...this._state,
 			spectateSecret: join ? Buffer.from(join.toString()).toString('base64') : undefined,
@@ -111,7 +111,7 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public async disableSpectate() {
+	public async disableSpectate(): Promise<State | void> {
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		await liveshare.end();
@@ -124,12 +124,12 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public async allowJoinRequests() {
+	public async allowJoinRequests(): Promise<State | void> {
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
-		const join = await liveshare.share();
+		const join = await liveshare.share({ suppressNotification: true });
 		this._state = {
-			...this.state,
+			...this._state,
 			partyId: join ? join.query : undefined,
 			partySize: 1,
 			partyMax: 5,
@@ -140,7 +140,7 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public async disableJoinRequests() {
+	public async disableJoinRequests(): Promise<State | void> {
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		await liveshare.end();
@@ -156,45 +156,46 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public changePartyId(id?: string) {
+	public changePartyId(id?: string): State | void {
 		if (!this._state) return;
 		this._state = {
+			...this._state,
 			partyId: id,
-			partySize: this._state.partySize ? this._state.partySize + 1 : 2,
+			partySize: this._state.partySize ? this._state.partySize + 1 : 1,
 			partyMax: id ? 5 : undefined
 		};
 
 		return this._state;
 	}
 
-	public increasePartySize() {
-		if (!this._state || !this._state.partySize) return;
+	public increasePartySize(size?: number): State | void {
+		if (!this._state) return;
 		if (this.state && this._state.partySize === 5) return;
 		this._state = {
 			...this._state,
-			partySize: this._state.partySize + 1
+			partySize: this._state.partySize ? this._state.partySize + 1 : size
 		};
 
 		return this._state;
 	}
 
-	public decreasePartySize() {
-		if (!this._state || !this._state.partySize) return;
+	public decreasePartySize(size?: number): State | void {
+		if (!this._state) return;
 		if (this.state && this._state.partySize === 1) return;
 		this._state = {
 			...this._state,
-			partySize: this._state.partySize - 1
+			partySize: this._state.partySize ? this._state.partySize - 1 : size
 		};
 
 		return this._state;
 	}
 
-	public dispose() {
+	public dispose(): void {
 		this._state = null;
 		this._lastKnownFile = '';
 	}
 
-	private _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any) {
+	private _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any): string {
 		let raw: string = this.client.config.get<string>(idling)!.replace('{null}', empty);
 		let filename = null;
 		let dirname = null;
@@ -233,7 +234,7 @@ export default class Activity implements Disposable {
 				.replace('{fulldirname}', fullDirname!)
 				.replace('{workspace}', checkState && workspaceFolder ? workspaceFolder.name : this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty))
 				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
-				.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase()) : 'Txt')
+				.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string): string => c.toUpperCase()) : 'Txt')
 				.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT');
 			if (totalLines) raw = raw!.replace('{totallines}', totalLines);
 			if (size) raw = raw!.replace('{filesize}', size);
@@ -246,7 +247,7 @@ export default class Activity implements Disposable {
 		return raw;
 	}
 
-	private _generateFileDetails(str?: string) {
+	private _generateFileDetails(str?: string): FileDetail {
 		const fileDetail: FileDetail = {};
 		if (!str) return fileDetail;
 
@@ -256,11 +257,11 @@ export default class Activity implements Disposable {
 			}
 
 			if (str.includes('{currentline}')) {
-				fileDetail.currentLine = (window.activeTextEditor.selection.active.line + 1).toLocaleString(); // tslint:disable-line
+				fileDetail.currentLine = (window.activeTextEditor.selection.active.line as number + 1).toLocaleString();
 			}
 
 			if (str.includes('{currentcolumn}')) {
-				fileDetail.currentColumn = (window.activeTextEditor.selection.active.character + 1).toLocaleString(); // tslint:disable-line
+				fileDetail.currentColumn = (window.activeTextEditor.selection.active.character as number + 1).toLocaleString();
 			}
 
 			if (str.includes('{filesize}')) {

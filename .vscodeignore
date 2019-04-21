@@ -1,7 +1,10 @@
-.vscode/**
-.vscode-test/**
-test/**
+.vscode
+dist/**/*.map
+node_modules
+src
 .gitattributes
 .gitignore
+package.json
 tsconfig.json
-tslint.json
+webpack.config.js
+yarn.lock

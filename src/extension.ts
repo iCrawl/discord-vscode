@@ -6,11 +6,11 @@ import {
 	window,
 	workspace,
 	extensions
-} from 'vscode'; // tslint:disable-line
+} from 'vscode';
 import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
 import { GitExtension } from './git';
-const { register } = require('discord-rpc'); // tslint:disable-line
+const { register } = require('discord-rpc'); // eslint-disable-line
 
 const sleep = (wait: number) => new Promise(resolve => setTimeout(resolve, wait));
 
@@ -21,7 +21,7 @@ const config = workspace.getConfiguration('discord');
 register(config.get<string>('clientID'));
 const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 
-export async function activate(context: ExtensionContext) {
+export async function activate(context: ExtensionContext): Promise<void> {
 	try {
 		const ext = extensions.getExtension<GitExtension>('vscode.git')!;
 		await ext.activate();
@@ -36,7 +36,21 @@ export async function activate(context: ExtensionContext) {
 	}
 	Logger.log('Discord Presence activated!');
 
-	if (config.get<boolean>('enabled')) {
+	let isWorkspaceExcluded = false;
+	const excludePatterns = config.get<string[]>('workspaceExcludePatterns');
+	if (excludePatterns && excludePatterns.length > 0) {
+		for (const pattern of excludePatterns) {
+			const regex = new RegExp(pattern);
+			const folders = workspace.workspaceFolders;
+			if (!folders) break;
+			if (folders.some((folder): boolean => regex.test(folder.uri.fsPath))) {
+				isWorkspaceExcluded = true;
+				break;
+			}
+		}
+	}
+
+	if (!isWorkspaceExcluded && config.get<boolean>('enabled')) {
 		statusBarIcon.show();
 		try {
 			await rpc.login();
@@ -52,7 +66,7 @@ export async function activate(context: ExtensionContext) {
 		}
 	}
 
-	const enabler = commands.registerCommand('discord.enable', async () => {
+	const enabler = commands.registerCommand('discord.enable', async (): Promise<void> => {
 		await rpc.dispose();
 		config.update('enabled', true);
 		rpc.config = workspace.getConfiguration('discord');
@@ -62,7 +76,7 @@ export async function activate(context: ExtensionContext) {
 		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
 
-	const disabler = commands.registerCommand('discord.disable', async () => {
+	const disabler = commands.registerCommand('discord.disable', async (): Promise<void> => {
 		config.update('enabled', false);
 		rpc.config = workspace.getConfiguration('discord');
 		await rpc.dispose();
@@ -70,7 +84,7 @@ export async function activate(context: ExtensionContext) {
 		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
 
-	const reconnecter = commands.registerCommand('discord.reconnect', async () => {
+	const reconnecter = commands.registerCommand('discord.reconnect', async (): Promise<void> => {
 		await rpc.dispose();
 		await rpc.login();
 		if (!config.get('silent')) window.showInformationMessage('Reconnecting to Discord RPC...');
@@ -78,27 +92,27 @@ export async function activate(context: ExtensionContext) {
 		rpc.statusBarIcon.command = undefined;
 	});
 
-	const allowSpectate = commands.registerCommand('discord.allowSpectate', async () => {
+	const allowSpectate = commands.registerCommand('discord.allowSpectate', async (): Promise<void> => {
 		await rpc.allowSpectate();
 	});
 
-	const disableSpectate = commands.registerCommand('discord.disableSpectate', async () => {
+	const disableSpectate = commands.registerCommand('discord.disableSpectate', async (): Promise<void> => {
 		await rpc.disableSpectate();
 	});
 
-	const allowJoinRequests = commands.registerCommand('discord.allowJoinRequests', async () => {
+	const allowJoinRequests = commands.registerCommand('discord.allowJoinRequests', async (): Promise<void> => {
 		await rpc.allowJoinRequests();
 	});
 
-	const disableJoinRequests = commands.registerCommand('discord.disableJoinRequests', async () => {
+	const disableJoinRequests = commands.registerCommand('discord.disableJoinRequests', async (): Promise<void> => {
 		await rpc.disableJoinRequests();
 	});
 
 	context.subscriptions.push(enabler, disabler, reconnecter, allowSpectate, disableSpectate, allowJoinRequests, disableJoinRequests);
 }
 
-export async function deactivate() {
+export async function deactivate(): Promise<void> {
 	await rpc.dispose();
 }
 
-process.on('unhandledRejection', err => Logger.log(err));
+process.on('unhandledRejection', (err): void => Logger.log(err as string));

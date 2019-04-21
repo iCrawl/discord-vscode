@@ -4,11 +4,16 @@
 		"asp",
 		"assembly",
 		"ahk",
+		"applescript",
+		"appveyor",
 		"autoit",
+		"babel",
 		"bower",
 		"brainfuck",
 		"gemfile",
 		"c",
+		"circleci",
+		"cargo",
 		"cpp",
 		"csharp",
 		"cshtml",
@@ -30,11 +35,14 @@
 		"elm",
 		"erlang",
 		"elixir",
+		"eslint",
+		"env",
 		"fsharp",
 		"git",
 		"go",
 		"gradle",
 		"graphql",
+		"gulp",
 		"handlebars",
 		"haskell",
 		"html",
@@ -42,6 +50,7 @@
 		"ini",
 		"pug",
 		"jar",
+		"jest",
 		"java",
 		"julia",
 		"js",
@@ -49,9 +58,11 @@
 		"json",
 		"kotlin",
 		"lisp",
+		"log",
 		"lua",
 		"makefile",
 		"markdown",
+		"markdownx",
 		"marko",
 		"nim",
 		"nix",
@@ -62,7 +73,9 @@
 		"perl",
 		"php",
 		"powershell",
+		"purescript",
 		"python",
+		"postcss",
 		"r",
 		"reasonml",
 		"ruby",
@@ -78,6 +91,8 @@
 		"tsx",
 		"twig",
 		"text",
+		"travis",
+		"typescript-def",
 		"vb",
 		"vba",
 		"vbhtml",
@@ -85,10 +100,12 @@
 		"vcxproj",
 		"vscodeignore",
 		"vue",
+		"xml",
 		"yaml",
 		"yarn",
 		"bat",
-		"wasm"
+		"wasm",
+		"webpack"
 	],
 	"knownExtentions": {
 		".swf": {
@@ -102,6 +119,15 @@
 		},
 		".swc": {
 			"image": "as"
+		},
+		"/(\\.)?angular(-cli)?\\.json/i": {
+			"image": "angular"
+		},
+		"/angular.(component|guard|service|pipe|filter|directive|resolver).(ts|js)/i": {
+			"image": "angular"
+		},
+		"androidmanifest.xml": {
+			"image": "android"
 		},
 		".asp": {
 			"image": "asp"
@@ -142,6 +168,9 @@
 		".d-objdump": {
 			"image": "assembly"
 		},
+		"/gruntfile\\.(js|coffee)/i": {
+			"image": "gruntfile"
+		},
 		"/\\.gcode|\\.gco/i": {
 			"image": "assembly"
 		},
@@ -162,6 +191,9 @@
 		},
 		".ahkl": {
 			"image": "ahk"
+		},
+		".applescript": {
+			"image": "applescript"
 		},
 		".au3": {
 			"image": "autoit"
@@ -193,14 +225,29 @@
 		".cats": {
 			"image": "cpp"
 		},
+		"/(cargo.toml|cargo.lock)/i": {
+			"image": "cargo"
+		},
+		"circle.yml": {
+			"image": "circleci"
+		},
+		"/\\.codeclimate\\.(yml|json)/i": {
+			"image": "codeclimate"
+		},
 		".idc": {
 			"image": "cpp"
 		},
 		".w": {
 			"image": "cpp"
 		},
+		"/webpack(\\.dev|\\.development|\\.prod|\\.production)?\\.config\\.js/i": {
+			"image": "webpack"
+		},
 		".nc": {
 			"image": "cpp"
+		},
+		".npmrc": {
+			"image": "npm"
 		},
 		".upc": {
 			"image": "cpp"
@@ -256,14 +303,23 @@
 		".litcoffee": {
 			"image": "coffee"
 		},
+		".ls": {
+			"image": "livescript"
+		},
 		".iced": {
 			"image": "coffee"
 		},
 		"/\\.e?cr$/i": {
 			"image": "crystal"
 		},
+		".css.map": {
+			"image": "cssmap"
+		},
 		".css": {
 			"image": "css"
+		},
+		".cu": {
+			"image": "cuda"
 		},
 		".less": {
 			"image": "less"
@@ -298,23 +354,47 @@
 		".cson": {
 			"image": "manifest"
 		},
+		"/(\\.firebaserc|firebase\\.json)/i": {
+			"image": "firebase"
+		},
 		".json5": {
 			"image": "manifest"
 		},
 		".http": {
-			"image": "manifest"
+			"image": "http"
 		},
 		".ndjson": {
 			"image": "manifest"
 		},
+		"nodemon.json": {
+			"image": "nodemon"
+		},
 		".fea": {
 			"image": "manifest"
+		},
+		".flowconfig": {
+			"image": "flowconfig"
 		},
 		".json.eex": {
 			"image": "manifest"
 		},
+		"prisma.yml": {
+			"image": "prisma"
+		},
+		".prettierignore": {
+			"image": "prettier"
+		},
+		"/\\.prettier((rc)|(\\.(toml|yml|yaml|json|js))?$){2}/i": {
+			"image": "prettier"
+		},
+		"prettier.config.js": {
+			"image": "prettier"
+		},
 		".proto": {
 			"image": "manifest"
+		},
+		"/^procfile/i": {
+			"image": "heroku"
 		},
 		".pytb": {
 			"image": "manifest"
@@ -325,8 +405,14 @@
 		"/\\.pot?$/i": {
 			"image": "manifest"
 		},
+		".pcss": {
+			"image": "postcss"
+		},
 		".ejson": {
 			"image": "manifest"
+		},
+		".editorconfig": {
+			"image": "editorconfig"
 		},
 		".edn": {
 			"image": "manifest"
@@ -345,6 +431,12 @@
 		},
 		".ttl": {
 			"image": "manifest"
+		},
+		".travis.yml": {
+			"image": "travis"
+		},
+		".rest": {
+			"image": "http"
 		},
 		".rviz": {
 			"image": "manifest"
@@ -375,6 +467,9 @@
 		},
 		"/\\.git[\\/\\\\](.*[\\/\\\\])?(HEAD|ORIG_HEAD|packed-refs|logs[\\/\\\\](.+[\\/\\\\])?[^\\/\\\\]+)$/": {
 			"image": "manifest"
+		},
+		"/gatsby-(browser|node|ssr|config)\\.js/i": {
+			"image": "gatsbyjs"
 		},
 		".dfm": {
 			"image": "delphi"
@@ -411,6 +506,9 @@
 		},
 		".app.src": {
 			"image": "erlang"
+		},
+		"/(\\.)?appveyor\\.yml/i": {
+			"image": "appveyor"
 		},
 		"/^Emakefile$/": {
 			"image": "erlang"
@@ -451,8 +549,14 @@
 		"gradlew": {
 			"image": "gradle"
 		},
+		".gql": {
+			"image": "graphql"
+		},
 		".graphql": {
 			"image": "graphql"
+		},
+		"gulpfile.js": {
+			"image": "gulp"
 		},
 		"/\\.(hbs|handlebars|(mu)?stache)$/i": {
 			"image": "handlebars"
@@ -490,8 +594,17 @@
 		".java": {
 			"image": "java"
 		},
-		".jil": {
+		"/\\.(jil|jl)/i": {
 			"image": "julia"
+		},
+		"babel.config.js": {
+			"image": "babel"
+		},
+		"jest.config.js": {
+			"image": "jest"
+		},
+		".js.map": {
+			"image": "jsmap"
 		},
 		".js": {
 			"image": "js"
@@ -501,6 +614,9 @@
 		},
 		".es": {
 			"image": "js"
+		},
+		".env": {
+			"image": "env"
 		},
 		".mjs": {
 			"image": "js"
@@ -540,6 +656,9 @@
 		},
 		".sexp": {
 			"image": "lisp"
+		},
+		".log": {
+			"image": "log"
 		},
 		".lua": {
 			"image": "lua"
@@ -586,6 +705,9 @@
 		"/\\.(md|mdown|markdown|mkd|mkdown|mdwn|mkdn|rmd|ron|pmd)$/i": {
 			"image": "markdown"
 		},
+		".mdx": {
+			"image": "markdownx"
+		},
 		".nim": {
 			"image": "nim"
 		},
@@ -615,6 +737,9 @@
 		},
 		".eliomi": {
 			"image": "ocaml"
+		},
+		"/\\.(eslintrc|eslintignore)/i": {
+			"image": "eslint"
 		},
 		".ml4": {
 			"image": "ocaml"
@@ -691,11 +816,17 @@
 		".ps1xml": {
 			"image": "powershell"
 		},
+		".purs": {
+			"image": "purescript"
+		},
 		".p": {
 			"image": "pawn"
 		},
 		".inc": {
 			"image": "pawn"
+		},
+		".ino": {
+			"image": "arduino"
 		},
 		".pwn": {
 			"image": "pawn"
@@ -901,11 +1032,17 @@
 		".texi": {
 			"image": "tex"
 		},
+		"heroku.yml": {
+			"image": "heroku"
+		},
 		"/^hyphen(ex)?\\.(cs|den|det|fr|sv|us)$/": {
 			"image": "tex"
 		},
 		".toml": {
 			"image": "toml"
+		},
+		"/.*\\.d\\.ts/i": {
+			"image": "typescript-def"
 		},
 		".ts": {
 			"image": "ts"
@@ -941,10 +1078,10 @@
 			"image": "vba"
 		},
 		".vbhtml": {
-			"image": "vbhtml"
+			"image": "vb"
 		},
 		".vbproj": {
-			"image": "vbproj"
+			"image": "vb"
 		},
 		".vcxproj": {
 			"image": "vcxproj"
@@ -955,6 +1092,9 @@
 		".vue": {
 			"image": "vue"
 		},
+		".xml": {
+			"image": "xml"
+		},
 		"/\\.ya?ml$/i": {
 			"image": "yaml"
 		},
@@ -963,6 +1103,9 @@
 		},
 		".yarnrc": {
 			"image": "yarn"
+		},
+		"/\\.babelrc/i": {
+			"image": "babel"
 		},
 		".bat": {
 			"image": "bat"

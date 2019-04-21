@@ -15,14 +15,14 @@
 ## Features
 
 * Shows what you are editing in VSCode with no bullsh*t involved
-* Support for over 80 of the most popular languages
+* Support for over 90 of the most popular languages
 * Enable/Disable Rich Presence for individual workspaces (enabled by default)
 * Custom string support
 * Respects Discords 15sec limit when it comes to updating your status
 * Stable or Insiders build detection
 * Debug mode detection
 * Easily manually reconnect to Discord
-* **(NEW)** VSCode Live Share support!
+* VSCode Live Share support
 
 ## Troubleshooting
 
