@@ -1,14 +1,14 @@
-import { OutputChannel, window } from 'vscode'; // tslint:disable-line
+import { OutputChannel, window } from 'vscode';
 
-// tslint:disable-next-line
+// eslint-disable-next-line
 export default class Logger {
-	private static _output: OutputChannel; // tslint:disable-line
+	private static _output: OutputChannel;
 
-	private static _setup() {
+	private static _setup(): void {
 		this._output = this._output || window.createOutputChannel('Discord Presence');
 	}
 
-	public static log(message: string) {
+	public static log(message: string): void {
 		if (!this._output) this._setup();
 		this._output.appendLine(message);
 	}

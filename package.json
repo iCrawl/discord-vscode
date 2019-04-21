@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "3.4.0",
+	"version": "3.5.0",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -19,8 +19,8 @@
 	"main": "./dist/extension",
 	"scripts": {
 		"prebuild": "yarn lint",
-		"build": "gulp",
-		"lint": "tslint -p tsconfig.json",
+		"build": "webpack --mode production",
+		"lint": "eslint src --ext .ts",
 		"postinstall": "node ./node_modules/vscode/bin/install"
 	},
 	"activationEvents": [
@@ -139,14 +139,14 @@
 						"default": false,
 						"description": "Decides whether to display elapsed time for a workspace or a single file"
 					},
-					"discord.workspaceExcludePatterns": { 
+					"discord.workspaceExcludePatterns": {
 						"type": "array",
-						"items": { 
+						"items": {
 							"type": "string"
-	 					},
+						},
 						"default": [],
 						"description": "Patterns of workspaces to ignore"
-	 				}
+					}
 				}
 			}
 		]
@@ -177,23 +177,28 @@
 	},
 	"dependencies": {
 		"clipboardy": "^2.0.0",
-		"discord-rpc": "iCrawl/rpc#custom",
+		"discord-rpc": "discordjs/RPC",
 		"register-scheme": "devsnek/node-register-scheme",
 		"vsls": "^0.3.1291"
 	},
 	"devDependencies": {
-		"@types/node": "^11.13.5",
-		"fs-nextra": "^0.4.5",
-		"gulp": "^3.9.1",
-		"gulp-sourcemaps": "^2.6.5",
-		"gulp-typescript": "^5.0.1",
-		"merge2": "^1.2.3",
-		"tslint": "^5.16.0",
-		"tslint-config-fire": "^1.0.1",
+		"@types/node": "^11.13.6",
+		"@typescript-eslint/eslint-plugin": "^1.7.0",
+		"@typescript-eslint/parser": "^1.7.0",
+		"clean-webpack-plugin": "^2.0.1",
+		"eslint": "^5.16.0",
+		"eslint-config-marine": "^2.0.0",
+		"terser-webpack-plugin": "^1.2.3",
+		"ts-loader": "^5.3.3",
 		"typescript": "^3.4.4",
-		"vscode": "^1.1.33"
+		"vscode": "^1.1.33",
+		"webpack": "^4.30.0",
+		"webpack-cli": "^3.3.0"
 	},
 	"engines": {
 		"vscode": "^1.15.0"
+	},
+	"eslintConfig": {
+		"extends": "marine/node"
 	}
 }

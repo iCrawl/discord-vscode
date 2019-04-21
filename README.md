@@ -22,7 +22,7 @@
 * Stable or Insiders build detection
 * Debug mode detection
 * Easily manually reconnect to Discord
-* **(NEW)** VSCode Live Share support!
+* VSCode Live Share support
 
 ## Troubleshooting
 
