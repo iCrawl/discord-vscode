@@ -96,6 +96,7 @@ export default class Activity implements Disposable {
 	}
 
 	public async allowSpectate(): Promise<State | void> {
+		if (!this._state) return;
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		const join = await liveshare.share({ suppressNotification: true, access: vsls.Access.ReadOnly });
@@ -109,19 +110,19 @@ export default class Activity implements Disposable {
 	}
 
 	public async disableSpectate(): Promise<State | void> {
+		if (!this._state) return;
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		await liveshare.end();
-		this._state = {
-			...this._state,
-			spectateSecret: undefined,
-			instance: false
-		};
+
+		delete this._state.spectateSecret;
+		this._state.instance = false;
 
 		return this._state;
 	}
 
 	public async allowJoinRequests(): Promise<State | void> {
+		if (!this._state) return;
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		const join = await liveshare.share({ suppressNotification: true });
@@ -138,28 +139,36 @@ export default class Activity implements Disposable {
 	}
 
 	public async disableJoinRequests(): Promise<State | void> {
+		if (!this._state) return;
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		await liveshare.end();
-		this._state = {
-			...this._state,
-			partyId: undefined,
-			partySize: undefined,
-			partyMax: undefined,
-			joinSecret: undefined,
-			instance: false
-		};
+
+		delete this._state.partyId;
+		delete this._state.partySize;
+		delete this._state.partyMax;
+		delete this._state.joinSecret;
+		this._state.instance = false;
 
 		return this._state;
 	}
 
 	public changePartyId(id?: string): State | void {
 		if (!this._state) return;
+		if (!id) {
+			delete this._state.partyId;
+			delete this._state.partySize;
+			delete this._state.partyMax;
+			this._state.instance = false;
+
+			return this._state;
+		}
 		this._state = {
 			...this._state,
 			partyId: id,
 			partySize: this._state.partySize ? this._state.partySize + 1 : 1,
-			partyMax: id ? 5 : undefined
+			partyMax: 5,
+			instance: true
 		};
 
 		return this._state;

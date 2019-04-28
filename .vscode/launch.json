@@ -9,8 +9,7 @@
 			"args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
 			"stopOnEntry": false,
 			"sourceMaps": true,
-			"outFiles": [ "${workspaceRoot}/dist/**/*.js" ],
-			"preLaunchTask": "build"
+			"outFiles": [ "${workspaceRoot}/dist/**/*.js" ]
 		}
 	]
 }
