@@ -825,6 +825,9 @@
 		".inc": {
 			"image": "pawn"
 		},
+		".sma": {
+			"image": "pawn"
+		},
 		".ino": {
 			"image": "arduino"
 		},
