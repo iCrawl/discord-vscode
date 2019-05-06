@@ -26,6 +26,7 @@
 	"activationEvents": [
 		"*"
 	],
+	"extensionKind": "ui",
 	"contributes": {
 		"commands": [
 			{
@@ -196,7 +197,7 @@
 		"webpack-cli": "^3.3.2"
 	},
 	"engines": {
-		"vscode": "^1.15.0"
+		"vscode": "^1.31.0"
 	},
 	"eslintConfig": {
 		"extends": "marine/node"
