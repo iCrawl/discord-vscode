@@ -1061,8 +1061,9 @@ diffie-hellman@^5.0.0:
     randombytes "^2.0.0"
 
 discord-rpc@discordjs/RPC:
-  version "3.0.1"
-  resolved "https://codeload.github.com/discordjs/RPC/tar.gz/2dc7ca3e78d632c07ca965a65ba669afe26fdc7f"
+  version "3.0.2"
+  uid "15b38515d9b8437c0defd4cf7fc004a19cf9b4ff"
+  resolved "https://codeload.github.com/discordjs/RPC/tar.gz/15b38515d9b8437c0defd4cf7fc004a19cf9b4ff"
   dependencies:
     node-fetch "^2.3.0"
     ws "^6.1.1"
