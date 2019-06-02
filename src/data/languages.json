@@ -1,5 +1,6 @@
 {
 	"knownLanguages": [
+		"pony",
 		"as",
 		"asp",
 		"assembly",
@@ -108,6 +109,9 @@
 		"webpack"
 	],
 	"knownExtentions": {
+		".pony": {
+			"image": "pony"
+		},
 		".swf": {
 			"image": "as"
 		},
