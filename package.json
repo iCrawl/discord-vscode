@@ -186,7 +186,7 @@
 		"@types/node": "^12.0.7",
 		"@typescript-eslint/eslint-plugin": "^1.10.2",
 		"@typescript-eslint/parser": "^1.10.2",
-		"clean-webpack-plugin": "^2.0.2",
+		"clean-webpack-plugin": "^3.0.0",
 		"eslint": "^5.16.0",
 		"eslint-config-marine": "^2.2.0",
 		"terser-webpack-plugin": "^1.3.0",
