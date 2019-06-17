@@ -177,7 +177,7 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"clipboardy": "^2.0.0",
+		"clipboardy": "^2.1.0",
 		"discord-rpc": "discordjs/RPC",
 		"register-scheme": "devsnek/node-register-scheme",
 		"vsls": "^0.3.1291"
