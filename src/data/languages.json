@@ -84,6 +84,7 @@
 		"shell",
 		"sql",
 		"svg",
+		"svelte",
 		"swift",
 		"tex",
 		"toml",
@@ -995,6 +996,9 @@
 		},
 		".svg": {
 			"image": "svg"
+		},
+		".svelte": {
+			"image": "svelte"
 		},
 		".swift": {
 			"image": "swift"
