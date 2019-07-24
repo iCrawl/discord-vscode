@@ -43,6 +43,7 @@
 		"gradle",
 		"graphql",
 		"gulp",
+		"harbour",
 		"handlebars",
 		"haskell",
 		"html",
@@ -582,6 +583,21 @@
 		},
 		".hxml": {
 			"image": "haxe"
+		},
+		".prg": {
+			"image": "harbour"
+		},
+		".hbp": {
+			"image": "harbour"
+		},
+		".hbc": {
+			"image": "harbour"
+		},
+		".rc": {
+			"image": "harbour"
+		},
+		".fmg": {
+			"image": "harbour"
 		},
 		".jade": {
 			"image": "pug"
@@ -1146,6 +1162,9 @@
 		},
 		".marko": {
 			"image": "marko"
+		},
+		".pony": {
+			"image": "ponylang"
 		}
 	}
 }
