@@ -183,7 +183,7 @@
 		"vsls": "^0.3.1291"
 	},
 	"devDependencies": {
-		"@types/node": "^12.6.8",
+		"@types/node": "^12.6.9",
 		"@typescript-eslint/eslint-plugin": "^1.13.0",
 		"@typescript-eslint/parser": "^1.13.0",
 		"clean-webpack-plugin": "^3.0.0",
