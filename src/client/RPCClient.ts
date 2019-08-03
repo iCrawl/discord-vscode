@@ -66,7 +66,7 @@ export default class RPCClient implements Disposable {
 		await this._activity.disableJoinRequests();
 	}
 
-	public async login(reconnect: boolean = false): Promise<void> {
+	public async login(): Promise<void> {
 		if (this._rpc) return;
 		this._rpc = new Client({ transport: 'ipc' });
 		Logger.log('Logging into RPC.');
@@ -146,8 +146,6 @@ export default class RPCClient implements Disposable {
 
 		this._rpc.transport.once('close', async () => {
 			if (!this.config.get<boolean>('enabled')) return;
-			if (reconnect) return;
-			console.log('called close', reconnect);
 			await this.dispose();
 			this.statusBarIcon.text = '$(plug) Reconnect to Discord';
 			this.statusBarIcon.command = 'discord.reconnect';
