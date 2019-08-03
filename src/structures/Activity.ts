@@ -50,9 +50,10 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public generate(workspaceElapsedTime: boolean = false): State {
+	public generate(workspaceElapsedTime: boolean = false): State | null {
 		let largeImageKey: any = 'vscode-big';
 		if (window.activeTextEditor) {
+			if (window.activeTextEditor.document.languageId === 'Log') return this._state;
 			if (window.activeTextEditor.document.fileName === this._lastKnownFile) {
 				return this._state = {
 					...this._state,
@@ -209,7 +210,6 @@ export default class Activity implements Disposable {
 		let workspaceFolder = null;
 		let fullDirname = null;
 		if (window.activeTextEditor) {
-			if (window.activeTextEditor.document.languageId === 'Log') return raw;
 			filename = basename(window.activeTextEditor.document.fileName);
 
 			const { dir } = parse(window.activeTextEditor.document.fileName);
