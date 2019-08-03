@@ -20,8 +20,7 @@
 	"scripts": {
 		"prebuild": "yarn lint",
 		"build": "webpack --mode production",
-		"lint": "eslint src --ext .ts",
-		"postinstall": "node ./node_modules/vscode/bin/install"
+		"lint": "eslint src --ext .ts"
 	},
 	"activationEvents": [
 		"*"
@@ -42,6 +41,11 @@
 			{
 				"command": "discord.reconnect",
 				"title": "Reconnect Discord Presence to Discord RPC",
+				"category": "Discord Presence"
+			},
+			{
+				"command": "discord.disconnect",
+				"title": "Disconnect Discord Presence from Discord RPC",
 				"category": "Discord Presence"
 			},
 			{
@@ -177,22 +181,24 @@
 		"theme": "dark"
 	},
 	"dependencies": {
+		"bufferutil": "^4.0.1",
 		"clipboardy": "^2.1.0",
 		"discord-rpc": "discordjs/RPC",
 		"register-scheme": "devsnek/node-register-scheme",
+		"utf-8-validate": "^5.0.2",
 		"vsls": "^0.3.1291"
 	},
 	"devDependencies": {
 		"@types/node": "^12.6.9",
+		"@types/vscode": "^1.36.0",
 		"@typescript-eslint/eslint-plugin": "^1.13.0",
 		"@typescript-eslint/parser": "^1.13.0",
 		"clean-webpack-plugin": "^3.0.0",
-		"eslint": "^5.16.0",
-		"eslint-config-marine": "^2.2.0",
+		"eslint": "^6.1.0",
+		"eslint-config-marine": "^3.0.3",
 		"terser-webpack-plugin": "^1.4.1",
 		"ts-loader": "^6.0.4",
 		"typescript": "^3.5.3",
-		"vscode": "^1.1.36",
 		"webpack": "^4.39.1",
 		"webpack-cli": "^3.3.6"
 	},
