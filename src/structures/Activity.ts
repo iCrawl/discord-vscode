@@ -209,6 +209,7 @@ export default class Activity implements Disposable {
 		let workspaceFolder = null;
 		let fullDirname = null;
 		if (window.activeTextEditor) {
+			if (window.activeTextEditor.document.languageId === 'Log') return raw;
 			filename = basename(window.activeTextEditor.document.fileName);
 
 			const { dir } = parse(window.activeTextEditor.document.fileName);
