@@ -7,7 +7,7 @@ import {
 	window
 } from 'vscode';
 import * as vsls from 'vsls';
-import Activity from '../structures/Activity';
+import Activity, { State } from '../structures/Activity';
 import Logger from '../structures/Logger';
 const clipboardy = require('clipboardy'); // eslint-disable-line
 
@@ -66,27 +66,27 @@ export default class RPCClient implements Disposable {
 		await this._activity.disableJoinRequests();
 	}
 
-	public async login(): Promise<void> {
+	public async login(reconnect: boolean = false): Promise<void> {
 		if (this._rpc) return;
 		this._rpc = new Client({ transport: 'ipc' });
 		Logger.log('Logging into RPC.');
-		this._rpc.once('ready', async (): Promise<void> => {
+		this._rpc.once('ready', async () => {
 			Logger.log('Successfully connected to Discord.');
 			this.statusBarIcon.text = '$(globe) Connected to Discord';
 			this.statusBarIcon.tooltip = 'Connected to Discord';
 
 			// @ts-ignore
-			setTimeout((): void => this.statusBarIcon.text = '$(globe)', 5000);
+			setTimeout(() => this.statusBarIcon.text = '$(globe)', 5000);
 
 			if (activityTimer) clearInterval(activityTimer);
 			this.setActivity();
 
-			activityTimer = setInterval((): void => {
+			activityTimer = setInterval(() => {
 				this.config = workspace.getConfiguration('discord');
 				this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 			}, 10000);
 
-			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: string }): Promise<void> => {
+			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: string }) => {
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
@@ -106,17 +106,17 @@ export default class RPCClient implements Disposable {
 			// You might be asking yourself again: "but why?"
 			// Same here, this is a real nasty race condition that happens inside the discord-rpc module currently
 			// To circumvent this we need to timeout sending the subscribe events to the discord client
-			setTimeout((): void => {
-				this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: { username: string; discriminator: string } }): Promise<void> =>
+			setTimeout(() => {
+				this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: { username: string; discriminator: string } }) =>
 					window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'Accept' }, { title: 'Decline' })
 						// eslint-disable-next-line
 						.then(async (val: { title: string } | undefined) => {
 							if (val && val.title === 'Accept') await this._rpc.sendJoinInvite(user); // eslint-disable-line
 							else await this._rpc.closeJoinRequest(user);
 						}));
-			}, 500);
-			setTimeout((): void => {
-				this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: string }): Promise<void> => {
+			}, 1000);
+			setTimeout(() => {
+				this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: string }) => {
 					const liveshare = await vsls.getApi();
 					if (!liveshare) return;
 					try {
@@ -130,26 +130,24 @@ export default class RPCClient implements Disposable {
 						Logger.log(error);
 					}
 				});
-			}, 1000);
+			}, 2000);
 
 			const liveshare = await vsls.getApi();
 			if (!liveshare) return;
-			liveshare.onDidChangeSession(({ session }: { session: vsls.Session }): void => {
-				// @ts-ignore
+			liveshare.onDidChangeSession(({ session }: { session: vsls.Session }): State | void => {
 				if (session.id) return this._activity.changePartyId(session.id);
-				// @ts-ignore
 				return this._activity.changePartyId();
 			});
-			liveshare.onDidChangePeers(({ added, removed }: { added: vsls.Peer[]; removed: vsls.Peer[] }): void => {
-				// @ts-ignore
+			liveshare.onDidChangePeers(({ added, removed }: { added: vsls.Peer[]; removed: vsls.Peer[] }): State | void => {
 				if (added.length) return this._activity.increasePartySize(added.length);
-				// @ts-ignore
 				else if (removed.length) return this._activity.decreasePartySize(removed.length);
 			});
 		});
 
-		this._rpc.transport.once('close', async (): Promise<void> => {
+		this._rpc.transport.once('close', async () => {
 			if (!this.config.get<boolean>('enabled')) return;
+			if (reconnect) return;
+			console.log('called close', reconnect);
 			await this.dispose();
 			this.statusBarIcon.text = '$(plug) Reconnect to Discord';
 			this.statusBarIcon.command = 'discord.reconnect';
@@ -162,7 +160,7 @@ export default class RPCClient implements Disposable {
 	public async dispose(): Promise<void> {
 		this._activity.dispose();
 		try {
-			await this._rpc.destroy();
+			if (this._rpc) await this._rpc.destroy();
 		} catch {}
 		this._rpc = null;
 		this.statusBarIcon.tooltip = '';

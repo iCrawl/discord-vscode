@@ -15,7 +15,7 @@ const knownLanguages: string[] = lang.knownLanguages;
 const empty = '\u200b\u200b';
 const sizes = [' bytes', 'kb', 'mb', 'gb', 'tb'];
 
-interface State {
+export interface State {
 	details?: string;
 	state?: string;
 	startTimestamp?: number | null;

@@ -26,9 +26,12 @@ module.exports = {
 				cache: false,
 				parallel: true,
 				sourceMap: true,
+				extractComments: true,
 				terserOptions: {
 					ecma: 8,
-					keep_classnames: true
+					mangle: false,
+					keep_classnames: true,
+					keep_fnames: true
 				}
 			})
 		]
