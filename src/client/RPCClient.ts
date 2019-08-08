@@ -82,7 +82,7 @@ export default class RPCClient implements Disposable {
 			setTimeout(() => this.statusBarIcon.text = '$(globe)', 5000);
 
 			if (activityTimer) clearInterval(activityTimer);
-			this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
+			await this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 
 			activityTimer = setInterval(async () => {
 				this.config = workspace.getConfiguration('discord');
