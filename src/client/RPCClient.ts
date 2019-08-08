@@ -33,9 +33,9 @@ export default class RPCClient implements Disposable {
 		return this._rpc;
 	}
 
-	public setActivity(workspaceElapsedTime: boolean = false): void {
+	public async setActivity(workspaceElapsedTime: boolean = false): Promise<void> {
 		if (!this._rpc) return;
-		const activity = this._activity.generate(workspaceElapsedTime);
+		const activity = await this._activity.generate(workspaceElapsedTime);
 		Logger.log('Sending activity to Discord.');
 		this._rpc.setActivity(activity);
 	}
@@ -79,11 +79,11 @@ export default class RPCClient implements Disposable {
 			setTimeout(() => this.statusBarIcon.text = '$(globe)', 5000);
 
 			if (activityTimer) clearInterval(activityTimer);
-			this.setActivity();
+			await this.setActivity();
 
-			activityTimer = setInterval(() => {
+			activityTimer = setInterval(async () => {
 				this.config = workspace.getConfiguration('discord');
-				this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
+				await this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 			}, 10000);
 
 			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: string }) => {

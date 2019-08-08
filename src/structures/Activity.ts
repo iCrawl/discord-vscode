@@ -1,4 +1,3 @@
-import { statSync } from 'fs';
 import { basename, parse, sep } from 'path';
 import {
 	debug,
@@ -50,16 +49,16 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public generate(workspaceElapsedTime: boolean = false): State | null {
+	public async generate(workspaceElapsedTime: boolean = false): Promise<State | null> {
 		let largeImageKey: any = 'vscode-big';
 		if (window.activeTextEditor) {
 			if (window.activeTextEditor.document.languageId === 'Log') return this._state;
 			if (window.activeTextEditor.document.fileName === this._lastKnownFile) {
 				return this._state = {
 					...this._state,
-					details: this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', this._state!.largeImageKey),
+					details: await this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', this._state!.largeImageKey),
 					smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
-					state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this._state!.largeImageKey)
+					state: await this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this._state!.largeImageKey)
 				};
 			}
 			this._lastKnownFile = window.activeTextEditor.document.fileName;
@@ -78,9 +77,9 @@ export default class Activity implements Disposable {
 
 		this._state = {
 			...this._state,
-			details: this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', largeImageKey),
+			details: await this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', largeImageKey),
 			startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() : null,
-			state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
+			state: await this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
 			largeImageKey: largeImageKey ? largeImageKey.image || largeImageKey : 'txt',
 			largeImageText: window.activeTextEditor
 				? this._config.get<string>('largeImage')!
@@ -202,7 +201,7 @@ export default class Activity implements Disposable {
 		this._lastKnownFile = '';
 	}
 
-	private _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any): string {
+	private async _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any): Promise<string> {
 		let raw: string = this._config.get<string>(idling)!.replace('{null}', empty);
 		let filename = null;
 		let dirname = null;
@@ -233,7 +232,7 @@ export default class Activity implements Disposable {
 				raw = this._config.get<string>(editing)!;
 			}
 
-			const { totalLines, size, currentLine, currentColumn } = this._generateFileDetails(raw);
+			const { totalLines, size, currentLine, currentColumn } = await this._generateFileDetails(raw);
 			raw = raw!
 				.replace('{null}', empty)
 				.replace('{filename}', filename)
@@ -252,7 +251,7 @@ export default class Activity implements Disposable {
 		return raw;
 	}
 
-	private _generateFileDetails(str?: string): FileDetail {
+	private async _generateFileDetails(str?: string): Promise<FileDetail> {
 		const fileDetail: FileDetail = {};
 		if (!str) return fileDetail;
 
@@ -271,7 +270,7 @@ export default class Activity implements Disposable {
 
 			if (str.includes('{filesize}')) {
 				let currentDivision = 0;
-				let { size } = statSync(window.activeTextEditor.document.fileName);
+				let { size } = await workspace.fs.stat(window.activeTextEditor.document.uri);
 				const originalSize = size;
 				if (originalSize > 1000) {
 					size /= 1000;
