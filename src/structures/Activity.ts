@@ -1,4 +1,3 @@
-import { statSync } from 'fs';
 import { basename, parse, sep } from 'path';
 import {
 	debug,
@@ -16,7 +15,7 @@ const knownLanguages: string[] = lang.knownLanguages;
 const empty = '\u200b\u200b';
 const sizes = [' bytes', 'kb', 'mb', 'gb', 'tb'];
 
-interface State {
+export interface State {
 	details?: string;
 	state?: string;
 	startTimestamp?: number | null;
@@ -53,15 +52,16 @@ export default class Activity implements Disposable {
 		return this._state;
 	}
 
-	public generate(workspaceElapsedTime: boolean = false): State {
+	public async generate(workspaceElapsedTime: boolean = false): Promise<State | null> {
 		let largeImageKey: any = 'vscode-big';
 		if (window.activeTextEditor) {
+			if (window.activeTextEditor.document.languageId === 'Log') return this._state;
 			if (window.activeTextEditor.document.fileName === this._lastKnownFile) {
 				return this._state = {
 					...this._state,
-					details: this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', this._state!.largeImageKey),
+					details: await this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', this._state!.largeImageKey),
 					smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
-					state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this._state!.largeImageKey)
+					state: await this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this._state!.largeImageKey)
 				};
 			}
 			this._lastKnownFile = window.activeTextEditor.document.fileName;
@@ -80,9 +80,9 @@ export default class Activity implements Disposable {
 
 		this._state = {
 			...this._state,
-			details: this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', largeImageKey),
+			details: await this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', largeImageKey),
 			startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() : null,
-			state: this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
+			state: await this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
 			largeImageKey: largeImageKey ? largeImageKey.image || largeImageKey : 'txt',
 			largeImageText: window.activeTextEditor
 				? this.client.config.get<string>('largeImage')!
@@ -99,6 +99,7 @@ export default class Activity implements Disposable {
 	}
 
 	public async allowSpectate(): Promise<State | void> {
+		if (!this._state) return;
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		const join = await liveshare.share({ suppressNotification: true, access: vsls.Access.ReadOnly });
@@ -112,19 +113,19 @@ export default class Activity implements Disposable {
 	}
 
 	public async disableSpectate(): Promise<State | void> {
+		if (!this._state) return;
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		await liveshare.end();
-		this._state = {
-			...this._state,
-			spectateSecret: undefined,
-			instance: false
-		};
+
+		delete this._state.spectateSecret;
+		this._state.instance = false;
 
 		return this._state;
 	}
 
 	public async allowJoinRequests(): Promise<State | void> {
+		if (!this._state) return;
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		const join = await liveshare.share({ suppressNotification: true });
@@ -141,28 +142,36 @@ export default class Activity implements Disposable {
 	}
 
 	public async disableJoinRequests(): Promise<State | void> {
+		if (!this._state) return;
 		const liveshare = await vsls.getApi();
 		if (!liveshare) return;
 		await liveshare.end();
-		this._state = {
-			...this._state,
-			partyId: undefined,
-			partySize: undefined,
-			partyMax: undefined,
-			joinSecret: undefined,
-			instance: false
-		};
+
+		delete this._state.partyId;
+		delete this._state.partySize;
+		delete this._state.partyMax;
+		delete this._state.joinSecret;
+		this._state.instance = false;
 
 		return this._state;
 	}
 
 	public changePartyId(id?: string): State | void {
 		if (!this._state) return;
+		if (!id) {
+			delete this._state.partyId;
+			delete this._state.partySize;
+			delete this._state.partyMax;
+			this._state.instance = false;
+
+			return this._state;
+		}
 		this._state = {
 			...this._state,
 			partyId: id,
 			partySize: this._state.partySize ? this._state.partySize + 1 : 1,
-			partyMax: id ? 5 : undefined
+			partyMax: 5,
+			instance: true
 		};
 
 		return this._state;
@@ -195,8 +204,8 @@ export default class Activity implements Disposable {
 		this._lastKnownFile = '';
 	}
 
-	private _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any): string {
-		let raw: string = this.client.config.get<string>(idling)!.replace('{null}', empty);
+	private async _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any): Promise<string> {
+		let raw: string = this._config.get<string>(idling)!.replace('{null}', empty);
 		let filename = null;
 		let dirname = null;
 		let checkState = false;
@@ -226,7 +235,7 @@ export default class Activity implements Disposable {
 				raw = this.client.config.get<string>(editing)!;
 			}
 
-			const { totalLines, size, currentLine, currentColumn, gitbranch, gitreponame } = this._generateFileDetails(raw);
+			const { totalLines, size, currentLine, currentColumn, gitbranch, gitreponame } = await this._generateFileDetails(raw);
 			raw = raw!
 				.replace('{null}', empty)
 				.replace('{filename}', filename)
@@ -247,7 +256,7 @@ export default class Activity implements Disposable {
 		return raw;
 	}
 
-	private _generateFileDetails(str?: string): FileDetail {
+	private async _generateFileDetails(str?: string): Promise<FileDetail> {
 		const fileDetail: FileDetail = {};
 		if (!str) return fileDetail;
 
@@ -266,7 +275,7 @@ export default class Activity implements Disposable {
 
 			if (str.includes('{filesize}')) {
 				let currentDivision = 0;
-				let { size } = statSync(window.activeTextEditor.document.fileName);
+				let { size } = await workspace.fs.stat(window.activeTextEditor.document.uri);
 				const originalSize = size;
 				if (originalSize > 1000) {
 					size /= 1000;

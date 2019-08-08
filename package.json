@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "3.5.0",
+	"version": "3.8.1",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -20,12 +20,12 @@
 	"scripts": {
 		"prebuild": "yarn lint",
 		"build": "webpack --mode production",
-		"lint": "eslint src --ext .ts",
-		"postinstall": "node ./node_modules/vscode/bin/install"
+		"lint": "eslint src --ext .ts"
 	},
 	"activationEvents": [
 		"*"
 	],
+	"extensionKind": "ui",
 	"contributes": {
 		"commands": [
 			{
@@ -41,6 +41,11 @@
 			{
 				"command": "discord.reconnect",
 				"title": "Reconnect Discord Presence to Discord RPC",
+				"category": "Discord Presence"
+			},
+			{
+				"command": "discord.disconnect",
+				"title": "Disconnect Discord Presence from Discord RPC",
 				"category": "Discord Presence"
 			},
 			{
@@ -176,27 +181,29 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"clipboardy": "^2.0.0",
+		"bufferutil": "^4.0.1",
+		"clipboardy": "^2.1.0",
 		"discord-rpc": "discordjs/RPC",
 		"register-scheme": "devsnek/node-register-scheme",
+		"utf-8-validate": "^5.0.2",
 		"vsls": "^0.3.1291"
 	},
 	"devDependencies": {
-		"@types/node": "^11.13.6",
-		"@typescript-eslint/eslint-plugin": "^1.7.0",
-		"@typescript-eslint/parser": "^1.7.0",
-		"clean-webpack-plugin": "^2.0.1",
-		"eslint": "^5.16.0",
-		"eslint-config-marine": "^2.0.0",
-		"terser-webpack-plugin": "^1.2.3",
-		"ts-loader": "^5.3.3",
-		"typescript": "^3.4.4",
-		"vscode": "^1.1.33",
-		"webpack": "^4.30.0",
-		"webpack-cli": "^3.3.0"
+		"@types/node": "^12.7.1",
+		"@types/vscode": "^1.37.0",
+		"@typescript-eslint/eslint-plugin": "^1.13.0",
+		"@typescript-eslint/parser": "^1.13.0",
+		"clean-webpack-plugin": "^3.0.0",
+		"eslint": "^6.1.0",
+		"eslint-config-marine": "^3.0.3",
+		"terser-webpack-plugin": "^1.4.1",
+		"ts-loader": "^6.0.4",
+		"typescript": "^3.5.3",
+		"webpack": "^4.39.1",
+		"webpack-cli": "^3.3.6"
 	},
 	"engines": {
-		"vscode": "^1.15.0"
+		"vscode": "^1.37.0"
 	},
 	"eslintConfig": {
 		"extends": "marine/node"

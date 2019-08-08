@@ -43,6 +43,7 @@
 		"gradle",
 		"graphql",
 		"gulp",
+		"harbour",
 		"handlebars",
 		"haskell",
 		"html",
@@ -84,6 +85,7 @@
 		"shell",
 		"sql",
 		"svg",
+		"svelte",
 		"swift",
 		"tex",
 		"toml",
@@ -582,6 +584,21 @@
 		".hxml": {
 			"image": "haxe"
 		},
+		".prg": {
+			"image": "harbour"
+		},
+		".hbp": {
+			"image": "harbour"
+		},
+		".hbc": {
+			"image": "harbour"
+		},
+		".rc": {
+			"image": "harbour"
+		},
+		".fmg": {
+			"image": "harbour"
+		},
 		".jade": {
 			"image": "pug"
 		},
@@ -825,6 +842,9 @@
 		".inc": {
 			"image": "pawn"
 		},
+		".sma": {
+			"image": "pawn"
+		},
 		".ino": {
 			"image": "arduino"
 		},
@@ -993,6 +1013,9 @@
 		".svg": {
 			"image": "svg"
 		},
+		".svelte": {
+			"image": "svelte"
+		},
 		".swift": {
 			"image": "swift"
 		},
@@ -1139,6 +1162,9 @@
 		},
 		".marko": {
 			"image": "marko"
+		},
+		".pony": {
+			"image": "ponylang"
 		}
 	}
 }
