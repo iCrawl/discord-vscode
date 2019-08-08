@@ -90,7 +90,7 @@ export default class Activity implements Disposable {
 					.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string): string => c.toUpperCase()) : 'Txt')
 					.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT') ||
 					window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
-				: this._config.get<string>('largeImageIdle'),
+				: this.client.config.get<string>('largeImageIdle'),
 			smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
 			smallImageText: this.client.config.get<string>('smallImage')!.replace('{appname}', env.appName)
 		};
@@ -205,7 +205,7 @@ export default class Activity implements Disposable {
 	}
 
 	private async _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any): Promise<string> {
-		let raw: string = this._config.get<string>(idling)!.replace('{null}', empty);
+		let raw: string = this.client.config.get<string>(idling)!.replace('{null}', empty);
 		let filename = null;
 		let dirname = null;
 		let checkState = false;
