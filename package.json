@@ -199,7 +199,7 @@
 		"terser-webpack-plugin": "^1.4.1",
 		"ts-loader": "^6.0.4",
 		"typescript": "^3.5.3",
-		"webpack": "^4.39.2",
+		"webpack": "^4.39.3",
 		"webpack-cli": "^3.3.7"
 	},
 	"engines": {
