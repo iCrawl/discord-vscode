@@ -1,11 +1,4 @@
-import {
-	commands,
-	ExtensionContext,
-	StatusBarAlignment,
-	StatusBarItem,
-	window,
-	workspace
-} from 'vscode';
+import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace } from 'vscode';
 import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
 const { register } = require('discord-rpc'); // eslint-disable-line
@@ -19,7 +12,7 @@ const config = workspace.getConfiguration('discord');
 register(config.get<string>('clientID'));
 const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 
-export async function activate(context: ExtensionContext): Promise<void> {
+export async function activate(context: ExtensionContext) {
 	Logger.log('Discord Presence activated!');
 
 	let isWorkspaceExcluded = false;
@@ -29,7 +22,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 			const regex = new RegExp(pattern);
 			const folders = workspace.workspaceFolders;
 			if (!folders) break;
-			if (folders.some((folder): boolean => regex.test(folder.uri.fsPath))) {
+			if (folders.some(folder => regex.test(folder.uri.fsPath))) {
 				isWorkspaceExcluded = true;
 				break;
 			}
@@ -106,8 +99,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
 	context.subscriptions.push(enabler, disabler, reconnecter, disconnect, allowSpectate, disableSpectate, allowJoinRequests, disableJoinRequests);
 }
 
-export async function deactivate(): Promise<void> {
+export async function deactivate() {
 	await rpc.dispose();
 }
 
-process.on('unhandledRejection', (err): void => Logger.log(err as string));
+process.on('unhandledRejection', err => Logger.log(err as string));
