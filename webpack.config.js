@@ -24,7 +24,6 @@ module.exports = {
 		minimizer: [
 			new TerserPlugin({
 				cache: false,
-				parallel: true,
 				sourceMap: true,
 				extractComments: true,
 				terserOptions: {
