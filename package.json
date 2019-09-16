@@ -195,7 +195,7 @@
 		"@typescript-eslint/parser": "^2.2.0",
 		"clean-webpack-plugin": "^3.0.0",
 		"eslint": "^6.4.0",
-		"eslint-config-marine": "^4.2.1",
+		"eslint-config-marine": "^5.0.0",
 		"terser-webpack-plugin": "^2.0.1",
 		"ts-loader": "^6.1.0",
 		"typescript": "^3.6.3",
