@@ -96,7 +96,16 @@ export async function activate(context: ExtensionContext) {
 		await rpc.disableJoinRequests();
 	});
 
-	context.subscriptions.push(enabler, disabler, reconnecter, disconnect, allowSpectate, disableSpectate, allowJoinRequests, disableJoinRequests);
+	context.subscriptions.push(
+		enabler,
+		disabler,
+		reconnecter,
+		disconnect,
+		allowSpectate,
+		disableSpectate,
+		allowJoinRequests,
+		disableJoinRequests,
+	);
 }
 
 export async function deactivate() {

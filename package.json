@@ -20,7 +20,8 @@
 	"scripts": {
 		"prebuild": "yarn lint",
 		"build": "webpack --mode production",
-		"lint": "eslint src --ext .ts"
+		"lint": "eslint src --ext .ts",
+		"lint:fix": "eslint src --ext .ts --fix"
 	},
 	"activationEvents": [
 		"*"
@@ -196,6 +197,9 @@
 		"clean-webpack-plugin": "^3.0.0",
 		"eslint": "^6.4.0",
 		"eslint-config-marine": "^5.0.0",
+		"eslint-config-prettier": "^6.3.0",
+		"eslint-plugin-prettier": "^3.1.1",
+		"prettier": "^1.18.2",
 		"terser-webpack-plugin": "^2.1.0",
 		"ts-loader": "^6.1.2",
 		"typescript": "^3.6.3",
@@ -206,6 +210,6 @@
 		"vscode": "^1.38.0"
 	},
 	"eslintConfig": {
-		"extends": "marine/node"
+		"extends": "marine/prettier/node"
 	}
 }

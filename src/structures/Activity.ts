@@ -48,23 +48,43 @@ export default class Activity implements Disposable {
 		let largeImageKey: any = 'vscode-big';
 		if (window.activeTextEditor) {
 			if (window.activeTextEditor.document.languageId === 'Log') return this._state;
-			if (window.activeTextEditor.document.fileName === this._lastKnownFile) {
-				return this._state = {
+			if (this._state && window.activeTextEditor.document.fileName === this._lastKnownFile) {
+				return (this._state = {
 					...this._state,
-					details: await this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', this._state!.largeImageKey),
-					smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
-					state: await this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', this._state!.largeImageKey)
-				};
+					details: await this._generateDetails(
+						'detailsDebugging',
+						'detailsEditing',
+						'detailsIdle',
+						this._state.largeImageKey,
+					),
+					smallImageKey: debug.activeDebugSession
+						? 'debug'
+						: env.appName.includes('Insiders')
+						? 'vscode-insiders'
+						: 'vscode',
+					state: await this._generateDetails(
+						'lowerDetailsDebugging',
+						'lowerDetailsEditing',
+						'lowerDetailsIdle',
+						this._state.largeImageKey,
+					),
+				});
 			}
 			this._lastKnownFile = window.activeTextEditor.document.fileName;
 			const filename = basename(window.activeTextEditor.document.fileName);
-			largeImageKey = knownExtentions[Object.keys(knownExtentions).find(key => {
-				if (filename.endsWith(key)) return true;
-				const match = key.match(/^\/(.*)\/([mgiy]+)$/);
-				if (!match) return false;
-				const regex = new RegExp(match[1], match[2]);
-				return regex.test(filename);
-			})!] || (knownLanguages.includes(window.activeTextEditor.document.languageId) ? window.activeTextEditor.document.languageId : null);
+			largeImageKey =
+				knownExtentions[
+					Object.keys(knownExtentions).find(key => {
+						if (filename.endsWith(key)) return true;
+						const match = /^\/(.*)\/([mgiy]+)$/.exec(key);
+						if (!match) return false;
+						const regex = new RegExp(match[1], match[2]);
+						return regex.test(filename);
+					})!
+				] ||
+				(knownLanguages.includes(window.activeTextEditor.document.languageId)
+					? window.activeTextEditor.document.languageId
+					: null);
 		}
 
 		let previousTimestamp = null;
@@ -73,18 +93,38 @@ export default class Activity implements Disposable {
 		this._state = {
 			...this._state,
 			details: await this._generateDetails('detailsDebugging', 'detailsEditing', 'detailsIdle', largeImageKey),
-			startTimestamp: window.activeTextEditor && previousTimestamp && workspaceElapsedTime ? previousTimestamp : window.activeTextEditor ? new Date().getTime() : null,
-			state: await this._generateDetails('lowerDetailsDebugging', 'lowerDetailsEditing', 'lowerDetailsIdle', largeImageKey),
+			startTimestamp:
+				window.activeTextEditor && previousTimestamp && workspaceElapsedTime
+					? previousTimestamp
+					: window.activeTextEditor
+					? new Date().getTime()
+					: null,
+			state: await this._generateDetails(
+				'lowerDetailsDebugging',
+				'lowerDetailsEditing',
+				'lowerDetailsIdle',
+				largeImageKey,
+			),
 			largeImageKey: largeImageKey ? largeImageKey.image || largeImageKey : 'txt',
 			largeImageText: window.activeTextEditor
-				? this._config.get<string>('largeImage')!
-					.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
-					.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase()) : 'Txt')
-					.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT') ||
-					window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
+				? this._config
+						.get<string>('largeImage')!
+						.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
+						.replace(
+							'{Lang}',
+							largeImageKey
+								? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase())
+								: 'Txt',
+						)
+						.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT') ||
+				  window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
 				: this._config.get<string>('largeImageIdle'),
-			smallImageKey: debug.activeDebugSession ? 'debug' : env.appName.includes('Insiders') ? 'vscode-insiders' : 'vscode',
-			smallImageText: this._config.get<string>('smallImage')!.replace('{appname}', env.appName)
+			smallImageKey: debug.activeDebugSession
+				? 'debug'
+				: env.appName.includes('Insiders')
+				? 'vscode-insiders'
+				: 'vscode',
+			smallImageText: this._config.get<string>('smallImage')!.replace('{appname}', env.appName),
 		};
 
 		return this._state;
@@ -98,7 +138,7 @@ export default class Activity implements Disposable {
 		this._state = {
 			...this._state,
 			spectateSecret: join ? Buffer.from(join.toString()).toString('base64') : undefined,
-			instance: true
+			instance: true,
 		};
 
 		return this._state;
@@ -127,7 +167,7 @@ export default class Activity implements Disposable {
 			partySize: 1,
 			partyMax: 5,
 			joinSecret: join ? Buffer.from(join.toString()).toString('base64') : undefined,
-			instance: true
+			instance: true,
 		};
 
 		return this._state;
@@ -163,7 +203,7 @@ export default class Activity implements Disposable {
 			partyId: id,
 			partySize: this._state.partySize ? this._state.partySize + 1 : 1,
 			partyMax: 5,
-			instance: true
+			instance: true,
 		};
 
 		return this._state;
@@ -174,7 +214,7 @@ export default class Activity implements Disposable {
 		if (this.state && this._state.partySize === 5) return;
 		this._state = {
 			...this._state,
-			partySize: this._state.partySize ? this._state.partySize + 1 : size
+			partySize: this._state.partySize ? this._state.partySize + 1 : size,
 		};
 
 		return this._state;
@@ -185,7 +225,7 @@ export default class Activity implements Disposable {
 		if (this.state && this._state.partySize === 1) return;
 		this._state = {
 			...this._state,
-			partySize: this._state.partySize ? this._state.partySize - 1 : size
+			partySize: this._state.partySize ? this._state.partySize - 1 : size,
 		};
 
 		return this._state;
@@ -228,19 +268,29 @@ export default class Activity implements Disposable {
 			}
 
 			const { totalLines, size, currentLine, currentColumn } = await this._generateFileDetails(raw);
-			raw = raw!
+			raw = raw
 				.replace('{null}', empty)
 				.replace('{filename}', filename)
 				.replace('{dirname}', dirname)
 				.replace('{fulldirname}', fullDirname!)
-				.replace('{workspace}', checkState && workspaceFolder ? workspaceFolder.name : this._config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty))
+				.replace(
+					'{workspace}',
+					checkState && workspaceFolder
+						? workspaceFolder.name
+						: this._config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
+				)
 				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
-				.replace('{Lang}', largeImageKey ? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase()) : 'Txt')
+				.replace(
+					'{Lang}',
+					largeImageKey
+						? (largeImageKey.image || largeImageKey).toLowerCase().replace(/^\w/, (c: string) => c.toUpperCase())
+						: 'Txt',
+				)
 				.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT');
-			if (totalLines) raw = raw!.replace('{totallines}', totalLines);
-			if (size) raw = raw!.replace('{filesize}', size);
-			if (currentLine) raw = raw!.replace('{currentline}', currentLine);
-			if (currentColumn) raw = raw!.replace('{currentcolumn}', currentColumn);
+			if (totalLines) raw = raw.replace('{totallines}', totalLines);
+			if (size) raw = raw.replace('{filesize}', size);
+			if (currentLine) raw = raw.replace('{currentline}', currentLine);
+			if (currentColumn) raw = raw.replace('{currentcolumn}', currentColumn);
 		}
 
 		return raw;

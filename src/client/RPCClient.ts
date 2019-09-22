@@ -30,6 +30,7 @@ export default class RPCClient implements Disposable {
 	public async setActivity(workspaceElapsedTime = false) {
 		if (!this._rpc) return;
 		const activity = await this._activity.generate(workspaceElapsedTime);
+		if (!activity) return;
 		Logger.log('Sending activity to Discord.');
 		this._rpc.setActivity(activity);
 	}
@@ -70,7 +71,7 @@ export default class RPCClient implements Disposable {
 			this.statusBarIcon.tooltip = 'Connected to Discord';
 
 			// @ts-ignore
-			setTimeout(() => this.statusBarIcon.text = '$(globe)', 5000);
+			setTimeout(() => (this.statusBarIcon.text = '$(globe)'), 5000);
 
 			if (activityTimer) clearInterval(activityTimer);
 			await this.setActivity();
@@ -101,13 +102,18 @@ export default class RPCClient implements Disposable {
 			// Same here, this is a real nasty race condition that happens inside the discord-rpc module currently
 			// To circumvent this we need to timeout sending the subscribe events to the discord client
 			setTimeout(() => {
-				this._rpc.subscribe('ACTIVITY_JOIN_REQUEST', async ({ user }: { user: { username: string; discriminator: string } }) =>
-					window.showInformationMessage(`${user.username}#${user.discriminator} wants to join your session`, { title: 'Accept' }, { title: 'Decline' })
-						// eslint-disable-next-line
-						.then(async (val: { title: string } | undefined) => {
-							if (val && val.title === 'Accept') await this._rpc.sendJoinInvite(user); // eslint-disable-line
-							else await this._rpc.closeJoinRequest(user);
-						}));
+				this._rpc.subscribe(
+					'ACTIVITY_JOIN_REQUEST',
+					async ({ user }: { user: { username: string; discriminator: string } }) => {
+						const val = await window.showInformationMessage(
+							`${user.username}#${user.discriminator} wants to join your session`,
+							{ title: 'Accept' },
+							{ title: 'Decline' },
+						);
+						if (val && val.title === 'Accept') await this._rpc.sendJoinInvite(user);
+						else await this._rpc.closeJoinRequest(user);
+					},
+				);
 			}, 1000);
 			setTimeout(() => {
 				this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: string }) => {
