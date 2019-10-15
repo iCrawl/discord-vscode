@@ -1219,10 +1219,10 @@ eslint-config-aqua@^7.0.1:
   resolved "https://registry.yarnpkg.com/eslint-config-aqua/-/eslint-config-aqua-7.0.1.tgz#67f70d39f3d14b53b423dba50fd2b9f9a0dbec45"
   integrity sha512-+wZY14nAsgcO+FDyHREWBHW4W13+E8X1jDvwFaLmDtjkrPqX7VneZMQC4QTP97WJQ0uYBqAImlZG+BNi4EHPDA==
 
-eslint-config-marine@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-marine/-/eslint-config-marine-5.0.0.tgz#1a20e9b4990d88eb03c0a2431e84374ac516d3a1"
-  integrity sha512-Lu/6jaPragO+c/jBzYYf1jjeDMHlCue1qkpufn5t5JsEBRmLuwcPRcAb91/jqmodYKfzLZcI6VVEIGGHUZ4/Zg==
+eslint-config-marine@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-marine/-/eslint-config-marine-5.1.0.tgz#274bc8762fe62697d499c8b3044d6a9307d43918"
+  integrity sha512-0kXF6/de9EIghm0gODZpk6rfH4ySevJGYsqxkMBQtK5a0Q1LuQfxb3muWFD6gf706V0h2DWlKq5JGX/8pWvAyQ==
   dependencies:
     eslint-config-aqua "^7.0.1"
     eslint-plugin-promise "^4.2.1"
