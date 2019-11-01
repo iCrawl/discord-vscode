@@ -3,6 +3,7 @@ import { Disposable, StatusBarItem, Uri, window, workspace } from 'vscode';
 import * as vsls from 'vsls';
 import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
+import { API } from '../git';
 const clipboardy = require('clipboardy'); // eslint-disable-line
 
 let activityTimer: NodeJS.Timer;
@@ -12,9 +13,11 @@ export default class RPCClient implements Disposable {
 
 	public config = workspace.getConfiguration('discord');
 
+	public git!: API;
+
 	private _rpc: any;
 
-	private readonly _activity = new Activity();
+	private readonly _activity = new Activity(this);
 
 	private readonly _clientId: string;
 
@@ -74,7 +77,7 @@ export default class RPCClient implements Disposable {
 			setTimeout(() => (this.statusBarIcon.text = '$(globe)'), 5000);
 
 			if (activityTimer) clearInterval(activityTimer);
-			await this.setActivity();
+			await this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 
 			activityTimer = setInterval(async () => {
 				this.config = workspace.getConfiguration('discord');

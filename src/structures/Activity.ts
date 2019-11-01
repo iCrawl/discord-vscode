@@ -1,6 +1,7 @@
 import { basename, parse, sep } from 'path';
 import { debug, Disposable, env, window, workspace } from 'vscode';
 import * as vsls from 'vsls';
+import RPCClient from '../client/RPCClient';
 const lang = require('../data/languages.json'); // eslint-disable-line
 
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
@@ -31,14 +32,16 @@ interface FileDetail {
 	totalLines?: string;
 	currentLine?: string;
 	currentColumn?: string;
+	gitbranch?: string;
+	gitreponame?: string;
 }
 
 export default class Activity implements Disposable {
 	private _state: State | null = null;
 
-	private readonly _config = workspace.getConfiguration('discord');
+	private _lastKnownFile: string = '';
 
-	private _lastKnownFile = '';
+	public constructor(public client: RPCClient) {}
 
 	public get state() {
 		return this._state;
@@ -107,7 +110,7 @@ export default class Activity implements Disposable {
 			),
 			largeImageKey: largeImageKey ? largeImageKey.image || largeImageKey : 'txt',
 			largeImageText: window.activeTextEditor
-				? this._config
+				? this.client.config
 						.get<string>('largeImage')!
 						.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
 						.replace(
@@ -118,13 +121,13 @@ export default class Activity implements Disposable {
 						)
 						.replace('{LANG}', largeImageKey ? (largeImageKey.image || largeImageKey).toUpperCase() : 'TXT') ||
 				  window.activeTextEditor.document.languageId.padEnd(2, '\u200b')
-				: this._config.get<string>('largeImageIdle'),
+				: this.client.config.get<string>('largeImageIdle'),
 			smallImageKey: debug.activeDebugSession
 				? 'debug'
 				: env.appName.includes('Insiders')
 				? 'vscode-insiders'
 				: 'vscode',
-			smallImageText: this._config.get<string>('smallImage')!.replace('{appname}', env.appName),
+			smallImageText: this.client.config.get<string>('smallImage')!.replace('{appname}', env.appName),
 		};
 
 		return this._state;
@@ -237,7 +240,7 @@ export default class Activity implements Disposable {
 	}
 
 	private async _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any) {
-		let raw: string = this._config.get<string>(idling)!.replace('{null}', empty);
+		let raw: string = this.client.config.get<string>(idling)!.replace('{null}', empty);
 		let filename = null;
 		let dirname = null;
 		let checkState = false;
@@ -262,12 +265,12 @@ export default class Activity implements Disposable {
 			}
 
 			if (debug.activeDebugSession) {
-				raw = this._config.get<string>(debugging)!;
+				raw = this.client.config.get<string>(debugging)!;
 			} else {
-				raw = this._config.get<string>(editing)!;
+				raw = this.client.config.get<string>(editing)!;
 			}
 
-			const { totalLines, size, currentLine, currentColumn } = await this._generateFileDetails(raw);
+			const { totalLines, size, currentLine, currentColumn, gitbranch, gitreponame } = await this._generateFileDetails(raw);
 			raw = raw
 				.replace('{null}', empty)
 				.replace('{filename}', filename)
@@ -277,7 +280,7 @@ export default class Activity implements Disposable {
 					'{workspace}',
 					checkState && workspaceFolder
 						? workspaceFolder.name
-						: this._config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
+						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
 				)
 				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
 				.replace(
@@ -291,6 +294,8 @@ export default class Activity implements Disposable {
 			if (size) raw = raw.replace('{filesize}', size);
 			if (currentLine) raw = raw.replace('{currentline}', currentLine);
 			if (currentColumn) raw = raw.replace('{currentcolumn}', currentColumn);
+			if (gitbranch) raw = raw.replace('{gitbranch}', gitbranch);
+			if (gitreponame) raw = raw.replace('{gitreponame}', gitreponame);
 		}
 
 		return raw;
@@ -326,6 +331,22 @@ export default class Activity implements Disposable {
 					}
 				}
 				fileDetail.size = `${originalSize > 1000 ? size.toFixed(2) : size}${sizes[currentDivision]}`;
+			}
+
+			if (str.includes('{gitbranch}')) {
+				if (this.client.git.repositories.length) {
+					fileDetail.gitbranch = this.client.git.repositories.find((repo) => repo.ui.selected)!.state.HEAD!.name;
+				} else {
+					fileDetail.gitbranch = 'Unknown';
+				}
+			}
+
+			if (str.includes('{gitreponame}')) {
+				if (this.client.git.repositories.length) {
+					fileDetail.gitreponame = this.client.git.repositories.find((repo) => repo.ui.selected)!.state.remotes[0].fetchUrl!.split('/')[1].replace('.git', '');
+				} else {
+					fileDetail.gitreponame = 'Unknown';
+				}
 			}
 		}
 

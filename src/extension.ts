@@ -1,8 +1,18 @@
-import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace } from 'vscode';
+import {
+	commands,
+	ExtensionContext,
+	StatusBarAlignment,
+	StatusBarItem,
+	window,
+	workspace,
+	extensions
+} from 'vscode';
 import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
+import { GitExtension } from './git';
 const { register } = require('discord-rpc'); // eslint-disable-line
 
+const sleep = (wait: number) => new Promise(resolve => setTimeout(resolve, wait));
 let loginTimeout: NodeJS.Timer;
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
@@ -13,6 +23,18 @@ register(config.get<string>('clientID'));
 const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 
 export async function activate(context: ExtensionContext) {
+	try {
+		const ext = extensions.getExtension<GitExtension>('vscode.git')!;
+		await ext.activate();
+		rpc.git = ext.exports.getAPI(1);
+	} catch {
+		// We loaded before the git extension, give it a bit to load
+		// In a perfect world this shouldn't happen
+		await sleep(2000);
+		const ext = extensions.getExtension<GitExtension>('vscode.git')!;
+		await ext.activate();
+		rpc.git = ext.exports.getAPI(1);
+	}
 	Logger.log('Discord Presence activated!');
 
 	let isWorkspaceExcluded = false;
