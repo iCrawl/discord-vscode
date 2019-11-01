@@ -185,7 +185,6 @@
 		"bufferutil": "^4.0.1",
 		"clipboardy": "^2.1.0",
 		"discord-rpc": "discordjs/RPC",
-		"register-scheme": "devsnek/node-register-scheme",
 		"utf-8-validate": "^5.0.2",
 		"vsls": "^0.3.1291"
 	},
@@ -199,10 +198,10 @@
 		"eslint-config-marine": "^5.3.2",
 		"eslint-config-prettier": "^6.5.0",
 		"eslint-plugin-prettier": "^3.1.1",
-		"prettier": "^1.18.2",
+		"prettier": "prettier/prettier",
 		"terser-webpack-plugin": "^2.2.1",
 		"ts-loader": "^6.2.1",
-		"typescript": "^3.6.4",
+		"typescript": "^3.7.1-rc",
 		"webpack": "^4.41.2",
 		"webpack-cli": "^3.3.10"
 	},

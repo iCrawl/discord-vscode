@@ -4,7 +4,7 @@ import * as vsls from 'vsls';
 import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
 import { API } from '../git';
-const clipboardy = require('clipboardy'); // eslint-disable-line
+import * as clipboardy from 'clipboardy';
 
 let activityTimer: NodeJS.Timer;
 
@@ -73,7 +73,6 @@ export default class RPCClient implements Disposable {
 			this.statusBarIcon.text = '$(globe) Connected to Discord';
 			this.statusBarIcon.tooltip = 'Connected to Discord';
 
-			// @ts-ignore
 			setTimeout(() => (this.statusBarIcon.text = '$(globe)'), 5000);
 
 			if (activityTimer) clearInterval(activityTimer);

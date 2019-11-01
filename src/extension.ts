@@ -1,16 +1,7 @@
-import {
-	commands,
-	ExtensionContext,
-	StatusBarAlignment,
-	StatusBarItem,
-	window,
-	workspace,
-	extensions
-} from 'vscode';
+import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace, extensions } from 'vscode';
 import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
 import { GitExtension } from './git';
-const { register } = require('discord-rpc'); // eslint-disable-line
 
 const sleep = (wait: number) => new Promise(resolve => setTimeout(resolve, wait));
 let loginTimeout: NodeJS.Timer;
@@ -19,7 +10,6 @@ const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignme
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
 const config = workspace.getConfiguration('discord');
-register(config.get<string>('clientID'));
 const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 
 export async function activate(context: ExtensionContext) {
@@ -39,7 +29,7 @@ export async function activate(context: ExtensionContext) {
 
 	let isWorkspaceExcluded = false;
 	const excludePatterns = config.get<string[]>('workspaceExcludePatterns');
-	if (excludePatterns && excludePatterns.length > 0) {
+	if (excludePatterns?.length) {
 		for (const pattern of excludePatterns) {
 			const regex = new RegExp(pattern);
 			const folders = workspace.workspaceFolders;

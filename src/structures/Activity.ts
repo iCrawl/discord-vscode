@@ -39,8 +39,9 @@ interface FileDetail {
 export default class Activity implements Disposable {
 	private _state: State | null = null;
 
-	private _lastKnownFile: string = '';
+	private _lastKnownFile = '';
 
+	// eslint-disable-next-line no-useless-constructor
 	public constructor(public client: RPCClient) {}
 
 	public get state() {
@@ -91,7 +92,7 @@ export default class Activity implements Disposable {
 		}
 
 		let previousTimestamp = null;
-		if (this._state && this._state.startTimestamp) previousTimestamp = this._state.startTimestamp;
+		if (this._state?.startTimestamp) previousTimestamp = this._state.startTimestamp;
 
 		this._state = {
 			...this._state,
@@ -214,7 +215,7 @@ export default class Activity implements Disposable {
 
 	public increasePartySize(size?: number) {
 		if (!this._state) return;
-		if (this.state && this._state.partySize === 5) return;
+		if (this._state.partySize === 5) return;
 		this._state = {
 			...this._state,
 			partySize: this._state.partySize ? this._state.partySize + 1 : size,
@@ -225,7 +226,7 @@ export default class Activity implements Disposable {
 
 	public decreasePartySize(size?: number) {
 		if (!this._state) return;
-		if (this.state && this._state.partySize === 1) return;
+		if (this._state.partySize === 1) return;
 		this._state = {
 			...this._state,
 			partySize: this._state.partySize ? this._state.partySize - 1 : size,
@@ -240,7 +241,7 @@ export default class Activity implements Disposable {
 	}
 
 	private async _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any) {
-		let raw: string = this.client.config.get<string>(idling)!.replace('{null}', empty);
+		let raw = this.client.config.get<string>(idling)!.replace('{null}', empty);
 		let filename = null;
 		let dirname = null;
 		let checkState = false;
@@ -270,7 +271,9 @@ export default class Activity implements Disposable {
 				raw = this.client.config.get<string>(editing)!;
 			}
 
-			const { totalLines, size, currentLine, currentColumn, gitbranch, gitreponame } = await this._generateFileDetails(raw);
+			const { totalLines, size, currentLine, currentColumn, gitbranch, gitreponame } = await this._generateFileDetails(
+				raw,
+			);
 			raw = raw
 				.replace('{null}', empty)
 				.replace('{filename}', filename)
@@ -335,7 +338,7 @@ export default class Activity implements Disposable {
 
 			if (str.includes('{gitbranch}')) {
 				if (this.client.git.repositories.length) {
-					fileDetail.gitbranch = this.client.git.repositories.find((repo) => repo.ui.selected)!.state.HEAD!.name;
+					fileDetail.gitbranch = this.client.git.repositories.find(repo => repo.ui.selected)!.state.HEAD!.name;
 				} else {
 					fileDetail.gitbranch = 'Unknown';
 				}
@@ -343,7 +346,10 @@ export default class Activity implements Disposable {
 
 			if (str.includes('{gitreponame}')) {
 				if (this.client.git.repositories.length) {
-					fileDetail.gitreponame = this.client.git.repositories.find((repo) => repo.ui.selected)!.state.remotes[0].fetchUrl!.split('/')[1].replace('.git', '');
+					fileDetail.gitreponame = this.client.git.repositories
+						.find(repo => repo.ui.selected)!
+						.state.remotes[0].fetchUrl!.split('/')[1]
+						.replace('.git', '');
 				} else {
 					fileDetail.gitreponame = 'Unknown';
 				}
