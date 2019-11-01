@@ -206,7 +206,7 @@
 		"webpack-cli": "^3.3.10"
 	},
 	"engines": {
-		"vscode": "^1.38.0"
+		"vscode": "^1.39.0"
 	},
 	"eslintConfig": {
 		"extends": "marine/prettier/node"
