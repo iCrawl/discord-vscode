@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "3.8.1",
+	"version": "3.8.3",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -20,7 +20,8 @@
 	"scripts": {
 		"prebuild": "yarn lint",
 		"build": "webpack --mode production",
-		"lint": "eslint src --ext .ts"
+		"lint": "eslint src --ext .ts",
+		"lint:fix": "eslint src --ext .ts --fix"
 	},
 	"activationEvents": [
 		"*"
@@ -189,23 +190,26 @@
 		"vsls": "^0.3.1291"
 	},
 	"devDependencies": {
-		"@types/node": "^12.7.1",
-		"@types/vscode": "^1.37.0",
-		"@typescript-eslint/eslint-plugin": "^1.13.0",
-		"@typescript-eslint/parser": "^1.13.0",
+		"@types/node": "^12.12.4",
+		"@types/vscode": "^1.39.0",
+		"@typescript-eslint/eslint-plugin": "^2.6.0",
+		"@typescript-eslint/parser": "^2.6.0",
 		"clean-webpack-plugin": "^3.0.0",
-		"eslint": "^6.1.0",
-		"eslint-config-marine": "^3.0.3",
-		"terser-webpack-plugin": "^1.4.1",
-		"ts-loader": "^6.0.4",
-		"typescript": "^3.5.3",
-		"webpack": "^4.39.1",
-		"webpack-cli": "^3.3.6"
+		"eslint": "^6.6.0",
+		"eslint-config-marine": "^5.3.2",
+		"eslint-config-prettier": "^6.5.0",
+		"eslint-plugin-prettier": "^3.1.1",
+		"prettier": "^1.18.2",
+		"terser-webpack-plugin": "^2.2.1",
+		"ts-loader": "^6.2.1",
+		"typescript": "^3.6.4",
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.10"
 	},
 	"engines": {
-		"vscode": "^1.37.0"
+		"vscode": "^1.38.0"
 	},
 	"eslintConfig": {
-		"extends": "marine/node"
+		"extends": "marine/prettier/node"
 	}
 }

@@ -22,7 +22,7 @@ const config = workspace.getConfiguration('discord');
 register(config.get<string>('clientID'));
 const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 
-export async function activate(context: ExtensionContext): Promise<void> {
+export async function activate(context: ExtensionContext) {
 	try {
 		const ext = extensions.getExtension<GitExtension>('vscode.git')!;
 		await ext.activate();
@@ -44,7 +44,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 			const regex = new RegExp(pattern);
 			const folders = workspace.workspaceFolders;
 			if (!folders) break;
-			if (folders.some((folder): boolean => regex.test(folder.uri.fsPath))) {
+			if (folders.some(folder => regex.test(folder.uri.fsPath))) {
 				isWorkspaceExcluded = true;
 				break;
 			}
@@ -118,11 +118,20 @@ export async function activate(context: ExtensionContext): Promise<void> {
 		await rpc.disableJoinRequests();
 	});
 
-	context.subscriptions.push(enabler, disabler, reconnecter, disconnect, allowSpectate, disableSpectate, allowJoinRequests, disableJoinRequests);
+	context.subscriptions.push(
+		enabler,
+		disabler,
+		reconnecter,
+		disconnect,
+		allowSpectate,
+		disableSpectate,
+		allowJoinRequests,
+		disableJoinRequests,
+	);
 }
 
-export async function deactivate(): Promise<void> {
+export async function deactivate() {
 	await rpc.dispose();
 }
 
-process.on('unhandledRejection', (err): void => Logger.log(err as string));
+process.on('unhandledRejection', err => Logger.log(err as string));

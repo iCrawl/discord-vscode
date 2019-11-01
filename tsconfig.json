@@ -16,8 +16,5 @@
 		"sourceMap": true,
 		"removeComments": false,
 		"experimentalDecorators": true
-	},
-	"exclude": [
-		"node_modules"
-	]
+	}
 }
