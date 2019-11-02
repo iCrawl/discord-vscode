@@ -2,6 +2,7 @@ import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, 
 import RPCClient from './client/RPCClient';
 import Logger from './structures/Logger';
 import { GitExtension } from './git';
+const { register } = require('discord-rpc'); // eslint-disable-line
 
 const sleep = (wait: number) => new Promise(resolve => setTimeout(resolve, wait));
 let loginTimeout: NodeJS.Timer;
@@ -10,6 +11,7 @@ const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignme
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
 const config = workspace.getConfiguration('discord');
+register(config.get<string>('clientID')!);
 const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
 
 export async function activate(context: ExtensionContext) {
@@ -38,22 +40,6 @@ export async function activate(context: ExtensionContext) {
 				isWorkspaceExcluded = true;
 				break;
 			}
-		}
-	}
-
-	if (!isWorkspaceExcluded && config.get<boolean>('enabled')) {
-		statusBarIcon.show();
-		try {
-			await rpc.login();
-		} catch (error) {
-			Logger.log(`Encountered following error after trying to login:\n${error}`);
-			await rpc.dispose();
-			if (!config.get('silent')) {
-				if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
-				else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.toString()}`);
-			}
-			rpc.statusBarIcon.text = '$(pulse) Reconnect to Discord';
-			rpc.statusBarIcon.command = 'discord.reconnect';
 		}
 	}
 
@@ -118,6 +104,22 @@ export async function activate(context: ExtensionContext) {
 		allowJoinRequests,
 		disableJoinRequests,
 	);
+
+	if (!isWorkspaceExcluded && config.get<boolean>('enabled')) {
+		statusBarIcon.show();
+		try {
+			await rpc.login();
+		} catch (error) {
+			Logger.log(`Encountered following error after trying to login:\n${error}`);
+			await rpc.dispose();
+			if (!config.get('silent')) {
+				if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
+				else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.toString()}`);
+			}
+			rpc.statusBarIcon.text = '$(pulse) Reconnect to Discord';
+			rpc.statusBarIcon.command = 'discord.reconnect';
+		}
+	}
 }
 
 export async function deactivate() {
