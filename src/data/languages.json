@@ -95,6 +95,7 @@
 		"text",
 		"travis",
 		"typescript-def",
+		"v",
 		"vb",
 		"vba",
 		"vbhtml",
@@ -1165,6 +1166,12 @@
 		},
 		".pony": {
 			"image": "ponylang"
+		},
+		".v": {
+			"image": "v"
+		},
+		".vh": {
+			"image": "v"
 		}
 	}
 }
