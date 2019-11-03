@@ -245,6 +245,7 @@ export default class Activity implements Disposable {
 		let filename = null;
 		let dirname = null;
 		let checkState = false;
+		let workspaceName = null;
 		let workspaceFolder = null;
 		let fullDirname = null;
 		if (window.activeTextEditor) {
@@ -255,7 +256,7 @@ export default class Activity implements Disposable {
 			dirname = split[split.length - 1];
 
 			checkState = Boolean(workspace.getWorkspaceFolder(window.activeTextEditor.document.uri));
-
+			workspaceName = workspace.name;
 			workspaceFolder = checkState ? workspace.getWorkspaceFolder(window.activeTextEditor.document.uri) : null;
 
 			if (workspaceFolder) {
@@ -281,6 +282,14 @@ export default class Activity implements Disposable {
 				.replace('{fulldirname}', fullDirname!)
 				.replace(
 					'{workspace}',
+					workspaceName
+						? workspaceName
+						: checkState && workspaceFolder
+						? workspaceFolder.name
+						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
+				)
+				.replace(
+					'{workspaceFolder}',
 					checkState && workspaceFolder
 						? workspaceFolder.name
 						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),

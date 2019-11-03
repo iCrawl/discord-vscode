@@ -92,16 +92,14 @@ export async function activate(context: ExtensionContext) {
 		disableJoinRequests,
 	);
 
-	const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
-	if (gitExtension) {
-		if (!gitExtension.exports.enabled) {
-			gitExtension.exports.onDidChangeEnablement(e => {
-				if (e) {
-					rpc.git = gitExtension.exports.getAPI(1);
-				}
-			});
+	setTimeout(() => {
+		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
+		if (gitExtension) {
+			if (gitExtension.isActive) {
+				rpc.git = gitExtension.exports.getAPI(1);
+			}
 		}
-	}
+	}, 5000);
 
 	if (!isWorkspaceExcluded && config.get<boolean>('enabled')) {
 		statusBarIcon.show();
