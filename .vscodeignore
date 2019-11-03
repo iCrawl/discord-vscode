@@ -4,7 +4,6 @@ node_modules
 src
 .gitattributes
 .gitignore
-package.json
 tsconfig.json
 webpack.config.js
 yarn.lock
