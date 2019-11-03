@@ -294,6 +294,12 @@ export default class Activity implements Disposable {
 						? workspaceFolder.name
 						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
 				)
+				.replace(
+					'{workspaceAndFolder}',
+					checkState && workspaceName && workspaceFolder
+						? `${workspaceName} - ${workspaceFolder}`
+						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
+				)
 				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
 				.replace(
 					'{Lang}',
