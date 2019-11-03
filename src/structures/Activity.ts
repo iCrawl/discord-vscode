@@ -337,7 +337,7 @@ export default class Activity implements Disposable {
 			}
 
 			if (str.includes('{gitbranch}')) {
-				if (this.client.git.repositories.length) {
+				if (this.client.git?.repositories.length) {
 					fileDetail.gitbranch = this.client.git.repositories.find(repo => repo.ui.selected)!.state.HEAD!.name;
 				} else {
 					fileDetail.gitbranch = 'Unknown';
@@ -345,7 +345,7 @@ export default class Activity implements Disposable {
 			}
 
 			if (str.includes('{gitreponame}')) {
-				if (this.client.git.repositories.length) {
+				if (this.client.git?.repositories.length) {
 					fileDetail.gitreponame = this.client.git.repositories
 						.find(repo => repo.ui.selected)!
 						.state.remotes[0].fetchUrl!.split('/')[1]

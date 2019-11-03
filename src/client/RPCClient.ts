@@ -13,7 +13,7 @@ export default class RPCClient implements Disposable {
 
 	public config = workspace.getConfiguration('discord');
 
-	public git!: API;
+	public git?: API;
 
 	private _rpc: any;
 
