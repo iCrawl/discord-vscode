@@ -402,10 +402,10 @@ angular-estree-parser@1.1.5:
     lines-and-columns "^1.1.6"
     tslib "^1.9.3"
 
-angular-html-parser@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/angular-html-parser/-/angular-html-parser-1.2.0.tgz#9319b8a9e06389aee2449b3a35977442512eccf3"
-  integrity sha512-sW4KZ4YOXEFTa4u69gBq+K9z5fE4llBzGP2+YqkGO9hr9GXvYtyB+3ybgVEbeoQZPEj+lFg9lQn5dfb2HRpxbQ==
+angular-html-parser@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/angular-html-parser/-/angular-html-parser-1.3.0.tgz#2b87c3c1b7535a972a00e35604221df3c51e6c6e"
+  integrity sha512-FCLuM8ZUt30qwiV5KlW8uWL9cwlS2loOIGq8wUQFypkJ1QZqJk829yxTsvp2DvCMZ7uLwfjIaIrKV5N2+RLiSQ==
   dependencies:
     tslib "^1.9.3"
 
@@ -3445,7 +3445,8 @@ prettier-linter-helpers@^1.0.0:
 
 prettier@prettier/prettier:
   version "1.18.2"
-  resolved "https://codeload.github.com/prettier/prettier/tar.gz/159566798d37db42b8138ee4ecabb2ba32defc31"
+  uid "12ba99720714ef965c2c9580a6d922519bc282f8"
+  resolved "https://codeload.github.com/prettier/prettier/tar.gz/12ba99720714ef965c2c9580a6d922519bc282f8"
   dependencies:
     "@angular/compiler" "8.2.7"
     "@babel/code-frame" "7.5.5"
@@ -3454,7 +3455,7 @@ prettier@prettier/prettier:
     "@iarna/toml" "2.2.3"
     "@typescript-eslint/typescript-estree" "2.6.0"
     angular-estree-parser "1.1.5"
-    angular-html-parser "1.2.0"
+    angular-html-parser "1.3.0"
     camelcase "5.3.1"
     chalk "2.4.2"
     cjk-regex "2.0.0"
