@@ -27,6 +27,7 @@
 		"scss",
 		"d",
 		"dart",
+		"denizen",
 		"dm",
 		"manifest",
 		"delphi",
@@ -42,6 +43,7 @@
 		"go",
 		"gradle",
 		"graphql",
+		"groovy",
 		"gulp",
 		"harbour",
 		"handlebars",
@@ -600,6 +602,33 @@
 		".fmg": {
 			"image": "harbour"
 		},
+		".nix": {
+			"image": "nix"
+		},
+		".re": {
+			"image": "reasonml"
+		},
+		".marko": {
+			"image": "marko"
+		},
+		".pony": {
+			"image": "ponylang"
+		},
+		".groovy": {
+			"image": "groovy"
+		},
+		".gvy": {
+			"image": "groovy"
+		},
+		".gy": {
+			"image": "groovy"
+		},
+		".gsh": {
+			"image": "groovy"
+		},
+		".dsc": {
+			"image": "denizen"
+		},
 		".jade": {
 			"image": "pug"
 		},
@@ -1154,18 +1183,6 @@
 		},
 		".wasm": {
 			"image": "wasm"
-		},
-		".nix": {
-			"image": "nix"
-		},
-		".re": {
-			"image": "reasonml"
-		},
-		".marko": {
-			"image": "marko"
-		},
-		".pony": {
-			"image": "ponylang"
 		},
 		".v": {
 			"image": "v"
