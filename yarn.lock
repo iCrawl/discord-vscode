@@ -25,10 +25,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@7.6.4":
-  version "7.6.4"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.6.4.tgz#cb9b36a7482110282d5cb6dd424ec9262b473d81"
-  integrity sha512-D8RHPW5qd0Vbyo3qb+YjO5nvUVRTXFLQ/FsDxJU2Nqz4uB5EnUN0ZQSEYpvTIbRuttig1XbHWU5oMeQwQSAA+A==
+"@babel/parser@7.7.0":
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.7.0.tgz#232618f6e8947bc54b407fa1f1c91a22758e7159"
+  integrity sha512-GqL+Z0d7B7ADlQBMXlJgvXEbtt5qlqd1YQ5fr12hTSfh7O/vgrEIvJxU2e7aSVrEUn75zTZ6Nd0s8tthrlZnrQ==
 
 "@babel/runtime@^7.6.3":
   version "7.6.3"
@@ -1754,10 +1754,10 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.3.tgz#c1283ac9f27b368abc1e36d1ff7b04501a30356b"
   integrity sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==
 
-flow-parser@0.89.0:
-  version "0.89.0"
-  resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.89.0.tgz#c87bf45831644733dd576983ab12e75a3546573b"
-  integrity sha512-vC8YuwhAPE+tbkz49DA/TjtFyfhcqM48occMdRQiZ/HL+Wg97IcuebMZUGVB4oBq7aHw0iJJtnvmlnmOQF7Ydg==
+flow-parser@0.111.1:
+  version "0.111.1"
+  resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.111.1.tgz#f84108934264105916f466e7d1824efacb19b9a3"
+  integrity sha512-yo+C0a/fMsGwooxA2xd4kK/kuzSnFC8JZLsIB68mkTllLrF/nSQ8llwD82o8Vxwvisw9IPC/ZC8zqrWmkir9jQ==
 
 flush-write-stream@^1.0.0:
   version "1.1.1"
@@ -3457,12 +3457,12 @@ prettier-linter-helpers@^1.0.0:
 
 prettier@prettier/prettier:
   version "1.18.2"
-  uid "82257bc091b7d2ec0d4bfb36e3ea3a9329680cba"
-  resolved "https://codeload.github.com/prettier/prettier/tar.gz/82257bc091b7d2ec0d4bfb36e3ea3a9329680cba"
+  uid "4d9acf86b893b793690bad80cae418ceefb3209c"
+  resolved "https://codeload.github.com/prettier/prettier/tar.gz/4d9acf86b893b793690bad80cae418ceefb3209c"
   dependencies:
     "@angular/compiler" "8.2.13"
     "@babel/code-frame" "7.5.5"
-    "@babel/parser" "7.6.4"
+    "@babel/parser" "7.7.0"
     "@glimmer/syntax" "0.41.0"
     "@iarna/toml" "2.2.3"
     "@typescript-eslint/typescript-estree" "2.6.0"
@@ -3481,7 +3481,7 @@ prettier@prettier/prettier:
     esutils "2.0.3"
     find-parent-dir "0.3.0"
     find-project-root "1.1.1"
-    flow-parser "0.89.0"
+    flow-parser "0.111.1"
     get-stream "5.1.0"
     globby "6.1.0"
     graphql "14.5.8"
@@ -3513,7 +3513,7 @@ prettier@prettier/prettier:
     resolve "1.12.0"
     semver "6.3.0"
     string-width "4.1.0"
-    typescript "3.7.1-rc"
+    typescript "3.7.2"
     unicode-regex "3.0.0"
     unified "8.4.1"
     vnopts "1.0.2"
@@ -4416,12 +4416,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@3.7.1-rc:
-  version "3.7.1-rc"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.1-rc.tgz#2054b872d67f8dc732e36c1df397f9327f37ada0"
-  integrity sha512-2rMtWppLsaPvmpXsoIAXWDBQVnJMw1ITGGSnidMuayLj9iCmMRT69ncKZw/Mk5rXfJkilApKucWQZxproALoRw==
-
-typescript@^3.7.2:
+typescript@3.7.2, typescript@^3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
   integrity sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
