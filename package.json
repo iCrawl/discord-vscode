@@ -192,7 +192,7 @@
 	"devDependencies": {
 		"@types/node": "^12.12.6",
 		"@types/vscode": "^1.39.0",
-		"@typescript-eslint/eslint-plugin": "^2.6.0",
+		"@typescript-eslint/eslint-plugin": "^2.6.1",
 		"@typescript-eslint/parser": "^2.6.1",
 		"clean-webpack-plugin": "^3.0.0",
 		"eslint": "^6.6.0",
