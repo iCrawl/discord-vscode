@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@angular/compiler@8.2.7":
-  version "8.2.7"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-8.2.7.tgz#d5b457359708088ab821b5834c204dcaa8b246dc"
-  integrity sha512-RLXJMe+YW5a6mOj1Cxx4AkjaZX0JuerPQs4KgKx2mQXRP0LtI4+6qg2+Kds6gIJxUd1Fx9oqAflRGDPchyJaxA==
+"@angular/compiler@8.2.13":
+  version "8.2.13"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-8.2.13.tgz#76d35761918df8cadeb1624418377712d259347f"
+  integrity sha512-u2NWCvEn4SjbMvn2PG6sYcf+rR5u3aYMv3/mNQ9k+2UmCIu3yJrcuCzebjo5SdlDVqKD2vzbyMZnr8VB9OcceQ==
   dependencies:
     tslib "^1.9.0"
 
@@ -402,10 +402,10 @@ angular-estree-parser@1.1.5:
     lines-and-columns "^1.1.6"
     tslib "^1.9.3"
 
-angular-html-parser@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/angular-html-parser/-/angular-html-parser-1.2.0.tgz#9319b8a9e06389aee2449b3a35977442512eccf3"
-  integrity sha512-sW4KZ4YOXEFTa4u69gBq+K9z5fE4llBzGP2+YqkGO9hr9GXvYtyB+3ybgVEbeoQZPEj+lFg9lQn5dfb2HRpxbQ==
+angular-html-parser@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/angular-html-parser/-/angular-html-parser-1.3.0.tgz#2b87c3c1b7535a972a00e35604221df3c51e6c6e"
+  integrity sha512-FCLuM8ZUt30qwiV5KlW8uWL9cwlS2loOIGq8wUQFypkJ1QZqJk829yxTsvp2DvCMZ7uLwfjIaIrKV5N2+RLiSQ==
   dependencies:
     tslib "^1.9.3"
 
@@ -3445,16 +3445,17 @@ prettier-linter-helpers@^1.0.0:
 
 prettier@prettier/prettier:
   version "1.18.2"
-  resolved "https://codeload.github.com/prettier/prettier/tar.gz/159566798d37db42b8138ee4ecabb2ba32defc31"
+  uid "82257bc091b7d2ec0d4bfb36e3ea3a9329680cba"
+  resolved "https://codeload.github.com/prettier/prettier/tar.gz/82257bc091b7d2ec0d4bfb36e3ea3a9329680cba"
   dependencies:
-    "@angular/compiler" "8.2.7"
+    "@angular/compiler" "8.2.13"
     "@babel/code-frame" "7.5.5"
     "@babel/parser" "7.6.4"
     "@glimmer/syntax" "0.41.0"
     "@iarna/toml" "2.2.3"
     "@typescript-eslint/typescript-estree" "2.6.0"
     angular-estree-parser "1.1.5"
-    angular-html-parser "1.2.0"
+    angular-html-parser "1.3.0"
     camelcase "5.3.1"
     chalk "2.4.2"
     cjk-regex "2.0.0"
