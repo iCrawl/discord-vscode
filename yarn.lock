@@ -179,17 +179,6 @@
     "@typescript-eslint/typescript-estree" "2.6.1"
     eslint-visitor-keys "^1.1.0"
 
-"@typescript-eslint/typescript-estree@2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.6.0.tgz#d3e9d8e001492e2b9124c4d4bd4e7f03c0fd7254"
-  integrity sha512-A3lSBVIdj2Gp0lFEL6in2eSPqJ33uAc3Ko+Y4brhjkxzjbzLnwBH22CwsW2sCo+iwogfIyvb56/AJri15H0u5Q==
-  dependencies:
-    debug "^4.1.1"
-    glob "^7.1.4"
-    is-glob "^4.0.1"
-    lodash.unescape "4.0.1"
-    semver "^6.3.0"
-
 "@typescript-eslint/typescript-estree@2.6.1":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.6.1.tgz#fb363dd4ca23384745c5ea4b7f4c867432b00d31"
@@ -3457,15 +3446,15 @@ prettier-linter-helpers@^1.0.0:
 
 prettier@prettier/prettier:
   version "1.18.2"
-  uid "4d9acf86b893b793690bad80cae418ceefb3209c"
-  resolved "https://codeload.github.com/prettier/prettier/tar.gz/4d9acf86b893b793690bad80cae418ceefb3209c"
+  uid d4a7a47b048b8ced046e71d44dfc5de417b89221
+  resolved "https://codeload.github.com/prettier/prettier/tar.gz/d4a7a47b048b8ced046e71d44dfc5de417b89221"
   dependencies:
     "@angular/compiler" "8.2.13"
     "@babel/code-frame" "7.5.5"
     "@babel/parser" "7.7.0"
     "@glimmer/syntax" "0.41.0"
     "@iarna/toml" "2.2.3"
-    "@typescript-eslint/typescript-estree" "2.6.0"
+    "@typescript-eslint/typescript-estree" "2.6.1"
     angular-estree-parser "1.1.5"
     angular-html-parser "1.3.0"
     camelcase "5.3.1"
