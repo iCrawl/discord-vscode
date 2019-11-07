@@ -1,10 +1,9 @@
 const { Client } = require('discord-rpc'); // eslint-disable-line
-import { Disposable, StatusBarItem, Uri, window, workspace } from 'vscode';
+import { Disposable, StatusBarItem, Uri, window, workspace, env } from 'vscode';
 import * as vsls from 'vsls';
 import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
 import { API } from '../git';
-import * as clipboardy from 'clipboardy';
 
 let activityTimer: NodeJS.Timer;
 
@@ -92,9 +91,10 @@ export default class RPCClient implements Disposable {
 					// VS Liveshare has this annoying bug where you convert a URL string to a URI object to autofill
 					// But the autofill will be empty, so to circumvent this I need to add copying the link to the clipboard
 					// And immediately pasting it after the window pops up empty
-					await clipboardy.write(s);
-					await liveshare.join(Uri.parse(s));
-					await clipboardy.read();
+					await env.clipboard.writeText(s);
+					const uriString = await env.clipboard.readText();
+					const uri = Uri.parse(uriString);
+					await liveshare.join(uri);
 				} catch (error) {
 					Logger.log(error);
 				}
@@ -124,10 +124,11 @@ export default class RPCClient implements Disposable {
 					try {
 						const s = Buffer.from(secret, 'base64').toString();
 						// You might be asking yourself again again: "but why?"
-						// See first comment on clipboardy above
-						await clipboardy.write(s);
-						await liveshare.join(Uri.parse(s));
-						await clipboardy.read();
+						// See first comment above
+						await env.clipboard.writeText(s);
+						const uriString = await env.clipboard.readText();
+						const uri = Uri.parse(uriString);
+						await liveshare.join(uri);
 					} catch (error) {
 						Logger.log(error);
 					}

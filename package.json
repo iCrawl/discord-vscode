@@ -183,7 +183,6 @@
 	},
 	"dependencies": {
 		"bufferutil": "^4.0.1",
-		"clipboardy": "^2.1.0",
 		"discord-rpc": "discordjs/RPC",
 		"register-scheme": "devsnek/node-register-scheme",
 		"utf-8-validate": "^5.0.2",
