@@ -25,10 +25,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@7.7.0":
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.7.0.tgz#232618f6e8947bc54b407fa1f1c91a22758e7159"
-  integrity sha512-GqL+Z0d7B7ADlQBMXlJgvXEbtt5qlqd1YQ5fr12hTSfh7O/vgrEIvJxU2e7aSVrEUn75zTZ6Nd0s8tthrlZnrQ==
+"@babel/parser@7.7.3":
+  version "7.7.3"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.7.3.tgz#5fad457c2529de476a248f75b0f090b3060af043"
+  integrity sha512-bqv+iCo9i+uLVbI0ILzKkvMorqxouI+GbV13ivcARXn9NNEabi2IEz912IgNpT/60BNXac5dgcfjb94NjsF33A==
 
 "@babel/runtime@^7.6.3":
   version "7.6.3"
@@ -1730,10 +1730,10 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.3.tgz#c1283ac9f27b368abc1e36d1ff7b04501a30356b"
   integrity sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==
 
-flow-parser@0.111.1:
-  version "0.111.1"
-  resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.111.1.tgz#f84108934264105916f466e7d1824efacb19b9a3"
-  integrity sha512-yo+C0a/fMsGwooxA2xd4kK/kuzSnFC8JZLsIB68mkTllLrF/nSQ8llwD82o8Vxwvisw9IPC/ZC8zqrWmkir9jQ==
+flow-parser@0.111.3:
+  version "0.111.3"
+  resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.111.3.tgz#4c256aa21a5dbb53d5305e3512cc120659ca08f3"
+  integrity sha512-iEjGZ94OBMcESxnLorXNjJmtd/JtQYXUVrQpfwvtAKkuyawRmv+2LM6nqyOsOJkISEYbyY6ziudRE0u4VyPSVA==
 
 flush-write-stream@^1.0.0:
   version "1.1.1"
@@ -1829,14 +1829,7 @@ get-stdin@^6.0.0:
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-6.0.0.tgz#9e09bf712b360ab9225e812048f71fde9c89657b"
   integrity sha512-jp4tHawyV7+fkkSKyvjuLZswblUtz+SQKzSWnBbii16BuZksJlU1wuBYXY75r+duh/llF1ur6oNwi+2ZzjKZ7g==
 
-get-stream@5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-5.1.0.tgz#01203cdc92597f9b909067c3e656cc1f4d3c4dc9"
-  integrity sha512-EXr1FOzrzTfGeL0gQdeFEvOMm2mzMOglyiOXSTpPC+iAjAKftbr3jpCMWynogwYnM+eSj9sHGc6wjIcDvYiygw==
-  dependencies:
-    pump "^3.0.0"
-
-get-stream@^4.0.0:
+get-stream@4.1.0, get-stream@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-4.1.0.tgz#c1b255575f3dc21d59bfc79cd3d2b46b1c3a54b5"
   integrity sha512-GMat4EJ5161kIy2HevLlr4luNjBgvmj413KaQA7jt4V8B4RDsfpHk7WQ9GVqfYyyx8OS/L66Kox+rJRNklLK7w==
@@ -3363,10 +3356,10 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-postcss-less@1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/postcss-less/-/postcss-less-1.1.5.tgz#a6f0ce180cf3797eeee1d4adc0e9e6d6db665609"
-  integrity sha512-QQIiIqgEjNnquc0d4b6HDOSFZxbFQoy4MPpli2lSLpKhMyBkKwwca2HFqu4xzxlKID/F2fxSOowwtKpgczhF7A==
+postcss-less@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-less/-/postcss-less-2.0.0.tgz#5d190b8e057ca446d60fe2e2587ad791c9029fb8"
+  integrity sha512-pPNsVnpCB13nBMOcl5GVh8JGmB0JGFjqkLUDzKdVpptFFKEe9wFdEzvh2j4lD2AD+7qcrUfw9Ta+oi5+Fw7jjQ==
   dependencies:
     postcss "^5.2.16"
 
@@ -3432,12 +3425,13 @@ prettier-linter-helpers@^1.0.0:
     fast-diff "^1.1.2"
 
 prettier@prettier/prettier:
-  version "1.18.2"
-  resolved "https://codeload.github.com/prettier/prettier/tar.gz/d4a7a47b048b8ced046e71d44dfc5de417b89221"
+  version "1.20.0-dev"
+  uid b56f95c97522e2099d46f02af5139a9dd178b6c5
+  resolved "https://codeload.github.com/prettier/prettier/tar.gz/b56f95c97522e2099d46f02af5139a9dd178b6c5"
   dependencies:
     "@angular/compiler" "8.2.13"
     "@babel/code-frame" "7.5.5"
-    "@babel/parser" "7.7.0"
+    "@babel/parser" "7.7.3"
     "@glimmer/syntax" "0.41.0"
     "@iarna/toml" "2.2.3"
     "@typescript-eslint/typescript-estree" "2.6.1"
@@ -3456,8 +3450,8 @@ prettier@prettier/prettier:
     esutils "2.0.3"
     find-parent-dir "0.3.0"
     find-project-root "1.1.1"
-    flow-parser "0.111.1"
-    get-stream "5.1.0"
+    flow-parser "0.111.3"
+    get-stream "4.1.0"
     globby "6.1.0"
     graphql "14.5.8"
     html-element-attributes "2.2.0"
@@ -3477,7 +3471,7 @@ prettier@prettier/prettier:
     n-readlines "1.0.0"
     normalize-path "3.0.0"
     parse-srcset ikatyang/parse-srcset#54eb9c1cb21db5c62b4d0e275d7249516df6f0ee
-    postcss-less "1.1.5"
+    postcss-less "2.0.0"
     postcss-media-query-parser "0.2.3"
     postcss-scss "2.0.0"
     postcss-selector-parser "2.2.3"
