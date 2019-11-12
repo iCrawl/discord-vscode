@@ -3426,8 +3426,8 @@ prettier-linter-helpers@^1.0.0:
 
 prettier@prettier/prettier:
   version "1.20.0-dev"
-  uid b56f95c97522e2099d46f02af5139a9dd178b6c5
-  resolved "https://codeload.github.com/prettier/prettier/tar.gz/b56f95c97522e2099d46f02af5139a9dd178b6c5"
+  uid "1a419c0ddff61a70321c168f47e91ce0ca582340"
+  resolved "https://codeload.github.com/prettier/prettier/tar.gz/1a419c0ddff61a70321c168f47e91ce0ca582340"
   dependencies:
     "@angular/compiler" "8.2.13"
     "@babel/code-frame" "7.5.5"
@@ -3484,7 +3484,7 @@ prettier@prettier/prettier:
     string-width "4.1.0"
     typescript "3.7.2"
     unicode-regex "3.0.0"
-    unified "8.4.1"
+    unified "8.4.2"
     vnopts "1.0.2"
     yaml-unist-parser "1.1.1"
 
@@ -4420,10 +4420,10 @@ unicode-regex@^2.0.0:
   dependencies:
     regexp-util "^1.2.0"
 
-unified@8.4.1:
-  version "8.4.1"
-  resolved "https://registry.yarnpkg.com/unified/-/unified-8.4.1.tgz#99bd0393f58a139eaa51832cfbcc0e7f6573a1e1"
-  integrity sha512-YPj/uIIZSO7mMIZQj/5Z3hDl4lshWYRQGs5TgUCjHTVdklUWH+O94mK5Cy77SEcmEUwGhnUcudMuH/zIwporqw==
+unified@8.4.2:
+  version "8.4.2"
+  resolved "https://registry.yarnpkg.com/unified/-/unified-8.4.2.tgz#13ad58b4a437faa2751a4a4c6a16f680c500fff1"
+  integrity sha512-JCrmN13jI4+h9UAyKEoGcDZV+i1E7BLFuG7OsaDvTXI5P0qhHX+vZO/kOhz9jn8HGENDKbwSeB0nVOg4gVStGA==
   dependencies:
     bail "^1.0.0"
     extend "^3.0.0"
