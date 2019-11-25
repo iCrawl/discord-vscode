@@ -25,10 +25,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@7.7.3":
-  version "7.7.3"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.7.3.tgz#5fad457c2529de476a248f75b0f090b3060af043"
-  integrity sha512-bqv+iCo9i+uLVbI0ILzKkvMorqxouI+GbV13ivcARXn9NNEabi2IEz912IgNpT/60BNXac5dgcfjb94NjsF33A==
+"@babel/parser@7.7.4":
+  version "7.7.4"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.7.4.tgz#75ab2d7110c2cf2fa949959afb05fa346d2231bb"
+  integrity sha512-jIwvLO0zCL+O/LmEJQjWA75MQTWwx3c3u2JOTDK5D3/9egrWRRA0/0hk9XXywYnXZVVpzrBYeIQTmhwUaePI9g==
 
 "@babel/runtime@^7.6.3":
   version "7.6.3"
@@ -3441,12 +3441,12 @@ prettier-linter-helpers@^1.0.0:
 
 prettier@prettier/prettier:
   version "1.20.0-dev"
-  uid cad32c0e22f5dba73c4e9ec7110e20cf310dd4dc
-  resolved "https://codeload.github.com/prettier/prettier/tar.gz/cad32c0e22f5dba73c4e9ec7110e20cf310dd4dc"
+  uid "674f13123d1ac2321ba0f2cef1d4dcd18643d403"
+  resolved "https://codeload.github.com/prettier/prettier/tar.gz/674f13123d1ac2321ba0f2cef1d4dcd18643d403"
   dependencies:
     "@angular/compiler" "8.2.14"
     "@babel/code-frame" "7.5.5"
-    "@babel/parser" "7.7.3"
+    "@babel/parser" "7.7.4"
     "@glimmer/syntax" "0.41.0"
     "@iarna/toml" "2.2.3"
     "@typescript-eslint/typescript-estree" "2.8.0"
@@ -3494,7 +3494,7 @@ prettier@prettier/prettier:
     regexp-util "1.2.2"
     remark-math "1.0.6"
     remark-parse "5.0.0"
-    resolve "1.12.0"
+    resolve "1.12.2"
     semver "6.3.0"
     string-width "4.1.0"
     typescript "3.7.2"
@@ -3767,10 +3767,10 @@ resolve-url@^0.2.1:
   resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
 
-resolve@1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.12.0.tgz#3fc644a35c84a48554609ff26ec52b66fa577df6"
-  integrity sha512-B/dOmuoAik5bKcD6s6nXDCjzUKnaDvdkRyAk6rsmsKLipWj4797iothd7jmmUhWTfinVMU+wc56rYKsit2Qy4w==
+resolve@1.12.2:
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.12.2.tgz#08b12496d9aa8659c75f534a8f05f0d892fff594"
+  integrity sha512-cAVTI2VLHWYsGOirfeYVVQ7ZDejtQ9fp4YhYckWDEkFfqbVjaT11iM8k6xSAfGFMM+gDpZjMnFssPu8we+mqFw==
   dependencies:
     path-parse "^1.0.6"
 
