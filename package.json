@@ -20,6 +20,7 @@
 	"scripts": {
 		"prebuild": "yarn lint",
 		"build": "webpack --mode production",
+		"tsc": "tsc",
 		"lint": "eslint src --ext .ts",
 		"lint:fix": "eslint src --ext .ts --fix"
 	},

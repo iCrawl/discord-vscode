@@ -1,0 +1,20 @@
+name: TSC
+on: [push, pull_request]
+jobs:
+  tsc:
+    name: TSC
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node v12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run TSC
+        run: yarn tsc
