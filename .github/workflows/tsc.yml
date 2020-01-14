@@ -17,4 +17,4 @@ jobs:
         run: yarn install
 
       - name: Run TSC
-        run: yarn tsc
+        uses: icrawl/action-tsc@v1
