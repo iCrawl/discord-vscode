@@ -3835,10 +3835,10 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
-vsls@^0.3.1291:
-  version "0.3.1291"
-  resolved "https://registry.yarnpkg.com/vsls/-/vsls-0.3.1291.tgz#55928c363b24d39a5d03d8e946ba85d7dcec3e38"
-  integrity sha512-8yJPN9p7k+XYyczOVtQmpun4K1CRDsw/hdnIzT/c40r5bIkpptfsBlHmmLemoIV+CAHvrTLdWKEf5OtRvdcn9A==
+vsls@^1.0.1526:
+  version "1.0.1526"
+  resolved "https://registry.yarnpkg.com/vsls/-/vsls-1.0.1526.tgz#7940cb77335a15de5cdbc74f169fc81b7b602dda"
+  integrity sha512-bxqb2iZzauwVluidgFS1CPZHF1KbNwIGqHeIow/7gtrJpLBLg+Bs0dgSvHLJafwfQulO+dsycWYPF64R6D3R/A==
 
 watchpack@^1.6.0:
   version "1.6.0"
