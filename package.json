@@ -18,7 +18,7 @@
 	"license": "MIT",
 	"main": "./dist/extension",
 	"scripts": {
-		"prebuild": "yarn lint",
+		"prebuild": "pnpm run lint",
 		"build": "webpack --mode production",
 		"tsc": "tsc",
 		"lint": "eslint src --ext .ts",
@@ -27,7 +27,7 @@
 	"activationEvents": [
 		"*"
 	],
-	"extensionKind": "ui",
+	"extensionKind": ["ui"],
 	"contributes": {
 		"commands": [
 			{
@@ -185,9 +185,11 @@
 	"dependencies": {
 		"bufferutil": "^4.0.1",
 		"discord-rpc": "discordjs/RPC",
-		"register-scheme": "devsnek/node-register-scheme",
 		"utf-8-validate": "^5.0.2",
 		"vsls": "^1.0.1526"
+	},
+	"optionalDependencies": {
+		"register-scheme": "devsnek/node-register-scheme"
 	},
 	"devDependencies": {
 		"@types/node": "^13.5.0",
@@ -196,7 +198,7 @@
 		"@typescript-eslint/parser": "^2.17.0",
 		"clean-webpack-plugin": "^3.0.0",
 		"eslint": "^6.8.0",
-		"eslint-config-marine": "^5.3.2",
+		"eslint-config-marine": "^6.0.0",
 		"eslint-config-prettier": "^6.9.0",
 		"eslint-plugin-prettier": "^3.1.2",
 		"prettier": "^1.19.1",
@@ -207,7 +209,7 @@
 		"webpack-cli": "^3.3.10"
 	},
 	"engines": {
-		"vscode": "^1.39.0"
+		"vscode": "^1.41.0"
 	},
 	"eslintConfig": {
 		"extends": "marine/prettier/node"
