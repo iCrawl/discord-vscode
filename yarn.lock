@@ -1185,18 +1185,17 @@ escape-string-regexp@^1.0.5:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
 
-eslint-config-aqua@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-aqua/-/eslint-config-aqua-7.1.2.tgz#2e1d0fc8f54b1ee72e942c74ada1e4ed06e5c955"
-  integrity sha512-114aQgThTf2tXlvF47Ij/oEp92QplZog6GiGqfSIkn7hMonFhbWwZT2kUX/JcrynLMTZQdjR5mM9kkd7cFhlHg==
+eslint-config-aqua@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-aqua/-/eslint-config-aqua-7.2.1.tgz#10802b39d4c21f7b8192bb33ad5b7014b52683c6"
+  integrity sha512-GXRpVRoxD4qIriJ7/8+XCG5P04gtT/Yqwv1u0b6X8X5ue/JouFCpRWTnhktNVVrafeq7ObLbAJG99rbb3MsVww==
 
-eslint-config-marine@^5.3.2:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-marine/-/eslint-config-marine-5.3.2.tgz#46a461a5c436ea0b85fa19532478f287e5dc9f0e"
-  integrity sha512-II5YYnc1xTmYzgfUO0T8bqxH3FTNTXdTnwYtWrn2gxabqiWfAljkVjh/K9SltQhD5LQsVgJdn4xDRbjENWGPqQ==
+eslint-config-marine@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-marine/-/eslint-config-marine-6.0.0.tgz#00a89ad05e186ab1fa95c6629c04df6afe5dd4cc"
+  integrity sha512-4735oFwmfMsXQY/MUKJ/N8EjCqHiLkAu9kbxOjdQCwJpWUeDpGwLUN5LL/c5DZQ/NaQVGfLvUM0gq4waj8UwAA==
   dependencies:
-    eslint-config-aqua "^7.1.2"
-    eslint-plugin-promise "^4.2.1"
+    eslint-config-aqua "^7.2.1"
 
 eslint-config-prettier@^6.9.0:
   version "6.9.0"
@@ -1211,11 +1210,6 @@ eslint-plugin-prettier@^3.1.2:
   integrity sha512-GlolCC9y3XZfv3RQfwGew7NnuFDKsfI4lbvRK+PIIo23SFH+LemGs4cKwzAaRa+Mdb+lQO/STaIayno8T5sJJA==
   dependencies:
     prettier-linter-helpers "^1.0.0"
-
-eslint-plugin-promise@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-4.2.1.tgz#845fd8b2260ad8f82564c1222fce44ad71d9418a"
-  integrity sha512-VoM09vT7bfA7D+upt+FjeBO5eHIJQBUWki1aPvB+vbNiHS3+oGIJGIeyBtKQTME6UPXXy3vV07OL1tHd3ANuDw==
 
 eslint-scope@^4.0.3:
   version "4.0.3"
