@@ -183,30 +183,30 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"bufferutil": "^4.0.1",
+		"bufferutil": "4.0.1",
 		"discord-rpc": "discordjs/RPC",
-		"utf-8-validate": "^5.0.2",
-		"vsls": "^1.0.1526"
+		"utf-8-validate": "5.0.2",
+		"vsls": "1.0.1526"
 	},
 	"optionalDependencies": {
 		"register-scheme": "devsnek/node-register-scheme"
 	},
 	"devDependencies": {
-		"@types/node": "^13.5.0",
-		"@types/vscode": "^1.41.0",
-		"@typescript-eslint/eslint-plugin": "^2.17.0",
-		"@typescript-eslint/parser": "^2.17.0",
-		"clean-webpack-plugin": "^3.0.0",
-		"eslint": "^6.8.0",
-		"eslint-config-marine": "^6.0.0",
-		"eslint-config-prettier": "^6.9.0",
-		"eslint-plugin-prettier": "^3.1.2",
-		"prettier": "^1.19.1",
-		"terser-webpack-plugin": "^2.3.2",
-		"ts-loader": "^6.2.1",
-		"typescript": "^3.7.5",
-		"webpack": "^4.41.5",
-		"webpack-cli": "^3.3.10"
+		"@types/node": "13.5.1",
+		"@types/vscode": "1.41.0",
+		"@typescript-eslint/eslint-plugin": "2.18.0",
+		"@typescript-eslint/parser": "2.18.0",
+		"clean-webpack-plugin": "3.0.0",
+		"eslint": "6.8.0",
+		"eslint-config-marine": "6.0.0",
+		"eslint-config-prettier": "6.10.0",
+		"eslint-plugin-prettier": "3.1.2",
+		"prettier": "1.19.1",
+		"terser-webpack-plugin": "2.3.3",
+		"ts-loader": "6.2.1",
+		"typescript": "3.7.5",
+		"webpack": "4.41.5",
+		"webpack-cli": "3.3.10"
 	},
 	"engines": {
 		"vscode": "^1.41.0"
