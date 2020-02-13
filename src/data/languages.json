@@ -674,6 +674,9 @@
 		".json": {
 			"image": "json"
 		},
+		".jsonc": {
+			"image": "json"
+		},
 		".kt": {
 			"image": "kotlin"
 		},
