@@ -23,7 +23,7 @@ export async function activate(context: ExtensionContext) {
 			const regex = new RegExp(pattern);
 			const folders = workspace.workspaceFolders;
 			if (!folders) break;
-			if (folders.some(folder => regex.test(folder.uri.fsPath))) {
+			if (folders.some((folder) => regex.test(folder.uri.fsPath))) {
 				isWorkspaceExcluded = true;
 				break;
 			}
@@ -122,4 +122,4 @@ export async function deactivate() {
 	await rpc.dispose();
 }
 
-process.on('unhandledRejection', err => Logger.log(err as string));
+process.on('unhandledRejection', (err) => Logger.log(err as string));

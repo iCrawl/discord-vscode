@@ -78,7 +78,7 @@ export default class Activity implements Disposable {
 			const filename = basename(window.activeTextEditor.document.fileName);
 			largeImageKey =
 				knownExtentions[
-					Object.keys(knownExtentions).find(key => {
+					Object.keys(knownExtentions).find((key) => {
 						if (filename.endsWith(key)) return true;
 						const match = /^\/(.*)\/([mgiy]+)$/.exec(key);
 						if (!match) return false;
@@ -353,7 +353,7 @@ export default class Activity implements Disposable {
 
 			if (str.includes('{gitbranch}')) {
 				if (this.client.git?.repositories.length) {
-					fileDetail.gitbranch = this.client.git.repositories.find(repo => repo.ui.selected)!.state.HEAD!.name;
+					fileDetail.gitbranch = this.client.git.repositories.find((repo) => repo.ui.selected)!.state.HEAD!.name;
 				} else {
 					fileDetail.gitbranch = 'Unknown';
 				}
@@ -362,7 +362,7 @@ export default class Activity implements Disposable {
 			if (str.includes('{gitreponame}')) {
 				if (this.client.git?.repositories.length) {
 					fileDetail.gitreponame = this.client.git.repositories
-						.find(repo => repo.ui.selected)!
+						.find((repo) => repo.ui.selected)!
 						.state.remotes[0].fetchUrl!.split('/')[1]
 						.replace('.git', '');
 				} else {
