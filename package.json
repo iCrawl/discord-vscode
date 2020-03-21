@@ -201,7 +201,7 @@
 		"eslint-config-marine": "^6.0.0",
 		"eslint-config-prettier": "^6.9.0",
 		"eslint-plugin-prettier": "^3.1.2",
-		"prettier": "^1.19.1",
+		"prettier": "^2.0.0",
 		"terser-webpack-plugin": "^2.3.2",
 		"ts-loader": "^6.2.1",
 		"typescript": "^3.7.5",
