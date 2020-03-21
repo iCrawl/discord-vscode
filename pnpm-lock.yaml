@@ -10,10 +10,10 @@ devDependencies:
   '@typescript-eslint/parser': 2.17.0_eslint@6.8.0+typescript@3.7.5
   clean-webpack-plugin: 3.0.0_webpack@4.41.5
   eslint: 6.8.0
-  eslint-config-marine: 6.0.0_039e870a8cd2f2225cb9ca9bacdbd7e2
+  eslint-config-marine: 6.0.0_6f1b618af774024e27876dd9bf4b3e62
   eslint-config-prettier: 6.9.0_eslint@6.8.0
-  eslint-plugin-prettier: 3.1.2_eslint@6.8.0+prettier@1.19.1
-  prettier: 1.19.1
+  eslint-plugin-prettier: 3.1.2_eslint@6.8.0+prettier@2.0.0
+  prettier: 2.0.0
   terser-webpack-plugin: 2.3.2_webpack@4.41.5
   ts-loader: 6.2.1_typescript@3.7.5
   typescript: 3.7.5
@@ -115,7 +115,6 @@ packages:
       functional-red-black-tree: 1.0.1
       regexpp: 3.0.0
       tsutils: 3.17.1_typescript@3.7.5
-      typescript: 3.7.5
     dev: true
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
@@ -149,7 +148,6 @@ packages:
       '@typescript-eslint/typescript-estree': 2.17.0_typescript@3.7.5
       eslint: 6.8.0
       eslint-visitor-keys: 1.1.0
-      typescript: 3.7.5
     dev: true
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
@@ -170,7 +168,6 @@ packages:
       lodash: 4.17.15
       semver: 6.3.0
       tsutils: 3.17.1_typescript@3.7.5
-      typescript: 3.7.5
     dev: true
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
@@ -1144,12 +1141,12 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
-  /eslint-config-aqua/7.2.1_039e870a8cd2f2225cb9ca9bacdbd7e2:
+  /eslint-config-aqua/7.2.1_6f1b618af774024e27876dd9bf4b3e62:
     dependencies:
       eslint: 6.8.0
       eslint-config-prettier: 6.9.0_eslint@6.8.0
-      eslint-plugin-prettier: 3.1.2_eslint@6.8.0+prettier@1.19.1
-      prettier: 1.19.1
+      eslint-plugin-prettier: 3.1.2_eslint@6.8.0+prettier@2.0.0
+      prettier: 2.0.0
     dev: true
     engines:
       node: '>=10'
@@ -1182,9 +1179,9 @@ packages:
         optional: true
     resolution:
       integrity: sha512-GXRpVRoxD4qIriJ7/8+XCG5P04gtT/Yqwv1u0b6X8X5ue/JouFCpRWTnhktNVVrafeq7ObLbAJG99rbb3MsVww==
-  /eslint-config-marine/6.0.0_039e870a8cd2f2225cb9ca9bacdbd7e2:
+  /eslint-config-marine/6.0.0_6f1b618af774024e27876dd9bf4b3e62:
     dependencies:
-      eslint-config-aqua: 7.2.1_039e870a8cd2f2225cb9ca9bacdbd7e2
+      eslint-config-aqua: 7.2.1_6f1b618af774024e27876dd9bf4b3e62
     dev: true
     peerDependencies:
       eslint: '*'
@@ -1203,10 +1200,10 @@ packages:
       eslint: '>=3.14.1'
     resolution:
       integrity: sha512-k4E14HBtcLv0uqThaI6I/n1LEqROp8XaPu6SO9Z32u5NlGRC07Enu1Bh2KEFw4FNHbekH8yzbIU9kUGxbiGmCA==
-  /eslint-plugin-prettier/3.1.2_eslint@6.8.0+prettier@1.19.1:
+  /eslint-plugin-prettier/3.1.2_eslint@6.8.0+prettier@2.0.0:
     dependencies:
       eslint: 6.8.0
-      prettier: 1.19.1
+      prettier: 2.0.0
       prettier-linter-helpers: 1.0.0
     dev: true
     engines:
@@ -2882,13 +2879,13 @@ packages:
       node: '>=6.0.0'
     resolution:
       integrity: sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==
-  /prettier/1.19.1:
+  /prettier/2.0.0:
     dev: true
     engines:
-      node: '>=4'
+      node: '>=10.13.0'
     hasBin: true
     resolution:
-      integrity: sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
+      integrity: sha512-vI55PC+GFLOVtpwr2di1mYhJF36v+kztJov8sx3AmqbfdA+2Dhozxb+3e1hTgoV9lyhnVJFF3Z8GCVeMBOS1bA==
   /process-nextick-args/2.0.1:
     dev: true
     resolution:
@@ -3926,6 +3923,7 @@ packages:
     name: register-scheme
     requiresBuild: true
     resolution:
+      registry: 'https://registry.npmjs.org/'
       tarball: 'https://codeload.github.com/devsnek/node-register-scheme/tar.gz/e7cc9a63a1f512565da44cb57316d9fb10750e17'
     version: 0.0.2
   github.com/discordjs/RPC/cfddf66c372abe430a284ff3ea885e8cc0477f99_register-scheme@0.0.2:
@@ -3939,6 +3937,7 @@ packages:
     peerDependencies:
       register-scheme: 'github:devsnek/node-register-scheme'
     resolution:
+      registry: 'https://registry.npmjs.org/'
       tarball: 'https://codeload.github.com/discordjs/RPC/tar.gz/cfddf66c372abe430a284ff3ea885e8cc0477f99'
     version: 3.1.0
 specifiers:
@@ -3953,7 +3952,7 @@ specifiers:
   eslint-config-marine: ^6.0.0
   eslint-config-prettier: ^6.9.0
   eslint-plugin-prettier: ^3.1.2
-  prettier: ^1.19.1
+  prettier: ^2.0.0
   register-scheme: devsnek/node-register-scheme
   terser-webpack-plugin: ^2.3.2
   ts-loader: ^6.2.1
