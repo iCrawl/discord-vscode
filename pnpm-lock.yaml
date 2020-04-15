@@ -15,7 +15,7 @@ devDependencies:
   eslint-plugin-prettier: 3.1.2_eslint@6.8.0+prettier@2.0.0
   prettier: 2.0.0
   terser-webpack-plugin: 2.3.2_webpack@4.41.5
-  ts-loader: 6.2.1_typescript@3.7.5
+  ts-loader: 7.0.0_typescript@3.7.5
   typescript: 3.7.5
   webpack: 4.41.5_webpack@4.41.5
   webpack-cli: 3.3.10_webpack@4.41.5
@@ -115,7 +115,6 @@ packages:
       functional-red-black-tree: 1.0.1
       regexpp: 3.0.0
       tsutils: 3.17.1_typescript@3.7.5
-      typescript: 3.7.5
     dev: true
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
@@ -149,7 +148,6 @@ packages:
       '@typescript-eslint/typescript-estree': 2.17.0_typescript@3.7.5
       eslint: 6.8.0
       eslint-visitor-keys: 1.1.0
-      typescript: 3.7.5
     dev: true
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
@@ -170,7 +168,6 @@ packages:
       lodash: 4.17.15
       semver: 6.3.0
       tsutils: 3.17.1_typescript@3.7.5
-      typescript: 3.7.5
     dev: true
     engines:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
@@ -1105,6 +1102,12 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha1-TapNnbAPmBmIDHn6RXrlsJof04k=
+  /emojis-list/3.0.0:
+    dev: true
+    engines:
+      node: '>= 4'
+    resolution:
+      integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==
   /end-of-stream/1.4.4:
     dependencies:
       once: 1.4.0
@@ -2221,6 +2224,16 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-fkpz8ejdnEMG3s37wGL07iSBDg99O9D5yflE9RGNH3hRdx9SOwYfnGYdZOUIZitN8E+E2vkq3MUMYMvPYl5ZZA==
+  /loader-utils/1.4.0:
+    dependencies:
+      big.js: 5.2.2
+      emojis-list: 3.0.0
+      json5: 1.0.1
+    dev: true
+    engines:
+      node: '>=4.0.0'
+    resolution:
+      integrity: sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==
   /locate-path/3.0.0:
     dependencies:
       p-locate: 3.0.0
@@ -2352,7 +2365,7 @@ packages:
   /micromatch/4.0.2:
     dependencies:
       braces: 3.0.2
-      picomatch: 2.2.1
+      picomatch: 2.2.2
     dev: true
     engines:
       node: '>=8'
@@ -2814,12 +2827,12 @@ packages:
       node: '>=0.12'
     resolution:
       integrity: sha512-U/il5MsrZp7mGg3mSQfn742na2T+1/vHDCG5/iTI3X9MKUuYUZVLQhyRsg06mCgDBTd57TxzgZt7P+fYfjRLtA==
-  /picomatch/2.2.1:
+  /picomatch/2.2.2:
     dev: true
     engines:
       node: '>=8.6'
     resolution:
-      integrity: sha512-ISBaA8xQNmwELC7eOjqFKMESB2VIqt4PPDD0nsS95b/9dZXvVKOlz9keMSnoGGKcOHXfTvDD6WMaRoSc9UuhRA==
+      integrity: sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==
   /pify/2.3.0:
     dev: true
     engines:
@@ -3597,11 +3610,11 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-FWtleNAtZ/Ki2qtqej2CXTOayOH9bHDQF+Q48VpWyDXjbYxA4Yz8iDB31zXOBUlOHHKidDbqGVrTUvQMPmBGBw==
-  /ts-loader/6.2.1_typescript@3.7.5:
+  /ts-loader/7.0.0_typescript@3.7.5:
     dependencies:
       chalk: 2.4.2
       enhanced-resolve: 4.1.1
-      loader-utils: 1.2.3
+      loader-utils: 1.4.0
       micromatch: 4.0.2
       semver: 6.3.0
       typescript: 3.7.5
@@ -3611,7 +3624,7 @@ packages:
     peerDependencies:
       typescript: '*'
     resolution:
-      integrity: sha512-Dd9FekWuABGgjE1g0TlQJ+4dFUfYGbYcs52/HQObE0ZmUNjQlmLAS7xXsSzy23AMaMwipsx5sNHvoEpT2CZq1g==
+      integrity: sha512-qq9iPK235Xf/uPS1I72CIwB8qpbW0rys3entnXO+rIo2km50lMmeHKCNn1m047W6Sk4kceF6n5NWEnq/V8xdYQ==
   /tslib/1.10.0:
     dev: true
     resolution:
@@ -3958,7 +3971,7 @@ specifiers:
   prettier: ^2.0.0
   register-scheme: devsnek/node-register-scheme
   terser-webpack-plugin: ^2.3.2
-  ts-loader: ^6.2.1
+  ts-loader: ^7.0.0
   typescript: ^3.7.5
   utf-8-validate: ^5.0.2
   vsls: ^1.0.1526
