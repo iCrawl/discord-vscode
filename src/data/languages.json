@@ -67,6 +67,7 @@
 		"markdown",
 		"markdownx",
 		"marko",
+		"matlab",
 		"nim",
 		"nix",
 		"objc",
@@ -796,6 +797,9 @@
 		},
 		".mly": {
 			"image": "ocaml"
+		},
+		".m": {
+			"image": "matlab"
 		},
 		"/\\.pas(cal)?$/i": {
 			"image": "pascal"
