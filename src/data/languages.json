@@ -79,6 +79,7 @@
 		"purescript",
 		"python",
 		"postcss",
+		"processing",
 		"r",
 		"reasonml",
 		"ruby",
@@ -412,6 +413,9 @@
 		},
 		".pcss": {
 			"image": "postcss"
+		},
+		".pde": {
+			"image": "processing"
 		},
 		".ejson": {
 			"image": "manifest"
