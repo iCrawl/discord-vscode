@@ -56,6 +56,7 @@
 		"jest",
 		"java",
 		"julia",
+		"jupyter",
 		"js",
 		"jsx",
 		"json",
@@ -647,6 +648,9 @@
 		},
 		"/\\.(jil|jl)/i": {
 			"image": "julia"
+		},
+		".ipynb": {
+			"image": "jupyter"
 		},
 		"babel.config.js": {
 			"image": "babel"
