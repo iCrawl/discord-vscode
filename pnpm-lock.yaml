@@ -10,7 +10,7 @@ devDependencies:
   '@typescript-eslint/parser': 2.28.0_eslint@7.0.0+typescript@3.8.3
   clean-webpack-plugin: 3.0.0_webpack@4.42.1
   eslint: 7.0.0
-  eslint-config-marine: 6.0.0_3373f0dd45407acdc7b35d32567cbf0b
+  eslint-config-marine: 7.0.1
   eslint-config-prettier: 6.10.1_eslint@7.0.0
   eslint-plugin-prettier: 3.1.3_eslint@7.0.0+prettier@2.0.4
   prettier: 2.0.4
@@ -1209,55 +1209,18 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
-  /eslint-config-aqua/7.2.3_3373f0dd45407acdc7b35d32567cbf0b:
-    dependencies:
-      eslint: 7.0.0
-      eslint-config-prettier: 6.10.1_eslint@7.0.0
-      eslint-plugin-prettier: 3.1.3_eslint@7.0.0+prettier@2.0.4
-      prettier: 2.0.4
+  /eslint-config-aqua/7.2.4:
     dev: true
     engines:
       node: '>=10'
-    peerDependencies:
-      babel-eslint: ^10.0.3
-      eslint: ^6.8.0
-      eslint-config-prettier: ^6.9.0
-      eslint-plugin-prettier: ^3.1.2
-      eslint-plugin-react: ^7.18.0
-      eslint-plugin-react-hooks: ^3.0.0
-      eslint-plugin-svelte3: ^2.7.3
-      eslint-plugin-vue: ^6.1.2
-      prettier: ^2.0.0
-    peerDependenciesMeta:
-      babel-eslint:
-        optional: true
-      eslint-config-prettier:
-        optional: true
-      eslint-plugin-prettier:
-        optional: true
-      eslint-plugin-react:
-        optional: true
-      eslint-plugin-react-hooks:
-        optional: true
-      eslint-plugin-svelte3:
-        optional: true
-      eslint-plugin-vue:
-        optional: true
-      prettier:
-        optional: true
     resolution:
-      integrity: sha512-JaUcVFImU6kgF6xmUENyYIiR2c+7BuJd/AH1e9tSPQRLb/owj9KpnDUI6T/xfv3K+dV0sQ0J4mmOqIQC96M43w==
-  /eslint-config-marine/6.0.0_3373f0dd45407acdc7b35d32567cbf0b:
+      integrity: sha512-AfZdiyAkzeVQaPlpKPI2KGtyWH3ePs5fAOUwDYsT52OGAPyBid8Rotgkn/0JdRM/79MF3pOrXfOtcEjsMxhB3w==
+  /eslint-config-marine/7.0.1:
     dependencies:
-      eslint-config-aqua: 7.2.3_3373f0dd45407acdc7b35d32567cbf0b
+      eslint-config-aqua: 7.2.4
     dev: true
-    peerDependencies:
-      eslint: '*'
-      eslint-config-prettier: '*'
-      eslint-plugin-prettier: '*'
-      prettier: '*'
     resolution:
-      integrity: sha512-4735oFwmfMsXQY/MUKJ/N8EjCqHiLkAu9kbxOjdQCwJpWUeDpGwLUN5LL/c5DZQ/NaQVGfLvUM0gq4waj8UwAA==
+      integrity: sha512-/AtXkgPNsY79iGPGDC6MWg+zNmUNn+nqbi8yyuLtmzA6Jfe2xUtosIXVvatqCKOxQxvcgcQWSaKddt6cr4vZDA==
   /eslint-config-prettier/6.10.1_eslint@7.0.0:
     dependencies:
       eslint: 7.0.0
@@ -4142,7 +4105,7 @@ specifiers:
   clean-webpack-plugin: ^3.0.0
   discord-rpc: discordjs/RPC
   eslint: ^7.0.0
-  eslint-config-marine: ^6.0.0
+  eslint-config-marine: ^7.0.0
   eslint-config-prettier: ^6.10.1
   eslint-plugin-prettier: ^3.1.3
   prettier: ^2.0.4
