@@ -4,7 +4,7 @@ import Logger from './structures/Logger';
 import { GitExtension } from './git';
 const { register } = require('discord-rpc'); // eslint-disable-line
 
-let loginTimeout: NodeJS.Timer;
+let loginTimeout: NodeJS.Timer | undefined;
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
@@ -32,28 +32,28 @@ export async function activate(context: ExtensionContext) {
 
 	const enabler = commands.registerCommand('discord.enable', async () => {
 		await rpc.dispose();
-		config.update('enabled', true);
+		void config.update('enabled', true);
 		rpc.config = workspace.getConfiguration('discord');
 		rpc.statusBarIcon.text = '$(pulse) Connecting to Discord...';
 		rpc.statusBarIcon.show();
 		await rpc.login();
-		window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
+		void window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
 
 	const disabler = commands.registerCommand('discord.disable', async () => {
-		config.update('enabled', false);
+		void config.update('enabled', false);
 		rpc.config = workspace.getConfiguration('discord');
 		await rpc.dispose();
 		rpc.statusBarIcon.hide();
-		window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
+		void window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
 
 	const reconnecter = commands.registerCommand('discord.reconnect', async () => {
 		if (loginTimeout) clearTimeout(loginTimeout);
 		await rpc.dispose();
-		loginTimeout = setTimeout(async () => {
-			await rpc.login();
-			if (!config.get('silent')) window.showInformationMessage('Reconnecting to Discord RPC...');
+		loginTimeout = setTimeout(() => {
+			void rpc.login();
+			if (!config.get('silent')) void window.showInformationMessage('Reconnecting to Discord RPC...');
 			rpc.statusBarIcon.text = '$(pulse) Reconnecting to Discord...';
 			rpc.statusBarIcon.command = 'discord.reconnect';
 		}, 1000);
@@ -106,11 +106,11 @@ export async function activate(context: ExtensionContext) {
 		try {
 			await rpc.login();
 		} catch (error) {
-			Logger.log(`Encountered following error after trying to login:\n${error}`);
+			Logger.log(`Encountered following error after trying to login:\n${error as string}`);
 			await rpc.dispose();
 			if (!config.get('silent')) {
-				if (error.message.includes('ENOENT')) window.showErrorMessage('No Discord Client detected!');
-				else window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error.toString()}`);
+				if (error.message.includes('ENOENT')) void window.showErrorMessage('No Discord Client detected!');
+				else void window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error as string}`);
 			}
 			rpc.statusBarIcon.text = '$(pulse) Reconnect to Discord';
 			rpc.statusBarIcon.command = 'discord.reconnect';

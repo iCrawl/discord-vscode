@@ -5,7 +5,7 @@ import Activity from '../structures/Activity';
 import Logger from '../structures/Logger';
 import { API } from '../git';
 
-let activityTimer: NodeJS.Timer;
+let activityTimer: NodeJS.Timer | undefined;
 
 export default class RPCClient implements Disposable {
 	public statusBarIcon: StatusBarItem;
@@ -77,9 +77,9 @@ export default class RPCClient implements Disposable {
 			if (activityTimer) clearInterval(activityTimer);
 			await this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 
-			activityTimer = setInterval(async () => {
+			activityTimer = setInterval(() => {
 				this.config = workspace.getConfiguration('discord');
-				await this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
+				void this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 			}, 10000);
 
 			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: string }) => {
@@ -166,6 +166,6 @@ export default class RPCClient implements Disposable {
 		this._rpc = null;
 		this.statusBarIcon.tooltip = '';
 
-		clearInterval(activityTimer);
+		if (activityTimer) clearInterval(activityTimer);
 	}
 }

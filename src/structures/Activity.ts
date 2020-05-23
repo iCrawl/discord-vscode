@@ -77,6 +77,7 @@ export default class Activity implements Disposable {
 			this._lastKnownFile = window.activeTextEditor.document.fileName;
 			const filename = basename(window.activeTextEditor.document.fileName);
 			largeImageKey =
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 				knownExtentions[
 					Object.keys(knownExtentions).find((key) => {
 						if (filename.endsWith(key)) return true;
@@ -85,7 +86,7 @@ export default class Activity implements Disposable {
 						const regex = new RegExp(match[1], match[2]);
 						return regex.test(filename);
 					})!
-				] ||
+				] ??
 				(knownLanguages.includes(window.activeTextEditor.document.languageId)
 					? window.activeTextEditor.document.languageId
 					: null);
@@ -297,7 +298,7 @@ export default class Activity implements Disposable {
 				.replace(
 					'{workspaceAndFolder}',
 					checkState && workspaceName && workspaceFolder
-						? `${workspaceName} - ${workspaceFolder}`
+						? `${workspaceName} - ${workspaceFolder.name}`
 						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
 				)
 				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
