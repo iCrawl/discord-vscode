@@ -18,7 +18,7 @@
 	"license": "MIT",
 	"main": "./dist/extension",
 	"scripts": {
-		"prebuild": "pnpm run lint",
+		"prebuild": "npm run lint",
 		"build": "webpack --mode production",
 		"tsc": "tsc",
 		"lint": "eslint src --ext .ts",
