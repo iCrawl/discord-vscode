@@ -97,6 +97,7 @@
 		"tsx",
 		"twig",
 		"text",
+		"terraform",
 		"travis",
 		"typescript-def",
 		"v",
@@ -1101,6 +1102,9 @@
 		},
 		"/^hyphen(ex)?\\.(cs|den|det|fr|sv|us)$/": {
 			"image": "tex"
+		},
+		".tf": {
+			"image": "terraform"
 		},
 		".toml": {
 			"image": "toml"
