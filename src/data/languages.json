@@ -49,6 +49,7 @@
 		"handlebars",
 		"haskell",
 		"html",
+		"hjson",
 		"haxe",
 		"ini",
 		"pug",
@@ -582,6 +583,9 @@
 		},
 		".lhs": {
 			"image": "haskell"
+		},
+		".hjson": {
+			"image": "hjson"
 		},
 		"/\\.x?html?$/i": {
 			"image": "html"
