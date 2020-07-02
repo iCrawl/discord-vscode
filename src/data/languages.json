@@ -1,8 +1,12 @@
 {
 	"knownLanguages": [
 		"as",
+		"angular",
+		"android",
 		"asp",
 		"assembly",
+		"arduino",
+		"gruntfile",
 		"ahk",
 		"applescript",
 		"appveyor",
@@ -15,16 +19,28 @@
 		"circleci",
 		"cargo",
 		"cpp",
+		"codeclimate",
+		"npm",
+		"nodemon",
 		"csharp",
 		"cshtml",
 		"clojure",
 		"cmake",
 		"coffee",
+		"livescript",
 		"crystal",
 		"css",
 		"less",
 		"stylus",
 		"scss",
+		"cuda",
+		"flowconfig",
+		"prisma",
+		"prettier",
+		"heroku",
+		"editorconfig",
+		"ponylang",
+		"jsmap",
 		"d",
 		"dart",
 		"denizen",
@@ -41,6 +57,7 @@
 		"fsharp",
 		"git",
 		"go",
+		"godot",
 		"gradle",
 		"graphql",
 		"groovy",
@@ -49,6 +66,8 @@
 		"handlebars",
 		"haskell",
 		"html",
+		"hjson",
+		"http",
 		"haxe",
 		"ini",
 		"pug",
@@ -88,6 +107,7 @@
 		"scala",
 		"shell",
 		"sql",
+		"sqf",
 		"svg",
 		"svelte",
 		"swift",
@@ -112,7 +132,10 @@
 		"yarn",
 		"bat",
 		"wasm",
-		"webpack"
+		"webpack",
+		"v",
+		"vala",
+		"zig"
 	],
 	"knownExtentions": {
 		".swf": {
@@ -553,6 +576,9 @@
 		".go": {
 			"image": "go"
 		},
+		".gd": {
+			"image": "godot"
+		},
 		".gradle": {
 			"image": "gradle"
 		},
@@ -582,6 +608,9 @@
 		},
 		".lhs": {
 			"image": "haskell"
+		},
+		".hjson": {
+			"image": "hjson"
 		},
 		"/\\.x?html?$/i": {
 			"image": "html"
@@ -1051,6 +1080,9 @@
 		".db2": {
 			"image": "sql"
 		},
+		".sqf": {
+			"image": "sqf"
+		},
 		".svg": {
 			"image": "svg"
 		},
@@ -1200,6 +1232,15 @@
 		},
 		".vh": {
 			"image": "v"
+		},
+		".vala": {
+			"image": "vala"
+		},
+		".vapi": {
+			"image": "vala"
+		},
+		".zig": {
+			"image": "zig"
 		}
 	}
 }

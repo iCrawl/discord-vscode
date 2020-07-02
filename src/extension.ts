@@ -109,7 +109,7 @@ export async function activate(context: ExtensionContext) {
 			Logger.log(`Encountered following error after trying to login:\n${error as string}`);
 			await rpc.dispose();
 			if (!config.get('silent')) {
-				if (error.message.includes('ENOENT')) void window.showErrorMessage('No Discord Client detected!');
+				if (error?.message?.includes('ENOENT')) void window.showErrorMessage('No Discord Client detected!');
 				else void window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error as string}`);
 			}
 			rpc.statusBarIcon.text = '$(pulse) Reconnect to Discord';
