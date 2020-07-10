@@ -188,7 +188,7 @@
 		"bufferutil": "^4.0.1",
 		"discord-rpc": "discordjs/RPC",
 		"utf-8-validate": "^5.0.2",
-		"vsls": "^1.0.1830"
+		"vsls": "^1.0.2426"
 	},
 	"optionalDependencies": {
 		"register-scheme": "devsnek/node-register-scheme"
