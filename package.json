@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "3.15.0",
+	"version": "3.16.0",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -206,7 +206,7 @@
 		"webpack-cli": "^3.3.12"
 	},
 	"engines": {
-		"vscode": "^1.46.0"
+		"vscode": "^1.47.0"
 	},
 	"eslintConfig": {
 		"extends": "marine/prettier/node",
