@@ -78,11 +78,6 @@
 				"title": "Discord Presence Configuration",
 				"type": "object",
 				"properties": {
-					"discord.clientID": {
-						"type": "string",
-						"default": "383226320970055681",
-						"description": "Only modify this if you know what you are doing"
-					},
 					"discord.enabled": {
 						"type": "boolean",
 						"default": true,

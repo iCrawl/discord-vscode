@@ -9,9 +9,10 @@ let loginTimeout: NodeJS.Timer | undefined;
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
+const clientId = '383226320970055681';
 const config = workspace.getConfiguration('discord');
-register(config.get<string>('clientID')!);
-const rpc = new RPCClient(config.get<string>('clientID')!, statusBarIcon);
+register(clientId);
+const rpc = new RPCClient(clientId, statusBarIcon);
 
 export async function activate(context: ExtensionContext) {
 	Logger.log('Discord Presence activated!');
