@@ -31,27 +31,25 @@ export async function activate(context: ExtensionContext) {
 		}
 	}
 
-	const enabler = commands.registerCommand('discord.enable', async () => {
-		await rpc.dispose();
+	const enabler = commands.registerCommand('discord.enable', () => {
+		rpc.dispose();
 		void config.update('enabled', true);
 		rpc.config = workspace.getConfiguration('discord');
 		rpc.statusBarIcon.text = '$(pulse) Connecting to Discord...';
 		rpc.statusBarIcon.show();
-		await rpc.login();
+		void rpc.login();
 		void window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
 	});
-
-	const disabler = commands.registerCommand('discord.disable', async () => {
+	const disabler = commands.registerCommand('discord.disable', () => {
 		void config.update('enabled', false);
 		rpc.config = workspace.getConfiguration('discord');
-		await rpc.dispose();
+		rpc.dispose();
 		rpc.statusBarIcon.hide();
 		void window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
 	});
-
-	const reconnecter = commands.registerCommand('discord.reconnect', async () => {
+	const reconnecter = commands.registerCommand('discord.reconnect', () => {
 		if (loginTimeout) clearTimeout(loginTimeout);
-		await rpc.dispose();
+		rpc.dispose();
 		loginTimeout = setTimeout(() => {
 			void rpc.login();
 			if (!config.get('silent')) void window.showInformationMessage('Reconnecting to Discord RPC...');
@@ -59,28 +57,15 @@ export async function activate(context: ExtensionContext) {
 			rpc.statusBarIcon.command = 'discord.reconnect';
 		}, 1000);
 	});
-
-	const disconnect = commands.registerCommand('discord.disconnect', async () => {
-		await rpc.dispose();
+	const disconnect = commands.registerCommand('discord.disconnect', () => {
+		rpc.dispose();
 		rpc.statusBarIcon.text = '$(pulse) Reconnect to Discord';
 		rpc.statusBarIcon.command = 'discord.reconnect';
 	});
-
-	const allowSpectate = commands.registerCommand('discord.allowSpectate', async () => {
-		await rpc.allowSpectate();
-	});
-
-	const disableSpectate = commands.registerCommand('discord.disableSpectate', async () => {
-		await rpc.disableSpectate();
-	});
-
-	const allowJoinRequests = commands.registerCommand('discord.allowJoinRequests', async () => {
-		await rpc.allowJoinRequests();
-	});
-
-	const disableJoinRequests = commands.registerCommand('discord.disableJoinRequests', async () => {
-		await rpc.disableJoinRequests();
-	});
+	const allowSpectate = commands.registerCommand('discord.allowSpectate', () => rpc.allowSpectate());
+	const disableSpectate = commands.registerCommand('discord.disableSpectate', () => rpc.disableSpectate());
+	const allowJoinRequests = commands.registerCommand('discord.allowJoinRequests', () => rpc.allowJoinRequests());
+	const disableJoinRequests = commands.registerCommand('discord.disableJoinRequests', () => rpc.disableJoinRequests());
 
 	context.subscriptions.push(
 		enabler,
@@ -93,22 +78,13 @@ export async function activate(context: ExtensionContext) {
 		disableJoinRequests,
 	);
 
-	setTimeout(() => {
-		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
-		if (gitExtension) {
-			if (gitExtension.isActive) {
-				rpc.git = gitExtension.exports.getAPI(1);
-			}
-		}
-	}, 5000);
-
 	if (!isWorkspaceExcluded && config.get<boolean>('enabled')) {
 		statusBarIcon.show();
 		try {
 			await rpc.login();
 		} catch (error) {
 			Logger.log(`Encountered following error after trying to login:\n${error as string}`);
-			await rpc.dispose();
+			rpc.dispose();
 			if (!config.get('silent')) {
 				if (error?.message?.includes('ENOENT')) void window.showErrorMessage('No Discord Client detected!');
 				else void window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error as string}`);
@@ -117,10 +93,20 @@ export async function activate(context: ExtensionContext) {
 			rpc.statusBarIcon.command = 'discord.reconnect';
 		}
 	}
+
+	const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
+	if (gitExtension) {
+		if (gitExtension.isActive) {
+			rpc.git = gitExtension.exports.getAPI(1);
+		} else {
+			const extension = await gitExtension.activate();
+			rpc.git = extension.getAPI(1);
+		}
+	}
 }
 
-export async function deactivate() {
-	await rpc.dispose();
+export function deactivate() {
+	rpc.dispose();
 }
 
 process.on('unhandledRejection', (err) => Logger.log(err as string));

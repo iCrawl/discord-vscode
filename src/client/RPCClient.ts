@@ -8,81 +8,87 @@ import { API } from '../git';
 let activityTimer: NodeJS.Timer | undefined;
 
 export default class RPCClient implements Disposable {
-	public statusBarIcon: StatusBarItem;
-
 	public config = workspace.getConfiguration('discord');
 
 	public git?: API;
 
-	private _rpc: any;
+	private rpc: any;
 
-	private readonly _activity = new Activity(this);
+	private readonly activity = new Activity(this);
 
-	private readonly _clientId: string;
-
-	public constructor(clientId: string, statusBarIcon: StatusBarItem) {
-		this._clientId = clientId;
-		this.statusBarIcon = statusBarIcon;
-	}
+	public constructor(private readonly clientId: string, public statusBarIcon: StatusBarItem) {}
 
 	public get client() {
-		return this._rpc;
+		return this.rpc;
 	}
 
 	public async setActivity(workspaceElapsedTime = false) {
-		if (!this._rpc) return;
-		const activity = await this._activity.generate(workspaceElapsedTime);
+		if (!this.rpc) return;
+		const activity = await this.activity.generate(workspaceElapsedTime);
 		if (!activity) return;
 		Logger.log('Sending activity to Discord.');
-		this._rpc.setActivity(activity);
+		this.rpc.setActivity(activity);
 	}
 
-	public async allowSpectate() {
-		if (!this._rpc) return;
+	public allowSpectate() {
+		if (!this.rpc) return;
 		Logger.log('Allowed spectating.');
 		Logger.log('Sending spectate activity to Discord.');
-		await this._activity.allowSpectate();
+		void this.activity.allowSpectate();
 	}
 
-	public async disableSpectate() {
-		if (!this._rpc) return;
+	public disableSpectate() {
+		if (!this.rpc) return;
 		Logger.log('Disabled spectating.');
-		await this._activity.disableSpectate();
+		void this.activity.disableSpectate();
 	}
 
-	public async allowJoinRequests() {
-		if (!this._rpc) return;
+	public allowJoinRequests() {
+		if (!this.rpc) return;
 		Logger.log('Allowed join requests.');
 		Logger.log('Sending join activity to Discord.');
-		await this._activity.allowJoinRequests();
+		void this.activity.allowJoinRequests();
 	}
 
-	public async disableJoinRequests() {
-		if (!this._rpc) return;
+	public disableJoinRequests() {
+		if (!this.rpc) return;
 		Logger.log('Disabled join requests.');
-		await this._activity.disableJoinRequests();
+		void this.activity.disableJoinRequests();
 	}
 
 	public async login() {
-		if (this._rpc) return;
-		this._rpc = new Client({ transport: 'ipc' });
-		Logger.log('Logging into RPC.');
-		this._rpc.once('ready', async () => {
+		if (this.rpc) {
+			this.dispose();
+		}
+		this.rpc = new Client({ transport: 'ipc' });
+
+		Logger.log('Logging into RPC...');
+
+		this.rpc.transport.once('close', () => {
+			if (!this.config.get<boolean>('enabled')) return;
+			void this.dispose();
+			this.statusBarIcon.text = '$(plug) Reconnect to Discord';
+			this.statusBarIcon.command = 'discord.reconnect';
+			this.statusBarIcon.tooltip = '';
+		});
+
+		this.rpc.once('ready', async () => {
 			Logger.log('Successfully connected to Discord.');
+
 			this.statusBarIcon.text = '$(globe) Connected to Discord';
 			this.statusBarIcon.tooltip = 'Connected to Discord';
 
 			setTimeout(() => (this.statusBarIcon.text = '$(globe)'), 5000);
 
 			if (activityTimer) clearInterval(activityTimer);
-			await this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
+			void this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
 
 			activityTimer = setInterval(() => {
 				this.config = workspace.getConfiguration('discord');
 				void this.setActivity(this.config.get<boolean>('workspaceElapsedTime'));
-			}, 10000);
+			}, 1000);
 
-			this._rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: string }) => {
+			this.rpc.subscribe('ACTIVITY_SPECTATE', async ({ secret }: { secret: string }) => {
 				const liveshare = await vsls.getApi();
 				if (!liveshare) return;
 				try {
@@ -104,7 +110,7 @@ export default class RPCClient implements Disposable {
 			// Same here, this is a real nasty race condition that happens inside the discord-rpc module currently
 			// To circumvent this we need to timeout sending the subscribe events to the discord client
 			setTimeout(() => {
-				this._rpc.subscribe(
+				this.rpc.subscribe(
 					'ACTIVITY_JOIN_REQUEST',
 					async ({ user }: { user: { username: string; discriminator: string } }) => {
 						const val = await window.showInformationMessage(
@@ -112,13 +118,13 @@ export default class RPCClient implements Disposable {
 							{ title: 'Accept' },
 							{ title: 'Decline' },
 						);
-						if (val && val.title === 'Accept') await this._rpc.sendJoinInvite(user);
-						else await this._rpc.closeJoinRequest(user);
+						if (val && val.title === 'Accept') await this.rpc.sendJoinInvite(user);
+						else await this.rpc.closeJoinRequest(user);
 					},
 				);
 			}, 1000);
 			setTimeout(() => {
-				this._rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: string }) => {
+				this.rpc.subscribe('ACTIVITY_JOIN', async ({ secret }: { secret: string }) => {
 					const liveshare = await vsls.getApi();
 					if (!liveshare) return;
 					try {
@@ -137,33 +143,28 @@ export default class RPCClient implements Disposable {
 
 			const liveshare = await vsls.getApi();
 			if (!liveshare) return;
+
 			liveshare.onDidChangeSession(({ session }) => {
-				if (session.id) return this._activity.changePartyId(session.id);
-				return this._activity.changePartyId();
+				if (session.id) return this.activity.changePartyId(session.id);
+				return this.activity.changePartyId();
 			});
 			liveshare.onDidChangePeers(({ added, removed }) => {
-				if (added.length) return this._activity.increasePartySize(added.length);
-				else if (removed.length) return this._activity.decreasePartySize(removed.length);
+				if (added.length) return this.activity.increasePartySize(added.length);
+				else if (removed.length) return this.activity.decreasePartySize(removed.length);
 			});
 		});
 
-		this._rpc.transport.once('close', async () => {
-			if (!this.config.get<boolean>('enabled')) return;
-			await this.dispose();
-			this.statusBarIcon.text = '$(plug) Reconnect to Discord';
-			this.statusBarIcon.command = 'discord.reconnect';
-			this.statusBarIcon.tooltip = '';
-		});
-
-		await this._rpc.login({ clientId: this._clientId });
+		try {
+			await this.rpc.login({ clientId: this.clientId });
+		} catch (error) {
+			throw error;
+		}
 	}
 
-	public async dispose() {
-		this._activity.dispose();
-		try {
-			if (this._rpc) await this._rpc.destroy();
-		} catch {}
-		this._rpc = null;
+	public dispose() {
+		this.activity.dispose();
+		if (this.rpc) this.rpc.destroy();
+		this.rpc = null;
 		this.statusBarIcon.tooltip = '';
 
 		if (activityTimer) clearInterval(activityTimer);

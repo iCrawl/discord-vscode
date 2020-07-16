@@ -2,14 +2,12 @@ import { OutputChannel, window } from 'vscode';
 
 // eslint-disable-next-line
 export default class Logger {
-	private static _output?: OutputChannel;
-
-	private static _setup() {
-		this._output = this._output ?? window.createOutputChannel('Discord Presence');
-	}
+	private static output?: OutputChannel;
 
 	public static log(message: string) {
-		if (!this._output) this._setup();
-		this._output?.appendLine(message);
+		if (!this.output) {
+			this.output = window.createOutputChannel('Discord Presence');
+		}
+		this.output.appendLine(message);
 	}
 }

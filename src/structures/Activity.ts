@@ -2,7 +2,7 @@ import { basename, parse, sep } from 'path';
 import { debug, Disposable, env, window, workspace } from 'vscode';
 import * as vsls from 'vsls';
 import RPCClient from '../client/RPCClient';
-const lang = require('../data/languages.json'); // eslint-disable-line
+import lang from '../data/languages.json';
 
 const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
 const knownLanguages: string[] = lang.knownLanguages;
@@ -39,10 +39,9 @@ interface FileDetail {
 export default class Activity implements Disposable {
 	private _state: State | null = null;
 
-	private _lastKnownFile = '';
+	private lastKnownFile = '';
 
-	// eslint-disable-next-line no-useless-constructor
-	public constructor(public client: RPCClient) {}
+	public constructor(private readonly client: RPCClient) {}
 
 	public get state() {
 		return this._state;
@@ -52,7 +51,7 @@ export default class Activity implements Disposable {
 		let largeImageKey: any = 'vscode-big';
 		if (window.activeTextEditor) {
 			if (window.activeTextEditor.document.languageId === 'Log') return this._state;
-			if (this._state && window.activeTextEditor.document.fileName === this._lastKnownFile) {
+			if (this._state && window.activeTextEditor.document.fileName === this.lastKnownFile) {
 				return (this._state = {
 					...this._state,
 					details: await this._generateDetails(
@@ -74,7 +73,7 @@ export default class Activity implements Disposable {
 					),
 				});
 			}
-			this._lastKnownFile = window.activeTextEditor.document.fileName;
+			this.lastKnownFile = window.activeTextEditor.document.fileName;
 			const filename = basename(window.activeTextEditor.document.fileName);
 			largeImageKey =
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -238,7 +237,7 @@ export default class Activity implements Disposable {
 
 	public dispose() {
 		this._state = null;
-		this._lastKnownFile = '';
+		this.lastKnownFile = '';
 	}
 
 	private async _generateDetails(debugging: string, editing: string, idling: string, largeImageKey: any) {
