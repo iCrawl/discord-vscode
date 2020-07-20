@@ -505,7 +505,7 @@
     ".wat": { "image": "wasm" },
     ".wast": { "image": "wasm" },
     ".wasm": { "image": "wasm" },
-    "/webpack(\\.dev|\\.development|\\.prod|\\.production)?\\.config\\.js/i": { "image": "webpack" },
+    "/webpack(\\.dev|\\.development|\\.prod|\\.production)?\\.config(\\.babel)?\\.(js|jsx|coffee|ts|json|json5|yaml|yml)/i": { "image": "webpack" },
     ".xml": { "image": "xml" },
     "/\\.ya?ml$/i": { "image": "yaml" },
     "/^yarn(\\.lock)?$/i": { "image": "yarn" },
