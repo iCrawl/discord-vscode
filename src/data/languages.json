@@ -137,7 +137,7 @@
     "yarn",
     "zig"
   ],
-  "knownExtentions": {
+  "knownExtensions": {
     ".ahk": { "image": "ahk" },
     ".ahkl": { "image": "ahk" },
     "androidmanifest.xml": { "image": "android" },
