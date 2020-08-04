@@ -4,7 +4,7 @@ import * as vsls from 'vsls';
 import RPCClient from '../client/RPCClient';
 import lang from '../data/languages.json';
 
-const knownExtentions: { [key: string]: { image: string } } = lang.knownExtentions;
+const knownExtensions: { [key: string]: { image: string } } = lang.knownExtensions;
 const knownLanguages: string[] = lang.knownLanguages;
 
 const empty = '\u200b\u200b';
@@ -77,8 +77,8 @@ export default class Activity implements Disposable {
 			const filename = basename(window.activeTextEditor.document.fileName);
 			largeImageKey =
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-				knownExtentions[
-					Object.keys(knownExtentions).find((key) => {
+				knownExtensions[
+					Object.keys(knownExtensions).find((key) => {
 						if (filename.endsWith(key)) return true;
 						const match = /^\/(.*)\/([mgiy]+)$/.exec(key);
 						if (!match) return false;
