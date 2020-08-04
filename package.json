@@ -184,7 +184,7 @@
 		"discord-rpc": "github:discordjs/RPC",
 		"tslib": "^2.0.0",
 		"utf-8-validate": "^5.0.2",
-		"vsls": "^1.0.2590"
+		"vsls": "^1.0.2594"
 	},
 	"optionalDependencies": {
 		"register-scheme": "devsnek/node-register-scheme"
