@@ -225,7 +225,7 @@
     ".editorconfig": { "image": "editorconfig" },
     ".ejs": { "image": "ejs" },
     ".ex": { "image": "elixir" },
-    "/\\.(exs|eex)$/i": { "image": "elixir" },
+    "/\\.(exs|l?eex)$/i": { "image": "elixir" },
     "/^mix\\.(exs?|lock)$/i": { "image": "elixir" },
     ".elm": { "image": "elm" },
     ".env": { "image": "env" },
