@@ -197,7 +197,7 @@
 		"clean-webpack-plugin": "^3.0.0",
 		"eslint": "^7.11.0",
 		"eslint-config-marine": "^7.2.0",
-		"eslint-config-prettier": "^6.12.0",
+		"eslint-config-prettier": "^6.13.0",
 		"eslint-plugin-prettier": "^3.1.4",
 		"prettier": "^2.1.2",
 		"terser-webpack-plugin": "^4.2.3",
