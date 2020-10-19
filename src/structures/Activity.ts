@@ -286,7 +286,7 @@ export default class Activity implements Disposable {
 						? workspaceName
 						: checkState && workspaceFolder
 						? workspaceFolder.name
-						: this.client.config.get<string>('lowerDetailsNotFound')!.replace(`{null}`, empty),
+						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
 				)
 				.replace(
 					'{workspace}',
