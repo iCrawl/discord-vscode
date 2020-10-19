@@ -281,9 +281,17 @@ export default class Activity implements Disposable {
 				.replace('{dirname}', dirname)
 				.replace('{fulldirname}', fullDirname!)
 				.replace(
-					'{workspace}',
+					'{workspaceRaw}',
 					workspaceName
 						? workspaceName
+						: checkState && workspaceFolder
+						? workspaceFolder.name
+						: this.client.config.get<string>('lowerDetailsNotFound')!.replace(`{null}`, empty),
+				)
+				.replace(
+					'{workspace}',
+					workspaceName
+						? workspaceName.replace('(Workspace)', empty)
 						: checkState && workspaceFolder
 						? workspaceFolder.name
 						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
@@ -295,9 +303,15 @@ export default class Activity implements Disposable {
 						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
 				)
 				.replace(
-					'{workspaceAndFolder}',
+					'{workspaceAndFolderRaw}',
 					checkState && workspaceName && workspaceFolder
 						? `${workspaceName} - ${workspaceFolder.name}`
+						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
+				)
+				.replace(
+					'{workspaceAndFolder}',
+					checkState && workspaceName && workspaceFolder
+						? `${workspaceName.replace('(Workspace)', empty)} - ${workspaceFolder.name}`
 						: this.client.config.get<string>('lowerDetailsNotFound')!.replace('{null}', empty),
 				)
 				.replace('{lang}', largeImageKey ? largeImageKey.image || largeImageKey : 'txt')
