@@ -7,7 +7,7 @@
 			<img src="https://vsmarketplacebadge.apphb.com/version/icrawl.discord-vscode.svg" alt="VS Code Marketplace">
 		</a>
 		<a href="https://discord.gg/cZSWqAF">
-			<img src="https://canary.discordapp.com/api/guilds/424963290989461514/embed.png" alt="Discord server">
+			<img src="https://canary.discordapp.com/api/guilds/681216134854475816/embed.png" alt="Discord server">
 		</a>
 	</p>
 </div>
