@@ -183,7 +183,7 @@
 		"bufferutil": "^4.0.2",
 		"discord-rpc": "github:discordjs/RPC",
 		"tslib": "^2.0.3",
-		"utf-8-validate": "^5.0.2",
+		"utf-8-validate": "^5.0.3",
 		"vsls": "^1.0.3015"
 	},
 	"optionalDependencies": {
