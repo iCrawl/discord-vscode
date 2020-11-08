@@ -156,11 +156,15 @@
     ".asmx": { "image": "asp" },
     ".aspx": { "image": "asp" },
     ".axd": { "image": "asp" },
-    "/\\.(l?a|[ls]?o|out|s|a51|asm|axf|elf|prx|puff|z80)$/i": { "image": "assembly" },
+    "/\\.(l?a|[ls]?o|out|s|a51|asm|axf|elf|prx|puff|z80)$/i": {
+      "image": "assembly"
+    },
     ".agc": { "image": "assembly" },
     ".ko": { "image": "assembly" },
     ".lst": { "image": "assembly" },
-    "/\\.((c([+px]{2}?)?-?)?objdump|bsdiff|bin|dat|pak|pdb)$/i": { "image": "assembly" },
+    "/\\.((c([+px]{2}?)?-?)?objdump|bsdiff|bin|dat|pak|pdb)$/i": {
+      "image": "assembly"
+    },
     ".d-objdump": { "image": "assembly" },
     "/\\.gcode|\\.gco/i": { "image": "assembly" },
     "/\\.rpy[bc]$/i": { "image": "assembly" },
@@ -220,7 +224,9 @@
     ".dm": { "image": "dm" },
     ".dme": { "image": "dm" },
     ".dmm": { "image": "dm" },
-    "/^(Dockerfile|docker-compose)|\\.docker(file|ignore)$/i": { "image": "docker" },
+    "/^(Dockerfile|docker-compose)|\\.docker(file|ignore)$/i": {
+      "image": "docker"
+    },
     "/^docker-sync\\.yml$/i": { "image": "docker" },
     ".editorconfig": { "image": "editorconfig" },
     ".ejs": { "image": "ejs" },
@@ -285,6 +291,7 @@
     ".es": { "image": "js" },
     ".mjs": { "image": "js" },
     ".js.map": { "image": "jsmap" },
+    "nodemon.json": { "image": "nodemon" },
     ".json": { "image": "json" },
     ".jsonc": { "image": "json" },
     ".jsx": { "image": "jsx" },
@@ -340,20 +347,25 @@
     "/^pkginfo$/": { "image": "manifest" },
     "/^mime\\.types$/i": { "image": "manifest" },
     "/^METADATA\\.pb$/": { "image": "manifest" },
-    "/[\\/\\\\](?:magic[\\/\\\\]Magdir|file[\\/\\\\]magic)[\\/\\\\][-.\\w]+$/i": { "image": "manifest" },
-    "/(\\\\|\\/)dev[-\\w]+\\1(?:[^\\\\\\/]+\\1)*(?!DESC|NOTES)(?:[A-Z][-A-Z]*)(?:\\.in)?$/": { "image": "manifest" },
+    "/[\\/\\\\](?:magic[\\/\\\\]Magdir|file[\\/\\\\]magic)[\\/\\\\][-.\\w]+$/i": {
+      "image": "manifest"
+    },
+    "/(\\\\|\\/)dev[-\\w]+\\1(?:[^\\\\\\/]+\\1)*(?!DESC|NOTES)(?:[A-Z][-A-Z]*)(?:\\.in)?$/": {
+      "image": "manifest"
+    },
     "lib/icons/.icondb.js": { "image": "manifest" },
     "/\\.git[\\/\\\\](.*[\\/\\\\])?(HEAD|ORIG_HEAD|packed-refs|logs[\\/\\\\](.+[\\/\\\\])?[^\\/\\\\]+)$/": {
       "image": "manifest"
     },
-    "/\\.(md|mdown|markdown|mkd|mkdown|mdwn|mkdn|rmd|ron|pmd)$/i": { "image": "markdown" },
+    "/\\.(md|mdown|markdown|mkd|mkdown|mdwn|mkdn|rmd|ron|pmd)$/i": {
+      "image": "markdown"
+    },
     ".mdx": { "image": "markdownx" },
     ".marko": { "image": "marko" },
     ".nim": { "image": "nim" },
     ".nims": { "image": "nim" },
     ".nimble": { "image": "nim" },
     ".nix": { "image": "nix" },
-    "nodemon.json": { "image": "nodemon" },
     ".npmrc": { "image": "npm" },
     "/\\.mm?$/i": { "image": "objc" },
     ".pch": { "image": "objc" },
@@ -395,7 +407,9 @@
     ".psm1": { "image": "powershell" },
     ".ps1xml": { "image": "powershell" },
     ".prettierignore": { "image": "prettier" },
-    "/\\.prettier((rc)|(\\.(toml|yml|yaml|json|js))?$){2}/i": { "image": "prettier" },
+    "/\\.prettier((rc)|(\\.(toml|yml|yaml|json|js))?$){2}/i": {
+      "image": "prettier"
+    },
     "prettier.config.js": { "image": "prettier" },
     "prisma.yml": { "image": "prisma" },
     ".pde": { "image": "processing" },
@@ -424,7 +438,9 @@
     "/^wscript$/": { "image": "python" },
     "/\\.(r|Rprofile|rsx|rd)$/i": { "image": "r" },
     ".re": { "image": "reasonml" },
-    "/\\.(rb|ru|ruby|erb|gemspec|god|mspec|pluginspec|podspec|rabl|rake|opal)$/i": { "image": "ruby" },
+    "/\\.(rb|ru|ruby|erb|gemspec|god|mspec|pluginspec|podspec|rabl|rake|opal)$/i": {
+      "image": "ruby"
+    },
     "/^\\.?(irbrc|gemrc|pryrc|ruby-(gemset|version))$/i": { "image": "ruby" },
     "/^(Appraisals|(Rake|[bB]uild|Cap|Danger|Deliver|Fast|Guard|Jar|Maven|Pod|Puppet|Snap)file(\\.lock)?)$/": {
       "image": "ruby"
@@ -442,13 +458,19 @@
     },
     "/\\.(ksh|mksh|pdksh)$/i": { "image": "shell" },
     ".sh-session": { "image": "shell" },
-    "/\\.zsh(-theme|_history)?$|^\\.?(antigen|zpreztorc|zlogin|zlogout|zprofile|zshenv|zshrc)$/i": { "image": "shell" },
+    "/\\.zsh(-theme|_history)?$|^\\.?(antigen|zpreztorc|zlogin|zlogout|zprofile|zshenv|zshrc)$/i": {
+      "image": "shell"
+    },
     "/\\.fish$|^\\.fishrc$/i": { "image": "shell" },
     "/^\\.?(login|profile)$/": { "image": "shell" },
     ".inputrc": { "image": "shell" },
     ".tmux": { "image": "shell" },
-    "/^(configure|config\\.(guess|rpath|status|sub)|depcomp|libtool|compile)$/": { "image": "shell" },
-    "/^\\/(private\\/)?etc\\/([^\\/]+\\/)*(profile$|nanorc$|rc\\.|csh\\.)/i": { "image": "shell" },
+    "/^(configure|config\\.(guess|rpath|status|sub)|depcomp|libtool|compile)$/": {
+      "image": "shell"
+    },
+    "/^\\/(private\\/)?etc\\/([^\\/]+\\/)*(profile$|nanorc$|rc\\.|csh\\.)/i": {
+      "image": "shell"
+    },
     "/^\\.?cshrc$/i": { "image": "shell" },
     ".profile": { "image": "shell" },
     ".tcsh": { "image": "shell" },
@@ -505,7 +527,9 @@
     ".wat": { "image": "wasm" },
     ".wast": { "image": "wasm" },
     ".wasm": { "image": "wasm" },
-    "/webpack(\\.dev|\\.development|\\.prod|\\.production)?\\.config(\\.babel)?\\.(js|jsx|coffee|ts|json|json5|yaml|yml)/i": { "image": "webpack" },
+    "/webpack(\\.dev|\\.development|\\.prod|\\.production)?\\.config(\\.babel)?\\.(js|jsx|coffee|ts|json|json5|yaml|yml)/i": {
+      "image": "webpack"
+    },
     ".xml": { "image": "xml" },
     "/\\.ya?ml$/i": { "image": "yaml" },
     "/^yarn(\\.lock)?$/i": { "image": "yarn" },
