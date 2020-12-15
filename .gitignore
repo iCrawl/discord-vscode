@@ -19,3 +19,4 @@ test/
 .vscode-test/
 dist/
 typings/
+/.vscode/settings.json
