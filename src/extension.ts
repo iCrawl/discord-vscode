@@ -9,8 +9,8 @@ let loginTimeout: NodeJS.Timer | undefined;
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
-const clientId = '383226320970055681';
 const config = workspace.getConfiguration('discord');
+const clientId = config.get<string>('clientID') ?? '383226320970055681';
 register(clientId);
 const rpc = new RPCClient(clientId, statusBarIcon);
 

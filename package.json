@@ -150,6 +150,11 @@
 						},
 						"default": [],
 						"description": "Patterns of workspaces to ignore"
+					},
+					"discord.clientID": {
+						"type": "string",
+						"default": "383226320970055681",
+						"description": "(Advanced) Client ID of the rich presence application"
 					}
 				}
 			}
