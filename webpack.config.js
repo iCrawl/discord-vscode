@@ -1,5 +1,6 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const path = require('path');
 
 module.exports = {
 	target: 'node',
@@ -7,6 +8,7 @@ module.exports = {
 	output: {
 		filename: 'extension.js',
 		libraryTarget: 'commonjs2',
+		path: path.resolve(process.cwd(), 'dist'),
 	},
 	devtool: 'source-map',
 	externals: {
@@ -17,13 +19,14 @@ module.exports = {
 	},
 	plugins: [new CleanWebpackPlugin()],
 	optimization: {
+		minimize: true,
 		minimizer: [
 			new TerserPlugin({
-				cache: false,
-				sourceMap: true,
 				extractComments: true,
 				terserOptions: {
-					ecma: 8,
+					output: {
+						comments: false,
+					},
 					mangle: false,
 					keep_classnames: true,
 					keep_fnames: true,

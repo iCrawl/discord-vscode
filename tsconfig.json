@@ -9,10 +9,9 @@
 		"target": "es2017",
 		"module": "commonjs",
 		"lib": [
-			"esnext"
+			"ESNext"
 		],
 		"outDir": "dist",
-		"sourceRoot": "./",
 		"sourceMap": true,
 		"inlineSources": true,
 		"incremental": true,

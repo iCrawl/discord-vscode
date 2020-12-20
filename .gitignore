@@ -1,21 +1,20 @@
 # Packages
-node_modules/
+node_modules
+**/node_modules
+
+# Build artifacts
+dist/
 
 # Log files
-logs/
+logs
 *.log
+npm-debug.log*
 
-# Authentication
-
-# Test files
-test/
-!test/**/*.ts
+# Runtime data
+pids
+*.pid
+*.seed
 
 # Miscellaneous
 .tmp/
-.vscode/bookmarks.json
 !.vscode/launch.json
-!.vscode/tasks.json
-.vscode-test/
-dist/
-typings/

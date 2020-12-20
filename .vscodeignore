@@ -1,9 +1,27 @@
-.vscode
-dist/**/*.map
+# Packages
 node_modules
-src
+**/node_modules
+
+# Build artifacts
+dist/**/*.map
+
+# Log files
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Miscellaneous
+.tmp/
+.github/
+.vscode/
+src/
 .gitattributes
 .gitignore
 tsconfig.json
 webpack.config.js
-yarn.lock
+package-lock.json

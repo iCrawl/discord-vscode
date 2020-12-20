@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "4.0.0",
+	"version": "4.1.0",
 	"description": "Update your discord status with the newly added rich presence.",
 	"private": true,
 	"author": {
@@ -186,33 +186,24 @@
 		"utf-8-validate": "^5.0.3",
 		"vsls": "^1.0.3015"
 	},
-	"optionalDependencies": {
-		"register-scheme": "devsnek/node-register-scheme"
-	},
 	"devDependencies": {
 		"@types/node": "^14.14.14",
-		"@types/vscode": "^1.50.0",
-		"@typescript-eslint/eslint-plugin": "^3.10.1",
-		"@typescript-eslint/parser": "^3.10.1",
+		"@types/vscode": "^1.51.0",
+		"@typescript-eslint/eslint-plugin": "^4.10.0",
+		"@typescript-eslint/parser": "^4.10.0",
 		"clean-webpack-plugin": "^3.0.0",
 		"eslint": "^7.16.0",
 		"eslint-config-marine": "^7.2.0",
 		"eslint-config-prettier": "^7.1.0",
 		"eslint-plugin-prettier": "^3.3.0",
 		"prettier": "^2.2.1",
-		"terser-webpack-plugin": "^4.2.3",
+		"terser-webpack-plugin": "^5.0.3",
 		"ts-loader": "^8.0.12",
 		"typescript": "^4.1.3",
-		"webpack": "^4.44.2",
-		"webpack-cli": "^3.3.12"
+		"webpack": "^5.11.0",
+		"webpack-cli": "^4.2.0"
 	},
 	"engines": {
-		"vscode": "^1.47.0"
-	},
-	"eslintConfig": {
-		"extends": "marine/prettier/node",
-		"rules": {
-			"@typescript-eslint/naming-convention": 0
-		}
+		"vscode": "^1.51.0"
 	}
 }
