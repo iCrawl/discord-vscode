@@ -180,7 +180,7 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"bufferutil": "^4.0.2",
+		"bufferutil": "^4.0.3",
 		"discord-rpc": "github:discordjs/RPC",
 		"tslib": "^2.0.3",
 		"utf-8-validate": "^5.0.3",
