@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "5.0.0",
+	"version": "5.1.0",
 	"description": "Update your discord status with a rich presence.",
 	"private": true,
 	"author": {
@@ -124,6 +124,11 @@
 						},
 						"default": [],
 						"description": "Patterns of workspaces to ignore"
+					},
+					"discord.swapBigAndSmallImage": {
+						"type": "boolean",
+						"default": false,
+						"description": "Swaps the big and small image on the rich presence"
 					}
 				}
 			}

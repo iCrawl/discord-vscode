@@ -36,6 +36,7 @@ interface ActivityPayload {
 
 export async function activity(previous: ActivityPayload = {}) {
 	const config = getConfig();
+	const swapBigAndSmallImage = config[CONFIG_KEYS.SwapBigAndSmallImage];
 
 	const appName = env.appName;
 	const defaultSmallImageKey = debug.activeDebugSession
@@ -43,6 +44,8 @@ export async function activity(previous: ActivityPayload = {}) {
 		: appName.includes('Insiders')
 		? VSCODE_INSIDERS_IMAGE_KEY
 		: VSCODE_IMAGE_KEY;
+	const defaultSmallImageText = config[CONFIG_KEYS.SmallImage].replace(REPLACE_KEYS.AppName, appName);
+	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
 
 	let state: ActivityPayload = {
 		details: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
@@ -53,10 +56,20 @@ export async function activity(previous: ActivityPayload = {}) {
 		),
 		startTimestamp: previous.startTimestamp ?? Date.now(),
 		largeImageKey: IDLE_IMAGE_KEY,
-		largeImageText: config[CONFIG_KEYS.LargeImageIdling],
+		largeImageText: defaultLargeImageText,
 		smallImageKey: defaultSmallImageKey,
-		smallImageText: config[CONFIG_KEYS.SmallImage].replace(REPLACE_KEYS.AppName, appName),
+		smallImageText: defaultSmallImageText,
 	};
+
+	if (swapBigAndSmallImage) {
+		state = {
+			...state,
+			largeImageKey: defaultSmallImageKey,
+			largeImageText: defaultSmallImageText,
+			smallImageKey: IDLE_IMAGE_KEY,
+			smallImageText: defaultLargeImageText,
+		};
+	}
 
 	if (window.activeTextEditor) {
 		if (window.activeTextEditor.document.languageId === 'Log') {
@@ -78,9 +91,21 @@ export async function activity(previous: ActivityPayload = {}) {
 				CONFIG_KEYS.LowerDetailsEditing,
 				CONFIG_KEYS.LowerDetailsDebugging,
 			),
-			largeImageKey,
-			largeImageText,
 		};
+
+		if (swapBigAndSmallImage) {
+			state = {
+				...state,
+				smallImageKey: largeImageKey,
+				smallImageText: largeImageText,
+			};
+		} else {
+			state = {
+				...state,
+				largeImageKey,
+				largeImageText,
+			};
+		}
 
 		log(LogLevel.Trace, `VSCode language id: ${window.activeTextEditor.document.languageId}`);
 	}
@@ -142,7 +167,7 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 	const git = gitExtension?.exports.getAPI(1);
 
 	if (raw.includes(REPLACE_KEYS.TotalLines)) {
-		raw = raw.replace(REPLACE_KEYS.TotalLines, document.toLocaleString());
+		raw = raw.replace(REPLACE_KEYS.TotalLines, document.lineCount.toLocaleString());
 	}
 
 	if (raw.includes(REPLACE_KEYS.CurrentLine)) {

@@ -17,6 +17,7 @@ type WorkspaceExtensionConfigurationuration = WorkspaceConfiguration & {
 	smallImage: string;
 	suppressNotifications: boolean;
 	workspaceExcludePatterns: string[];
+	swapBigAndSmallImage: boolean;
 };
 
 export function getConfig() {

@@ -50,4 +50,5 @@ export const enum CONFIG_KEYS {
 	SmallImage = 'smallImage',
 	SuppressNotifications = 'suppressNotifications',
 	WorkspaceExcludePatterns = 'workspaceExcludePatterns',
+	SwapBigAndSmallImage = 'swapBigAndSmallImage',
 }
