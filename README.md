@@ -13,9 +13,6 @@
 		<a href="https://marketplace.visualstudio.com/items?itemName=icrawl.discord-vscode">
 			<img alt="Visual Studio Marketplace Rating" src="https://img.shields.io/visual-studio-marketplace/r/icrawl.discord-vscode">
 		</a>
-		<a href="https://discord.gg/cZSWqAF">
-			<img src="https://canary.discordapp.com/api/guilds/424963290989461514/embed.png" alt="Discord server">
-		</a>
 	</p>
 	<p>
 		<a href="https://open-vsx.org/extension/icrawl/discord-vscode">
@@ -26,6 +23,11 @@
 		</a>
 		<a href="https://open-vsx.org/extension/icrawl/discord-vscode">
 			<img alt="Open VSX Rating" src="https://img.shields.io/open-vsx/rating/icrawl/discord-vscode">
+		</a>
+	</p>
+	<p>
+		<a href="https://discord.gg/cZSWqAF">
+			<img src="https://canary.discordapp.com/api/guilds/424963290989461514/embed.png" alt="Discord server">
 		</a>
 	</p>
 </div>
