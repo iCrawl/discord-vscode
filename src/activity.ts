@@ -31,6 +31,7 @@ interface ActivityPayload {
 	matchSecret?: string;
 	joinSecret?: string;
 	spectateSecret?: string;
+	buttons?: { label: string; url: string }[];
 	instance?: boolean;
 }
 
@@ -72,10 +73,6 @@ export async function activity(previous: ActivityPayload = {}) {
 	}
 
 	if (window.activeTextEditor) {
-		if (window.activeTextEditor.document.languageId === 'Log') {
-			return state;
-		}
-
 		const largeImageKey = resolveFileIcon(window.activeTextEditor.document);
 		const largeImageText = config[CONFIG_KEYS.LargeImage]
 			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(largeImageKey))
