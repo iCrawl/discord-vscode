@@ -8,6 +8,8 @@ import {
 	FILE_SIZES,
 	IDLE_IMAGE_KEY,
 	REPLACE_KEYS,
+	UNKNOWN_GIT_BRANCH,
+	UNKNOWN_GIT_REPO_NAME,
 	VSCODE_IMAGE_KEY,
 	VSCODE_INSIDERS_IMAGE_KEY,
 } from './constants';
@@ -16,7 +18,7 @@ import { log, LogLevel } from './logger';
 import { getConfig, resolveFileIcon, toLower, toTitle, toUpper } from './util';
 
 interface ActivityPayload {
-	details: string;
+	details?: string;
 	state?: string;
 	startTimestamp?: number | null;
 	largeImageKey?: string;
@@ -32,7 +34,7 @@ interface ActivityPayload {
 	instance?: boolean;
 }
 
-export async function activity() {
+export async function activity(previous: ActivityPayload = {}) {
 	const config = getConfig();
 
 	const appName = env.appName;
@@ -49,7 +51,7 @@ export async function activity() {
 			CONFIG_KEYS.LowerDetailsEditing,
 			CONFIG_KEYS.LowerDetailsDebugging,
 		),
-		startTimestamp: null,
+		startTimestamp: previous.startTimestamp ?? Date.now(),
 		largeImageKey: IDLE_IMAGE_KEY,
 		largeImageText: config[CONFIG_KEYS.LargeImageIdling],
 		smallImageKey: defaultSmallImageKey,
@@ -57,6 +59,10 @@ export async function activity() {
 	};
 
 	if (window.activeTextEditor) {
+		if (window.activeTextEditor.document.languageId === 'Log') {
+			return state;
+		}
+
 		const largeImageKey = resolveFileIcon(window.activeTextEditor.document);
 		const largeImageText = config[CONFIG_KEYS.LargeImage]
 			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(largeImageKey))
@@ -75,9 +81,11 @@ export async function activity() {
 			largeImageKey,
 			largeImageText,
 		};
+
+		log(LogLevel.Trace, `VSCode language id: ${window.activeTextEditor.document.languageId}`);
 	}
 
-	log(LogLevel.Debug, JSON.stringify(state, null, 2));
+	log(LogLevel.Debug, `Discord Presence being sent to discord:\n${JSON.stringify(state, null, 2)}`);
 
 	return state;
 }
@@ -171,7 +179,7 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 				git.repositories.find((repo) => repo.ui.selected)?.state.HEAD?.name ?? EMPTY,
 			);
 		} else {
-			raw = raw.replace(REPLACE_KEYS.GitBranch, 'Unknown');
+			raw = raw.replace(REPLACE_KEYS.GitBranch, UNKNOWN_GIT_BRANCH);
 		}
 	}
 
@@ -185,7 +193,7 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 					.replace('.git', '') ?? EMPTY,
 			);
 		} else {
-			raw = raw.replace(REPLACE_KEYS.GitRepoName, 'Unknown');
+			raw = raw.replace(REPLACE_KEYS.GitRepoName, UNKNOWN_GIT_REPO_NAME);
 		}
 	}
 

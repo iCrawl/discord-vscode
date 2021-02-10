@@ -13,6 +13,9 @@ export const DEBUG_IMAGE_KEY = 'debug';
 export const VSCODE_IMAGE_KEY = 'vscode';
 export const VSCODE_INSIDERS_IMAGE_KEY = 'vscode-insiders';
 
+export const UNKNOWN_GIT_BRANCH = 'Unknown.';
+export const UNKNOWN_GIT_REPO_NAME = 'Unknown.';
+
 export const enum REPLACE_KEYS {
 	Empty = '{empty}',
 	FileName = '{file_name}',
@@ -35,17 +38,16 @@ export const enum REPLACE_KEYS {
 
 export const enum CONFIG_KEYS {
 	Enabled = 'enabled',
-	DetailsIdling = 'details_idling',
-	DetailsEditing = 'details_editing',
-	DetailsDebugging = 'details_debugging',
-	LowerDetailsIdling = 'lower_details_idling',
-	LowerDetailsEditing = 'lower_details_editing',
-	LowerDetailsDebugging = 'lower_details_debugging',
-	LowerDetailsNoWorkspaceFound = 'lower_details_no_workspace_found',
-	LargeImageIdling = 'large_image_idling',
-	LargeImage = 'large_image',
-	SmallImage = 'small_image',
-	SuppressNotifications = 'suppress_notifications',
-	WorkspaceElapsedTime = 'workspace_elapsed_time',
-	WorkspaceExcludePatterns = 'workspace_exclude_patterns',
+	DetailsIdling = 'detailsIdling',
+	DetailsEditing = 'detailsEditing',
+	DetailsDebugging = 'detailsDebugging',
+	LowerDetailsIdling = 'lowerDetailsIdling',
+	LowerDetailsEditing = 'lowerDetailsEditing',
+	LowerDetailsDebugging = 'lowerDetailsDebugging',
+	LowerDetailsNoWorkspaceFound = 'lowerDetailsNoWorkspaceFound',
+	LargeImageIdling = 'largeImageIdling',
+	LargeImage = 'largeImage',
+	SmallImage = 'smallImage',
+	SuppressNotifications = 'suppressNotifications',
+	WorkspaceExcludePatterns = 'workspaceExcludePatterns',
 }

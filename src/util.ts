@@ -5,19 +5,18 @@ import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
 
 type WorkspaceExtensionConfigurationuration = WorkspaceConfiguration & {
 	enabled: boolean;
-	details_editing: string;
-	details_debugging: string;
-	details_idling: string;
-	lower_details_editing: string;
-	lower_details_debugging: string;
-	lower_details_idling: string;
-	lower_details_no_workspace_found: string;
-	large_image: string;
-	large_image_idling: string;
-	small_image: string;
-	suppress_notifications: boolean;
-	workspace_elapsed_time: boolean;
-	workspace_exclude_patterns: string[];
+	detailsIdling: string;
+	detailsEditing: string;
+	detailsDebugging: string;
+	lowerDetailsIdling: string;
+	lowerDetailsEditing: string;
+	lowerDetailsDebugging: string;
+	lowerDetailsNoWorkspaceFound: string;
+	largeImageIdling: string;
+	largeImage: string;
+	smallImage: string;
+	suppressNotifications: boolean;
+	workspaceExcludePatterns: string[];
 };
 
 export function getConfig() {

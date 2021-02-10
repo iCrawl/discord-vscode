@@ -9,8 +9,9 @@ import {
 	extensions,
 	debug,
 } from 'vscode';
-import { activity } from './activity';
+import throttle from 'lodash-es/throttle';
 
+import { activity } from './activity';
 import { CLIENT_ID, CONFIG_KEYS } from './constants';
 import { GitExtension } from './git';
 import { log, LogLevel } from './logger';
@@ -22,8 +23,13 @@ statusBarIcon.text = '$(pulse) Connecting to Discord...';
 const rpc = new Client({ transport: 'ipc' });
 const config = getConfig();
 
+let state = {};
+
 async function sendActivity() {
-	rpc.setActivity(await activity());
+	state = {
+		...(await activity(state)),
+	};
+	rpc.setActivity(state);
 }
 
 async function login(context: ExtensionContext) {
@@ -33,9 +39,8 @@ async function login(context: ExtensionContext) {
 		statusBarIcon.text = '$(globe) Connected to Discord';
 		statusBarIcon.tooltip = 'Connected to Discord';
 
-		void sendActivity();
 		const onChangeActiveTextEditor = window.onDidChangeActiveTextEditor(() => sendActivity());
-		const onChangeTextDocument = workspace.onDidChangeTextDocument(() => sendActivity());
+		const onChangeTextDocument = workspace.onDidChangeTextDocument(throttle(() => sendActivity(), 1000));
 		const onStartDebugSession = debug.onDidStartDebugSession(() => sendActivity());
 		const onTerminateDebugSession = debug.onDidTerminateDebugSession(() => sendActivity());
 
