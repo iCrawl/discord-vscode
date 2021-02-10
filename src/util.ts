@@ -3,7 +3,7 @@ import { TextDocument, workspace, WorkspaceConfiguration } from 'vscode';
 
 import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
 
-type WorkspaceExtensionConfigurationuration = WorkspaceConfiguration & {
+type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	enabled: boolean;
 	detailsIdling: string;
 	detailsEditing: string;
@@ -21,7 +21,7 @@ type WorkspaceExtensionConfigurationuration = WorkspaceConfiguration & {
 };
 
 export function getConfig() {
-	return workspace.getConfiguration('discord') as WorkspaceExtensionConfigurationuration;
+	return workspace.getConfiguration('discord') as WorkspaceExtensionConfiguration;
 }
 
 export const toLower = (str: string) => str.toLocaleLowerCase();
