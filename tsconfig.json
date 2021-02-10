@@ -6,11 +6,9 @@
 		"removeComments": false,
 		"alwaysStrict": true,
 		"pretty": true,
-		"target": "es2017",
+		"target": "ES2019",
 		"module": "commonjs",
-		"lib": [
-			"ESNext"
-		],
+		"lib": ["ESNext"],
 		"outDir": "dist",
 		"sourceMap": true,
 		"inlineSources": true,

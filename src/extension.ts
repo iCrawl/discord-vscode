@@ -1,112 +1,118 @@
-import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace, extensions } from 'vscode';
-import RPCClient from './client/RPCClient';
-import Logger from './structures/Logger';
-import { GitExtension } from './git';
-const { register } = require('discord-rpc'); // eslint-disable-line
+const { Client } = require('discord-rpc'); // eslint-disable-line
+import {
+	commands,
+	ExtensionContext,
+	StatusBarAlignment,
+	StatusBarItem,
+	window,
+	workspace,
+	extensions,
+	debug,
+} from 'vscode';
+import { activity } from './activity';
 
-let loginTimeout: NodeJS.Timer | undefined;
+import { CLIENT_ID, CONFIG_KEYS } from './constants';
+import { GitExtension } from './git';
+import { log, LogLevel } from './logger';
+import { getConfig } from './util';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
-const clientId = '383226320970055681';
-const config = workspace.getConfiguration('discord');
-register(clientId);
-const rpc = new RPCClient(clientId, statusBarIcon);
+const rpc = new Client({ transport: 'ipc' });
+const config = getConfig();
 
-export async function activate(context: ExtensionContext) {
-	Logger.log('Discord Presence activated!');
+async function sendActivity() {
+	rpc.setActivity(await activity());
+}
+
+async function login(context: ExtensionContext) {
+	rpc.once('ready', () => {
+		log(LogLevel.Info, 'Successfully connected to Discord');
+
+		statusBarIcon.text = '$(globe) Connected to Discord';
+		statusBarIcon.tooltip = 'Connected to Discord';
+
+		void sendActivity();
+		const onChangeActiveTextEditor = window.onDidChangeActiveTextEditor(() => sendActivity());
+		const onChangeTextDocument = workspace.onDidChangeTextDocument(() => sendActivity());
+		const onStartDebugSession = debug.onDidStartDebugSession(() => sendActivity());
+		const onTerminateDebugSession = debug.onDidTerminateDebugSession(() => sendActivity());
+
+		context.subscriptions.push(
+			onChangeActiveTextEditor,
+			onChangeTextDocument,
+			onStartDebugSession,
+			onTerminateDebugSession,
+		);
+	});
+
+	try {
+		await rpc.login({ clientId: CLIENT_ID });
+	} catch (error) {
+		log(LogLevel.Error, `Encountered following error while trying to login:\n${error as string}`);
+		rpc.dispose();
+		if (!config[CONFIG_KEYS.SuppressNotifications]) {
+			if (error?.message?.includes('ENOENT')) void window.showErrorMessage('No Discord client detected');
+			else void window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error as string}`);
+		}
+		rpc.statusBarIcon.text = '$(pulse) Reconnect to Discord';
+		rpc.statusBarIcon.command = 'discord.reconnect';
+	}
+}
+
+export function activate(context: ExtensionContext) {
+	log(LogLevel.Info, 'Discord Presence activated');
 
 	let isWorkspaceExcluded = false;
-	const excludePatterns = config.get<string[]>('workspaceExcludePatterns');
-	if (excludePatterns?.length) {
-		for (const pattern of excludePatterns) {
-			const regex = new RegExp(pattern);
-			const folders = workspace.workspaceFolders;
-			if (!folders) break;
-			if (folders.some((folder) => regex.test(folder.uri.fsPath))) {
-				isWorkspaceExcluded = true;
-				break;
-			}
+	for (const pattern of config[CONFIG_KEYS.WorkspaceExcludePatterns]) {
+		const regex = new RegExp(pattern);
+		const folders = workspace.workspaceFolders;
+		if (!folders) break;
+		if (folders.some((folder) => regex.test(folder.uri.fsPath))) {
+			isWorkspaceExcluded = true;
+			break;
 		}
 	}
 
 	const enabler = commands.registerCommand('discord.enable', () => {
-		rpc.dispose();
+		rpc.destroy();
 		void config.update('enabled', true);
-		rpc.config = workspace.getConfiguration('discord');
-		rpc.statusBarIcon.text = '$(pulse) Connecting to Discord...';
-		rpc.statusBarIcon.show();
-		void rpc.login();
-		void window.showInformationMessage('Enabled Discord Rich Presence for this workspace.');
+		statusBarIcon.text = '$(pulse) Connecting to Discord...';
+		statusBarIcon.show();
+		void login(context);
+		void window.showInformationMessage('Enabled Discord Presence for this workspace');
 	});
+
 	const disabler = commands.registerCommand('discord.disable', () => {
 		void config.update('enabled', false);
-		rpc.config = workspace.getConfiguration('discord');
-		rpc.dispose();
+		rpc.destroy();
 		rpc.statusBarIcon.hide();
-		void window.showInformationMessage('Disabled Discord Rich Presence for this workspace.');
+		void window.showInformationMessage('Disabled Discord Presence for this workspace');
 	});
+
 	const reconnecter = commands.registerCommand('discord.reconnect', () => {
-		if (loginTimeout) clearTimeout(loginTimeout);
-		rpc.dispose();
-		loginTimeout = setTimeout(() => {
-			void rpc.login();
-			if (!config.get('silent')) void window.showInformationMessage('Reconnecting to Discord RPC...');
-			rpc.statusBarIcon.text = '$(pulse) Reconnecting to Discord...';
-			rpc.statusBarIcon.command = 'discord.reconnect';
-		}, 1000);
+		deactivate();
+		void activate(context);
 	});
+
 	const disconnect = commands.registerCommand('discord.disconnect', () => {
-		rpc.dispose();
+		rpc.destroy();
 		rpc.statusBarIcon.text = '$(pulse) Reconnect to Discord';
 		rpc.statusBarIcon.command = 'discord.reconnect';
 	});
-	const allowSpectate = commands.registerCommand('discord.allowSpectate', () => rpc.allowSpectate());
-	const disableSpectate = commands.registerCommand('discord.disableSpectate', () => rpc.disableSpectate());
-	const allowJoinRequests = commands.registerCommand('discord.allowJoinRequests', () => rpc.allowJoinRequests());
-	const disableJoinRequests = commands.registerCommand('discord.disableJoinRequests', () => rpc.disableJoinRequests());
 
-	context.subscriptions.push(
-		enabler,
-		disabler,
-		reconnecter,
-		disconnect,
-		allowSpectate,
-		disableSpectate,
-		allowJoinRequests,
-		disableJoinRequests,
-	);
+	context.subscriptions.push(enabler, disabler, reconnecter, disconnect);
 
-	if (!isWorkspaceExcluded && config.get<boolean>('enabled')) {
+	if (!isWorkspaceExcluded && config[CONFIG_KEYS.Enabled]) {
 		statusBarIcon.show();
-		try {
-			await rpc.login();
-		} catch (error) {
-			Logger.log(`Encountered following error after trying to login:\n${error as string}`);
-			rpc.dispose();
-			if (!config.get('silent')) {
-				if (error?.message?.includes('ENOENT')) void window.showErrorMessage('No Discord Client detected!');
-				else void window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error as string}`);
-			}
-			rpc.statusBarIcon.text = '$(pulse) Reconnect to Discord';
-			rpc.statusBarIcon.command = 'discord.reconnect';
-		}
+		void login(context);
 	}
 
 	const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
-	if (gitExtension) {
-		if (gitExtension.isActive) {
-			rpc.git = gitExtension.exports.getAPI(1);
-		} else {
-			const extension = await gitExtension.activate();
-			rpc.git = extension.getAPI(1);
-		}
-	}
+	void gitExtension?.activate();
 }
 
 export function deactivate() {
-	rpc.dispose();
+	rpc.destroy();
 }
-
-process.on('unhandledRejection', (err) => Logger.log(err as string));

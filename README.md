@@ -1,4 +1,5 @@
 # Discord Presence
+
 > Update your discord status with the newly added rich presence.
 
 <div align="center">
@@ -14,19 +15,20 @@
 
 ## Features
 
-* Shows what you are editing in VSCode with no bullsh*t involved
-* Support for over 130 of the most popular languages
-* Enable/Disable Rich Presence for individual workspaces (enabled by default)
-* Custom string support
-* Respects Discords 15sec limit when it comes to updating your status
-* Stable or Insiders build detection
-* Debug mode detection
-* Easily manually reconnect to Discord
-* VSCode Live Share support
+- Shows what you are editing in VSCode with no bullsh\*t involved
+- Support for over 130 of the most popular languages
+- Enable/Disable Rich Presence for individual workspaces (enabled by default)
+- Custom string support
+- Respects Discords 15sec limit when it comes to updating your status
+- Stable or Insiders build detection
+- Debug mode detection
+- Easily manually reconnect to Discord
+- VSCode Live Share support
 
 ## Troubleshooting
 
-### Can't connect to Discord? Check those:  
+### Can't connect to Discord? Check those:
+
 https://github.com/iCrawl/discord-vscode/issues/77#issuecomment-435622205  
 https://github.com/iCrawl/discord-vscode/issues/85#issuecomment-417895483
 

@@ -1,7 +1,7 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"allowJs": true,
+		"allowJs": true
 	},
 	"include": [
 		"**/*.ts",
@@ -11,7 +11,7 @@
 		"**/*.test.ts",
 		"**/*.test.js",
 		"**/*.spec.ts",
-		"**/*.spec.js",
+		"**/*.spec.js"
 	],
 	"exclude": []
 }
