@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "5.1.1",
+	"version": "5.2.0",
 	"description": "Update your discord status with a rich presence.",
 	"private": true,
 	"author": {
@@ -94,7 +94,7 @@
 					},
 					"discord.lowerDetailsNoWorkspaceFound": {
 						"type": "string",
-						"default": "No workspace.",
+						"default": "No workspace",
 						"description": "Custom string for the state section of the rich presence when no workspace is found.\nIf set to '{empty}', this will be an empty space.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size."
 					},
 					"discord.largeImageIdling": {
@@ -129,6 +129,16 @@
 						"type": "boolean",
 						"default": false,
 						"description": "Swaps the big and small image on the rich presence"
+					},
+					"discord.removeDetails": {
+						"type": "boolean",
+						"default": false,
+						"description": "Removes the details"
+					},
+					"discord.removeLowerDetails": {
+						"type": "boolean",
+						"default": false,
+						"description": "Removes the lower details"
 					}
 				}
 			}

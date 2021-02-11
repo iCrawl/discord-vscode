@@ -18,6 +18,8 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	suppressNotifications: boolean;
 	workspaceExcludePatterns: string[];
 	swapBigAndSmallImage: boolean;
+	removeDetails: boolean;
+	removeLowerDetails: boolean;
 };
 
 export function getConfig() {

@@ -5,6 +5,7 @@ import {
 	CONFIG_KEYS,
 	DEBUG_IMAGE_KEY,
 	EMPTY,
+	FAKE_EMPTY,
 	FILE_SIZES,
 	IDLE_IMAGE_KEY,
 	REPLACE_KEYS,
@@ -13,7 +14,7 @@ import {
 	VSCODE_IMAGE_KEY,
 	VSCODE_INSIDERS_IMAGE_KEY,
 } from './constants';
-import { GitExtension } from './git';
+import { API, GitExtension } from './git';
 import { log, LogLevel } from './logger';
 import { getConfig, resolveFileIcon, toLower, toTitle, toUpper } from './util';
 
@@ -47,14 +48,13 @@ export async function activity(previous: ActivityPayload = {}) {
 		: VSCODE_IMAGE_KEY;
 	const defaultSmallImageText = config[CONFIG_KEYS.SmallImage].replace(REPLACE_KEYS.AppName, appName);
 	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
+	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
+	const removeLowerDetails = config[CONFIG_KEYS.RemoveLowerDetails];
 
 	let state: ActivityPayload = {
-		details: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
-		state: await details(
-			CONFIG_KEYS.LowerDetailsIdling,
-			CONFIG_KEYS.LowerDetailsEditing,
-			CONFIG_KEYS.LowerDetailsDebugging,
-		),
+		details: removeDetails
+			? undefined
+			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
 		startTimestamp: previous.startTimestamp ?? Date.now(),
 		largeImageKey: IDLE_IMAGE_KEY,
 		largeImageText: defaultLargeImageText,
@@ -78,16 +78,20 @@ export async function activity(previous: ActivityPayload = {}) {
 			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(largeImageKey))
 			.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(largeImageKey))
 			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(largeImageKey))
-			.padEnd(2, EMPTY);
+			.padEnd(2, FAKE_EMPTY);
 
 		state = {
 			...state,
-			details: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
-			state: await details(
-				CONFIG_KEYS.LowerDetailsIdling,
-				CONFIG_KEYS.LowerDetailsEditing,
-				CONFIG_KEYS.LowerDetailsDebugging,
-			),
+			details: removeDetails
+				? undefined
+				: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+			state: removeLowerDetails
+				? undefined
+				: await details(
+						CONFIG_KEYS.LowerDetailsIdling,
+						CONFIG_KEYS.LowerDetailsEditing,
+						CONFIG_KEYS.LowerDetailsDebugging,
+				  ),
 		};
 
 		if (swapBigAndSmallImage) {
@@ -114,7 +118,7 @@ export async function activity(previous: ActivityPayload = {}) {
 
 async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CONFIG_KEYS) {
 	const config = getConfig();
-	let raw = (config[idling] as string).replace(REPLACE_KEYS.Empty, EMPTY);
+	let raw = (config[idling] as string).replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
 
 	if (window.activeTextEditor) {
 		const fileName = basename(window.activeTextEditor.document.fileName);
@@ -122,11 +126,13 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 		const split = dir.split(sep);
 		const dirName = split[split.length - 1];
 
-		const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, EMPTY);
+		const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
 		const workspaceFolder = workspace.getWorkspaceFolder(window.activeTextEditor.document.uri);
 		const workspaceFolderName = workspaceFolder?.name ?? noWorkspaceFound;
-		const workspaceName = workspace.name ?? workspaceFolderName;
-		const workspaceAndFolder = `${workspaceName}${workspaceFolderName === EMPTY ? '' : ` - ${workspaceFolderName}`}`;
+		const workspaceName = workspace.name?.replace(REPLACE_KEYS.VSCodeWorkspace, EMPTY) ?? workspaceFolderName;
+		const workspaceAndFolder = `${workspaceName}${
+			workspaceFolderName === FAKE_EMPTY ? '' : ` - ${workspaceFolderName}`
+		}`;
 
 		const fileIcon = resolveFileIcon(window.activeTextEditor.document);
 
@@ -143,7 +149,11 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 			raw = raw.replace(REPLACE_KEYS.FullDirName, `${name}${sep}${relativePath.join(sep)}`);
 		}
 
-		raw = await fileDetails(raw, window.activeTextEditor.document, window.activeTextEditor.selection);
+		try {
+			raw = await fileDetails(raw, window.activeTextEditor.document, window.activeTextEditor.selection);
+		} catch (error) {
+			log(LogLevel.Error, `Failed to generate file details: ${error as string}`);
+		}
 		raw = raw
 			.replace(REPLACE_KEYS.FileName, fileName)
 			.replace(REPLACE_KEYS.DirName, dirName)
@@ -160,8 +170,6 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 
 async function fileDetails(_raw: string, document: TextDocument, selection: Selection) {
 	let raw = _raw.slice();
-	const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
-	const git = gitExtension?.exports.getAPI(1);
 
 	if (raw.includes(REPLACE_KEYS.TotalLines)) {
 		raw = raw.replace(REPLACE_KEYS.TotalLines, document.lineCount.toLocaleString());
@@ -194,11 +202,24 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 		);
 	}
 
+	let git: API | undefined;
+	try {
+		log(LogLevel.Debug, 'Loading git extension');
+		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
+		if (!gitExtension?.isActive) {
+			log(LogLevel.Trace, 'Git extension not activated, activating...');
+			await gitExtension?.activate();
+		}
+		git = gitExtension?.exports.getAPI(1);
+	} catch (error) {
+		log(LogLevel.Error, `Failed to load git extension, is git installed?; ${error as string}`);
+	}
+
 	if (raw.includes(REPLACE_KEYS.GitBranch)) {
 		if (git?.repositories.length) {
 			raw = raw.replace(
 				REPLACE_KEYS.GitBranch,
-				git.repositories.find((repo) => repo.ui.selected)?.state.HEAD?.name ?? EMPTY,
+				git.repositories.find((repo) => repo.ui.selected)?.state.HEAD?.name ?? FAKE_EMPTY,
 			);
 		} else {
 			raw = raw.replace(REPLACE_KEYS.GitBranch, UNKNOWN_GIT_BRANCH);
@@ -212,7 +233,7 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 				git.repositories
 					.find((repo) => repo.ui.selected)
 					?.state.remotes[0].fetchUrl?.split('/')[1]
-					.replace('.git', '') ?? EMPTY,
+					.replace('.git', '') ?? FAKE_EMPTY,
 			);
 		} else {
 			raw = raw.replace(REPLACE_KEYS.GitRepoName, UNKNOWN_GIT_REPO_NAME);

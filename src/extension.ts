@@ -134,8 +134,12 @@ export async function activate(context: ExtensionContext) {
 		await login();
 	}
 
-	const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
-	await gitExtension?.activate();
+	try {
+		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
+		if (!gitExtension?.isActive) {
+			await gitExtension?.activate();
+		}
+	} catch {}
 }
 
 export async function deactivate() {
