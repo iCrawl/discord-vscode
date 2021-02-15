@@ -185,7 +185,12 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 
 	if (raw.includes(REPLACE_KEYS.FileSize)) {
 		let currentDivision = 0;
-		let { size } = await workspace.fs.stat(document.uri);
+		let size: number;
+		try {
+			({ size } = await workspace.fs.stat(document.uri));
+		} catch {
+			size = document.getText().length;
+		}
 		const originalSize = size;
 		if (originalSize > 1000) {
 			size /= 1000;
