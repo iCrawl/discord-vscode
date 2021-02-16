@@ -20,7 +20,7 @@ import { getConfig } from './util';
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
-const rpc = new Client({ transport: 'ipc' });
+let rpc = new Client({ transport: 'ipc' });
 const config = getConfig();
 
 let state = {};
@@ -41,8 +41,11 @@ async function sendActivity() {
 }
 
 async function login() {
+	rpc = new Client({ transport: 'ipc' });
+
 	rpc.once('ready', () => {
 		log(LogLevel.Info, 'Successfully connected to Discord');
+		cleanUp();
 
 		statusBarIcon.text = '$(globe) Connected to Discord';
 		statusBarIcon.tooltip = 'Connected to Discord';
@@ -55,6 +58,13 @@ async function login() {
 		const onTerminateDebugSession = debug.onDidTerminateDebugSession(() => sendActivity());
 
 		listeners.push(onChangeActiveTextEditor, onChangeTextDocument, onStartDebugSession, onTerminateDebugSession);
+	});
+
+	rpc.once('disconnected', async () => {
+		cleanUp();
+		await rpc.destroy();
+		statusBarIcon.text = '$(pulse) Reconnect to Discord';
+		statusBarIcon.command = 'discord.reconnect';
 	});
 
 	try {
@@ -91,7 +101,6 @@ export async function activate(context: ExtensionContext) {
 			void config.update('enabled', true);
 		}
 		cleanUp();
-		await rpc.destroy();
 		statusBarIcon.text = '$(pulse) Connecting to Discord...';
 		statusBarIcon.show();
 		await login();
