@@ -172,7 +172,7 @@
 		"bufferutil": "^4.0.3",
 		"dayjs": "^1.10.4",
 		"discord-rpc": "^3.2.0",
-		"lodash-es": "^4.17.20",
+		"lodash-es": "^4.17.21",
 		"tslib": "^2.1.0",
 		"utf-8-validate": "^5.0.4"
 	},
