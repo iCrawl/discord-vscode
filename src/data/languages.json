@@ -229,6 +229,8 @@
 		".ny": { "image": "lisp" },
 		".podsl": { "image": "lisp" },
 		".sexp": { "image": "lisp" },
+		".ss": {"image": "lisp"},
+		".scm": {"image": "lisp"},
 		".ls": { "image": "livescript" },
 		".log": { "image": "log" },
 		".lua": { "image": "lua" },
