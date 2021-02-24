@@ -139,6 +139,11 @@
 						"type": "boolean",
 						"default": false,
 						"description": "Removes the lower details"
+					},
+					"discord.idleTimeout": {
+						"type":"integer",
+						"default": 0,
+						"description": "Set time (in seconds) to disconect rpc when you're idling. 0 is turning off this feature"
 					}
 				}
 			}

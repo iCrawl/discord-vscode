@@ -8,6 +8,7 @@ import {
 	workspace,
 	extensions,
 	debug,
+	WindowState,
 } from 'vscode';
 import throttle from 'lodash-es/throttle';
 
@@ -21,16 +22,19 @@ const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignme
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
 let rpc = new Client({ transport: 'ipc' });
+let idleTimer: NodeJS.Timeout;
 const config = getConfig();
 
 let state = {};
 let interval: NodeJS.Timeout;
 let listeners: { dispose(): any }[] = [];
+let isConnected = true;
 
 export function cleanUp() {
 	listeners.forEach((listener) => listener.dispose());
 	listeners = [];
 	clearInterval(interval);
+	clearTimeout(idleTimer);
 }
 
 async function sendActivity() {
@@ -142,6 +146,24 @@ export async function activate(context: ExtensionContext) {
 		statusBarIcon.show();
 		await login();
 	}
+
+	window.onDidChangeWindowState(async (windowState: WindowState) => {
+		if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
+			if (windowState.focused) {
+				if (!isConnected) {
+					await login();
+					isConnected = true;
+				}
+				clearTimeout(idleTimer);
+			} else {
+				idleTimer = setTimeout(() => {
+					rpc.destroy();
+					state = {};
+				}, config[CONFIG_KEYS.IdleTimeout] * 1000);
+				isConnected = false;
+			}
+		}
+	});
 
 	try {
 		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');

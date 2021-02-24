@@ -55,4 +55,5 @@ export const enum CONFIG_KEYS {
 	SwapBigAndSmallImage = 'swapBigAndSmallImage',
 	RemoveDetails = 'removeDetails',
 	RemoveLowerDetails = 'removeLowerDetails',
+	IdleTimeout = 'idleTimeout',
 }
