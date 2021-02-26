@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "5.3.0",
+	"version": "5.4.0",
 	"description": "Update your discord status with a rich presence.",
 	"private": true,
 	"author": {
@@ -139,6 +139,11 @@
 						"type": "boolean",
 						"default": false,
 						"description": "Removes the lower details"
+					},
+					"discord.removeTimestamp": {
+						"type": "boolean",
+						"default": false,
+						"description": "Removes the timestamp"
 					}
 				}
 			}

@@ -55,7 +55,7 @@ export async function activity(previous: ActivityPayload = {}) {
 		details: removeDetails
 			? undefined
 			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
-		startTimestamp: previous.startTimestamp ?? Date.now(),
+		startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : previous.startTimestamp ?? Date.now(),
 		largeImageKey: IDLE_IMAGE_KEY,
 		largeImageText: defaultLargeImageText,
 		smallImageKey: defaultSmallImageKey,
