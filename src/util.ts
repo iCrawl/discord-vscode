@@ -20,6 +20,7 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	swapBigAndSmallImage: boolean;
 	removeDetails: boolean;
 	removeLowerDetails: boolean;
+	removeTimestamp: boolean;
 };
 
 export function getConfig() {

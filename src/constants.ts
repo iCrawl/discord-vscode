@@ -56,4 +56,5 @@ export const enum CONFIG_KEYS {
 	RemoveDetails = 'removeDetails',
 	RemoveLowerDetails = 'removeLowerDetails',
 	IdleTimeout = 'idleTimeout',
+	RemoveTimestamp = 'removeTimestamp',
 }
