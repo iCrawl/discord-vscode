@@ -355,7 +355,7 @@
 		"/^(Snakefile|WATCHLISTS)$/": { "image": "python" },
 		"/^wscript$/": { "image": "python" },
 		"/\\.(r|Rprofile|rsx|rd)$/i": { "image": "r" },
-		"/\\.re(s?i?)$/i": { "image": "reasonml" },
+		"/\\.res?i?$/i": { "image": "reasonml" },
 		"/\\.(rb|ru|ruby|erb|gemspec|god|mspec|pluginspec|podspec|rabl|rake|opal)$/i": { "image": "ruby" },
 		"/^\\.?(irbrc|gemrc|pryrc|ruby-(gemset|version))$/i": { "image": "ruby" },
 		"/^(Appraisals|(Rake|[bB]uild|Cap|Danger|Deliver|Fast|Guard|Jar|Maven|Pod|Puppet|Snap)file(\\.lock)?)$/": {
