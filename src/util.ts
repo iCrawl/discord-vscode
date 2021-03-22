@@ -5,6 +5,7 @@ import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
 
 type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	enabled: boolean;
+	enabledIdling: boolean;
 	detailsIdling: string;
 	detailsEditing: string;
 	detailsDebugging: string;

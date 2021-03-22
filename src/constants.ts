@@ -40,6 +40,7 @@ export const enum REPLACE_KEYS {
 
 export const enum CONFIG_KEYS {
 	Enabled = 'enabled',
+	EnabledIdling = 'enabledIdling',
 	DetailsIdling = 'detailsIdling',
 	DetailsEditing = 'detailsEditing',
 	DetailsDebugging = 'detailsDebugging',

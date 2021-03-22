@@ -34,10 +34,23 @@ export function cleanUp() {
 }
 
 async function sendActivity() {
-	state = {
-		...(await activity(state)),
-	};
-	rpc.setActivity(state);
+	const stateTMP = await activity(state);
+
+	if (stateTMP.shouldClearActivity) {
+		if (!stateTMP.isClearedActivity) {
+			rpc.clearActivity();
+			stateTMP.isClearedActivity = true;
+
+			state = stateTMP;
+		}
+	} else {
+		// Everything [detail, state, timestamp, workspace, largeImageText/Key, smallImageText/Key] is always calculated inside activity Function Everytime.
+		// So I Think state = stateTMP will be better. Althought I decided not to Change what Crawl already had done.... "state = {...(await activity(state)),};"
+		state = {
+			...stateTMP,
+		};
+		rpc.setActivity(state);
+	}
 }
 
 async function login() {

@@ -34,6 +34,8 @@ interface ActivityPayload {
 	spectateSecret?: string;
 	buttons?: { label: string; url: string }[];
 	instance?: boolean;
+	shouldClearActivity?: boolean | false;
+	isClearedActivity?: boolean | false;
 }
 
 export async function activity(previous: ActivityPayload = {}) {
@@ -50,6 +52,7 @@ export async function activity(previous: ActivityPayload = {}) {
 	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
 	const removeLowerDetails = config[CONFIG_KEYS.RemoveLowerDetails];
+	const showIdlingEnabled = config[CONFIG_KEYS.EnabledIdling]; // We Handle This one After if (window.activeTextEditor) condition with 'else if'
 
 	let state: ActivityPayload = {
 		details: removeDetails
@@ -60,6 +63,7 @@ export async function activity(previous: ActivityPayload = {}) {
 		largeImageText: defaultLargeImageText,
 		smallImageKey: defaultSmallImageKey,
 		smallImageText: defaultSmallImageText,
+		// shouldClearActivity: false, by default in ActivityPayload Type Declaration
 	};
 
 	if (swapBigAndSmallImage) {
@@ -109,6 +113,12 @@ export async function activity(previous: ActivityPayload = {}) {
 		}
 
 		log(LogLevel.Trace, `VSCode language id: ${window.activeTextEditor.document.languageId}`);
+	} else if (!showIdlingEnabled && !debug.activeDebugSession) {
+		state = {
+			// We Handle isClearedActivity in sendActivity Function in extensions.ts
+			isClearedActivity: previous.isClearedActivity,
+			shouldClearActivity: true,
+		};
 	}
 
 	log(LogLevel.Debug, `Discord Presence being sent to discord:\n${JSON.stringify(state, null, 2)}`);
