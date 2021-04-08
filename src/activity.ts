@@ -50,17 +50,57 @@ export async function activity(previous: ActivityPayload = {}) {
 	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
 	const removeLowerDetails = config[CONFIG_KEYS.RemoveLowerDetails];
+	const removeRemote = config[CONFIG_KEYS.RemoveRemote];
 
-	let state: ActivityPayload = {
-		details: removeDetails
-			? undefined
-			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
-		startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : previous.startTimestamp ?? Date.now(),
-		largeImageKey: IDLE_IMAGE_KEY,
-		largeImageText: defaultLargeImageText,
-		smallImageKey: defaultSmallImageKey,
-		smallImageText: defaultSmallImageText,
-	};
+	let git: API | undefined;
+	try {
+		log(LogLevel.Debug, 'Loading git extension');
+		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
+		if (!gitExtension?.isActive) {
+			log(LogLevel.Trace, 'Git extension not activated, activating...');
+			await gitExtension?.activate();
+		}
+		git = gitExtension?.exports.getAPI(1);
+	} catch (error) {
+		log(LogLevel.Error, `Failed to load git extension, is git installed?; ${error as string}`);
+	}
+
+	let state: ActivityPayload;
+	if (git?.repositories.length) {
+		const repo: any = git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0].fetchUrl;
+
+		console.log(repo);
+
+		state = {
+			details: removeDetails
+				? undefined
+				: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+			startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : previous.startTimestamp ?? Date.now(),
+			largeImageKey: IDLE_IMAGE_KEY,
+			largeImageText: defaultLargeImageText,
+			smallImageKey: defaultSmallImageKey,
+			smallImageText: defaultSmallImageText,
+			buttons: removeRemote
+				? undefined
+				: [
+						{
+							label: 'View Repository',
+							url: repo,
+						},
+				  ],
+		};
+	} else {
+		state = {
+			details: removeDetails
+				? undefined
+				: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+			startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : previous.startTimestamp ?? Date.now(),
+			largeImageKey: IDLE_IMAGE_KEY,
+			largeImageText: defaultLargeImageText,
+			smallImageKey: defaultSmallImageKey,
+			smallImageText: defaultSmallImageText,
+		};
+	}
 
 	if (swapBigAndSmallImage) {
 		state = {
