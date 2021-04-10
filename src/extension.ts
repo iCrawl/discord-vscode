@@ -24,16 +24,25 @@ let rpc = new Client({ transport: 'ipc' });
 const config = getConfig();
 
 let state = {};
-let interval: NodeJS.Timeout;
+let interval: NodeJS.Timeout | undefined;
+let idle: NodeJS.Timeout | undefined;
 let listeners: { dispose(): any }[] = [];
 
 export function cleanUp() {
 	listeners.forEach((listener) => listener.dispose());
 	listeners = [];
-	clearInterval(interval);
+
+	if (interval) {
+		clearTimeout(interval);
+	}
 }
 
 async function sendActivity() {
+	if (interval) {
+		clearTimeout(interval);
+	}
+
+	interval = setTimeout(() => void sendActivity(), 5000);
 	state = {
 		...(await activity(state)),
 	};
@@ -51,7 +60,6 @@ async function login() {
 		statusBarIcon.tooltip = 'Connected to Discord';
 
 		void sendActivity();
-		interval = setInterval(() => void sendActivity(), 5000);
 		const onChangeActiveTextEditor = window.onDidChangeActiveTextEditor(() => sendActivity());
 		const onChangeTextDocument = workspace.onDidChangeTextDocument(throttle(() => sendActivity(), 1000));
 		const onStartDebugSession = debug.onDidStartDebugSession(() => sendActivity());
@@ -142,6 +150,28 @@ export async function activate(context: ExtensionContext) {
 		statusBarIcon.show();
 		await login();
 	}
+
+	window.onDidChangeWindowState(async (windowState) => {
+		if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
+			if (windowState.focused) {
+				if (idle) {
+					clearTimeout(idle);
+				}
+
+				await sendActivity();
+			} else {
+				// eslint-disable-next-line @typescript-eslint/no-misused-promises
+				idle = setTimeout(async () => {
+					if (interval) {
+						clearTimeout(interval);
+					}
+
+					state = {};
+					await rpc.clearActivity();
+				}, config[CONFIG_KEYS.IdleTimeout] * 1000);
+			}
+		}
+	});
 
 	try {
 		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');

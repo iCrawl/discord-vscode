@@ -49,7 +49,7 @@ export async function activity(previous: ActivityPayload = {}) {
 	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
 	const removeLowerDetails = config[CONFIG_KEYS.RemoveLowerDetails];
-	const removeRemotRepository = config[CONFIG_KEYS.removeRemotRepository];
+	const removeRemoteRepository = config[CONFIG_KEYS.RemoveRemoteRepository];
 
 	const git = await getGit();
 
@@ -74,7 +74,7 @@ export async function activity(previous: ActivityPayload = {}) {
 		};
 	}
 
-	if (!removeRemotRepository && git?.repositories.length) {
+	if (!removeRemoteRepository && git?.repositories.length) {
 		let repo = git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0].fetchUrl;
 
 		if (repo) {
@@ -84,6 +84,8 @@ export async function activity(previous: ActivityPayload = {}) {
 				...state,
 				buttons: [{ label: 'View Repository', url: repo }],
 			};
+
+			console.log(state);
 		}
 	}
 

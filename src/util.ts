@@ -24,6 +24,7 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	removeLowerDetails: boolean;
 	removeTimestamp: boolean;
 	removeRemoteRepository: boolean;
+	idleTimeout: number;
 };
 
 export function getConfig() {

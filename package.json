@@ -149,6 +149,11 @@
 						"type": "boolean",
 						"default": false,
 						"description": "Removes the View Repository button"
+					},
+					"discord.idleTimeout": {
+						"type": "number",
+						"default": 0,
+						"description": "Time (in seconds) to clear the presence when idling. 0 (the default) means no clearing"
 					}
 				}
 			}
