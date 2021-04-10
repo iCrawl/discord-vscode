@@ -144,6 +144,11 @@
 						"type": "boolean",
 						"default": false,
 						"description": "Removes the timestamp"
+					},
+					"discord.removeRemoteRepository": {
+						"type": "boolean",
+						"default": false,
+						"description": "Removes the View Repository button"
 					}
 				}
 			}

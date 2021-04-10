@@ -1,7 +1,9 @@
 import { basename } from 'path';
-import { TextDocument, workspace, WorkspaceConfiguration } from 'vscode';
+import { TextDocument, workspace, extensions, WorkspaceConfiguration } from 'vscode';
 
 import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
+import { API, GitExtension } from './git';
+import { log, LogLevel } from './logger';
 
 type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	enabled: boolean;
@@ -21,6 +23,7 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	removeDetails: boolean;
 	removeLowerDetails: boolean;
 	removeTimestamp: boolean;
+	removeRemoteRepository: boolean;
 };
 
 export function getConfig() {
@@ -56,4 +59,21 @@ export function resolveFileIcon(document: TextDocument) {
 		: null;
 
 	return typeof fileIcon === 'string' ? fileIcon : fileIcon?.image ?? 'text';
+}
+
+export async function getGit() {
+	let git: API | undefined;
+	try {
+		log(LogLevel.Debug, 'Loading git extension');
+		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
+		if (!gitExtension?.isActive) {
+			log(LogLevel.Trace, 'Git extension not activated, activating...');
+			await gitExtension?.activate();
+		}
+		git = gitExtension?.exports.getAPI(1);
+	} catch (error) {
+		log(LogLevel.Error, `Failed to load git extension, is git installed?; ${error as string}`);
+	}
+
+	return git;
 }

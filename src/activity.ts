@@ -1,5 +1,5 @@
 import { basename, parse, sep } from 'path';
-import { debug, env, extensions, Selection, TextDocument, window, workspace } from 'vscode';
+import { debug, env, Selection, TextDocument, window, workspace } from 'vscode';
 
 import {
 	CONFIG_KEYS,
@@ -14,9 +14,8 @@ import {
 	VSCODE_IMAGE_KEY,
 	VSCODE_INSIDERS_IMAGE_KEY,
 } from './constants';
-import { API, GitExtension } from './git';
 import { log, LogLevel } from './logger';
-import { getConfig, resolveFileIcon, toLower, toTitle, toUpper } from './util';
+import { getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
 
 interface ActivityPayload {
 	details?: string;
@@ -50,6 +49,9 @@ export async function activity(previous: ActivityPayload = {}) {
 	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
 	const removeLowerDetails = config[CONFIG_KEYS.RemoveLowerDetails];
+	const removeRemotRepository = config[CONFIG_KEYS.removeRemotRepository];
+
+	const git = await getGit();
 
 	let state: ActivityPayload = {
 		details: removeDetails
@@ -70,6 +72,19 @@ export async function activity(previous: ActivityPayload = {}) {
 			smallImageKey: IDLE_IMAGE_KEY,
 			smallImageText: defaultLargeImageText,
 		};
+	}
+
+	if (!removeRemotRepository && git?.repositories.length) {
+		let repo = git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0].fetchUrl;
+
+		if (repo) {
+			repo = repo.replace(':', '/').replace('git@', 'https://').replace('.git', '');
+
+			state = {
+				...state,
+				buttons: [{ label: 'View Repository', url: repo }],
+			};
+		}
 	}
 
 	if (window.activeTextEditor) {
@@ -207,18 +222,7 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 		);
 	}
 
-	let git: API | undefined;
-	try {
-		log(LogLevel.Debug, 'Loading git extension');
-		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
-		if (!gitExtension?.isActive) {
-			log(LogLevel.Trace, 'Git extension not activated, activating...');
-			await gitExtension?.activate();
-		}
-		git = gitExtension?.exports.getAPI(1);
-	} catch (error) {
-		log(LogLevel.Error, `Failed to load git extension, is git installed?; ${error as string}`);
-	}
+	const git = await getGit();
 
 	if (raw.includes(REPLACE_KEYS.GitBranch)) {
 		if (git?.repositories.length) {
