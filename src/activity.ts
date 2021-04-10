@@ -84,8 +84,6 @@ export async function activity(previous: ActivityPayload = {}) {
 				...state,
 				buttons: [{ label: 'View Repository', url: repo }],
 			};
-
-			console.log(state);
 		}
 	}
 
