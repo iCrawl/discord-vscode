@@ -303,7 +303,7 @@
 		".inc": { "image": "pawn" },
 		".sma": { "image": "pawn" },
 		".pwn": { "image": "pawn" },
-		".sp": { "image": "pawn" },
+		".sp": { "image": "sourcepawn" },
 		"/\\.p(er)?l$/i": { "image": "perl" },
 		".al": { "image": "perl" },
 		".ph": { "image": "perl" },
