@@ -78,7 +78,9 @@ export async function activity(previous: ActivityPayload = {}) {
 		let repo = git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0].fetchUrl;
 
 		if (repo) {
-			repo = repo.replace(':', '/').replace('git@', 'https://').replace('.git', '');
+			if (repo.startsWith('git@')) {
+				repo = repo.replace(':', '/').replace('git@', 'https://').replace('.git', '');
+			}
 
 			state = {
 				...state,
