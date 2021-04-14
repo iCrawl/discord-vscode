@@ -5,6 +5,8 @@ import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
 import { API, GitExtension } from './git';
 import { log, LogLevel } from './logger';
 
+let git: API | null | undefined;
+
 type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	enabled: boolean;
 	detailsIdling: string;
@@ -63,7 +65,10 @@ export function resolveFileIcon(document: TextDocument) {
 }
 
 export async function getGit() {
-	let git: API | undefined;
+	if (git || git === null) {
+		return git;
+	}
+
 	try {
 		log(LogLevel.Debug, 'Loading git extension');
 		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
@@ -73,6 +78,7 @@ export async function getGit() {
 		}
 		git = gitExtension?.exports.getAPI(1);
 	} catch (error) {
+		git = null;
 		log(LogLevel.Error, `Failed to load git extension, is git installed?; ${error as string}`);
 	}
 

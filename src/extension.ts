@@ -1,21 +1,11 @@
 const { Client } = require('discord-rpc'); // eslint-disable-line
-import {
-	commands,
-	ExtensionContext,
-	StatusBarAlignment,
-	StatusBarItem,
-	window,
-	workspace,
-	extensions,
-	debug,
-} from 'vscode';
+import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace, debug } from 'vscode';
 import throttle from 'lodash-es/throttle';
 
 import { activity } from './activity';
 import { CLIENT_ID, CONFIG_KEYS } from './constants';
-import { GitExtension } from './git';
 import { log, LogLevel } from './logger';
-import { getConfig } from './util';
+import { getConfig, getGit } from './util';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
@@ -173,12 +163,7 @@ export async function activate(context: ExtensionContext) {
 		}
 	});
 
-	try {
-		const gitExtension = extensions.getExtension<GitExtension>('vscode.git');
-		if (!gitExtension?.isActive) {
-			await gitExtension?.activate();
-		}
-	} catch {}
+	await getGit();
 }
 
 export async function deactivate() {
