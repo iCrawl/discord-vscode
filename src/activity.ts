@@ -81,7 +81,7 @@ export async function activity(previous: ActivityPayload = {}) {
 			if (repo.startsWith('git@')) {
 				repo = repo.replace(':', '/').replace('git@', 'https://').replace('.git', '');
 			} else {
-				repo = repo.replace('.git', '');
+				repo = repo.replace(/(https:\/\/)([^@]*)@(.*?$)/, '$1$3').replace('.git', '');
 			}
 
 			state = {
