@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "5.6.2",
+	"version": "5.6.3",
 	"description": "Update your discord status with a rich presence.",
 	"private": true,
 	"author": {
