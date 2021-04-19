@@ -75,7 +75,7 @@ export async function activity(previous: ActivityPayload = {}) {
 	}
 
 	if (!removeRemoteRepository && git?.repositories.length) {
-		let repo = git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0].fetchUrl;
+		let repo = git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0]?.fetchUrl;
 
 		if (repo) {
 			if (repo.startsWith('git@')) {
