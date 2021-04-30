@@ -7,36 +7,4 @@ updates:
     time: "15:00"
     timezone: Europe/Vienna
   open-pull-requests-limit: 99
-  ignore:
-  - dependency-name: "@types/node"
-    versions:
-    - 15.0.0
-  - dependency-name: webpack
-    versions:
-    - 5.20.0
-    - 5.21.0
-    - 5.21.1
-    - 5.32.0
-    - 5.34.0
-    - 5.35.0
-  - dependency-name: ts-loader
-    versions:
-    - 9.0.0
-    - 9.1.0
-  - dependency-name: "@typescript-eslint/parser"
-    versions:
-    - 4.16.0
-    - 4.21.0
-  - dependency-name: "@types/vscode"
-    versions:
-    - 1.54.0
-  - dependency-name: eslint-config-marine
-    versions:
-    - 8.1.0
-    - 8.3.0
-  - dependency-name: "@typescript-eslint/eslint-plugin"
-    versions:
-    - 4.16.0
-  - dependency-name: eslint-config-prettier
-    versions:
-    - 8.0.0
+  
