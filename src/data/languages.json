@@ -20,6 +20,7 @@
 		{ "language": "haml", "image": "text" },
 		{ "language": "html", "image": "html" },
 		{ "language": "ini", "image": "manifest" },
+		{ "language": "jupyter", "image":"jupyter" },
 		{ "language": "java", "image": "java" },
 		{ "language": "javascript", "image": "javascript" },
 		{ "language": "javascriptreact", "image": "jsx" },
