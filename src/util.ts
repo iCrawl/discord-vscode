@@ -27,6 +27,10 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	removeTimestamp: boolean;
 	removeRemoteRepository: boolean;
 	idleTimeout: number;
+	customButtonEnabled: boolean;
+	customButtonText: string;
+	customButtonUrl: string;
+	customButtonHoist: 'above' | 'below';
 };
 
 export function getConfig() {

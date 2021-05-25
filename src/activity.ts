@@ -62,6 +62,7 @@ export async function activity(previous: ActivityPayload = {}) {
 		largeImageText: defaultLargeImageText,
 		smallImageKey: defaultSmallImageKey,
 		smallImageText: defaultSmallImageText,
+		buttons: [],
 	};
 
 	if (swapBigAndSmallImage) {
@@ -84,10 +85,27 @@ export async function activity(previous: ActivityPayload = {}) {
 				repo = repo.replace(/(https:\/\/)([^@]*)@(.*?$)/, '$1$3').replace('.git', '');
 			}
 
-			state = {
-				...state,
-				buttons: [{ label: 'View Repository', url: repo }],
-			};
+			state.buttons?.push({ label: 'View Repository', url: repo });
+		}
+	}
+
+	if (config[CONFIG_KEYS.customButtonEnabled]) {
+		const defaultText = 'Custom Button!';
+		const defaultUrl = 'https://github.com/iCrawl/discord-vscode';
+		const customButton = {
+			label: config[CONFIG_KEYS.customButtonText] ? config[CONFIG_KEYS.customButtonText] : defaultText,
+			url: config[CONFIG_KEYS.customButtonUrl] ? config[CONFIG_KEYS.customButtonUrl] : defaultUrl,
+		};
+		switch (config[CONFIG_KEYS.customButtonHoist]) {
+			case 'above':
+				state.buttons?.unshift(customButton);
+				break;
+			case 'below':
+				state.buttons?.push(customButton);
+				break;
+			default:
+				state.buttons?.unshift(customButton);
+				break;
 		}
 	}
 

@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "5.6.3",
+	"version": "5.7.0",
 	"description": "Update your discord status with a rich presence.",
 	"private": true,
 	"author": {
@@ -154,6 +154,31 @@
 						"type": "number",
 						"default": 0,
 						"description": "Time (in seconds) to clear the presence when idling. 0 (the default) means no clearing"
+					},
+					"discord.customButtonEnabled": {
+						"type": "boolean",
+						"default": false,
+						"description": "Enable extra custom button above or below \"View Repository\""
+					},
+					"discord.customButtonText": {
+						"type": "string",
+						"default": "Custom Button!",
+						"description": "Text for custom button"
+					},
+					"discord.customButtonUrl": {
+						"type": "string",
+						"default": "https://github.com/iCrawl/discord-vscode",
+						"description": "Url for custom button"
+					},
+					"discord.customButtonHoist": {
+						"type": "string",
+						"default": "above",
+						"enum": ["above", "below"],
+						"enumDescriptions": [
+							"Above \"View Repository\"",
+							"Below \"View Repository\""
+						],
+						"description": "Hoist of the custom button"
 					}
 				}
 			}
