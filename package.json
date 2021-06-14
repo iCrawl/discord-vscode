@@ -188,7 +188,7 @@
 		"dayjs": "^1.10.5",
 		"discord-rpc": "^3.2.0",
 		"lodash-es": "^4.17.21",
-		"tslib": "^2.2.0",
+		"tslib": "^2.3.0",
 		"utf-8-validate": "^5.0.5"
 	},
 	"devDependencies": {
