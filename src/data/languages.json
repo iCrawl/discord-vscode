@@ -22,6 +22,7 @@
 		{ "language": "ini", "image": "manifest" },
 		{ "language": "java", "image": "java" },
 		{ "language": "javascript", "image": "javascript" },
+		{ "language": "jupyter", "image": "jupyter"}
 		{ "language": "javascriptreact", "image": "jsx" },
 		{ "language": "jsx", "image": "jsx" },
 		{ "language": "json", "image": "json" },
