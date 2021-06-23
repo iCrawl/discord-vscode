@@ -14,25 +14,15 @@ let rpc = new Client({ transport: 'ipc' });
 const config = getConfig();
 
 let state = {};
-let interval: NodeJS.Timeout | undefined;
 let idle: NodeJS.Timeout | undefined;
 let listeners: { dispose(): any }[] = [];
 
 export function cleanUp() {
 	listeners.forEach((listener) => listener.dispose());
 	listeners = [];
-
-	if (interval) {
-		clearTimeout(interval);
-	}
 }
 
 async function sendActivity() {
-	if (interval) {
-		clearTimeout(interval);
-	}
-
-	interval = setTimeout(() => void sendActivity(), 5000);
 	state = {
 		...(await activity(state)),
 	};
@@ -40,9 +30,10 @@ async function sendActivity() {
 }
 
 async function login() {
+	log(LogLevel.Info, 'Creating discord-rpc client');
 	rpc = new Client({ transport: 'ipc' });
 
-	rpc.once('ready', () => {
+	rpc.on('ready', () => {
 		log(LogLevel.Info, 'Successfully connected to Discord');
 		cleanUp();
 
@@ -51,14 +42,14 @@ async function login() {
 
 		void sendActivity();
 		const onChangeActiveTextEditor = window.onDidChangeActiveTextEditor(() => sendActivity());
-		const onChangeTextDocument = workspace.onDidChangeTextDocument(throttle(() => sendActivity(), 1000));
+		const onChangeTextDocument = workspace.onDidChangeTextDocument(throttle(() => sendActivity(), 2000));
 		const onStartDebugSession = debug.onDidStartDebugSession(() => sendActivity());
 		const onTerminateDebugSession = debug.onDidTerminateDebugSession(() => sendActivity());
 
 		listeners.push(onChangeActiveTextEditor, onChangeTextDocument, onStartDebugSession, onTerminateDebugSession);
 	});
 
-	rpc.once('disconnected', async () => {
+	rpc.on('disconnected', async () => {
 		cleanUp();
 		await rpc.destroy();
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
@@ -72,6 +63,7 @@ async function login() {
 		cleanUp();
 		await rpc.destroy();
 		if (!config[CONFIG_KEYS.SuppressNotifications]) {
+			// @ts-ignore
 			if (error?.message?.includes('ENOENT')) void window.showErrorMessage('No Discord client detected');
 			else void window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error as string}`);
 		}
@@ -96,31 +88,40 @@ export async function activate(context: ExtensionContext) {
 
 	const enable = async (update = true) => {
 		if (update) {
-			void config.update('enabled', true);
+			try {
+				await config.update('enabled', true);
+			} catch {}
 		}
+		log(LogLevel.Info, 'Enable: Cleaning up old listeners');
 		cleanUp();
 		statusBarIcon.text = '$(pulse) Connecting to Discord...';
 		statusBarIcon.show();
-		await login();
+		log(LogLevel.Info, 'Enable: Attempting to recreate login');
+		void login();
 	};
 
 	const disable = async (update = true) => {
 		if (update) {
-			void config.update('enabled', false);
+			try {
+				await config.update('enabled', false);
+			} catch {}
 		}
+		log(LogLevel.Info, 'Disable: Cleaning up old listeners');
 		cleanUp();
-		await rpc.destroy();
+		void rpc?.destroy();
+		log(LogLevel.Info, 'Disable: Destroyed the rpc instance');
 		statusBarIcon.hide();
 	};
 
 	const enabler = commands.registerCommand('discord.enable', async () => {
+		await disable();
 		await enable();
-		void window.showInformationMessage('Enabled Discord Presence for this workspace');
+		await window.showInformationMessage('Enabled Discord Presence for this workspace');
 	});
 
 	const disabler = commands.registerCommand('discord.disable', async () => {
 		await disable();
-		void window.showInformationMessage('Disabled Discord Presence for this workspace');
+		await window.showInformationMessage('Disabled Discord Presence for this workspace');
 	});
 
 	const reconnecter = commands.registerCommand('discord.reconnect', async () => {
@@ -132,6 +133,7 @@ export async function activate(context: ExtensionContext) {
 		await disable(false);
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
 		statusBarIcon.command = 'discord.reconnect';
+		statusBarIcon.show();
 	});
 
 	context.subscriptions.push(enabler, disabler, reconnecter, disconnect);
@@ -152,10 +154,6 @@ export async function activate(context: ExtensionContext) {
 			} else {
 				// eslint-disable-next-line @typescript-eslint/no-misused-promises
 				idle = setTimeout(async () => {
-					if (interval) {
-						clearTimeout(interval);
-					}
-
 					state = {};
 					await rpc.clearActivity();
 				}, config[CONFIG_KEYS.IdleTimeout] * 1000);
@@ -166,7 +164,7 @@ export async function activate(context: ExtensionContext) {
 	await getGit();
 }
 
-export async function deactivate() {
+export function deactivate() {
 	cleanUp();
-	await rpc.destroy();
+	void rpc.destroy();
 }

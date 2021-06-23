@@ -26,6 +26,7 @@
 		{ "language": "jsx", "image": "jsx" },
 		{ "language": "json", "image": "json" },
 		{ "language": "jsonc", "image": "json" },
+		{ "language": "jupyter", "image": "jupyter" },
 		{ "language": "latex", "image": "text" },
 		{ "language": "less", "image": "less" },
 		{ "language": "lua", "image": "lua" },

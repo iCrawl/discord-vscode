@@ -130,8 +130,6 @@ export async function activity(previous: ActivityPayload = {}) {
 		log(LogLevel.Trace, `VSCode language id: ${window.activeTextEditor.document.languageId}`);
 	}
 
-	log(LogLevel.Debug, `Discord Presence being sent to discord:\n${JSON.stringify(state, null, 2)}`);
-
 	return state;
 }
 
