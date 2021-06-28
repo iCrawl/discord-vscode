@@ -193,7 +193,7 @@
 	},
 	"devDependencies": {
 		"@types/lodash-es": "^4.17.4",
-		"@types/node": "^15.12.4",
+		"@types/node": "^15.12.5",
 		"@types/vscode": "^1.57.0",
 		"@typescript-eslint/eslint-plugin": "^4.28.0",
 		"@typescript-eslint/parser": "^4.28.0",
