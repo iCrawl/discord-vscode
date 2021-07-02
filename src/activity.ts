@@ -1,4 +1,4 @@
-import { basename, parse, sep } from 'path';
+import { basename, extname, parse, sep } from 'path';
 import { debug, env, Selection, TextDocument, window, workspace } from 'vscode';
 
 import {
@@ -139,6 +139,7 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 
 	if (window.activeTextEditor) {
 		const fileName = basename(window.activeTextEditor.document.fileName);
+		const fileExtension = extname(window.activeTextEditor.document.fileName).replace('.', '');
 		const { dir } = parse(window.activeTextEditor.document.fileName);
 		const split = dir.split(sep);
 		const dirName = split[split.length - 1];
@@ -173,6 +174,7 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 		}
 		raw = raw
 			.replace(REPLACE_KEYS.FileName, fileName)
+			.replace(REPLACE_KEYS.FileExtension, fileExtension)
 			.replace(REPLACE_KEYS.DirName, dirName)
 			.replace(REPLACE_KEYS.Workspace, workspaceName)
 			.replace(REPLACE_KEYS.WorkspaceFolder, workspaceFolderName)
