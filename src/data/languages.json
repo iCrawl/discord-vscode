@@ -356,6 +356,7 @@
 		"/^(Snakefile|WATCHLISTS)$/": { "image": "python" },
 		"/^wscript$/": { "image": "python" },
 		"/\\.(r|Rprofile|rsx|rd)$/i": { "image": "r" },
+		".rkt": { "image": "racket" },
 		"/\\.res?i?$/i": { "image": "reasonml" },
 		"/\\.(rb|ru|ruby|erb|gemspec|god|mspec|pluginspec|podspec|rabl|rake|opal)$/i": { "image": "ruby" },
 		"/^\\.?(irbrc|gemrc|pryrc|ruby-(gemset|version))$/i": { "image": "ruby" },
