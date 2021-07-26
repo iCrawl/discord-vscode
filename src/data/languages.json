@@ -227,6 +227,7 @@
 		".less": { "image": "less" },
 		".lsp": { "image": "lisp" },
 		".lisp": { "image": "lisp" },
+		".liquid": { "image": "liquid" },
 		".l": { "image": "lisp" },
 		".nl": { "image": "lisp" },
 		".ny": { "image": "lisp" },
