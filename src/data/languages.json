@@ -32,6 +32,7 @@
 		{ "language": "lua", "image": "lua" },
 		{ "language": "makefile", "image": "makefile" },
 		{ "language": "markdown", "image": "markdown" },
+		{ "language": "matlab", "image": "matlab" },
 		{ "language": "objective-c", "image": "objective-c" },
 		{ "language": "objective-cpp", "image": "objective-c" },
 		{ "language": "perl", "image": "perl" },
