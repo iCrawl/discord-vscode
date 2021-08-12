@@ -61,7 +61,6 @@ async function login() {
 	} catch (error) {
 		log(LogLevel.Error, `Encountered following error while trying to login:\n${error as string}`);
 		cleanUp();
-		await rpc.destroy();
 		if (!config[CONFIG_KEYS.SuppressNotifications]) {
 			// @ts-ignore
 			if (error?.message?.includes('ENOENT')) void window.showErrorMessage('No Discord client detected');
@@ -69,6 +68,8 @@ async function login() {
 		}
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
 		statusBarIcon.command = 'discord.reconnect';
+
+		await rpc.destroy();
 	}
 }
 
