@@ -169,7 +169,7 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 		try {
 			raw = await fileDetails(raw, window.activeTextEditor.document, window.activeTextEditor.selection);
 		} catch (error) {
-			log(LogLevel.Error, `Failed to generate file details: ${error as string}`);
+			log(LogLevel.Error, `File detail generation failed : ${error as string}`);
 		}
 		raw = raw
 			.replace(REPLACE_KEYS.FileName, fileName)
