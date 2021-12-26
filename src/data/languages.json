@@ -64,6 +64,7 @@
 		{ "language": "yaml", "image": "yaml" }
 	],
 	"KNOWN_EXTENSIONS": {
+		".d.ts": { "image": "typescript" },
 		".ahk": { "image": "ahk" },
 		".ahkl": { "image": "ahk" },
 		"androidmanifest.xml": { "image": "android" },
