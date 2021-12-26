@@ -61,7 +61,8 @@
 		{ "language": "vue-html", "image": "vue" },
 		{ "language": "xml", "image": "xml" },
 		{ "language": "xsl", "image": "xml" },
-		{ "language": "yaml", "image": "yaml" }
+		{ "language": "yaml", "image": "yaml" },
+		{ "language": "haskell", "image": "haskell" }
 	],
 	"KNOWN_EXTENSIONS": {
 		".ahk": { "image": "ahk" },
