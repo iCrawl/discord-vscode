@@ -159,6 +159,7 @@
 		"/^mix\\.(exs?|lock)$/i": { "image": "elixir" },
 		".elm": { "image": "elm" },
 		".env": { "image": "env" },
+		".env.local": { "image": "env" },
 		".erl": { "image": "erlang" },
 		".beam": { "image": "erlang" },
 		".hrl": { "image": "erlang" },
