@@ -196,7 +196,7 @@
 		"@types/node": "^16.11.13",
 		"@types/vscode": "^1.63.1",
 		"@typescript-eslint/eslint-plugin": "^5.8.0",
-		"@typescript-eslint/parser": "^5.8.0",
+		"@typescript-eslint/parser": "^5.8.1",
 		"clean-webpack-plugin": "^4.0.0",
 		"eslint": "^8.5.0",
 		"eslint-config-marine": "^9.1.0",
