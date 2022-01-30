@@ -1,7 +1,16 @@
-/*---------------------------------------------------------------------------------------------
+/**
+ * Repo: https://github.com/microsoft/vscode
+ * File: extensions/git/src/api/git.d.ts
+ * Branch: release/1.59
+ * Commit: e3829dc2477186593fe79d649f909119f5dc5913
+ * Date: 2021.11.06
+ */
+
+/* ---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+ *  Licensed under the MIT License. See License in the project root for license information.
+ * --------------------------------------------------------------------------------------------
+ */
 
 import { Uri, Event, Disposable, ProviderResult } from 'vscode';
 export { ProviderResult } from 'vscode';
@@ -138,6 +147,14 @@ export interface CommitOptions {
 	requireUserConfig?: boolean;
 }
 
+export interface FetchOptions {
+	remote?: string;
+	ref?: string;
+	all?: boolean;
+	prune?: boolean;
+	depth?: number;
+}
+
 export interface BranchQuery {
 	readonly remote?: boolean;
 	readonly pattern?: string;
@@ -195,6 +212,7 @@ export interface Repository {
 	removeRemote(name: string): Promise<void>;
 	renameRemote(name: string, newName: string): Promise<void>;
 
+	fetch(options?: FetchOptions): Promise<void>;
 	fetch(remote?: string, ref?: string, depth?: number): Promise<void>;
 	pull(unshallow?: boolean): Promise<void>;
 	push(remoteName?: string, branchName?: string, setUpstream?: boolean, force?: ForcePushMode): Promise<void>;

@@ -2,7 +2,7 @@ import { basename } from 'path';
 import { TextDocument, workspace, extensions, WorkspaceConfiguration } from 'vscode';
 
 import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
-import { API, GitExtension } from './git';
+import type { API, GitExtension } from './git';
 import { log, LogLevel } from './logger';
 
 let git: API | null | undefined;
