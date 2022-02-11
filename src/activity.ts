@@ -88,13 +88,17 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 	}
 
 	if (raw.includes(REPLACE_KEYS.GitRepoName)) {
+		let split = 1;
 		if (git?.repositories.length) {
+			if (git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0].fetchUrl?.includes('github.com')) {
+				split = 4;
+			}
 			raw = raw.replace(
 				REPLACE_KEYS.GitRepoName,
 				git.repositories
 					.find((repo) => repo.ui.selected)
-					?.state.remotes[0].fetchUrl?.split('/')[1]
-					.replace('.git', '') ?? FAKE_EMPTY,
+					?.state.remotes[0].fetchUrl?.split('/')
+					[split].replace('.git', '') ?? FAKE_EMPTY,
 			);
 		} else {
 			raw = raw.replace(REPLACE_KEYS.GitRepoName, UNKNOWN_GIT_REPO_NAME);
