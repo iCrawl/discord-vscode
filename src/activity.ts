@@ -1,5 +1,6 @@
 import { basename, parse, sep } from 'path';
 import { debug, env, Selection, TextDocument, window, workspace } from 'vscode';
+import GitUrlParse from 'git-url-parse';
 
 import {
 	CONFIG_KEYS,
@@ -11,6 +12,7 @@ import {
 	REPLACE_KEYS,
 	UNKNOWN_GIT_BRANCH,
 	UNKNOWN_GIT_REPO_NAME,
+	UNKNOWN_GIT_REPO_OWNER,
 	VSCODE_IMAGE_KEY,
 	VSCODE_INSIDERS_IMAGE_KEY,
 } from './constants';
@@ -33,6 +35,41 @@ interface ActivityPayload {
 	spectateSecret?: string | undefined;
 	buttons?: { label: string; url: string }[] | undefined;
 	instance?: boolean | undefined;
+}
+
+async function repoDetails(_raw: string) {
+	let raw = _raw.slice();
+
+	const git = await getGit();
+	const repo = git?.repositories.find((repo) => repo.ui.selected);
+
+	if (raw.includes(REPLACE_KEYS.GitBranch)) {
+		if (repo) {
+			raw = raw.replace(REPLACE_KEYS.GitBranch, repo.state.HEAD?.name ?? FAKE_EMPTY);
+		} else {
+			raw = raw.replace(REPLACE_KEYS.GitBranch, UNKNOWN_GIT_BRANCH);
+		}
+	}
+
+	if (raw.includes(REPLACE_KEYS.GitRepoName)) {
+		const repo_data = repo?.state.remotes[0].fetchUrl ? GitUrlParse(repo.state.remotes[0].fetchUrl) : undefined;
+		if (repo_data) {
+			raw = raw.replace(REPLACE_KEYS.GitRepoName, repo_data.name);
+		} else {
+			raw = raw.replace(REPLACE_KEYS.GitRepoName, UNKNOWN_GIT_REPO_NAME);
+		}
+	}
+
+	if (raw.includes(REPLACE_KEYS.GitRepoOwner)) {
+		const repo_data = repo?.state.remotes[0].fetchUrl ? GitUrlParse(repo.state.remotes[0].fetchUrl) : undefined;
+		if (repo_data) {
+			raw = raw.replace(REPLACE_KEYS.GitRepoOwner, repo_data.owner);
+		} else {
+			raw = raw.replace(REPLACE_KEYS.GitRepoOwner, UNKNOWN_GIT_REPO_OWNER);
+		}
+	}
+
+	return raw;
 }
 
 async function fileDetails(_raw: string, document: TextDocument, selection: Selection) {
@@ -74,34 +111,7 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 		);
 	}
 
-	const git = await getGit();
-
-	if (raw.includes(REPLACE_KEYS.GitBranch)) {
-		if (git?.repositories.length) {
-			raw = raw.replace(
-				REPLACE_KEYS.GitBranch,
-				git.repositories.find((repo) => repo.ui.selected)?.state.HEAD?.name ?? FAKE_EMPTY,
-			);
-		} else {
-			raw = raw.replace(REPLACE_KEYS.GitBranch, UNKNOWN_GIT_BRANCH);
-		}
-	}
-
-	if (raw.includes(REPLACE_KEYS.GitRepoName)) {
-		if (git?.repositories.length) {
-			raw = raw.replace(
-				REPLACE_KEYS.GitRepoName,
-				git.repositories
-					.find((repo) => repo.ui.selected)
-					?.state.remotes[0].fetchUrl?.split('/')[1]
-					.replace('.git', '') ?? FAKE_EMPTY,
-			);
-		} else {
-			raw = raw.replace(REPLACE_KEYS.GitRepoName, UNKNOWN_GIT_REPO_NAME);
-		}
-	}
-
-	return raw;
+	return repoDetails(raw);
 }
 
 async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CONFIG_KEYS) {
@@ -172,8 +182,6 @@ export async function activity(previous: ActivityPayload = {}) {
 	const removeLowerDetails = config[CONFIG_KEYS.RemoveLowerDetails];
 	const removeRemoteRepository = config[CONFIG_KEYS.RemoveRemoteRepository];
 
-	const git = await getGit();
-
 	let state: ActivityPayload = {
 		details: removeDetails
 			? undefined
@@ -195,19 +203,20 @@ export async function activity(previous: ActivityPayload = {}) {
 		};
 	}
 
-	if (!removeRemoteRepository && git?.repositories.length) {
-		let repo = git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0]?.fetchUrl;
+	const git = await getGit();
+	const repo = git?.repositories.find((repo) => repo.ui.selected);
 
-		if (repo) {
-			if (repo.startsWith('git@') || repo.startsWith('ssh://')) {
-				repo = repo.replace('ssh://', '').replace(':', '/').replace('git@', 'https://').replace('.git', '');
-			} else {
-				repo = repo.replace(/(https:\/\/)([^@]*)@(.*?$)/, '$1$3').replace('.git', '');
-			}
+	if (!removeRemoteRepository && repo) {
+		const repoURL = repo.state.remotes[0].fetchUrl;
+		const repo_data = repoURL ? GitUrlParse(repoURL) : undefined;
+
+		if (repo_data) {
+			const viewRemoteRepository = config[CONFIG_KEYS.ViewRemoteRepository];
+			const viewRemoteRepositoryText = await repoDetails(viewRemoteRepository);
 
 			state = {
 				...state,
-				buttons: [{ label: 'View Repository', url: repo }],
+				buttons: [{ label: viewRemoteRepositoryText, url: repo_data.href }],
 			};
 		}
 	}

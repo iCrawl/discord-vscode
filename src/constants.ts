@@ -16,6 +16,7 @@ export const VSCODE_INSIDERS_IMAGE_KEY = 'vscode-insiders' as const;
 
 export const UNKNOWN_GIT_BRANCH = 'Unknown' as const;
 export const UNKNOWN_GIT_REPO_NAME = 'Unknown' as const;
+export const UNKNOWN_GIT_REPO_OWNER = 'Unknown' as const;
 
 export const enum REPLACE_KEYS {
 	Empty = '{empty}',
@@ -34,12 +35,14 @@ export const enum REPLACE_KEYS {
 	CurrentColumn = '{current_column}',
 	FileSize = '{file_size}',
 	AppName = '{app_name}',
+	GitRepoOwner = '{git_owner_name}',
 	GitRepoName = '{git_repo_name}',
 	GitBranch = '{git_branch}',
 }
 
 export const enum CONFIG_KEYS {
 	Enabled = 'enabled',
+	ViewRemoteRepository = 'viewRemoteRepository',
 	DetailsIdling = 'detailsIdling',
 	DetailsEditing = 'detailsEditing',
 	DetailsDebugging = 'detailsDebugging',
