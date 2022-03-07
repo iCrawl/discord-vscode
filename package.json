@@ -22,6 +22,7 @@
 	"license": "MIT",
 	"main": "./dist/extension",
 	"scripts": {
+		"dev": "webpack --watch",
 		"build": "npm run lint && webpack --mode production",
 		"lint": "prettier --check . && eslint src --ext mjs,js,ts",
 		"format": "prettier --write . && eslint src --ext mjs,js,ts --fix"

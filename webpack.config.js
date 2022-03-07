@@ -8,6 +8,7 @@ const path = require('path');
 /** @type {import('webpack').Configuration} */
 module.exports = {
 	target: 'node',
+	mode: 'none',
 	entry: './src/extension.ts',
 	output: {
 		filename: 'extension.js',
@@ -46,5 +47,8 @@ module.exports = {
 				exclude: /node_modules/,
 			},
 		],
+	},
+	infrastructureLogging: {
+		level: 'log', // enables logging required for problem matchers
 	},
 };
