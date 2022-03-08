@@ -188,7 +188,7 @@
 		"discord-rpc": "^4.0.1",
 		"lodash-es": "^4.17.21",
 		"tslib": "^2.3.1",
-		"utf-8-validate": "^5.0.8"
+		"utf-8-validate": "^5.0.9"
 	},
 	"devDependencies": {
 		"@types/lodash-es": "^4.17.6",
