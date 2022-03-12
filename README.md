@@ -1,6 +1,6 @@
 # Discord Presence
 
-> Update your discord status with a rich presence.
+> Update your discord status with a rich presence
 
 <div align="center">
 	<p>
