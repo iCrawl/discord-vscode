@@ -1,214 +1,209 @@
 {
-	"name": "discord-vscode",
-	"displayName": "Discord Presence",
-	"version": "5.8.0",
-	"description": "Update your discord status with a rich presence.",
-	"private": true,
-	"author": {
-		"name": "iCrawl",
-		"email": "icrawltogo@gmail.com"
-	},
-	"contributors": [
-		{
-			"name": "Frangu Vlad",
-			"email": "kingdgrizzle@gmail.com"
-		}
-	],
-	"publisher": "icrawl",
-	"license": "MIT",
-	"main": "./dist/extension",
-	"scripts": {
-		"build": "npm run lint && webpack --mode production",
-		"lint": "prettier --check . && eslint src --ext mjs,js,ts",
-		"format": "prettier --write . && eslint src --ext mjs,js,ts --fix"
-	},
-	"activationEvents": [
-		"*"
-	],
-	"extensionKind": [
-		"ui"
-	],
-	"contributes": {
-		"commands": [
-			{
-				"command": "discord.enable",
-				"title": "Enable Discord Presence in the current workspace",
-				"category": "Discord Presence"
-			},
-			{
-				"command": "discord.disable",
-				"title": "Disable Discord Presence in the current workspace",
-				"category": "Discord Presence"
-			},
-			{
-				"command": "discord.reconnect",
-				"title": "Reconnect Discord Presence to Discord",
-				"category": "Discord Presence"
-			},
-			{
-				"command": "discord.disconnect",
-				"title": "Disconnect Discord Presence from Discord",
-				"category": "Discord Presence"
-			}
-		],
-		"configuration": [
-			{
-				"title": "Discord Presence Configuration",
-				"type": "object",
-				"properties": {
-					"discord.enabled": {
-						"type": "boolean",
-						"default": true,
-						"description": "Controls if the Discord Presence should show across all workspaces"
-					},
-					"discord.detailsIdling": {
-						"type": "string",
-						"default": "Idling",
-						"description": "Custom string for the details section of the rich presence when idling\n\t- '{empty}' will be replaced with an empty space."
-					},
-					"discord.detailsEditing": {
-						"type": "string",
-						"default": "Editing {file_name}",
-						"description": "Custom string for the details section of the rich presence\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
-					},
-					"discord.detailsDebugging": {
-						"type": "string",
-						"default": "Debugging {file_name}",
-						"description": "Custom string for the details section of the rich presence when debugging\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
-					},
-					"discord.lowerDetailsIdling": {
-						"type": "string",
-						"default": "Idling",
-						"description": "Custom string for the state section of the rich presence when idling\n\t- '{empty}' will be replaced with an empty space."
-					},
-					"discord.lowerDetailsEditing": {
-						"type": "string",
-						"default": "Workspace: {workspace}",
-						"description": "Custom string for the state section of the rich presence\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
-					},
-					"discord.lowerDetailsDebugging": {
-						"type": "string",
-						"default": "Debugging: {workspace}",
-						"description": "Custom string for the state section of the rich presence when debugging\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
-					},
-					"discord.lowerDetailsNoWorkspaceFound": {
-						"type": "string",
-						"default": "No workspace",
-						"description": "Custom string for the state section of the rich presence when no workspace is found.\nIf set to '{empty}', this will be an empty space.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size."
-					},
-					"discord.largeImageIdling": {
-						"type": "string",
-						"default": "Idling",
-						"description": "Custom string for the largeImageText section of the rich presence when idling"
-					},
-					"discord.largeImage": {
-						"type": "string",
-						"default": "Editing a {LANG} file",
-						"description": "Custom string for the largeImageText section of the rich presence.\n\t- '{lang}' will be replaced with the lowercased language ID\n\t- '{LANG}' will be replaced with the uppercased language ID"
-					},
-					"discord.smallImage": {
-						"type": "string",
-						"default": "{app_name}",
-						"description": "Custom string for the smallImageText section of the rich presence\n\t- '{app_name}' will get replaced with the current Visual Studio Code version."
-					},
-					"discord.suppressNotifications": {
-						"type": "boolean",
-						"default": false,
-						"description": "Decides if error messages are shown to the user"
-					},
-					"discord.workspaceExcludePatterns": {
-						"type": "array",
-						"items": {
-							"type": "string"
-						},
-						"default": [],
-						"description": "Patterns of workspaces to ignore"
-					},
-					"discord.swapBigAndSmallImage": {
-						"type": "boolean",
-						"default": false,
-						"description": "Swaps the big and small image on the rich presence"
-					},
-					"discord.removeDetails": {
-						"type": "boolean",
-						"default": false,
-						"description": "Removes the details"
-					},
-					"discord.removeLowerDetails": {
-						"type": "boolean",
-						"default": false,
-						"description": "Removes the lower details"
-					},
-					"discord.removeTimestamp": {
-						"type": "boolean",
-						"default": false,
-						"description": "Removes the timestamp"
-					},
-					"discord.removeRemoteRepository": {
-						"type": "boolean",
-						"default": false,
-						"description": "Removes the View Repository button"
-					},
-					"discord.idleTimeout": {
-						"type": "number",
-						"default": 0,
-						"description": "Time (in seconds) to clear the presence when idling. 0 (the default) means no clearing"
-					}
-				}
-			}
-		]
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/iCrawl/discord-vscode.git"
-	},
-	"bugs": {
-		"url": "https://github.com/iCrawl/discord-vscode/issues"
-	},
-	"keywords": [
-		"discord",
-		"vscode",
-		"rich",
-		"presence",
-		"rich presence",
-		"rpc"
-	],
-	"categories": [
-		"Other"
-	],
-	"homepage": "https://github.com/iCrawl/discord-vscode#readme",
-	"icon": "assets/icon.png",
-	"galleryBanner": {
-		"color": "#6477C1",
-		"theme": "dark"
-	},
-	"dependencies": {
-		"bufferutil": "^4.0.6",
-		"dayjs": "^1.11.0",
-		"discord-rpc": "^4.0.1",
-		"lodash-es": "^4.17.21",
-		"tslib": "^2.3.1",
-		"utf-8-validate": "^5.0.9"
-	},
-	"devDependencies": {
-		"@types/lodash-es": "^4.17.6",
-		"@types/node": "^17.0.21",
-		"@types/vscode": "^1.65.0",
-		"@typescript-eslint/eslint-plugin": "^5.15.0",
-		"@typescript-eslint/parser": "^5.15.0",
-		"clean-webpack-plugin": "^4.0.0",
-		"eslint": "^8.11.0",
-		"eslint-config-marine": "^9.3.2",
-		"eslint-config-prettier": "^8.5.0",
-		"prettier": "^2.6.0",
-		"terser-webpack-plugin": "^5.3.1",
-		"ts-loader": "^9.2.8",
-		"tsup": "^5.12.1",
-		"typescript": "^4.6.2",
-		"webpack": "^5.70.0",
-		"webpack-cli": "^4.9.2"
-	},
-	"engines": {
-		"vscode": "^1.63.1"
-	}
+    "name": "discord-vscode",
+    "displayName": "Discord Presence",
+    "version": "5.8.0",
+    "description": "Update your discord status with a rich presence.",
+    "private": true,
+    "author": {
+        "name": "iCrawl",
+        "email": "icrawltogo@gmail.com"
+    },
+    "contributors": [{
+        "name": "Frangu Vlad",
+        "email": "kingdgrizzle@gmail.com"
+    }],
+    "publisher": "icrawl",
+    "license": "MIT",
+    "main": "./dist/extension",
+    "scripts": {
+        "build": "npm run lint && webpack --mode production",
+        "lint": "prettier --check . && eslint src --ext mjs,js,ts",
+        "format": "prettier --write . && eslint src --ext mjs,js,ts --fix"
+    },
+    "activationEvents": [
+        "*"
+    ],
+    "extensionKind": [
+        "ui"
+    ],
+    "contributes": {
+        "commands": [{
+                "command": "discord.enable",
+                "title": "Enable Discord Presence in the current workspace",
+                "category": "Discord Presence"
+            },
+            {
+                "command": "discord.disable",
+                "title": "Disable Discord Presence in the current workspace",
+                "category": "Discord Presence"
+            },
+            {
+                "command": "discord.reconnect",
+                "title": "Reconnect Discord Presence to Discord",
+                "category": "Discord Presence"
+            },
+            {
+                "command": "discord.disconnect",
+                "title": "Disconnect Discord Presence from Discord",
+                "category": "Discord Presence"
+            }
+        ],
+        "configuration": [{
+            "title": "Discord Presence Configuration",
+            "type": "object",
+            "properties": {
+                "discord.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Controls if the Discord Presence should show across all workspaces"
+                },
+                "discord.detailsIdling": {
+                    "type": "string",
+                    "default": "Idling",
+                    "description": "Custom string for the details section of the rich presence when idling\n\t- '{empty}' will be replaced with an empty space."
+                },
+                "discord.detailsEditing": {
+                    "type": "string",
+                    "default": "Editing {file_name}",
+                    "description": "Custom string for the details section of the rich presence\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
+                },
+                "discord.detailsDebugging": {
+                    "type": "string",
+                    "default": "Debugging {file_name}",
+                    "description": "Custom string for the details section of the rich presence when debugging\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
+                },
+                "discord.lowerDetailsIdling": {
+                    "type": "string",
+                    "default": "Idling",
+                    "description": "Custom string for the state section of the rich presence when idling\n\t- '{empty}' will be replaced with an empty space."
+                },
+                "discord.lowerDetailsEditing": {
+                    "type": "string",
+                    "default": "Workspace: {workspace}",
+                    "description": "Custom string for the state section of the rich presence\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
+                },
+                "discord.lowerDetailsDebugging": {
+                    "type": "string",
+                    "default": "Debugging: {workspace}",
+                    "description": "Custom string for the state section of the rich presence when debugging\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
+                },
+                "discord.lowerDetailsNoWorkspaceFound": {
+                    "type": "string",
+                    "default": "No workspace",
+                    "description": "Custom string for the state section of the rich presence when no workspace is found.\nIf set to '{empty}', this will be an empty space.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size."
+                },
+                "discord.largeImageIdling": {
+                    "type": "string",
+                    "default": "Idling",
+                    "description": "Custom string for the largeImageText section of the rich presence when idling"
+                },
+                "discord.largeImage": {
+                    "type": "string",
+                    "default": "Editing a {LANG} file",
+                    "description": "Custom string for the largeImageText section of the rich presence.\n\t- '{lang}' will be replaced with the lowercased language ID\n\t- '{LANG}' will be replaced with the uppercased language ID"
+                },
+                "discord.smallImage": {
+                    "type": "string",
+                    "default": "{app_name}",
+                    "description": "Custom string for the smallImageText section of the rich presence\n\t- '{app_name}' will get replaced with the current Visual Studio Code version."
+                },
+                "discord.suppressNotifications": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Decides if error messages are shown to the user"
+                },
+                "discord.workspaceExcludePatterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "Patterns of workspaces to ignore"
+                },
+                "discord.swapBigAndSmallImage": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Swaps the big and small image on the rich presence"
+                },
+                "discord.removeDetails": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Removes the details"
+                },
+                "discord.removeLowerDetails": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Removes the lower details"
+                },
+                "discord.removeTimestamp": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Removes the timestamp"
+                },
+                "discord.removeRemoteRepository": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Removes the View Repository button"
+                },
+                "discord.idleTimeout": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Time (in seconds) to clear the presence when idling (VS code not in focus). 0 (the default) means no clearing"
+                }
+            }
+        }]
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/iCrawl/discord-vscode.git"
+    },
+    "bugs": {
+        "url": "https://github.com/iCrawl/discord-vscode/issues"
+    },
+    "keywords": [
+        "discord",
+        "vscode",
+        "rich",
+        "presence",
+        "rich presence",
+        "rpc"
+    ],
+    "categories": [
+        "Other"
+    ],
+    "homepage": "https://github.com/iCrawl/discord-vscode#readme",
+    "icon": "assets/icon.png",
+    "galleryBanner": {
+        "color": "#6477C1",
+        "theme": "dark"
+    },
+    "dependencies": {
+        "bufferutil": "^4.0.6",
+        "dayjs": "^1.11.0",
+        "discord-rpc": "^4.0.1",
+        "lodash-es": "^4.17.21",
+        "tslib": "^2.3.1",
+        "utf-8-validate": "^5.0.9"
+    },
+    "devDependencies": {
+        "@types/lodash-es": "^4.17.6",
+        "@types/node": "^17.0.21",
+        "@types/vscode": "^1.65.0",
+        "@typescript-eslint/eslint-plugin": "^5.15.0",
+        "@typescript-eslint/parser": "^5.15.0",
+        "clean-webpack-plugin": "^4.0.0",
+        "eslint": "^8.11.0",
+        "eslint-config-marine": "^9.3.2",
+        "eslint-config-prettier": "^8.5.0",
+        "prettier": "^2.6.0",
+        "terser-webpack-plugin": "^5.3.1",
+        "ts-loader": "^9.2.8",
+        "tsup": "^5.12.1",
+        "typescript": "^4.6.2",
+        "webpack": "^5.70.0",
+        "webpack-cli": "^4.9.2"
+    },
+    "engines": {
+        "vscode": "^1.63.1"
+    }
 }
