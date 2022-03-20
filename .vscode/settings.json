@@ -1,0 +1,4 @@
+{
+    "discord.enabled": true,
+    "discord.idleTimeout": 1
+}
