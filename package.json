@@ -198,7 +198,7 @@
 		"@typescript-eslint/parser": "^5.16.0",
 		"clean-webpack-plugin": "^4.0.0",
 		"eslint": "^8.11.0",
-		"eslint-config-marine": "^9.3.2",
+		"eslint-config-marine": "^9.4.1",
 		"eslint-config-prettier": "^8.5.0",
 		"prettier": "^2.6.0",
 		"terser-webpack-plugin": "^5.3.1",
