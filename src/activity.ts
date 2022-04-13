@@ -113,6 +113,7 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 		const { dir } = parse(window.activeTextEditor.document.fileName);
 		const split = dir.split(sep);
 		const dirName = split[split.length - 1];
+		const fileExtension = fileName.includes('.') ? fileName.split('.').at(-1)! : '';
 
 		const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
 		const workspaceFolder = workspace.getWorkspaceFolder(window.activeTextEditor.document.uri);
@@ -144,6 +145,7 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 		}
 		raw = raw
 			.replace(REPLACE_KEYS.FileName, fileName)
+			.replace(REPLACE_KEYS.Extension, fileExtension)
 			.replace(REPLACE_KEYS.DirName, dirName)
 			.replace(REPLACE_KEYS.Workspace, workspaceName)
 			.replace(REPLACE_KEYS.WorkspaceFolder, workspaceFolderName)
