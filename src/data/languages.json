@@ -61,7 +61,8 @@
 		{ "language": "vue-html", "image": "vue" },
 		{ "language": "xml", "image": "xml" },
 		{ "language": "xsl", "image": "xml" },
-		{ "language": "yaml", "image": "yaml" }
+		{ "language": "yaml", "image": "yaml" },
+		{ "language": "jenkinsfile", "image": "jenkins"}
 	],
 	"KNOWN_EXTENSIONS": {
 		".ahk": { "image": "ahk" },
@@ -450,6 +451,7 @@
 		"/\\.ya?ml$/i": { "image": "yaml" },
 		"/^yarn(\\.lock)?$/i": { "image": "yarn" },
 		".yarnrc": { "image": "yarn" },
-		".zig": { "image": "zig" }
+		".zig": { "image": "zig" },
+		"jenkinsfile": { "image": "jenkins" }
 	}
 }
