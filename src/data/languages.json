@@ -332,6 +332,7 @@
 		"/\\.prettier((rc)|(\\.(toml|yml|yaml|json|js))?$){2}/i": { "image": "prettier" },
 		"prettier.config.js": { "image": "prettier" },
 		"prisma.yml": { "image": "prisma" },
+		".prisma": { "image": "prisma" },
 		".pde": { "image": "processing" },
 		".jade": { "image": "pug" },
 		".pug": { "image": "pug" },
