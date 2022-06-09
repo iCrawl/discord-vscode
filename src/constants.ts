@@ -36,6 +36,7 @@ export const enum REPLACE_KEYS {
 	AppName = '{app_name}',
 	GitRepoName = '{git_repo_name}',
 	GitBranch = '{git_branch}',
+	Extension = '{ext_name}',
 }
 
 export const enum CONFIG_KEYS {
