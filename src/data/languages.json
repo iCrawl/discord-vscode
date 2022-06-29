@@ -330,6 +330,7 @@
 		".ps1xml": { "image": "powershell" },
 		".prettierignore": { "image": "prettier" },
 		"/\\.prettier((rc)|(\\.(toml|yml|yaml|json|js))?$){2}/i": { "image": "prettier" },
+		"prisma.schema": { "image": "prisma" },
 		"prettier.config.js": { "image": "prettier" },
 		"prisma.yml": { "image": "prisma" },
 		".pde": { "image": "processing" },
