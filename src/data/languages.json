@@ -9,6 +9,7 @@
 		{ "language": "cpp", "image": "cpp" },
 		{ "language": "csharp", "image": "csharp" },
 		{ "language": "css", "image": "css" },
+		{ "language": "cuda-cpp", "image": "cuda" },
 		{ "language": "diff", "image": "manifest" },
 		{ "language": "dockerfile", "image": "docker" },
 		{ "language": "fsharp", "image": "fsharp" },
