@@ -2,6 +2,7 @@
 	"KNOWN_LANGUAGES": [
 		{ "language": "abap", "image": "text" },
 		{ "language": "bat", "image": "bat" },
+		{ "language": "bazel", "image": "bazel" },
 		{ "language": "bibtex", "image": "text" },
 		{ "language": "clojure", "image": "clojure" },
 		{ "language": "coffeescript", "image": "coffeescript" },
@@ -101,6 +102,7 @@
 		".cmd": { "image": "bat" },
 		"/\\.(exe|com|msi)$/i": { "image": "bat" },
 		".reg": { "image": "bat" },
+		"/(^BUILD$)|(^WORKSPACE$)|(\\.bzl$)/gm": { "image": "bazel" },
 		"/^(\\.bowerrc|bower\\.json|Bowerfile)$/i": { "image": "bower" },
 		"/\\.bf?$/i": { "image": "brainfuck" },
 		"/\\.c$/i": { "image": "c" },
