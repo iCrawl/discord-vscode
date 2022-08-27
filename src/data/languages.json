@@ -450,6 +450,7 @@
 		"/\\.ya?ml$/i": { "image": "yaml" },
 		"/^yarn(\\.lock)?$/i": { "image": "yarn" },
 		".yarnrc": { "image": "yarn" },
-		".zig": { "image": "zig" }
+		".zig": { "image": "zig" },
+		".csv": { "image": "csv" }
 	}
 }
