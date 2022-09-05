@@ -1,22 +1,42 @@
 {
+	// Mapped from https://www.typescriptlang.org/tsconfig
 	"compilerOptions": {
+		// Type Checking
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"exactOptionalPropertyTypes": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
 		"strict": true,
+		"useUnknownInCatchVariables": true,
+
+		// Modules
+		"module": "CommonJS",
 		"moduleResolution": "node",
-		"declaration": false,
-		"removeComments": false,
-		"alwaysStrict": true,
-		"pretty": true,
-		"target": "ES2019",
-		"module": "commonjs",
-		"lib": ["ESNext"],
-		"outDir": "dist",
-		"sourceMap": true,
-		"inlineSources": true,
-		"incremental": true,
-		"noEmitHelpers": true,
+		"resolveJsonModule": true,
+
+		// Emit
+		"declaration": true,
 		"importHelpers": true,
-		"skipLibCheck": true,
+		"importsNotUsedAsValues": "error",
+		"inlineSources": true,
+		"newLine": "lf",
+		"noEmitHelpers": true,
+		"outDir": "dist",
+		"preserveConstEnums": true,
+		"removeComments": false,
+		"sourceMap": true,
 		"esModuleInterop": true,
-		"resolveJsonModule": true
+		"forceConsistentCasingInFileNames": true,
+
+		// Language and Environment
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"lib": ["ESNext"],
+		"target": "ES2021",
+		"useDefineForClassFields": true
 	}
 }

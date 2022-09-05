@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+
 const { Client } = require('discord-rpc'); // eslint-disable-line
 import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace, debug } from 'vscode';
 import throttle from 'lodash-es/throttle';
@@ -10,14 +12,16 @@ import { getConfig, getGit } from './util';
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
+// eslint-disable-next-line
 let rpc = new Client({ transport: 'ipc' });
 const config = getConfig();
 
 let state = {};
 let idle: NodeJS.Timeout | undefined;
-let listeners: { dispose(): any }[] = [];
+let listeners: { dispose: () => any }[] = [];
 
 export function cleanUp() {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 	listeners.forEach((listener) => listener.dispose());
 	listeners = [];
 }
@@ -49,9 +53,9 @@ async function login() {
 		listeners.push(onChangeActiveTextEditor, onChangeTextDocument, onStartDebugSession, onTerminateDebugSession);
 	});
 
-	rpc.on('disconnected', async () => {
+	rpc.on('disconnected', () => {
 		cleanUp();
-		await rpc.destroy();
+		rpc.destroy();
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
 		statusBarIcon.command = 'discord.reconnect';
 	});
@@ -61,9 +65,9 @@ async function login() {
 	} catch (error) {
 		log(LogLevel.Error, `Encountered following error while trying to login:\n${error as string}`);
 		cleanUp();
-		await rpc.destroy();
+		rpc.destroy();
 		if (!config[CONFIG_KEYS.SuppressNotifications]) {
-			// @ts-ignore
+			// @ts-expect-error
 			if (error?.message?.includes('ENOENT')) void window.showErrorMessage('No Discord client detected');
 			else void window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error as string}`);
 		}
