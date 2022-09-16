@@ -48,6 +48,9 @@
 
 **Linux:** Discord versions installed using `flatpak` or `snap` need modifications in order to support IPC. In order to avoid this (and as Discord itself suggests) you should download it from [discord.com](https://discord.com/download)
 
+Easy fix for flathub:
+https://github.com/flathub/com.discordapp.Discord/wiki/Rich-Precense-(discord-rpc)
+
 References:  
 https://github.com/flathub/com.discordapp.Discord/issues/29  
 https://github.com/iCrawl/discord-vscode/issues/77#issuecomment-435622205  
