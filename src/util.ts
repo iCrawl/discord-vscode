@@ -9,6 +9,7 @@ let git: API | null | undefined;
 
 type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	enabled: boolean;
+	viewRemoteRepository: string;
 	detailsIdling: string;
 	detailsEditing: string;
 	detailsDebugging: string;
