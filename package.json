@@ -183,7 +183,7 @@
 		"theme": "dark"
 	},
 	"dependencies": {
-		"bufferutil": "^4.0.6",
+		"bufferutil": "^4.0.7",
 		"dayjs": "^1.11.3",
 		"discord-rpc": "^4.0.1",
 		"lodash-es": "^4.17.21",
