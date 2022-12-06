@@ -184,7 +184,7 @@
 	},
 	"dependencies": {
 		"bufferutil": "^4.0.6",
-		"dayjs": "^1.11.3",
+		"dayjs": "^1.11.7",
 		"discord-rpc": "^4.0.1",
 		"lodash-es": "^4.17.21",
 		"tslib": "^2.4.0",
