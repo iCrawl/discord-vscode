@@ -1,6 +1,7 @@
 {
 	"KNOWN_LANGUAGES": [
 		{ "language": "abap", "image": "text" },
+		{ "language": "astro", "image": "astro" },
 		{ "language": "bat", "image": "bat" },
 		{ "language": "bibtex", "image": "text" },
 		{ "language": "clojure", "image": "clojure" },
@@ -81,6 +82,7 @@
 		".ashx": { "image": "asp" },
 		".asmx": { "image": "asp" },
 		".aspx": { "image": "asp" },
+		".astro": { "image": "astro" },
 		".axd": { "image": "asp" },
 		"/\\.(l?a|[ls]?o|out|s|a51|asm|axf|elf|prx|puff|z80)$/i": { "image": "assembly" },
 		".agc": { "image": "assembly" },
