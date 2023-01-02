@@ -199,7 +199,7 @@
 		"clean-webpack-plugin": "^4.0.0",
 		"eslint": "^8.17.0",
 		"eslint-config-marine": "^9.4.1",
-		"eslint-config-prettier": "^8.5.0",
+		"eslint-config-prettier": "^8.6.0",
 		"prettier": "^2.6.2",
 		"terser-webpack-plugin": "^5.3.3",
 		"ts-loader": "^9.3.0",
