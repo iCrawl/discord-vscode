@@ -39,7 +39,7 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 	let raw = _raw.slice();
 
 	if (raw.includes(REPLACE_KEYS.TotalLines)) {
-		raw = raw.replace(REPLACE_KEYS.TotalLines, document.lineCount.toLocaleString());
+		raw = raw.replace(REPLACE_KEYS.TotalLines, (document.lineCount).toLocaleString());
 	}
 
 	if (raw.includes(REPLACE_KEYS.CurrentLine)) {
