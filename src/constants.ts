@@ -58,4 +58,7 @@ export const enum CONFIG_KEYS {
 	RemoveTimestamp = 'removeTimestamp',
 	RemoveRemoteRepository = 'removeRemoteRepository',
 	IdleTimeout = 'idleTimeout',
+	GitHubButtonURL = 'gitHubButtonURL',
+	GitHubButton = 'gitHubButton',
+	RemoveGitHubButton = 'removeGitHubButton',
 }

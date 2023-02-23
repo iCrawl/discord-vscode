@@ -27,6 +27,9 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	removeTimestamp: boolean;
 	removeRemoteRepository: boolean;
 	idleTimeout: number;
+	gitHubButtonURL: string;
+	gitHubButton: string;
+	removeGitHubButton: boolean;
 };
 
 export function getConfig() {

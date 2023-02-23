@@ -1,7 +1,7 @@
 {
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "5.8.0",
+	"version": "5.8.1",
 	"description": "Update your discord status with a rich presence.",
 	"private": true,
 	"author": {
@@ -153,6 +153,21 @@
 						"type": "number",
 						"default": 0,
 						"description": "Time (in seconds) to clear the presence when idling. 0 (the default) means no clearing"
+					},
+					"discord.gitHubButtonURL": {
+						"type": "string",
+						"default": "https://github.com/",
+						"description": "Custom string URL for the github button"
+					},
+					"discord.gitHubButton": {
+						"type": "string",
+						"default": "GitHub",
+						"description": "Custom string for the github button name"
+					},
+					"discord.removeGitHubButton": {
+						"type": "boolean",
+						"default": false,
+						"description": "Adds a button to the rich presence that opens your github"
 					}
 				}
 			}
@@ -186,6 +201,7 @@
 		"bufferutil": "^4.0.6",
 		"dayjs": "^1.11.3",
 		"discord-rpc": "^4.0.1",
+		"generator-code": "^1.7.3",
 		"lodash-es": "^4.17.21",
 		"tslib": "^2.4.0",
 		"utf-8-validate": "^5.0.9"

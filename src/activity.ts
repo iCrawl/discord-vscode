@@ -171,6 +171,9 @@ export async function activity(previous: ActivityPayload = {}) {
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
 	const removeLowerDetails = config[CONFIG_KEYS.RemoveLowerDetails];
 	const removeRemoteRepository = config[CONFIG_KEYS.RemoveRemoteRepository];
+	const gitHubButtonURL = config[CONFIG_KEYS.GitHubButtonURL];
+	const gitHubButton = config[CONFIG_KEYS.GitHubButton];
+	const removeGitHubButton = config[CONFIG_KEYS.RemoveGitHubButton];
 
 	const git = await getGit();
 
@@ -211,6 +214,15 @@ export async function activity(previous: ActivityPayload = {}) {
 			};
 		}
 	}
+
+// enable or disable GitHub button
+	if(!removeGitHubButton){
+		state = {
+			...state,
+			buttons: [{ label: gitHubButton, url: gitHubButtonURL }],
+		};
+	}
+
 
 	if (window.activeTextEditor) {
 		const largeImageKey = resolveFileIcon(window.activeTextEditor.document);
