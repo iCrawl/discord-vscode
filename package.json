@@ -1,13 +1,10 @@
 {
-	"name": "cats-discord-vscode",
-	"displayName": "Cats Discord Presence",
-	"version": "5.8.0",
+	"name": "discord-vscode",
+	"displayName": "Discord Presence",
+	"version": "5.8.1",
 	"description": "Update your discord status with a rich presence.",
 	"private": true,
 	"author": {
-		"name": "Cats"
-	},
-	"originalAuthor": {
 		"name": "iCrawl",
 		"email": "icrawltogo@gmail.com"
 	},
