@@ -1,6 +1,7 @@
 {
 	"KNOWN_LANGUAGES": [
 		{ "language": "abap", "image": "text" },
+		{ "language": "astro", "image": "astro" },
 		{ "language": "bat", "image": "bat" },
 		{ "language": "bibtex", "image": "text" },
 		{ "language": "clojure", "image": "clojure" },
@@ -94,6 +95,7 @@
 		".swp": { "image": "assembly" },
 		".DS_Store": { "image": "assembly" },
 		".au3": { "image": "autoit" },
+		"astro": { "image": "astro" },
 		"babel.config.js": { "image": "babel" },
 		"/\\.babelrc/i": { "image": "babel" },
 		".bat": { "image": "bat" },
