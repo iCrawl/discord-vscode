@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 
-const { Client } = require('discord-rpc'); // eslint-disable-line
+import { Client } from 'discord-rpc';
 import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace, debug } from 'vscode';
 import throttle from 'lodash-es/throttle';
 
 import { activity } from './activity';
-import { CLIENT_ID, CONFIG_KEYS } from './constants';
-import { log, LogLevel } from './logger';
+import { log } from './logger';
 import { getConfig, getGit } from './util';
+import { LogLevel } from './constants/logLevel.constant';
+import { CONFIG_KEYS } from './constants/keys.constant';
+import { CLIENT_ID } from './constants/client.constant';
+import type { ActivityPayload } from './interfaces/activityPayload.interface';
+import { CommandsId } from './constants/commands.constant';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
@@ -27,10 +31,11 @@ export function cleanUp() {
 }
 
 async function sendActivity() {
+	const activityPayload: ActivityPayload = await activity(state);
 	state = {
-		...(await activity(state)),
+		...activityPayload,
 	};
-	rpc.setActivity(state);
+	await rpc.setActivity(state);
 }
 
 async function login() {
@@ -57,22 +62,21 @@ async function login() {
 		cleanUp();
 		rpc.destroy();
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
-		statusBarIcon.command = 'discord.reconnect';
+		statusBarIcon.command = CommandsId.Reconnect;
 	});
-
 	try {
 		await rpc.login({ clientId: CLIENT_ID });
 	} catch (error) {
 		log(LogLevel.Error, `Encountered following error while trying to login:\n${error as string}`);
 		cleanUp();
-		rpc.destroy();
+		await rpc.destroy();
 		if (!config[CONFIG_KEYS.SuppressNotifications]) {
 			// @ts-expect-error
 			if (error?.message?.includes('ENOENT')) void window.showErrorMessage('No Discord client detected');
 			else void window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error as string}`);
 		}
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
-		statusBarIcon.command = 'discord.reconnect';
+		statusBarIcon.command = CommandsId.Reconnect;
 	}
 }
 
@@ -117,18 +121,18 @@ export async function activate(context: ExtensionContext) {
 		statusBarIcon.hide();
 	};
 
-	const enabler = commands.registerCommand('discord.enable', async () => {
+	const enabler = commands.registerCommand(CommandsId.Enable, async () => {
 		await disable();
 		await enable();
 		await window.showInformationMessage('Enabled Discord Presence for this workspace');
 	});
 
-	const disabler = commands.registerCommand('discord.disable', async () => {
+	const disabler = commands.registerCommand(CommandsId.Disable, async () => {
 		await disable();
 		await window.showInformationMessage('Disabled Discord Presence for this workspace');
 	});
 
-	const reconnecter = commands.registerCommand('discord.reconnect', async () => {
+	const reconnecter = commands.registerCommand(CommandsId.Reconnect, async () => {
 		await disable(false);
 		await enable(false);
 	});
@@ -136,7 +140,7 @@ export async function activate(context: ExtensionContext) {
 	const disconnect = commands.registerCommand('discord.disconnect', async () => {
 		await disable(false);
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
-		statusBarIcon.command = 'discord.reconnect';
+		statusBarIcon.command = CommandsId.Reconnect;
 		statusBarIcon.show();
 	});
 

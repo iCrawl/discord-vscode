@@ -1,39 +1,21 @@
 import { basename, parse, sep } from 'path';
 import { debug, env, Selection, TextDocument, window, workspace } from 'vscode';
 
+import { log } from './logger';
+import { getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
+import type { ActivityPayload } from './interfaces/activityPayload.interface';
+import { LogLevel } from './constants/logLevel.constant';
 import {
 	CONFIG_KEYS,
 	DEBUG_IMAGE_KEY,
-	EMPTY,
-	FAKE_EMPTY,
-	FILE_SIZES,
 	IDLE_IMAGE_KEY,
 	REPLACE_KEYS,
-	UNKNOWN_GIT_BRANCH,
-	UNKNOWN_GIT_REPO_NAME,
 	VSCODE_IMAGE_KEY,
 	VSCODE_INSIDERS_IMAGE_KEY,
-} from './constants';
-import { log, LogLevel } from './logger';
-import { getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
-
-interface ActivityPayload {
-	details?: string | undefined;
-	state?: string | undefined;
-	startTimestamp?: number | null | undefined;
-	largeImageKey?: string | undefined;
-	largeImageText?: string | undefined;
-	smallImageKey?: string | undefined;
-	smallImageText?: string | undefined;
-	partyId?: string | undefined;
-	partySize?: number | undefined;
-	partyMax?: number | undefined;
-	matchSecret?: string | undefined;
-	joinSecret?: string | undefined;
-	spectateSecret?: string | undefined;
-	buttons?: { label: string; url: string }[] | undefined;
-	instance?: boolean | undefined;
-}
+} from './constants/keys.constant';
+import { FILE_SIZES } from './constants/sizes.constant';
+import { UNKNOWN_GIT_BRANCH, UNKNOWN_GIT_REPO_NAME } from './constants/git.constant';
+import { EMPTY, FAKE_EMPTY } from './constants/empty.constant';
 
 async function fileDetails(_raw: string, document: TextDocument, selection: Selection) {
 	let raw = _raw.slice();

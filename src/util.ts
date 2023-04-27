@@ -1,13 +1,14 @@
 import { basename } from 'path';
 import { TextDocument, workspace, extensions, WorkspaceConfiguration } from 'vscode';
 
-import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
 import type { API, GitExtension } from './git';
-import { log, LogLevel } from './logger';
+import { log } from './logger';
+import { LogLevel } from './constants/logLevel.constant';
+import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants/languages.constant';
 
 let git: API | null | undefined;
 
-type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
+export type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	enabled: boolean;
 	detailsIdling: string;
 	detailsEditing: string;
@@ -29,7 +30,7 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	idleTimeout: number;
 };
 
-export function getConfig() {
+export function getConfig(): WorkspaceExtensionConfiguration {
 	return workspace.getConfiguration('discord') as WorkspaceExtensionConfiguration;
 }
 
