@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 
-const { Client } = require('discord-rpc'); // eslint-disable-line
+import { Client } from 'discord-rpc'
 import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace, debug } from 'vscode';
 import throttle from 'lodash-es/throttle';
 
@@ -59,7 +59,6 @@ async function login() {
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
 		statusBarIcon.command = 'discord.reconnect';
 	});
-
 	try {
 		await rpc.login({ clientId: CLIENT_ID });
 	} catch (error) {
@@ -94,7 +93,7 @@ export async function activate(context: ExtensionContext) {
 		if (update) {
 			try {
 				await config.update('enabled', true);
-			} catch {}
+			} catch { }
 		}
 		log(LogLevel.Info, 'Enable: Cleaning up old listeners');
 		cleanUp();
@@ -108,7 +107,7 @@ export async function activate(context: ExtensionContext) {
 		if (update) {
 			try {
 				await config.update('enabled', false);
-			} catch {}
+			} catch { }
 		}
 		log(LogLevel.Info, 'Disable: Cleaning up old listeners');
 		cleanUp();
