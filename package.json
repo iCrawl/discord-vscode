@@ -20,7 +20,8 @@
 	"scripts": {
 		"build": "npm run lint && webpack --mode production",
 		"lint": "prettier --check . && eslint src --ext mjs,js,ts",
-		"format": "prettier --write . && eslint src --ext mjs,js,ts --fix"
+		"format": "prettier --write . && eslint src --ext mjs,js,ts --fix",
+		"watch": "webpack --watch"
 	},
 	"activationEvents": [
 		"*"

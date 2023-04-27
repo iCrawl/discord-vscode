@@ -20,3 +20,4 @@ pids
 !.vscode/launch.json
 
 .vscode/setting.json
+.idea

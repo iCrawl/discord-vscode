@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 
-import { Client } from 'discord-rpc'
+import { Client } from 'discord-rpc';
 import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace, debug } from 'vscode';
 import throttle from 'lodash-es/throttle';
 
 import { activity } from './activity';
-import { CLIENT_ID, CONFIG_KEYS } from './constants';
-import { log, LogLevel } from './logger';
+import { log } from './logger';
 import { getConfig, getGit } from './util';
+import { LogLevel } from './constants/logLevel.constant';
+import { CONFIG_KEYS } from './constants/keys.constant';
+import { CLIENT_ID } from './constants/client.constant';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
@@ -64,7 +66,7 @@ async function login() {
 	} catch (error) {
 		log(LogLevel.Error, `Encountered following error while trying to login:\n${error as string}`);
 		cleanUp();
-		rpc.destroy();
+		await rpc.destroy();
 		if (!config[CONFIG_KEYS.SuppressNotifications]) {
 			// @ts-expect-error
 			if (error?.message?.includes('ENOENT')) void window.showErrorMessage('No Discord client detected');
