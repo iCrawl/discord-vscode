@@ -10,6 +10,8 @@ import { getConfig, getGit } from './util';
 import { LogLevel } from './constants/logLevel.constant';
 import { CONFIG_KEYS } from './constants/keys.constant';
 import { CLIENT_ID } from './constants/client.constant';
+import type { ActivityPayload } from './interfaces/activityPayload.interface';
+import { CommandsId } from './constants/commands.constant';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
@@ -29,10 +31,11 @@ export function cleanUp() {
 }
 
 async function sendActivity() {
+	const activityPayload: ActivityPayload = await activity(state);
 	state = {
-		...(await activity(state)),
+		...activityPayload,
 	};
-	rpc.setActivity(state);
+	await rpc.setActivity(state);
 }
 
 async function login() {
@@ -59,7 +62,7 @@ async function login() {
 		cleanUp();
 		rpc.destroy();
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
-		statusBarIcon.command = 'discord.reconnect';
+		statusBarIcon.command = CommandsId.Reconnect;
 	});
 	try {
 		await rpc.login({ clientId: CLIENT_ID });
@@ -73,7 +76,7 @@ async function login() {
 			else void window.showErrorMessage(`Couldn't connect to Discord via RPC: ${error as string}`);
 		}
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
-		statusBarIcon.command = 'discord.reconnect';
+		statusBarIcon.command = CommandsId.Reconnect;
 	}
 }
 
@@ -95,7 +98,7 @@ export async function activate(context: ExtensionContext) {
 		if (update) {
 			try {
 				await config.update('enabled', true);
-			} catch { }
+			} catch {}
 		}
 		log(LogLevel.Info, 'Enable: Cleaning up old listeners');
 		cleanUp();
@@ -109,7 +112,7 @@ export async function activate(context: ExtensionContext) {
 		if (update) {
 			try {
 				await config.update('enabled', false);
-			} catch { }
+			} catch {}
 		}
 		log(LogLevel.Info, 'Disable: Cleaning up old listeners');
 		cleanUp();
@@ -118,18 +121,18 @@ export async function activate(context: ExtensionContext) {
 		statusBarIcon.hide();
 	};
 
-	const enabler = commands.registerCommand('discord.enable', async () => {
+	const enabler = commands.registerCommand(CommandsId.Enable, async () => {
 		await disable();
 		await enable();
 		await window.showInformationMessage('Enabled Discord Presence for this workspace');
 	});
 
-	const disabler = commands.registerCommand('discord.disable', async () => {
+	const disabler = commands.registerCommand(CommandsId.Disable, async () => {
 		await disable();
 		await window.showInformationMessage('Disabled Discord Presence for this workspace');
 	});
 
-	const reconnecter = commands.registerCommand('discord.reconnect', async () => {
+	const reconnecter = commands.registerCommand(CommandsId.Reconnect, async () => {
 		await disable(false);
 		await enable(false);
 	});
@@ -137,7 +140,7 @@ export async function activate(context: ExtensionContext) {
 	const disconnect = commands.registerCommand('discord.disconnect', async () => {
 		await disable(false);
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
-		statusBarIcon.command = 'discord.reconnect';
+		statusBarIcon.command = CommandsId.Reconnect;
 		statusBarIcon.show();
 	});
 
