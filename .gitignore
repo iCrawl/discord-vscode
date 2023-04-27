@@ -18,3 +18,5 @@ pids
 # Miscellaneous
 .tmp/
 !.vscode/launch.json
+
+.vscode/setting.json
