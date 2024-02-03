@@ -29,6 +29,8 @@ export const enum REPLACE_KEYS {
 	LanguageLowerCase = '{lang}',
 	LanguageTitleCase = '{Lang}',
 	LanguageUpperCase = '{LANG}',
+	ExtensionLowerCase = '{file_extension}',
+	ExtensionUpperCase = '{FILE_EXTENSION}',
 	TotalLines = '{total_lines}',
 	CurrentLine = '{current_line}',
 	CurrentColumn = '{current_column}',
