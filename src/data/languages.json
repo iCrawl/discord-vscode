@@ -122,9 +122,7 @@
 		".coffee": { "image": "coffeescript" },
 		".cjsx": { "image": "coffeescript" },
 		".coffee.ecr": { "image": "coffeescript" },
-		"/contenthook\\.config\\.(ts|cjs|mjs|js)$/i": {
-            "image": "contenthook"
-        },
+		"/contenthook\\.config\\.(ts|cjs|mjs|js)$/i": { "image": "contenthook" },
 		".coffee.erb": { "image": "coffeescript" },
 		".litcoffee": { "image": "coffeescript" },
 		".iced": { "image": "coffeescript" },
