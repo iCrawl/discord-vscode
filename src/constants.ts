@@ -20,6 +20,7 @@ export const UNKNOWN_GIT_REPO_NAME = 'Unknown' as const;
 export const enum REPLACE_KEYS {
 	Empty = '{empty}',
 	FileName = '{file_name}',
+	FileNameNoExt = '{file_name_no_ext}',
 	DirName = '{dir_name}',
 	FullDirName = '{full_dir_name}',
 	Workspace = '{workspace}',
