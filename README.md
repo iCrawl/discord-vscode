@@ -2,7 +2,7 @@
 
 > Update your discord status with a rich presence.
 
-<div align="center">
+<div align="center"> 
 	<p>
 		<a href="https://marketplace.visualstudio.com/items?itemName=icrawl.discord-vscode">
 			<img alt="Visual Studio Marketplace Version" src="https://img.shields.io/visual-studio-marketplace/v/icrawl.discord-vscode?label=Visual%20Studio%20Marketplace">
