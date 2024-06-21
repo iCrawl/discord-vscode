@@ -165,7 +165,6 @@
 						"default": true,
 						"description": "Clears the presence when the editor loses focus"
 					}
-					
 				}
 			}
 		]

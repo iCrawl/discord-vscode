@@ -58,6 +58,6 @@ export const enum CONFIG_KEYS {
 	RemoveTimestamp = 'removeTimestamp',
 	RemoveRemoteRepository = 'removeRemoteRepository',
 	IdleTimeout = 'idleTimeout',
-	clearOnIdleWhenInFocus = "clearOnIdleWhenInFocus",
-	clearOnLoseFocus = "clearOnLoseFocus",
+	clearOnIdleWhenInFocus = 'clearOnIdleWhenInFocus',
+	clearOnLoseFocus = 'clearOnLoseFocus',
 }
