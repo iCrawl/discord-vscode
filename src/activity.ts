@@ -249,8 +249,6 @@ export async function activity(previous: ActivityPayload = {}) {
 		}
 
 		log(LogLevel.Trace, `VSCode language id: ${window.activeTextEditor.document.languageId}`);
-	} else {
-		state = {};
 	}
 
 	return state;
