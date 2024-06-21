@@ -19,6 +19,7 @@
 	"main": "./dist/extension",
 	"scripts": {
 		"build": "npm run lint && webpack --mode production",
+		"watch": "webpack --mode development --watch",
 		"lint": "prettier --check . && eslint src --ext mjs,js,ts",
 		"format": "prettier --write . && eslint src --ext mjs,js,ts --fix"
 	},
@@ -153,7 +154,18 @@
 						"type": "number",
 						"default": 0,
 						"description": "Time (in seconds) to clear the presence when idling. 0 (the default) means no clearing"
+					},
+					"discord.clearOnIdleWhenInFocus": {
+						"type": "boolean",
+						"default": true,
+						"description": "Clears the presence even when the editor is in focus when idling"
+					},
+					"discord.clearOnLoseFocus": {
+						"type": "boolean",
+						"default": true,
+						"description": "Clears the presence when the editor loses focus"
 					}
+					
 				}
 			}
 		]
@@ -200,6 +212,7 @@
 		"eslint": "^8.17.0",
 		"eslint-config-marine": "^9.4.1",
 		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.29.1",
 		"prettier": "^2.6.2",
 		"terser-webpack-plugin": "^5.3.3",
 		"ts-loader": "^9.3.0",

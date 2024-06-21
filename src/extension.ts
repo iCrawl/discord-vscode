@@ -26,11 +26,17 @@ export function cleanUp() {
 	listeners = [];
 }
 
+async function clearActivity() {
+	state = {};
+	await rpc.clearActivity();
+}
+
 async function sendActivity() {
 	state = {
 		...(await activity(state)),
 	};
-	rpc.setActivity(state);
+	if (Object.keys(state).length === 0) rpc.clearActivity();
+	else rpc.setActivity(state);
 }
 
 async function login() {
@@ -110,6 +116,8 @@ export async function activate(context: ExtensionContext) {
 				await config.update('enabled', false);
 			} catch {}
 		}
+		state = {};
+		await rpc.clearActivity();
 		log(LogLevel.Info, 'Disable: Cleaning up old listeners');
 		cleanUp();
 		void rpc?.destroy();
@@ -147,7 +155,29 @@ export async function activate(context: ExtensionContext) {
 		await login();
 	}
 
+	// if the window config[CONFIG_KEYS.clearOnIdleWhenInFocus] is set to true, clear the activity when the window is focused
 	window.onDidChangeWindowState(async (windowState) => {
+		console.log(windowState.focused);
+		if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
+			if (windowState.focused && !config[CONFIG_KEYS.clearOnIdleWhenInFocus]) {
+				await clearActivity();
+			} else if (windowState.focused) {
+				if (idle) {
+					clearTimeout(idle);
+				}
+
+				await sendActivity();
+			} else if (config[CONFIG_KEYS.clearOnLoseFocus]) {
+				await clearActivity();
+			} else {
+				// eslint-disable-next-line @typescript-eslint/no-misused-promises, no-lonely-if
+				idle = setTimeout(async () => {
+					await clearActivity();
+				}, config[CONFIG_KEYS.IdleTimeout] * 1000);
+			}
+		}
+	});
+	/* window.onDidChangeWindowState(async (windowState) => {
 		if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
 			if (windowState.focused) {
 				if (idle) {
@@ -158,12 +188,11 @@ export async function activate(context: ExtensionContext) {
 			} else {
 				// eslint-disable-next-line @typescript-eslint/no-misused-promises
 				idle = setTimeout(async () => {
-					state = {};
-					await rpc.clearActivity();
+					await clearActivity();
 				}, config[CONFIG_KEYS.IdleTimeout] * 1000);
 			}
 		}
-	});
+	});*/
 
 	await getGit();
 }
