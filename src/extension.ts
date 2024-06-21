@@ -155,7 +155,6 @@ export async function activate(context: ExtensionContext) {
 		await login();
 	}
 
-	// if the window config[CONFIG_KEYS.clearOnIdleWhenInFocus] is set to true, clear the activity when the window is focused
 	window.onDidChangeWindowState(async (windowState) => {
 		if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
 			if (windowState.focused && !config[CONFIG_KEYS.clearOnIdleWhenInFocus]) {
@@ -176,22 +175,6 @@ export async function activate(context: ExtensionContext) {
 			}
 		}
 	});
-	/* window.onDidChangeWindowState(async (windowState) => {
-		if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
-			if (windowState.focused) {
-				if (idle) {
-					clearTimeout(idle);
-				}
-
-				await sendActivity();
-			} else {
-				// eslint-disable-next-line @typescript-eslint/no-misused-promises
-				idle = setTimeout(async () => {
-					await clearActivity();
-				}, config[CONFIG_KEYS.IdleTimeout] * 1000);
-			}
-		}
-	});*/
 
 	await getGit();
 }
