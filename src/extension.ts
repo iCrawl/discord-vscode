@@ -54,7 +54,6 @@ function delayClearActivity() {
 	}, timeout);
 }
 
-
 async function handleIdle(isFocused = true) {
 	if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
 		if (isFocused && !config[CONFIG_KEYS.clearOnIdleWhenInFocus]) {
@@ -76,7 +75,6 @@ async function handleIdleAndSendActivity() {
 	} else {
 		await clearActivity();
 	}
-	
 }
 async function login() {
 	log(LogLevel.Info, 'Creating discord-rpc client');
@@ -93,16 +91,20 @@ async function login() {
 		const onChangeTextDocument = workspace.onDidChangeTextDocument(throttle(() => sendActivity(), inputPollingRate));
 		const onStartDebugSession = debug.onDidStartDebugSession(() => sendActivity());
 		const onTerminateDebugSession = debug.onDidTerminateDebugSession(() => sendActivity());
-		const onDidChangeTextEditorSelection = window.onDidChangeTextEditorSelection(throttle(handleIdleAndSendActivity, inputPollingRate));
-		
-		const onDidChangeTextEditorVisibleRanges = window.onDidChangeTextEditorVisibleRanges(throttle(handleIdleAndSendActivity, inputPollingRate));
+		const onDidChangeTextEditorSelection = window.onDidChangeTextEditorSelection(
+			throttle(handleIdleAndSendActivity, inputPollingRate),
+		);
+
+		const onDidChangeTextEditorVisibleRanges = window.onDidChangeTextEditorVisibleRanges(
+			throttle(handleIdleAndSendActivity, inputPollingRate),
+		);
 
 		listeners.push(
 			onChangeTextDocument,
 			onStartDebugSession,
 			onTerminateDebugSession,
 			onDidChangeTextEditorSelection,
-			onDidChangeTextEditorVisibleRanges
+			onDidChangeTextEditorVisibleRanges,
 		);
 	});
 
@@ -128,8 +130,6 @@ async function login() {
 		statusBarIcon.command = 'discord.reconnect';
 	}
 }
-
-
 
 export async function activate(context: ExtensionContext) {
 	log(LogLevel.Info, 'Discord Presence activated');
