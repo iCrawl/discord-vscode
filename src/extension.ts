@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 
 const { Client } = require('discord-rpc'); // eslint-disable-line
-import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace, debug } from 'vscode';
 import throttle from 'lodash-es/throttle';
+import { commands, ExtensionContext, StatusBarAlignment, StatusBarItem, window, workspace, debug } from 'vscode';
 
 import { activity } from './activity';
 import { CLIENT_ID, CONFIG_KEYS } from './constants';
@@ -16,6 +16,8 @@ statusBarIcon.text = '$(pulse) Connecting to Discord...';
 let rpc = new Client({ transport: 'ipc' });
 const config = getConfig();
 
+const inputPollingRate = 2000;
+
 let state = {};
 let idle: NodeJS.Timeout | undefined;
 let listeners: { dispose: () => any }[] = [];
@@ -26,13 +28,54 @@ export function cleanUp() {
 	listeners = [];
 }
 
+async function clearActivity() {
+	if (idle) {
+		clearTimeout(idle);
+	}
+	state = {};
+	await rpc.clearActivity();
+}
+
 async function sendActivity() {
 	state = {
 		...(await activity(state)),
 	};
-	rpc.setActivity(state);
+	await rpc.setActivity(state);
 }
 
+function delayClearActivity() {
+	const timeout = config[CONFIG_KEYS.IdleTimeout] * 1000;
+	if (idle) {
+		clearTimeout(idle);
+	}
+	// eslint-disable-next-line @typescript-eslint/no-misused-promises, no-lonely-if
+	idle = setTimeout(async () => {
+		await clearActivity();
+	}, timeout);
+}
+
+async function handleIdle(isFocused = true) {
+	if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
+		if (isFocused && !config[CONFIG_KEYS.clearOnIdleWhenInFocus]) {
+			// dont clear activity presence when in focus
+		} else if (isFocused) {
+			await sendActivity();
+			delayClearActivity();
+		} else if (config[CONFIG_KEYS.clearOnLoseFocus]) {
+			await clearActivity();
+		} else {
+			delayClearActivity();
+		}
+	}
+}
+async function handleIdleAndSendActivity() {
+	if (window.activeTextEditor) {
+		await handleIdle();
+		await sendActivity();
+	} else {
+		await clearActivity();
+	}
+}
 async function login() {
 	log(LogLevel.Info, 'Creating discord-rpc client');
 	rpc = new Client({ transport: 'ipc' });
@@ -45,12 +88,24 @@ async function login() {
 		statusBarIcon.tooltip = 'Connected to Discord';
 
 		void sendActivity();
-		const onChangeActiveTextEditor = window.onDidChangeActiveTextEditor(() => sendActivity());
-		const onChangeTextDocument = workspace.onDidChangeTextDocument(throttle(() => sendActivity(), 2000));
+		const onChangeTextDocument = workspace.onDidChangeTextDocument(throttle(() => sendActivity(), inputPollingRate));
 		const onStartDebugSession = debug.onDidStartDebugSession(() => sendActivity());
 		const onTerminateDebugSession = debug.onDidTerminateDebugSession(() => sendActivity());
+		const onDidChangeTextEditorSelection = window.onDidChangeTextEditorSelection(
+			throttle(handleIdleAndSendActivity, inputPollingRate),
+		);
 
-		listeners.push(onChangeActiveTextEditor, onChangeTextDocument, onStartDebugSession, onTerminateDebugSession);
+		const onDidChangeTextEditorVisibleRanges = window.onDidChangeTextEditorVisibleRanges(
+			throttle(handleIdleAndSendActivity, inputPollingRate),
+		);
+
+		listeners.push(
+			onChangeTextDocument,
+			onStartDebugSession,
+			onTerminateDebugSession,
+			onDidChangeTextEditorSelection,
+			onDidChangeTextEditorVisibleRanges,
+		);
 	});
 
 	rpc.on('disconnected', () => {
@@ -110,6 +165,8 @@ export async function activate(context: ExtensionContext) {
 				await config.update('enabled', false);
 			} catch {}
 		}
+		state = {};
+		await rpc.clearActivity();
 		log(LogLevel.Info, 'Disable: Cleaning up old listeners');
 		cleanUp();
 		void rpc?.destroy();
@@ -146,23 +203,16 @@ export async function activate(context: ExtensionContext) {
 		statusBarIcon.show();
 		await login();
 	}
+	window.onDidChangeActiveTextEditor(async () => {
+		await handleIdleAndSendActivity();
+	});
+
+	workspace.onDidChangeTextDocument(async () => {
+		await handleIdleAndSendActivity();
+	});
 
 	window.onDidChangeWindowState(async (windowState) => {
-		if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
-			if (windowState.focused) {
-				if (idle) {
-					clearTimeout(idle);
-				}
-
-				await sendActivity();
-			} else {
-				// eslint-disable-next-line @typescript-eslint/no-misused-promises
-				idle = setTimeout(async () => {
-					state = {};
-					await rpc.clearActivity();
-				}, config[CONFIG_KEYS.IdleTimeout] * 1000);
-			}
-		}
+		await handleIdle(windowState.focused);
 	});
 
 	await getGit();
