@@ -157,7 +157,6 @@ export async function activate(context: ExtensionContext) {
 
 	// if the window config[CONFIG_KEYS.clearOnIdleWhenInFocus] is set to true, clear the activity when the window is focused
 	window.onDidChangeWindowState(async (windowState) => {
-		console.log(windowState.focused);
 		if (config[CONFIG_KEYS.IdleTimeout] !== 0) {
 			if (windowState.focused && !config[CONFIG_KEYS.clearOnIdleWhenInFocus]) {
 				await clearActivity();
