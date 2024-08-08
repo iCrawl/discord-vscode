@@ -16,7 +16,7 @@ import {
 } from './constants';
 import { log, LogLevel } from './logger';
 import { getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
-
+//
 interface ActivityPayload {
 	details?: string | undefined;
 	state?: string | undefined;
