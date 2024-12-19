@@ -153,6 +153,11 @@
 						"type": "number",
 						"default": 0,
 						"description": "Time (in seconds) to clear the presence when idling. 0 (the default) means no clearing"
+					},
+					"discord.showPrivateRepositories": {
+						"type": "boolean",
+						"default": false,
+						"description": "Show repository links even for private repositories. Warning: This may expose private repository URLs in your Discord presence."
 					}
 				}
 			}
@@ -193,6 +198,7 @@
 	"devDependencies": {
 		"@types/lodash-es": "^4.17.6",
 		"@types/node": "^17.0.41",
+		"@types/node-fetch": "^2.6.12",
 		"@types/vscode": "^1.67.0",
 		"@typescript-eslint/eslint-plugin": "^5.27.1",
 		"@typescript-eslint/parser": "^5.27.1",
@@ -200,6 +206,7 @@
 		"eslint": "^8.17.0",
 		"eslint-config-marine": "^9.4.1",
 		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.31.0",
 		"prettier": "^2.6.2",
 		"terser-webpack-plugin": "^5.3.3",
 		"ts-loader": "^9.3.0",

@@ -1,4 +1,5 @@
 import { basename } from 'path';
+import fetch from 'node-fetch';
 import { TextDocument, workspace, extensions, WorkspaceConfiguration } from 'vscode';
 
 import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
@@ -6,6 +7,11 @@ import type { API, GitExtension } from './git';
 import { log, LogLevel } from './logger';
 
 let git: API | null | undefined;
+
+interface GitHubRepoResponse {
+	private: boolean;
+	message?: string;
+}
 
 type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	enabled: boolean;
@@ -27,6 +33,7 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	removeTimestamp: boolean;
 	removeRemoteRepository: boolean;
 	idleTimeout: number;
+	showPrivateRepositories: boolean;
 };
 
 export function getConfig() {
@@ -62,6 +69,71 @@ export function resolveFileIcon(document: TextDocument) {
 		: null;
 
 	return typeof fileIcon === 'string' ? fileIcon : fileIcon?.image ?? 'text';
+}
+
+// Helper function to get GitHub token if user has configured it
+async function getGitHubToken(): Promise<Record<string, string>> {
+	const token = await workspace.getConfiguration('github').get<string>('token');
+
+	return token ? { Authorization: `token ${token}` } : {};
+}
+
+/**
+ *
+ * @param repoUrl
+ *
+ * send a GET request to Githubs api to check if the repo is private.. to do that:
+ *
+ * extract owner name and repo name
+ * handle if SSH
+ * handle if HTTP
+ *
+ * use owner name and repo name in the request
+ *
+ * @returns Promise of boolean or null
+ */
+export async function checkRepoVisibility(repoUrl: string): Promise<boolean | null> {
+	try {
+		// export username from url
+		let owner;
+		let repo;
+
+		// handle SSH URLs (git@github.com:owner/repo.git)
+		if (repoUrl.startsWith('git@github.com')) {
+			[owner, repo] = repoUrl.split(':')[1].split('/');
+		} else if (repoUrl.includes('github.com')) {
+			const urlParts = new URL(repoUrl).pathname.split('/');
+			owner = urlParts[1];
+			repo = urlParts[2];
+		} else {
+			return null;
+		}
+
+		// clean up repo name to use it in request
+		repo = repo.replace('.git', '');
+
+		const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+			headers: {
+				Accept: 'application/vnd.github.v3+json',
+				// Use PAT if available
+				...(await getGitHubToken()),
+			},
+		});
+
+		const data = (await response.json()) as GitHubRepoResponse;
+
+		//  if not found , it is not available , so it's not visible
+		if (data.message === 'Not Found') {
+			return true;
+		}
+
+		return data.private;
+	} catch (error) {
+		// Log the error for debugging
+		log(LogLevel.Error, `Failed to check repository visibility: ${error as string}`);
+		// If we can't determine visibility, err on the side of caution
+		return true;
+	}
 }
 
 export async function getGit() {

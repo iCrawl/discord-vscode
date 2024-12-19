@@ -15,7 +15,7 @@ import {
 	VSCODE_INSIDERS_IMAGE_KEY,
 } from './constants';
 import { log, LogLevel } from './logger';
-import { getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
+import { checkRepoVisibility, getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
 
 interface ActivityPayload {
 	details?: string | undefined;
@@ -199,16 +199,25 @@ export async function activity(previous: ActivityPayload = {}) {
 		let repo = git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0]?.fetchUrl;
 
 		if (repo) {
-			if (repo.startsWith('git@') || repo.startsWith('ssh://')) {
-				repo = repo.replace('ssh://', '').replace(':', '/').replace('git@', 'https://').replace('.git', '');
-			} else {
-				repo = repo.replace(/(https:\/\/)([^@]*)@(.*?$)/, '$1$3').replace('.git', '');
-			}
+			const config = getConfig();
+			const isPrivate = await checkRepoVisibility(repo);
 
-			state = {
-				...state,
-				buttons: [{ label: 'View Repository', url: repo }],
-			};
+			// Show repository button if:
+			// 1. Repository is public (isPrivate === false)
+			// OR
+			// 2. User explicitly allows showing private repositories from the configuration on vscode
+			if (!isPrivate || config.showPrivateRepositories) {
+				if (repo.startsWith('git@') || repo.startsWith('ssh://')) {
+					repo = repo.replace('ssh://', '').replace(':', '/').replace('git@', 'https://').replace('.git', '');
+				} else {
+					repo = repo.replace(/(https:\/\/)([^@]*)@(.*?$)/, '$1$3').replace('.git', '');
+				}
+
+				state = {
+					...state,
+					buttons: [{ label: 'View Repository', url: repo }],
+				};
+			}
 		}
 	}
 
