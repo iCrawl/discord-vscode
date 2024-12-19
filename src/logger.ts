@@ -1,5 +1,5 @@
-import { window } from 'vscode';
 import dayjs from 'dayjs';
+import { window } from 'vscode';
 
 const outputChannel = window.createOutputChannel('Discord Presence');
 
