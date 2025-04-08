@@ -1,9 +1,23 @@
 {
+	"$schema": "https://json.schemastore.org/package.json",
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "5.8.0",
+	"version": "5.9.0",
 	"description": "Update your discord status with a rich presence.",
 	"private": true,
+	"publisher": "icrawl",
+	"scripts": {
+		"build:check": "tsc --noEmit",
+		"build": "pnpm run lint && node esbuild.js",
+		"dev": "node esbuild.js --watch",
+		"lint": "pnpm run build:check && prettier --check . && cross-env TIMING=1 eslint --format=pretty src ",
+		"format": "pnpm run build:check && prettier --write . && cross-env TIMING=1 eslint --fix --format=pretty src ",
+		"fmt": "pnpm run format",
+		"update": "pnpm --recursive update --interactive",
+		"update:latest": "pnpm --recursive update --interactive --latest"
+	},
+	"type": "module",
+	"main": "./dist/extension.cjs",
 	"author": {
 		"name": "iCrawl",
 		"email": "icrawltogo@gmail.com"
@@ -14,13 +28,58 @@
 			"email": "kingdgrizzle@gmail.com"
 		}
 	],
-	"publisher": "icrawl",
 	"license": "MIT",
-	"main": "./dist/extension",
-	"scripts": {
-		"build": "npm run lint && webpack --mode production",
-		"lint": "prettier --check . && eslint src --ext mjs,js,ts",
-		"format": "prettier --write . && eslint src --ext mjs,js,ts --fix"
+	"keywords": [
+		"discord",
+		"vscode",
+		"rich",
+		"presence",
+		"rich presence",
+		"rpc"
+	],
+	"categories": [
+		"Other"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/iCrawl/discord-vscode.git"
+	},
+	"bugs": {
+		"url": "https://github.com/iCrawl/discord-vscode/issues"
+	},
+	"homepage": "https://github.com/iCrawl/discord-vscode#readme",
+	"dependencies": {
+		"@xhayper/discord-rpc": "^1.2.1",
+		"dayjs": "^1.11.13",
+		"discord-rpc": "^4.0.1",
+		"lodash-es": "^4.17.21"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^19.8.0",
+		"@commitlint/config-angular": "^19.8.0",
+		"@types/lodash-es": "^4.17.12",
+		"@types/lodash.merge": "^4.6.9",
+		"@types/node": "^22.14.0",
+		"@types/vscode": "^1.96.2",
+		"@vscode/vsce": "^3.3.2",
+		"cross-env": "^7.0.3",
+		"esbuild": "^0.25.2",
+		"eslint": "^9.24.0",
+		"eslint-config-neon": "^0.2.7",
+		"eslint-formatter-pretty": "^6.0.1",
+		"eslint-import-resolver-typescript": "^4.3.2",
+		"husky": "^9.1.7",
+		"is-ci": "^4.1.0",
+		"lint-staged": "^15.5.0",
+		"lodash.merge": "^4.6.2",
+		"prettier": "^3.5.3",
+		"typescript": "^5.8.3",
+		"typescript-eslint": "^8.29.0"
+	},
+	"icon": "assets/icon.png",
+	"galleryBanner": {
+		"color": "#6477C1",
+		"theme": "dark"
 	},
 	"activationEvents": [
 		"*"
@@ -158,57 +217,7 @@
 			}
 		]
 	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/iCrawl/discord-vscode.git"
-	},
-	"bugs": {
-		"url": "https://github.com/iCrawl/discord-vscode/issues"
-	},
-	"keywords": [
-		"discord",
-		"vscode",
-		"rich",
-		"presence",
-		"rich presence",
-		"rpc"
-	],
-	"categories": [
-		"Other"
-	],
-	"homepage": "https://github.com/iCrawl/discord-vscode#readme",
-	"icon": "assets/icon.png",
-	"galleryBanner": {
-		"color": "#6477C1",
-		"theme": "dark"
-	},
-	"dependencies": {
-		"bufferutil": "^4.0.6",
-		"dayjs": "^1.11.3",
-		"discord-rpc": "^4.0.1",
-		"lodash-es": "^4.17.21",
-		"tslib": "^2.4.0",
-		"utf-8-validate": "^5.0.9"
-	},
-	"devDependencies": {
-		"@types/lodash-es": "^4.17.6",
-		"@types/node": "^17.0.41",
-		"@types/vscode": "^1.67.0",
-		"@typescript-eslint/eslint-plugin": "^5.27.1",
-		"@typescript-eslint/parser": "^5.27.1",
-		"clean-webpack-plugin": "^4.0.0",
-		"eslint": "^8.17.0",
-		"eslint-config-marine": "^9.4.1",
-		"eslint-config-prettier": "^8.5.0",
-		"prettier": "^2.6.2",
-		"terser-webpack-plugin": "^5.3.3",
-		"ts-loader": "^9.3.0",
-		"tsup": "^6.1.0",
-		"typescript": "^4.7.3",
-		"webpack": "^5.73.0",
-		"webpack-cli": "^4.9.2"
-	},
 	"engines": {
-		"vscode": "^1.63.1"
+		"vscode": "^1.96.2"
 	}
 }

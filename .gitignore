@@ -1,9 +1,5 @@
 # Packages
 node_modules
-**/node_modules
-
-# Build artifacts
-dist/
 
 # Log files
 logs
@@ -15,6 +11,44 @@ pids
 *.pid
 *.seed
 
+# Env
+.env
+
+# Dist
+dist
+
 # Miscellaneous
-.tmp/
-!.vscode/launch.json
+.tmp
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+.turbo
+tsconfig.tsbuildinfo
+coverage
+out
+package.tgz
+tsup.config.bundled*
+vitest.config.ts.timestamp*
+**/*.vsix
+
+# Deno
+deno.lock
+
+# Bun
+bun.lockb
+
+# yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Cache
+.prettiercache
+.eslintcache
+.vercel

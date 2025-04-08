@@ -1,8 +1,9 @@
-import { basename, parse, sep } from 'path';
-import { debug, env, Selection, TextDocument, window, workspace } from 'vscode';
-
+import { basename, parse, sep } from 'node:path';
+import type { Selection, TextDocument } from 'vscode';
+import { debug, env, window, workspace } from 'vscode';
 import {
 	CONFIG_KEYS,
+	CURSOR_IMAGE_KEY,
 	DEBUG_IMAGE_KEY,
 	EMPTY,
 	FAKE_EMPTY,
@@ -18,21 +19,22 @@ import { log, LogLevel } from './logger';
 import { getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
 
 interface ActivityPayload {
+	buttons?: { label: string; url: string }[] | undefined;
 	details?: string | undefined;
-	state?: string | undefined;
-	startTimestamp?: number | null | undefined;
+	instance?: boolean | undefined;
+	joinSecret?: string | undefined;
 	largeImageKey?: string | undefined;
 	largeImageText?: string | undefined;
+	matchSecret?: string | undefined;
+	partyId?: string | undefined;
+	partyMax?: number | undefined;
+	partySize?: number | undefined;
 	smallImageKey?: string | undefined;
 	smallImageText?: string | undefined;
-	partyId?: string | undefined;
-	partySize?: number | undefined;
-	partyMax?: number | undefined;
-	matchSecret?: string | undefined;
-	joinSecret?: string | undefined;
 	spectateSecret?: string | undefined;
-	buttons?: { label: string; url: string }[] | undefined;
-	instance?: boolean | undefined;
+	startTimestamp?: number | null | undefined;
+	state?: string | undefined;
+	type?: number | undefined;
 }
 
 async function fileDetails(_raw: string, document: TextDocument, selection: Selection) {
@@ -58,19 +60,20 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 		} catch {
 			size = document.getText().length;
 		}
+
 		const originalSize = size;
-		if (originalSize > 1000) {
-			size /= 1000;
+		if (originalSize > 1_000) {
+			size /= 1_000;
 			currentDivision++;
-			while (size > 1000) {
+			while (size > 1_000) {
 				currentDivision++;
-				size /= 1000;
+				size /= 1_000;
 			}
 		}
 
 		raw = raw.replace(
 			REPLACE_KEYS.FileSize,
-			`${originalSize > 1000 ? size.toFixed(2) : size}${FILE_SIZES[currentDivision]}`,
+			`${originalSize > 1_000 ? size.toFixed(2) : size}${FILE_SIZES[currentDivision]}`,
 		);
 	}
 
@@ -92,9 +95,9 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 			raw = raw.replace(
 				REPLACE_KEYS.GitRepoName,
 				git.repositories
-					.find((repo) => repo.ui.selected)
-					?.state.remotes[0].fetchUrl?.split('/')[1]
-					.replace('.git', '') ?? FAKE_EMPTY,
+					?.find((repo) => repo.ui.selected)
+					?.state.remotes[0]?.fetchUrl?.split('/')[1]
+					?.replace('.git', '') ?? FAKE_EMPTY,
 			);
 		} else {
 			raw = raw.replace(REPLACE_KEYS.GitRepoName, UNKNOWN_GIT_REPO_NAME);
@@ -142,9 +145,10 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 		} catch (error) {
 			log(LogLevel.Error, `Failed to generate file details: ${error as string}`);
 		}
+
 		raw = raw
 			.replace(REPLACE_KEYS.FileName, fileName)
-			.replace(REPLACE_KEYS.DirName, dirName)
+			.replace(REPLACE_KEYS.DirName, dirName as string)
 			.replace(REPLACE_KEYS.Workspace, workspaceName)
 			.replace(REPLACE_KEYS.WorkspaceFolder, workspaceFolderName)
 			.replace(REPLACE_KEYS.WorkspaceAndFolder, workspaceAndFolder)
@@ -163,9 +167,11 @@ export async function activity(previous: ActivityPayload = {}) {
 	const appName = env.appName;
 	const defaultSmallImageKey = debug.activeDebugSession
 		? DEBUG_IMAGE_KEY
-		: appName.includes('Insiders')
-		? VSCODE_INSIDERS_IMAGE_KEY
-		: VSCODE_IMAGE_KEY;
+		: appName.includes('Cursor')
+			? CURSOR_IMAGE_KEY
+			: appName.includes('Insiders')
+				? VSCODE_INSIDERS_IMAGE_KEY
+				: VSCODE_IMAGE_KEY;
 	const defaultSmallImageText = config[CONFIG_KEYS.SmallImage].replace(REPLACE_KEYS.AppName, appName);
 	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
@@ -175,10 +181,11 @@ export async function activity(previous: ActivityPayload = {}) {
 	const git = await getGit();
 
 	let state: ActivityPayload = {
+		type: 0,
 		details: removeDetails
 			? undefined
 			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
-		startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : previous.startTimestamp ?? Date.now(),
+		startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : (previous.startTimestamp ?? Date.now()),
 		largeImageKey: IDLE_IMAGE_KEY,
 		largeImageText: defaultLargeImageText,
 		smallImageKey: defaultSmallImageKey,
@@ -231,7 +238,7 @@ export async function activity(previous: ActivityPayload = {}) {
 						CONFIG_KEYS.LowerDetailsIdling,
 						CONFIG_KEYS.LowerDetailsEditing,
 						CONFIG_KEYS.LowerDetailsDebugging,
-				  ),
+					),
 		};
 
 		if (swapBigAndSmallImage) {

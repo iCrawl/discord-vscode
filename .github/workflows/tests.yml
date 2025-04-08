@@ -1,0 +1,31 @@
+name: Tests
+on:
+  push:
+  pull_request:
+concurrency:
+  # Group based on workflow name and PR if it exists, if no PR, let it run so carryforward flags work
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Node.js v22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        uses: ./.github/pnpmCache
+
+      - name: Build dependencies
+        run: pnpm run build
+
+      - name: ESLint (PR)
+        run: pnpm run lint

@@ -1,27 +1,19 @@
-# Packages
-node_modules
 **/node_modules
-
-# Build artifacts
-dist/**/*.map
-
-# Log files
-logs
-*.log
-npm-debug.log*
-
-# Runtime data
-pids
-*.pid
-*.seed
-
-# Miscellaneous
-.tmp/
-.github/
-.vscode/
-src/
+.github
+.vscode
+assets/icons
+src
+.commitlintrc.json
 .gitattributes
 .gitignore
+.lintstagedrc.json
+.prettierignore
+.prettierrc.json
+.vscodeignore
+**/*.vsix
+esbuild.js
+eslint.config.js
+pnpm-lock.yaml
+pnpm-workspace.yaml
+tsconfig.eslint.json
 tsconfig.json
-webpack.config.js
-package-lock.json

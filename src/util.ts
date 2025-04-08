@@ -1,32 +1,32 @@
-import { basename } from 'path';
-import { TextDocument, workspace, extensions, WorkspaceConfiguration } from 'vscode';
-
+import { basename } from 'node:path';
+import type { TextDocument, WorkspaceConfiguration } from 'vscode';
+import { workspace, extensions } from 'vscode';
+import type { API, GitExtension } from './@types/git';
 import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
-import type { API, GitExtension } from './git';
 import { log, LogLevel } from './logger';
 
 let git: API | null | undefined;
 
 type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
-	enabled: boolean;
-	detailsIdling: string;
-	detailsEditing: string;
 	detailsDebugging: string;
-	lowerDetailsIdling: string;
-	lowerDetailsEditing: string;
-	lowerDetailsDebugging: string;
-	lowerDetailsNoWorkspaceFound: string;
-	largeImageIdling: string;
+	detailsEditing: string;
+	detailsIdling: string;
+	enabled: boolean;
+	idleTimeout: number;
 	largeImage: string;
-	smallImage: string;
-	suppressNotifications: boolean;
-	workspaceExcludePatterns: string[];
-	swapBigAndSmallImage: boolean;
+	largeImageIdling: string;
+	lowerDetailsDebugging: string;
+	lowerDetailsEditing: string;
+	lowerDetailsIdling: string;
+	lowerDetailsNoWorkspaceFound: string;
 	removeDetails: boolean;
 	removeLowerDetails: boolean;
-	removeTimestamp: boolean;
 	removeRemoteRepository: boolean;
-	idleTimeout: number;
+	removeTimestamp: boolean;
+	smallImage: string;
+	suppressNotifications: boolean;
+	swapBigAndSmallImage: boolean;
+	workspaceExcludePatterns: string[];
 };
 
 export function getConfig() {
@@ -37,7 +37,7 @@ export const toLower = (str: string) => str.toLocaleLowerCase();
 
 export const toUpper = (str: string) => str.toLocaleUpperCase();
 
-export const toTitle = (str: string) => toLower(str).replace(/^\w/, (c) => toUpper(c));
+export const toTitle = (str: string) => toLower(str).replace(/^\w/, (char) => toUpper(char));
 
 export function resolveFileIcon(document: TextDocument) {
 	const filename = basename(document.fileName);
@@ -46,22 +46,22 @@ export function resolveFileIcon(document: TextDocument) {
 			return true;
 		}
 
-		const match = /^\/(.*)\/([mgiy]+)$/.exec(key);
+		const match = /^\/(.*)\/([gimy]+)$/.exec(key);
 		if (!match) {
 			return false;
 		}
 
-		const regex = new RegExp(match[1], match[2]);
+		const regex = new RegExp(match[1] as string, match[2] as string);
 		return regex.test(filename);
 	});
 	const findKnownLanguage = KNOWN_LANGUAGES.find((key) => key.language === document.languageId);
 	const fileIcon = findKnownExtension
 		? KNOWN_EXTENSIONS[findKnownExtension]
 		: findKnownLanguage
-		? findKnownLanguage.image
-		: null;
+			? findKnownLanguage.image
+			: null;
 
-	return typeof fileIcon === 'string' ? fileIcon : fileIcon?.image ?? 'text';
+	return typeof fileIcon === 'string' ? fileIcon : (fileIcon?.image ?? 'text');
 }
 
 export async function getGit() {
@@ -76,8 +76,11 @@ export async function getGit() {
 			log(LogLevel.Trace, 'Git extension not activated, activating...');
 			await gitExtension?.activate();
 		}
+
+		// eslint-disable-next-line require-atomic-updates
 		git = gitExtension?.exports.getAPI(1);
 	} catch (error) {
+		// eslint-disable-next-line require-atomic-updates
 		git = null;
 		log(LogLevel.Error, `Failed to load git extension, is git installed?; ${error as string}`);
 	}
