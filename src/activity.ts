@@ -116,6 +116,8 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 		const { dir } = parse(window.activeTextEditor.document.fileName);
 		const split = dir.split(sep);
 		const dirName = split[split.length - 1];
+		const fileNameSplit = fileName.includes('.') ? fileName.split('.') : [''];
+		const fileExtension = fileNameSplit[fileNameSplit.length - 1];
 
 		const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
 		const workspaceFolder = workspace.getWorkspaceFolder(window.activeTextEditor.document.uri);
@@ -154,7 +156,9 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 			.replace(REPLACE_KEYS.WorkspaceAndFolder, workspaceAndFolder)
 			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(fileIcon))
 			.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(fileIcon))
-			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(fileIcon));
+			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(fileIcon))
+			.replace(REPLACE_KEYS.ExtensionLowerCase, toLower(fileExtension))
+			.replace(REPLACE_KEYS.ExtensionUpperCase, toUpper(fileExtension));
 	}
 
 	return raw;
@@ -221,10 +225,15 @@ export async function activity(previous: ActivityPayload = {}) {
 
 	if (window.activeTextEditor) {
 		const largeImageKey = resolveFileIcon(window.activeTextEditor.document);
+		const fileName = basename(window.activeTextEditor.document.fileName);
+		const fileNameSplit = fileName.includes('.') ? fileName.split('.') : [''];
+		const fileExtension = fileNameSplit[fileNameSplit.length - 1];
 		const largeImageText = config[CONFIG_KEYS.LargeImage]
 			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(largeImageKey))
 			.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(largeImageKey))
 			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(largeImageKey))
+			.replace(REPLACE_KEYS.ExtensionLowerCase, toLower(fileExtension))
+			.replace(REPLACE_KEYS.ExtensionUpperCase, toUpper(fileExtension))
 			.padEnd(2, FAKE_EMPTY);
 
 		state = {
