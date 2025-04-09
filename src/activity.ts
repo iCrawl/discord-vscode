@@ -154,7 +154,8 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 			.replace(REPLACE_KEYS.WorkspaceAndFolder, workspaceAndFolder)
 			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(fileIcon))
 			.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(fileIcon))
-			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(fileIcon));
+			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(fileIcon))
+			.replace(/\[SSH\: \d{0,3}.\d{0,3}.\d{0,3}.\d{0,3}.]/g, '');
 	}
 
 	return raw;
