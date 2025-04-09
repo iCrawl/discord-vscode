@@ -35,7 +35,7 @@
 ## Features
 
 - Shows what you are editing in VSCode
-- Support for over 140 of the most popular languages
+- Support for over 200+ of the most popular languages
 - Enable/Disable Rich Presence for individual workspaces (enabled by default)
 - Custom string support
 - Stable or Insiders build detection

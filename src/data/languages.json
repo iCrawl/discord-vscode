@@ -949,7 +949,7 @@
 		"/\\.(hlsl|cginc|cg|shader|fx)$/i": {
 			"image": "hlsl"
 		},
-		"/\\.(glsl|vert|frag|geom|tesc|tese|comp)$/i": {
+		"/\\.(glsl|vert|frag|geom|tesc|tese|comp|rgen|rint|rahit|rchit|rmiss|rcall|mesh|task|vsh|fsh|gsh)$/i": {
 			"image": "glsl"
 		},
 		"/\\.hx(ml)?$/i": {

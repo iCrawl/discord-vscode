@@ -2,7 +2,7 @@
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "discord-vscode",
 	"displayName": "Discord Presence",
-	"version": "5.9.0",
+	"version": "5.9.1",
 	"description": "Update your discord status with a rich presence.",
 	"private": true,
 	"publisher": "icrawl",
