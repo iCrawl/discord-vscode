@@ -191,7 +191,7 @@
 					"discord.disconnectButton": {
 						"type": "boolean",
 						"default": false,
-						"description": "Enables manually disconnecting by clicking the status bar icon"
+						"description": "Enables the option to manually disconnect by clicking the status bar icon"
 					},
 					"discord.removeDetails": {
 						"type": "boolean",
