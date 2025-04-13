@@ -43,6 +43,7 @@ export const enum CONFIG_KEYS {
 	DetailsDebugging = 'detailsDebugging',
 	DetailsEditing = 'detailsEditing',
 	DetailsIdling = 'detailsIdling',
+	DisconnectButton = 'disconnectButton',
 	Enabled = 'enabled',
 	IdleTimeout = 'idleTimeout',
 	LargeImage = 'largeImage',

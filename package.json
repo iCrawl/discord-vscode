@@ -188,6 +188,11 @@
 						"default": false,
 						"description": "Swaps the big and small image on the rich presence"
 					},
+					"discord.disconnectButton": {
+						"type": "boolean",
+						"default": false,
+						"description": "Enables the option to manually disconnect by clicking the status bar icon"
+					},
 					"discord.removeDetails": {
 						"type": "boolean",
 						"default": false,
