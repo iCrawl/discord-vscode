@@ -8,10 +8,11 @@ import { log, LogLevel } from './logger';
 import { getConfig, getGit } from './util';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
+const disconnectButton = CONFIG_KEYS.DisconnectButton;
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
 let rpc = new Client({ transport: { type: 'ipc' }, clientId: CLIENT_ID });
-const config = getConfig();
+let config = getConfig();
 
 let state = {};
 let idle: NodeJS.Timeout | undefined;
@@ -39,7 +40,13 @@ async function login() {
 		cleanUp();
 
 		statusBarIcon.text = '$(globe) Connected to Discord';
-		statusBarIcon.tooltip = 'Connected to Discord';
+		if (config[disconnectButton]) {
+			statusBarIcon.tooltip = 'Connected to Discord, click to disconnect.';
+			statusBarIcon.command = 'discord.disconnect';
+		} else {
+			statusBarIcon.tooltip = 'Connected to Discord';
+			statusBarIcon.command = undefined;
+		}
 
 		void sendActivity();
 		const onChangeActiveTextEditor = window.onDidChangeActiveTextEditor(async () => sendActivity());
@@ -54,6 +61,7 @@ async function login() {
 		cleanUp();
 		void rpc.destroy();
 		statusBarIcon.text = '$(pulse) Reconnect to Discord';
+		statusBarIcon.tooltip = 'Disconnected, click to reconnect to Discord.';
 		statusBarIcon.command = 'discord.reconnect';
 	});
 
@@ -89,6 +97,8 @@ export async function activate(context: ExtensionContext) {
 	}
 
 	const enable = async (update = true) => {
+		config = getConfig();
+
 		if (update) {
 			try {
 				await config.update('enabled', true);
@@ -98,6 +108,7 @@ export async function activate(context: ExtensionContext) {
 		log(LogLevel.Info, 'Enable: Cleaning up old listeners');
 		cleanUp();
 		statusBarIcon.text = '$(pulse) Connecting to Discord...';
+		statusBarIcon.tooltip = 'Connecting to Discord...';
 		statusBarIcon.show();
 		log(LogLevel.Info, 'Enable: Attempting to recreate login');
 		void login();
@@ -130,6 +141,7 @@ export async function activate(context: ExtensionContext) {
 
 	const reconnecter = commands.registerCommand('discord.reconnect', async () => {
 		await disable(false);
+		statusBarIcon.command = undefined;
 		await enable(false);
 	});
 
@@ -162,6 +174,25 @@ export async function activate(context: ExtensionContext) {
 					state = {};
 					await rpc.user?.clearActivity();
 				}, config[CONFIG_KEYS.IdleTimeout] * 1_000);
+			}
+		}
+	});
+
+	workspace.onDidChangeConfiguration((event) => {
+		if (event.affectsConfiguration(`discord.${CONFIG_KEYS.DisconnectButton}`)) {
+			const newValue = getConfig()[CONFIG_KEYS.DisconnectButton];
+
+			if (statusBarIcon.text === '$(globe) Connected to Discord') {
+				if (newValue) {
+					statusBarIcon.tooltip = 'Connected to Discord, click to disconnect.';
+					statusBarIcon.command = 'discord.disconnect';
+				} else {
+					statusBarIcon.tooltip = 'Connected to Discord';
+					statusBarIcon.command = undefined;
+				}
+			} else if (statusBarIcon.text === '$(pulse) Reconnect to Discord') {
+				statusBarIcon.tooltip = 'Disconnected, click to reconnect to Discord.';
+				statusBarIcon.command = 'discord.reconnect';
 			}
 		}
 	});
