@@ -32,6 +32,8 @@ export const enum REPLACE_KEYS {
 	LanguageLowerCase = '{lang}',
 	LanguageTitleCase = '{Lang}',
 	LanguageUpperCase = '{LANG}',
+	ExtensionLowerCase = '{file_extension}',
+	ExtensionUpperCase = '{FILE_EXTENSION}',
 	TotalLines = '{total_lines}',
 	VSCodeWorkspace = '(Workspace)',
 	Workspace = '{workspace}',
