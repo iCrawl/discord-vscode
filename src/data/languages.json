@@ -691,6 +691,9 @@
 		"/contenthook\\.config\\.(ts|cjs|mjs|js)$/i": {
 			"image": "contenthook"
 		},
+		"/contentkit\\.config\\.(ts|cjs|mjs|js)$/i": {
+			"image": "contentkit"
+		},
 		".coffee.erb": {
 			"image": "coffee"
 		},
