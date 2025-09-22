@@ -1,6 +1,6 @@
 import LANG from './data/languages.json';
 
-export const CLIENT_ID = '383226320970055681' as const;
+export const DEFAULT_CLIENT_ID = '383226320970055681' as const;
 
 export const KNOWN_EXTENSIONS: { [key: string]: { image: string } } = LANG.KNOWN_EXTENSIONS;
 export const KNOWN_LANGUAGES: { image: string; language: string }[] = LANG.KNOWN_LANGUAGES;
@@ -15,8 +15,19 @@ export const VSCODE_IMAGE_KEY = 'vscode' as const;
 export const VSCODE_INSIDERS_IMAGE_KEY = 'vscode-insiders' as const;
 export const CURSOR_IMAGE_KEY = 'cursor' as const;
 
+export const EXTERNAL_IMAGE_BASE = 'https://raw.githubusercontent.com/iCrawl/discord-vscode/master/assets/icons/' as const;
+export const IDLE_IMAGE_URL = `${EXTERNAL_IMAGE_BASE}idle-vscode.png` as const;
+export const DEBUG_IMAGE_URL = `${EXTERNAL_IMAGE_BASE}debugging.png` as const;
+export const VSCODE_IMAGE_URL = `${EXTERNAL_IMAGE_BASE}vscode.png` as const;
+export const VSCODE_INSIDERS_IMAGE_URL = `${EXTERNAL_IMAGE_BASE}vscode-insiders.png` as const;
+export const CURSOR_IMAGE_URL = `${EXTERNAL_IMAGE_BASE}cursor.png` as const;
+
 export const UNKNOWN_GIT_BRANCH = 'Unknown' as const;
 export const UNKNOWN_GIT_REPO_NAME = 'Unknown' as const;
+
+export function getExternalFileIconUrl(iconName: string): string {
+	return `${EXTERNAL_IMAGE_BASE}${iconName}.png`;
+}
 
 export const enum REPLACE_KEYS {
 	AppName = '{app_name}',
@@ -56,6 +67,7 @@ export const enum CONFIG_KEYS {
 	RemoveRemoteRepository = 'removeRemoteRepository',
 	RemoveTimestamp = 'removeTimestamp',
 	SmallImage = 'smallImage',
+	CustomRichPresenceName = 'customRichPresenceName',
 	SuppressNotifications = 'suppressNotifications',
 	SwapBigAndSmallImage = 'swapBigAndSmallImage',
 	WorkspaceExcludePatterns = 'workspaceExcludePatterns',

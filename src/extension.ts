@@ -3,15 +3,24 @@ import throttle from 'lodash-es/throttle';
 import type { ExtensionContext, StatusBarItem } from 'vscode';
 import { commands, StatusBarAlignment, window, workspace, debug } from 'vscode';
 import { activity } from './activity';
-import { CLIENT_ID, CONFIG_KEYS } from './constants';
+import { DEFAULT_CLIENT_ID, CONFIG_KEYS } from './constants';
 import { log, LogLevel } from './logger';
 import { getConfig, getGit } from './util';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
 statusBarIcon.text = '$(pulse) Connecting to Discord...';
 
-let rpc = new Client({ transport: { type: 'ipc' }, clientId: CLIENT_ID });
 const config = getConfig();
+
+function getClientId() {
+	const customClientId = config[CONFIG_KEYS.CustomRichPresenceName];
+	if (customClientId && customClientId.trim()) {
+		return customClientId;
+	}
+	return DEFAULT_CLIENT_ID;
+}
+
+let rpc = new Client({ transport: { type: 'ipc' }, clientId: getClientId() });
 
 let state = {};
 let idle: NodeJS.Timeout | undefined;
@@ -32,7 +41,7 @@ async function sendActivity() {
 
 async function login() {
 	log(LogLevel.Info, 'Creating discord-rpc client');
-	rpc = new Client({ transport: { type: 'ipc' }, clientId: CLIENT_ID });
+	rpc = new Client({ transport: { type: 'ipc' }, clientId: getClientId() });
 
 	rpc.on('ready', () => {
 		log(LogLevel.Info, 'Successfully connected to Discord');

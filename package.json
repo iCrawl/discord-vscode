@@ -52,7 +52,8 @@
 		"@xhayper/discord-rpc": "^1.2.1",
 		"dayjs": "^1.11.13",
 		"discord-rpc": "^4.0.1",
-		"lodash-es": "^4.17.21"
+		"lodash-es": "^4.17.21",
+		"pnpm": "^10.17.1"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.8.0",
@@ -212,6 +213,11 @@
 						"type": "number",
 						"default": 0,
 						"description": "Time (in seconds) to clear the presence when idling. 0 (the default) means no clearing"
+					},
+					"discord.customRichPresenceName": {
+						"type": "string",
+						"default": "",
+						"description": "Custom Discord application Client ID to change the 'Playing [App Name]' text. Get this from https://discord.com/developers/applications. Leave empty to use default Visual Studio Code."
 					}
 				}
 			}

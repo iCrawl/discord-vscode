@@ -8,6 +8,7 @@ import { log, LogLevel } from './logger';
 let git: API | null | undefined;
 
 type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
+	customRichPresenceName: string;
 	detailsDebugging: string;
 	detailsEditing: string;
 	detailsIdling: string;

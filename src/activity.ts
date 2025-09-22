@@ -4,16 +4,22 @@ import { debug, env, window, workspace } from 'vscode';
 import {
 	CONFIG_KEYS,
 	CURSOR_IMAGE_KEY,
+	CURSOR_IMAGE_URL,
 	DEBUG_IMAGE_KEY,
+	DEBUG_IMAGE_URL,
 	EMPTY,
 	FAKE_EMPTY,
 	FILE_SIZES,
+	getExternalFileIconUrl,
 	IDLE_IMAGE_KEY,
+	IDLE_IMAGE_URL,
 	REPLACE_KEYS,
 	UNKNOWN_GIT_BRANCH,
 	UNKNOWN_GIT_REPO_NAME,
 	VSCODE_IMAGE_KEY,
+	VSCODE_IMAGE_URL,
 	VSCODE_INSIDERS_IMAGE_KEY,
+	VSCODE_INSIDERS_IMAGE_URL,
 } from './constants';
 import { log, LogLevel } from './logger';
 import { getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
@@ -165,13 +171,26 @@ export async function activity(previous: ActivityPayload = {}) {
 	const swapBigAndSmallImage = config[CONFIG_KEYS.SwapBigAndSmallImage];
 
 	const appName = env.appName;
-	const defaultSmallImageKey = debug.activeDebugSession
-		? DEBUG_IMAGE_KEY
-		: appName.includes('Cursor')
-			? CURSOR_IMAGE_KEY
-			: appName.includes('Insiders')
-				? VSCODE_INSIDERS_IMAGE_KEY
-				: VSCODE_IMAGE_KEY;
+	const customClientId = config[CONFIG_KEYS.CustomRichPresenceName];
+	const usingCustomClientId = customClientId && customClientId.trim();
+
+	const defaultSmallImageKey = usingCustomClientId ? (
+		debug.activeDebugSession
+			? DEBUG_IMAGE_URL
+			: appName.includes('Cursor')
+				? CURSOR_IMAGE_URL
+				: appName.includes('Insiders')
+					? VSCODE_INSIDERS_IMAGE_URL
+					: VSCODE_IMAGE_URL
+	) : (
+		debug.activeDebugSession
+			? DEBUG_IMAGE_KEY
+			: appName.includes('Cursor')
+				? CURSOR_IMAGE_KEY
+				: appName.includes('Insiders')
+					? VSCODE_INSIDERS_IMAGE_KEY
+					: VSCODE_IMAGE_KEY
+	);
 	const defaultSmallImageText = config[CONFIG_KEYS.SmallImage].replace(REPLACE_KEYS.AppName, appName);
 	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
@@ -186,7 +205,7 @@ export async function activity(previous: ActivityPayload = {}) {
 			? undefined
 			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
 		startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : (previous.startTimestamp ?? Date.now()),
-		largeImageKey: IDLE_IMAGE_KEY,
+		largeImageKey: usingCustomClientId ? IDLE_IMAGE_URL : IDLE_IMAGE_KEY,
 		largeImageText: defaultLargeImageText,
 		smallImageKey: defaultSmallImageKey,
 		smallImageText: defaultSmallImageText,
@@ -197,7 +216,7 @@ export async function activity(previous: ActivityPayload = {}) {
 			...state,
 			largeImageKey: defaultSmallImageKey,
 			largeImageText: defaultSmallImageText,
-			smallImageKey: IDLE_IMAGE_KEY,
+			smallImageKey: usingCustomClientId ? IDLE_IMAGE_URL : IDLE_IMAGE_KEY,
 			smallImageText: defaultLargeImageText,
 		};
 	}
@@ -220,11 +239,12 @@ export async function activity(previous: ActivityPayload = {}) {
 	}
 
 	if (window.activeTextEditor) {
-		const largeImageKey = resolveFileIcon(window.activeTextEditor.document);
+		const resolvedFileIcon = resolveFileIcon(window.activeTextEditor.document);
+		const largeImageKey = usingCustomClientId ? getExternalFileIconUrl(resolvedFileIcon) : resolvedFileIcon;
 		const largeImageText = config[CONFIG_KEYS.LargeImage]
-			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(largeImageKey))
-			.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(largeImageKey))
-			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(largeImageKey))
+			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(resolvedFileIcon))
+			.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(resolvedFileIcon))
+			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(resolvedFileIcon))
 			.padEnd(2, FAKE_EMPTY);
 
 		state = {
