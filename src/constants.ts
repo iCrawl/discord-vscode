@@ -37,6 +37,7 @@ export const enum REPLACE_KEYS {
 	Workspace = '{workspace}',
 	WorkspaceAndFolder = '{workspace_and_folder}',
 	WorkspaceFolder = '{workspace_folder}',
+	CurrentErrors = '{current_errors}',
 }
 
 export const enum CONFIG_KEYS {
