@@ -1,6 +1,6 @@
 import { basename, parse, sep } from 'node:path';
-import type { Selection, TextDocument } from 'vscode';
-import { debug, env, window, workspace } from 'vscode';
+import type { Selection, TextDocument, Diagnostic } from 'vscode';
+import { debug, env, window, workspace, languages, DiagnosticSeverity } from 'vscode';
 import {
 	CONFIG_KEYS,
 	CURSOR_IMAGE_KEY,
@@ -50,6 +50,12 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 
 	if (raw.includes(REPLACE_KEYS.CurrentColumn)) {
 		raw = raw.replace(REPLACE_KEYS.CurrentColumn, (selection.active.character + 1).toLocaleString());
+	}
+
+	if (raw.includes(REPLACE_KEYS.CurrentErrors)) {
+		const diagnostics = languages.getDiagnostics(document.uri);
+		const errors = diagnostics.filter((diagnostic: Diagnostic) => diagnostic.severity === DiagnosticSeverity.Error);
+		raw = raw.replace(REPLACE_KEYS.CurrentErrors, errors.length.toLocaleString());
 	}
 
 	if (raw.includes(REPLACE_KEYS.FileSize)) {
