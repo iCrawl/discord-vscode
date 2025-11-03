@@ -296,6 +296,10 @@
 			"language": "qml",
 			"image": "qml"
 		},
+				{
+			"language": "qsharp",
+			"image": "qsharp"
+		},
 		{
 			"language": "r",
 			"image": "r"
@@ -1131,6 +1135,9 @@
 		},
 		".qml": {
 			"image": "manifest"
+		},
+		".qs": {
+			"image": "qsharp"
 		},
 		".qbs": {
 			"image": "manifest"
