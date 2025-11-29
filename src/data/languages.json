@@ -201,6 +201,10 @@
 			"image": "less"
 		},
 		{
+			"language": "liquidsoap",
+			"image": "liquidsoap"
+		},
+		{
 			"language": "lua",
 			"image": "lua"
 		},
@@ -1029,6 +1033,9 @@
 		},
 		".less": {
 			"image": "less"
+		},
+		".liq": {
+			"image": "liquidsoap"
 		},
 		"/\\.l(i?sp)?$/i": {
 			"image": "lisp"
