@@ -393,6 +393,10 @@
 			"image": "umm"
 		},
 		{
+			"language": "umka",
+			"image": "umka"
+		},
+		{
 			"language": "vb",
 			"image": "vb"
 		},
@@ -1572,6 +1576,9 @@
 		},
 		".twig": {
 			"image": "twig"
+		},
+		".um": {
+			"image": "umka"
 		},
 		".umm": {
 			"image": "umm"
