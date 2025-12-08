@@ -163,7 +163,7 @@
 					"discord.largeImage": {
 						"type": "string",
 						"default": "Editing a {LANG} file",
-						"description": "Custom string for the largeImageText section of the rich presence.\n\t- '{lang}' will be replaced with the lowercased language ID\n\t- '{LANG}' will be replaced with the uppercased language ID"
+						"description": "Custom string for the largeImageText section of the rich presence.\n\t- '{lang}' will be replaced with the lowercased language ID\n\t- '{Lang}' will be replaced with the titlecased language ID\n\t- '{LANG}' will be replaced with the uppercased language ID\n\t- '{file_extension}' will be replaced with the lowercased file extension\n\t- '{FILE_EXTENSION}' will be replaced with the uppercased file extension"
 					},
 					"discord.smallImage": {
 						"type": "string",
