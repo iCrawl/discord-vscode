@@ -44,7 +44,7 @@
 
 ## Troubleshooting
 
-**Windows:** Do not run your VSCode or Discord as admin, there is no reason to and it just further complicates everything down the line.
+**Windows:** Try run your Vscode with administator
 
 **Linux:** Discord versions installed using `flatpak` or `snap` need modifications in order to support IPC. In order to avoid this (and as Discord itself suggests) you should download it from [discord.com](https://discord.com/download)
 
