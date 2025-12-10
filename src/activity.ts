@@ -103,7 +103,7 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 				git.repositories
 					?.find((repo) => repo.ui.selected)
 					?.state.remotes[0]?.fetchUrl?.split('/')[1]
-					?.replace('.git', '') ?? FAKE_EMPTY,
+					?.replace('/.git', '/') ?? FAKE_EMPTY,
 			);
 		} else {
 			raw = raw.replace(REPLACE_KEYS.GitRepoName, UNKNOWN_GIT_REPO_NAME);
