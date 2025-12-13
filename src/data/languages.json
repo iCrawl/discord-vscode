@@ -435,6 +435,10 @@
 		{
 			"language": "zenscript",
 			"image": "zs"
+		},
+		{
+			"language": "axity",
+			"image": "axity"
 		}
 	],
 	"KNOWN_EXTENSIONS": {
@@ -1679,6 +1683,9 @@
 		},
 		".zs": {
 			"image": "zs"
+		},
+		".ax": {
+			"image": "axity"
 		}
 	}
 }
