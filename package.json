@@ -52,7 +52,7 @@
 		"@xhayper/discord-rpc": "^1.2.1",
 		"dayjs": "^1.11.13",
 		"discord-rpc": "^4.0.1",
-		"lodash-es": "^4.17.21"
+		"lodash-es": "^4.17.23"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.8.0",
