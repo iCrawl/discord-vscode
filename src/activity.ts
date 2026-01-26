@@ -126,7 +126,9 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 		const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
 		const workspaceFolder = workspace.getWorkspaceFolder(window.activeTextEditor.document.uri);
 		const workspaceFolderName = workspaceFolder?.name ?? noWorkspaceFound;
-		const workspaceName = workspace.name?.replace(REPLACE_KEYS.VSCodeWorkspace, EMPTY) ?? workspaceFolderName;
+		const workspaceName =
+			workspace.name?.replace(REPLACE_KEYS.VSCodeWorkspace, EMPTY).replace(/\[SSH: [\d.]+]$/, '[SSH]') ??
+			workspaceFolderName;
 		const workspaceAndFolder = `${workspaceName}${
 			workspaceFolderName === FAKE_EMPTY ? '' : ` - ${workspaceFolderName}`
 		}`;
