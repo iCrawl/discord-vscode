@@ -21,6 +21,7 @@ export const UNKNOWN_GIT_REPO_NAME = 'Unknown' as const;
 export const enum REPLACE_KEYS {
 	AppName = '{app_name}',
 	CurrentColumn = '{current_column}',
+	CurrentErrors = '{current_errors}',
 	CurrentLine = '{current_line}',
 	DirName = '{dir_name}',
 	Empty = '{empty}',
@@ -37,21 +38,23 @@ export const enum REPLACE_KEYS {
 	Workspace = '{workspace}',
 	WorkspaceAndFolder = '{workspace_and_folder}',
 	WorkspaceFolder = '{workspace_folder}',
-	CurrentErrors = '{current_errors}',
 }
 
 export const enum CONFIG_KEYS {
 	DetailsDebugging = 'detailsDebugging',
 	DetailsEditing = 'detailsEditing',
 	DetailsIdling = 'detailsIdling',
+	DetailsViewingDatabase = 'detailsViewingDatabase',
 	Enabled = 'enabled',
 	IdleTimeout = 'idleTimeout',
 	LargeImage = 'largeImage',
 	LargeImageIdling = 'largeImageIdling',
+	LargeImageViewingDatabase = 'largeImageViewiengDatabase',
 	LowerDetailsDebugging = 'lowerDetailsDebugging',
 	LowerDetailsEditing = 'lowerDetailsEditing',
 	LowerDetailsIdling = 'lowerDetailsIdling',
 	LowerDetailsNoWorkspaceFound = 'lowerDetailsNoWorkspaceFound',
+	LowerDetailsViewingDatabase = 'lowerDetailsViewingDatabase',
 	RemoveDetails = 'removeDetails',
 	RemoveLowerDetails = 'removeLowerDetails',
 	RemoveRemoteRepository = 'removeRemoteRepository',

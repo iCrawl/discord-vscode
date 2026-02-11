@@ -1,6 +1,6 @@
 import { basename, parse, sep } from 'node:path';
 import type { Selection, TextDocument, Diagnostic } from 'vscode';
-import { debug, env, window, workspace, languages, DiagnosticSeverity } from 'vscode';
+import { debug, env, window, workspace, languages, DiagnosticSeverity, TabInputCustom } from 'vscode';
 import {
 	CONFIG_KEYS,
 	CURSOR_IMAGE_KEY,
@@ -113,25 +113,28 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 	return raw;
 }
 
-async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CONFIG_KEYS) {
+async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CONFIG_KEYS, viewing: CONFIG_KEYS) {
 	const config = getConfig();
 	let raw = (config[idling] as string).replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
 
-	if (window.activeTextEditor) {
-		const fileName = basename(window.activeTextEditor.document.fileName);
-		const { dir } = parse(window.activeTextEditor.document.fileName);
+	const editor = window.activeTextEditor;
+	const activeTab = window.tabGroups.activeTabGroup.activeTab;
+	const tabInput = activeTab?.input instanceof TabInputCustom ? activeTab.input : null;
+	const uri = editor?.document.uri ?? tabInput?.uri;
+
+	const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
+	const workspaceFolder = uri ? workspace.getWorkspaceFolder(uri) : undefined;
+	const workspaceFolderName = workspaceFolder?.name ?? noWorkspaceFound;
+	const workspaceName = workspace.name?.replace(REPLACE_KEYS.VSCodeWorkspace, EMPTY) ?? workspaceFolderName;
+	const workspaceAndFolder = `${workspaceName}${workspaceFolderName === FAKE_EMPTY ? '' : ` - ${workspaceFolderName}`}`;
+
+	if (editor) {
+		const fileName = basename(editor.document.fileName);
+		const { dir } = parse(editor.document.fileName);
 		const split = dir.split(sep);
 		const dirName = split[split.length - 1];
 
-		const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
-		const workspaceFolder = workspace.getWorkspaceFolder(window.activeTextEditor.document.uri);
-		const workspaceFolderName = workspaceFolder?.name ?? noWorkspaceFound;
-		const workspaceName = workspace.name?.replace(REPLACE_KEYS.VSCodeWorkspace, EMPTY) ?? workspaceFolderName;
-		const workspaceAndFolder = `${workspaceName}${
-			workspaceFolderName === FAKE_EMPTY ? '' : ` - ${workspaceFolderName}`
-		}`;
-
-		const fileIcon = resolveFileIcon(window.activeTextEditor.document);
+		const fileIcon = resolveFileIcon(editor.document);
 
 		if (debug.activeDebugSession) {
 			raw = config[debugging] as string;
@@ -141,13 +144,13 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 
 		if (workspaceFolder) {
 			const { name } = workspaceFolder;
-			const relativePath = workspace.asRelativePath(window.activeTextEditor.document.fileName).split(sep);
+			const relativePath = workspace.asRelativePath(editor.document.fileName).split(sep);
 			relativePath.splice(-1, 1);
 			raw = raw.replace(REPLACE_KEYS.FullDirName, `${name}${sep}${relativePath.join(sep)}`);
 		}
 
 		try {
-			raw = await fileDetails(raw, window.activeTextEditor.document, window.activeTextEditor.selection);
+			raw = await fileDetails(raw, editor.document, editor.selection);
 		} catch (error) {
 			log(LogLevel.Error, `Failed to generate file details: ${error as string}`);
 		}
@@ -161,6 +164,40 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(fileIcon))
 			.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(fileIcon))
 			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(fileIcon));
+	} else if (tabInput) {
+		const activeTab = window.tabGroups.activeTabGroup.activeTab;
+		if (activeTab?.input instanceof TabInputCustom) {
+			const uri = activeTab.input.uri;
+			const fileName = basename(uri.fsPath);
+			const { dir } = parse(uri.fsPath);
+			const split = dir.split(sep);
+			const dirName = split[split.length - 1];
+			const ext = parse(uri.fsPath).ext.slice(1).toLowerCase();
+			const DB_EXTENSIONS = ['db', 'sqlite', 'sqlite3'];
+
+			if (DB_EXTENSIONS.includes(ext)) {
+				raw = config[viewing] as string;
+			} else {
+				raw = config[editing] as string;
+			}
+
+			if (workspaceFolder) {
+				const { name } = workspaceFolder;
+				const relativePath = workspace.asRelativePath(uri.fsPath).split(sep);
+				relativePath.splice(-1, 1);
+				raw = raw.replace(REPLACE_KEYS.FullDirName, `${name}${sep}${relativePath.join(sep)}`);
+			}
+
+			raw = raw
+				.replace(REPLACE_KEYS.FileName, fileName)
+				.replace(REPLACE_KEYS.DirName, dirName as string)
+				.replace(REPLACE_KEYS.Workspace, workspaceName)
+				.replace(REPLACE_KEYS.WorkspaceFolder, workspaceFolderName)
+				.replace(REPLACE_KEYS.WorkspaceAndFolder, workspaceAndFolder)
+				.replace(REPLACE_KEYS.LanguageLowerCase, toLower(ext))
+				.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(ext))
+				.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(ext));
+		}
 	}
 
 	return raw;
@@ -190,7 +227,12 @@ export async function activity(previous: ActivityPayload = {}) {
 		type: 0,
 		details: removeDetails
 			? undefined
-			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+			: await details(
+					CONFIG_KEYS.DetailsIdling,
+					CONFIG_KEYS.DetailsEditing,
+					CONFIG_KEYS.DetailsDebugging,
+					CONFIG_KEYS.DetailsViewingDatabase,
+				),
 		startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : (previous.startTimestamp ?? Date.now()),
 		largeImageKey: IDLE_IMAGE_KEY,
 		largeImageText: defaultLargeImageText,
@@ -225,7 +267,59 @@ export async function activity(previous: ActivityPayload = {}) {
 		}
 	}
 
-	if (window.activeTextEditor) {
+	const activeTab = window.tabGroups.activeTabGroup.activeTab;
+	const tabInput = activeTab?.input instanceof TabInputCustom ? activeTab.input : null;
+	if (tabInput) {
+		const activeTab = window.tabGroups.activeTabGroup.activeTab;
+		const tabInput = activeTab?.input instanceof TabInputCustom ? activeTab.input : null;
+		if (tabInput) {
+			const ext = parse(tabInput.uri.fsPath).ext.slice(1).toLowerCase();
+			const DB_EXTENSIONS = ['db', 'sqlite', 'sqlite3'];
+			if (DB_EXTENSIONS.includes(ext)) {
+				// Viewing datbase file, other activites can be added in else if statments.
+				const largeImageKey = 'sql';
+				const largeImageText = config[CONFIG_KEYS.LargeImageViewingDatabase]
+					.replace(REPLACE_KEYS.LanguageLowerCase, toLower(largeImageKey))
+					.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(largeImageKey))
+					.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(largeImageKey))
+					.padEnd(2, FAKE_EMPTY);
+				state = {
+					...state,
+					details: removeDetails
+						? undefined
+						: await details(
+								CONFIG_KEYS.DetailsIdling,
+								CONFIG_KEYS.DetailsEditing,
+								CONFIG_KEYS.DetailsDebugging,
+								CONFIG_KEYS.DetailsViewingDatabase,
+							),
+					state: removeLowerDetails
+						? undefined
+						: await details(
+								CONFIG_KEYS.LowerDetailsIdling,
+								CONFIG_KEYS.LowerDetailsEditing,
+								CONFIG_KEYS.LowerDetailsDebugging,
+								CONFIG_KEYS.LowerDetailsViewingDatabase,
+							),
+					largeImageKey,
+					largeImageText,
+				};
+				if (swapBigAndSmallImage) {
+					state = {
+						...state,
+						smallImageKey: largeImageKey,
+						smallImageText: largeImageText,
+					};
+				} else {
+					state = {
+						...state,
+						largeImageKey,
+						largeImageText,
+					};
+				}
+			}
+		}
+	} else if (window.activeTextEditor) {
 		const largeImageKey = resolveFileIcon(window.activeTextEditor.document);
 		const largeImageText = config[CONFIG_KEYS.LargeImage]
 			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(largeImageKey))
@@ -237,13 +331,19 @@ export async function activity(previous: ActivityPayload = {}) {
 			...state,
 			details: removeDetails
 				? undefined
-				: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+				: await details(
+						CONFIG_KEYS.DetailsIdling,
+						CONFIG_KEYS.DetailsEditing,
+						CONFIG_KEYS.DetailsDebugging,
+						CONFIG_KEYS.DetailsViewingDatabase,
+					),
 			state: removeLowerDetails
 				? undefined
 				: await details(
 						CONFIG_KEYS.LowerDetailsIdling,
 						CONFIG_KEYS.LowerDetailsEditing,
 						CONFIG_KEYS.LowerDetailsDebugging,
+						CONFIG_KEYS.LowerDetailsViewingDatabase,
 					),
 		};
 
