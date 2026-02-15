@@ -1679,6 +1679,9 @@
 		},
 		".zs": {
 			"image": "zs"
+		},
+		".typ": {
+			"image": "typst"
 		}
 	}
 }
