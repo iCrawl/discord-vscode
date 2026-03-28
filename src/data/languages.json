@@ -417,6 +417,10 @@
 			"image": "vue"
 		},
 		{
+			"language": "wikitext",
+			"image": "wikitext"
+		},
+		{
 			"language": "zura",
 			"image": "zura"
 		},
@@ -1646,6 +1650,9 @@
 		},
 		".wasm": {
 			"image": "wasm"
+		},
+		"/\\.(wiki(text)?|mediawiki)$/": {
+			"image": "wikitext"
 		},
 		".xml": {
 			"image": "xml"
