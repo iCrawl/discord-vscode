@@ -30,6 +30,11 @@ async function sendActivity() {
 	void rpc.user?.setActivity(state);
 }
 
+const reset = async () => {
+	state = {};
+	await sendActivity();
+};
+
 async function login() {
 	log(LogLevel.Info, 'Creating discord-rpc client');
 	rpc = new Client({ transport: { type: 'ipc' }, clientId: CLIENT_ID });
@@ -140,7 +145,12 @@ export async function activate(context: ExtensionContext) {
 		statusBarIcon.show();
 	});
 
-	context.subscriptions.push(enabler, disabler, reconnecter, disconnect);
+	const resetter = commands.registerCommand('discord.resetTimestamp', async () => {
+		await reset();
+		await window.showInformationMessage('Discord Presence timer has been reset');
+	});
+
+	context.subscriptions.push(enabler, disabler, reconnecter, disconnect, resetter);
 
 	if (!isWorkspaceExcluded && config[CONFIG_KEYS.Enabled]) {
 		statusBarIcon.show();
