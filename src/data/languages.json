@@ -81,6 +81,10 @@
 			"image": "fountain"
 		},
 		{
+			"language": "flint",
+			"image": "flint"
+		},
+		{
 			"language": "fsharp",
 			"image": "fsharp"
 		},
@@ -851,6 +855,9 @@
 		},
 		"/(\\.firebaserc|firebase\\.json)/i": {
 			"image": "firebase"
+		},
+		".fl": {
+			"image": "flint"
 		},
 		".flowconfig": {
 			"image": "flowconfig"
