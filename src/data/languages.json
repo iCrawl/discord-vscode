@@ -1653,6 +1653,18 @@
 		".xaml": {
 			"image": "xaml"
 		},
+		"Chart.yaml": {
+			"image": "helm"
+		},
+		"Chart.lock": {
+			"image": "helm"
+		},
+		"/^helmfile(\\..+)?\\.ya?ml$/i": {
+			"image": "helm"
+		},
+		"/(^|\\/)templates\\/[^/]+\\.ya?ml$/i": {
+			"image": "helm"
+		},
 		"/\\.ya?ml$/i": {
 			"image": "yaml"
 		},

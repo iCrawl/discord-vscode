@@ -41,6 +41,7 @@ export const toTitle = (str: string) => toLower(str).replace(/^\w/, (char) => to
 
 export function resolveFileIcon(document: TextDocument) {
 	const filename = basename(document.fileName);
+	const relativePath = workspace.asRelativePath(document.fileName, false);
 	const findKnownExtension = Object.keys(KNOWN_EXTENSIONS).find((key) => {
 		if (filename.endsWith(key)) {
 			return true;
@@ -52,7 +53,7 @@ export function resolveFileIcon(document: TextDocument) {
 		}
 
 		const regex = new RegExp(match[1] as string, match[2] as string);
-		return regex.test(filename);
+		return regex.test(filename) || regex.test(relativePath);
 	});
 	const findKnownLanguage = KNOWN_LANGUAGES.find((key) => key.language === document.languageId);
 	const fileIcon = findKnownExtension
