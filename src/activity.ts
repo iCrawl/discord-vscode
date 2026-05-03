@@ -4,6 +4,7 @@ import { debug, env, window, workspace, languages, DiagnosticSeverity } from 'vs
 import {
 	CONFIG_KEYS,
 	CURSOR_IMAGE_KEY,
+	WINDSURF_IMAGE_KEY,
 	DEBUG_IMAGE_KEY,
 	EMPTY,
 	FAKE_EMPTY,
@@ -175,9 +176,11 @@ export async function activity(previous: ActivityPayload = {}) {
 		? DEBUG_IMAGE_KEY
 		: appName.includes('Cursor')
 			? CURSOR_IMAGE_KEY
-			: appName.includes('Insiders')
-				? VSCODE_INSIDERS_IMAGE_KEY
-				: VSCODE_IMAGE_KEY;
+			: appName.includes('Windsurf')
+				? WINDSURF_IMAGE_KEY
+				: appName.includes('Insiders')
+					? VSCODE_INSIDERS_IMAGE_KEY
+					: VSCODE_IMAGE_KEY;
 	const defaultSmallImageText = config[CONFIG_KEYS.SmallImage].replace(REPLACE_KEYS.AppName, appName);
 	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
