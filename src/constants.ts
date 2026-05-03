@@ -14,6 +14,7 @@ export const DEBUG_IMAGE_KEY = 'debug' as const;
 export const VSCODE_IMAGE_KEY = 'vscode' as const;
 export const VSCODE_INSIDERS_IMAGE_KEY = 'vscode-insiders' as const;
 export const CURSOR_IMAGE_KEY = 'cursor' as const;
+export const WINDSURF_IMAGE_KEY = 'windsurf' as const;
 
 export const UNKNOWN_GIT_BRANCH = 'Unknown' as const;
 export const UNKNOWN_GIT_REPO_NAME = 'Unknown' as const;
@@ -21,6 +22,7 @@ export const UNKNOWN_GIT_REPO_NAME = 'Unknown' as const;
 export const enum REPLACE_KEYS {
 	AppName = '{app_name}',
 	CurrentColumn = '{current_column}',
+	CurrentErrors = '{current_errors}',
 	CurrentLine = '{current_line}',
 	DirName = '{dir_name}',
 	Empty = '{empty}',
@@ -37,7 +39,6 @@ export const enum REPLACE_KEYS {
 	Workspace = '{workspace}',
 	WorkspaceAndFolder = '{workspace_and_folder}',
 	WorkspaceFolder = '{workspace_folder}',
-	CurrentErrors = '{current_errors}',
 }
 
 export const enum CONFIG_KEYS {
