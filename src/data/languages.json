@@ -305,6 +305,10 @@
 			"image": "qml"
 		},
 		{
+			"language": "quakec",
+			"image": "quakec"
+		},
+		{
 			"language": "r",
 			"image": "r"
 		},
