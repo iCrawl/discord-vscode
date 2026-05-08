@@ -1150,6 +1150,12 @@
 		".qml": {
 			"image": "manifest"
 		},
+		".qc": {
+			"image": "quakec"
+		},
+		".qh": {
+			"image": "quakec"
+		},
 		".qbs": {
 			"image": "manifest"
 		},
