@@ -305,6 +305,10 @@
 			"image": "qml"
 		},
 		{
+			"language": "quakec",
+			"image": "quakec"
+		},
+		{
 			"language": "r",
 			"image": "r"
 		},
@@ -1145,6 +1149,12 @@
 		},
 		".qml": {
 			"image": "manifest"
+		},
+		".qc": {
+			"image": "quakec"
+		},
+		".qh": {
+			"image": "quakec"
 		},
 		".qbs": {
 			"image": "manifest"
