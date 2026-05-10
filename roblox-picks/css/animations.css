@@ -1,0 +1,220 @@
+/* ─────────────────────────────────────────────
+   ANIMATIONS.CSS — Keyframes, transitions,
+   microinteractions, loading states
+   ───────────────────────────────────────────── */
+
+/* ── KEYFRAMES ── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes chatIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes typingPulse {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30%            { transform: translateY(-4px); opacity: 1; }
+}
+
+@keyframes heartPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.4); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(46,204,113,0.4); }
+  50%       { box-shadow: 0 0 0 5px rgba(46,204,113,0); }
+}
+
+/* ── APPLY ANIMATIONS ── */
+
+/* Staggered card entrance */
+.game-card { animation: cardEntrance 0.3s ease both; }
+.game-card:nth-child(1)  { animation-delay: 0.02s; }
+.game-card:nth-child(2)  { animation-delay: 0.04s; }
+.game-card:nth-child(3)  { animation-delay: 0.06s; }
+.game-card:nth-child(4)  { animation-delay: 0.08s; }
+.game-card:nth-child(5)  { animation-delay: 0.10s; }
+.game-card:nth-child(6)  { animation-delay: 0.12s; }
+.game-card:nth-child(7)  { animation-delay: 0.14s; }
+.game-card:nth-child(8)  { animation-delay: 0.16s; }
+.game-card:nth-child(n+9){ animation-delay: 0.18s; }
+
+/* Featured cards */
+.featured-card { animation: fadeUp 0.35s ease both; }
+.featured-card:nth-child(1) { animation-delay: 0s; }
+.featured-card:nth-child(2) { animation-delay: 0.07s; }
+.featured-card:nth-child(3) { animation-delay: 0.14s; }
+
+/* Gem cards */
+.gem-card { animation: fadeUp 0.3s ease both; }
+
+/* Hero */
+.hero-eyebrow { animation: fadeUp 0.4s ease 0.1s both; }
+.hero-title   { animation: fadeUp 0.4s ease 0.2s both; }
+.hero-sub     { animation: fadeUp 0.4s ease 0.3s both; }
+.hero-chips   { animation: fadeUp 0.4s ease 0.4s both; }
+.hero-actions { animation: fadeUp 0.4s ease 0.5s both; }
+
+/* Stats */
+.stat-item { animation: fadeUp 0.3s ease both; }
+.stat-item:nth-child(1) { animation-delay: 0.05s; }
+.stat-item:nth-child(2) { animation-delay: 0.10s; }
+.stat-item:nth-child(3) { animation-delay: 0.15s; }
+.stat-item:nth-child(4) { animation-delay: 0.20s; }
+.stat-item:nth-child(5) { animation-delay: 0.25s; }
+
+/* Tips */
+.tip-card { animation: fadeUp 0.3s ease both; }
+.tip-card:nth-child(1) { animation-delay: 0.05s; }
+.tip-card:nth-child(2) { animation-delay: 0.10s; }
+.tip-card:nth-child(3) { animation-delay: 0.15s; }
+.tip-card:nth-child(4) { animation-delay: 0.20s; }
+.tip-card:nth-child(5) { animation-delay: 0.25s; }
+.tip-card:nth-child(6) { animation-delay: 0.30s; }
+.tip-card:nth-child(7) { animation-delay: 0.35s; }
+.tip-card:nth-child(8) { animation-delay: 0.40s; }
+
+/* Status dot pulse */
+.status-dot { animation: statusPulse 2s ease-in-out infinite; }
+
+/* Heart pop on fav */
+.card-fav-btn.pop { animation: heartPop 0.35s ease forwards; }
+
+/* Filter button press */
+.filter-btn:active { transform: scale(0.96); }
+
+/* Fav toggle shake on no favs */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-4px); }
+  40%       { transform: translateX(4px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+.shake { animation: shake 0.4s ease; }
+
+/* Smooth image load */
+.card-thumb-img {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.card-thumb-img.loaded { opacity: 1; }
+
+.featured-thumb img {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.featured-thumb img.loaded { opacity: 1; }
+
+.mini-thumb img {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.mini-thumb img.loaded { opacity: 1; }
+
+.modal-hero img {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.modal-hero img.loaded { opacity: 1; }
+
+/* Intersection observer fade-in */
+.fade-in-observer {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-in-observer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── HOVER MICRO-INTERACTIONS ── */
+
+/* Card glow on hover (genre-specific) */
+.game-card[data-genre="fps"]:hover      { box-shadow: 0 12px 40px rgba(255,107,107,0.12); }
+.game-card[data-genre="horror"]:hover   { box-shadow: 0 12px 40px rgba(174,110,241,0.12); }
+.game-card[data-genre="adventure"]:hover{ box-shadow: 0 12px 40px rgba(77,171,247,0.12); }
+.game-card[data-genre="social"]:hover   { box-shadow: 0 12px 40px rgba(255,212,59,0.10); }
+.game-card[data-genre="building"]:hover { box-shadow: 0 12px 40px rgba(34,212,200,0.10); }
+
+/* Chip hover bounce */
+.chip { transition: transform var(--t-fast); }
+.chip:hover { transform: translateY(-1px); }
+
+/* Nav link underline */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 10px; right: 10px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform var(--t-base);
+}
+.nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+
+/* Logo hover */
+.logo { transition: opacity var(--t-fast); }
+.logo:hover { opacity: 0.85; }
+
+/* Rating star sparkle */
+.star:hover ~ .star { filter: grayscale(0.5) opacity(0.6); }

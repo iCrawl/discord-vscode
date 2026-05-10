@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roblox Game Discovery — Quality Picks Only</title>
+  <title>RobloxPicks — Quality Games Only</title>
   <style>
     :root {
       --bg: #0f0f14;
       --surface: #1a1a24;
       --surface2: #22222f;
+      --surface3: #2a2a3a;
       --border: #2e2e40;
       --accent: #e03c2f;
       --accent2: #ff6b35;
@@ -18,386 +19,223 @@
       --blue: #5b8dee;
       --purple: #9b59b6;
       --gold: #f0c040;
+      --cyan: #22d4c8;
+      --pink: #e056a0;
+      --orange: #ff8c42;
       --radius: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    /* HEADER */
+    /* ── HEADER ── */
     header {
       background: linear-gradient(135deg, #1a0a0a 0%, #12121e 50%, #0a0a1a 100%);
       border-bottom: 2px solid var(--accent);
       padding: 0 24px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
     }
-    .header-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      height: 64px;
-    }
-    .logo {
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .logo-r {
-      background: var(--accent);
-      color: white;
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
+    .header-inner { max-width: 1500px; margin: 0 auto; display: flex; align-items: center; gap: 16px; height: 64px; }
+    .logo { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .logo-r { background: var(--accent); color: white; width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; font-size: 18px; }
     .logo-text span { color: var(--accent); }
-    .header-search {
-      flex: 1;
-      max-width: 400px;
-      margin-left: auto;
-      position: relative;
-    }
-    .header-search input {
-      width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 14px 8px 38px;
-      color: var(--text);
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
+    .nav-links { display: flex; gap: 4px; margin-left: 8px; }
+    .nav-link { color: var(--muted); font-size: 13px; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; text-decoration: none; }
+    .nav-link:hover { color: var(--text); background: var(--surface2); }
+    .nav-link.active { color: var(--accent); }
+    .header-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .header-search { position: relative; }
+    .header-search input { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px 8px 36px; color: var(--text); font-size: 14px; outline: none; transition: border-color 0.2s; width: 260px; }
     .header-search input:focus { border-color: var(--accent); }
-    .header-search .search-icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      font-size: 15px;
-    }
+    .header-search .si { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; }
+    .sort-select { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; color: var(--text); font-size: 13px; outline: none; cursor: pointer; }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
       background: linear-gradient(160deg, #1a0505 0%, #0d0d1f 60%);
-      padding: 60px 24px 48px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
+      padding: 56px 24px 44px; text-align: center; border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
     }
-    .hero h1 {
-      font-size: clamp(28px, 5vw, 52px);
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 16px;
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(224,60,47,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(91,141,238,0.06) 0%, transparent 60%);
     }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--accent);
-    }
-    .hero p {
-      color: var(--muted);
-      font-size: 17px;
-      max-width: 560px;
-      margin: 0 auto 28px;
-    }
-    .badge-row {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .badge {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .badge.no { color: #ff5555; border-color: #ff5555; }
-    .badge.yes { color: var(--green); border-color: var(--green); }
+    .hero-content { position: relative; }
+    .hero h1 { font-size: clamp(28px, 5vw, 54px); font-weight: 900; line-height: 1.1; margin-bottom: 14px; }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero p { color: var(--muted); font-size: 16px; max-width: 540px; margin: 0 auto 24px; line-height: 1.6; }
+    .badge-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+    .badge { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 20px; padding: 5px 13px; font-size: 12px; color: var(--muted); }
+    .badge.no { color: #ff5555; border-color: rgba(255,85,85,0.4); }
+    .badge.yes { color: var(--green); border-color: rgba(45,206,137,0.4); }
 
-    /* MAIN */
-    main {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 32px 24px 64px;
-    }
+    /* ── MAIN ── */
+    main { max-width: 1500px; margin: 0 auto; padding: 28px 24px 64px; }
 
-    /* FILTERS */
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .section-title {
-      font-size: 20px;
-      font-weight: 700;
-    }
-    .section-title span { color: var(--accent); }
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .filter-btn {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 7px 14px;
-      font-size: 13px;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .filter-btn:hover { border-color: var(--accent); color: var(--text); }
-    .filter-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: white;
-      font-weight: 600;
-    }
+    /* ── STATS ── */
+    .stats-bar { display: flex; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+    .stat-chip { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; display: flex; align-items: center; gap: 10px; }
+    .stat-chip .icon { font-size: 20px; }
+    .stat-chip .info .num { font-weight: 800; font-size: 20px; line-height: 1; }
+    .stat-chip .info .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .num.green { color: var(--green); }
+    .num.red { color: #ff5555; }
+    .num.blue { color: var(--blue); }
+    .num.gold { color: var(--gold); }
 
-    /* STATS BAR */
-    .stats-bar {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 28px;
-      flex-wrap: wrap;
-    }
-    .stat-chip {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-    }
-    .stat-chip .num { font-weight: 700; font-size: 18px; }
-    .stat-chip .num.green { color: var(--green); }
-    .stat-chip .num.red { color: #ff5555; }
-    .stat-chip .num.blue { color: var(--blue); }
-    .stat-chip .lbl { color: var(--muted); }
-
-    /* GAME GRID */
-    .game-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-    .game-card {
+    /* ── FEATURED ── */
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .featured-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .featured-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
+      display: flex;
       transition: transform 0.2s, border-color 0.2s;
       cursor: pointer;
       position: relative;
     }
-    .game-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--accent);
+    .featured-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .featured-card .fc-thumb {
+      width: 110px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px;
     }
-    .game-card.hidden { display: none; }
+    .featured-card .fc-body { padding: 14px; flex: 1; min-width: 0; }
+    .featured-card .fc-title { font-size: 15px; font-weight: 700; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .featured-card .fc-creator { font-size: 11px; color: var(--muted); margin-bottom: 7px; }
+    .featured-card .fc-desc { font-size: 12px; color: #b0b0cc; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px; }
+    .featured-card .fc-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; }
+    .featured-card .fc-rating { color: var(--green); font-weight: 700; }
+    .featured-card .fc-players { color: var(--muted); }
+    .fc-crown { position: absolute; top: 8px; right: 8px; background: var(--gold); color: #000; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; }
 
-    .card-thumb {
-      width: 100%;
-      height: 160px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 56px;
-      position: relative;
-      overflow: hidden;
+    /* ── FILTERS ── */
+    .controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+    .section-title { font-size: 18px; font-weight: 700; }
+    .section-title span { color: var(--accent); }
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 6px; }
+    .filter-btn {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 6px 12px; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.15s;
+      display: flex; align-items: center; gap: 5px; white-space: nowrap;
     }
-    .card-thumb::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5));
-    }
-    .card-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.75);
-      border-radius: 6px;
-      padding: 3px 8px;
-      font-size: 11px;
-      font-weight: 700;
-      z-index: 1;
-      backdrop-filter: blur(4px);
-    }
-    .card-badge.quality { color: var(--gold); border: 1px solid var(--gold); }
-    .card-badge.new { color: var(--green); border: 1px solid var(--green); }
-    .card-badge.classic { color: var(--blue); border: 1px solid var(--blue); }
+    .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; font-weight: 600; }
+    .filter-btn .count { background: rgba(255,255,255,0.15); border-radius: 3px; padding: 1px 5px; font-size: 10px; }
+    .filter-btn.active .count { background: rgba(0,0,0,0.2); }
 
-    .card-body { padding: 16px; }
-    .card-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .card-creator {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-    .card-desc {
-      font-size: 13px;
-      color: #c0c0d8;
-      line-height: 1.5;
-      margin-bottom: 12px;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .card-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-    .tag {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2px 8px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .tag.genre-tag {
-      color: var(--blue);
-      border-color: #2a3560;
-      background: #0e1428;
-    }
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid var(--border);
-      padding-top: 12px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .rating {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-weight: 600;
-      font-size: 13px;
-    }
+    /* ── GAME GRID ── */
+    .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+    .game-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, border-color 0.2s; cursor: pointer; position: relative; }
+    .game-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .card-thumb { width: 100%; height: 150px; display: flex; align-items: center; justify-content: center; font-size: 52px; position: relative; overflow: hidden; }
+    .card-thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.6)); }
+    .card-badges { position: absolute; top: 8px; right: 8px; display: flex; flex-direction: column; gap: 4px; z-index: 1; }
+    .card-badge { background: rgba(0,0,0,0.8); border-radius: 5px; padding: 2px 7px; font-size: 10px; font-weight: 700; backdrop-filter: blur(4px); border: 1px solid; white-space: nowrap; }
+    .card-badge.quality { color: var(--gold); border-color: rgba(240,192,64,0.5); }
+    .card-badge.new { color: var(--green); border-color: rgba(45,206,137,0.5); }
+    .card-badge.classic { color: var(--blue); border-color: rgba(91,141,238,0.5); }
+    .card-badge.hidden-gem { color: var(--cyan); border-color: rgba(34,212,200,0.5); }
+    .card-badge.updated { color: var(--orange); border-color: rgba(255,140,66,0.5); }
+    .diff-badge { position: absolute; bottom: 8px; left: 8px; z-index: 1; background: rgba(0,0,0,0.8); border-radius: 4px; padding: 2px 7px; font-size: 10px; font-weight: 700; }
+    .diff-easy { color: var(--green); }
+    .diff-medium { color: var(--gold); }
+    .diff-hard { color: #ff6b6b; }
+    .diff-extreme { color: var(--pink); }
+    .card-body { padding: 14px; }
+    .card-title { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+    .card-creator { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+    .card-desc { font-size: 12px; color: #c0c0d8; line-height: 1.45; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .tag { background: #0e1428; border: 1px solid #2a3560; border-radius: 4px; padding: 2px 7px; font-size: 10px; color: var(--blue); }
+    .tag.mp { background: #0e1e14; border-color: #1a4028; color: var(--green); }
+    .tag.solo { background: #1e1428; border-color: #3a2060; color: var(--purple); }
+    .tag.free { background: #1e1a0a; border-color: #403a14; color: var(--gold); }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 10px; }
+    .rating { display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 13px; }
     .rating.high { color: var(--green); }
     .rating.mid { color: var(--gold); }
-    .players { color: var(--muted); }
+    .rating.low { color: #ff8888; }
+    .card-footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+    .players { font-size: 11px; color: var(--muted); }
+    .genre-pill { font-size: 10px; background: var(--surface2); border-radius: 3px; padding: 1px 6px; color: var(--muted); text-transform: capitalize; }
 
-    /* WHY NOT BRAINROT */
-    .why-section {
-      margin: 48px 0;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-    }
-    .why-section h2 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
+    /* ── HIDDEN GEMS SECTION ── */
+    .gems-section { margin: 44px 0 32px; }
+    .gems-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    .gem-card { background: linear-gradient(135deg, #0d1a1a, #0a0a1a); border: 1px solid rgba(34,212,200,0.2); border-radius: 10px; padding: 14px; display: flex; gap: 12px; align-items: flex-start; cursor: pointer; transition: border-color 0.2s; }
+    .gem-card:hover { border-color: var(--cyan); }
+    .gem-emoji { font-size: 32px; flex-shrink: 0; }
+    .gem-title { font-size: 14px; font-weight: 700; color: var(--cyan); margin-bottom: 3px; }
+    .gem-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+    /* ── BEGINNER SECTION ── */
+    .beginner-section { margin: 44px 0 32px; }
+    .beginner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+    .beginner-card { background: linear-gradient(135deg, #0a1a0a, #0a0a0a); border: 1px solid rgba(45,206,137,0.2); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: border-color 0.2s; }
+    .beginner-card:hover { border-color: var(--green); }
+    .beginner-emoji { font-size: 28px; flex-shrink: 0; }
+    .beginner-title { font-size: 13px; font-weight: 700; color: var(--green); }
+    .beginner-genre { font-size: 11px; color: var(--muted); text-transform: capitalize; }
+
+    /* ── NEWS/TIPS ── */
+    .tips-section { margin: 44px 0 32px; }
+    .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .tip-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+    .tip-icon { font-size: 28px; margin-bottom: 10px; }
+    .tip-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .tip-body { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ── WHY NOT BRAINROT ── */
+    .why-section { margin: 44px 0 32px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+    .why-section h2 { font-size: 18px; font-weight: 700; margin-bottom: 18px; }
     .why-section h2 span { color: var(--accent); }
-    .criteria-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-    }
-    .criterion {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px;
-    }
-    .criterion-icon { font-size: 24px; margin-bottom: 8px; }
-    .criterion-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-    .criterion-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+    .criteria-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .criterion { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+    .criterion-icon { font-size: 22px; margin-bottom: 6px; }
+    .criterion-title { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+    .criterion-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
 
-    /* AVOID SECTION */
-    .avoid-section {
-      margin: 32px 0;
-    }
-    .avoid-section h2 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
+    /* ── AVOID ── */
+    .avoid-section { margin: 32px 0; }
+    .avoid-section h2 { font-size: 18px; font-weight: 700; margin-bottom: 14px; }
     .avoid-section h2 span { color: #ff5555; }
-    .avoid-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 12px;
-    }
-    .avoid-item {
-      background: #1a0a0a;
-      border: 1px solid #3a1515;
-      border-radius: 8px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
+    .avoid-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+    .avoid-item { background: #1a0a0a; border: 1px solid #3a1515; border-radius: 8px; padding: 12px 14px; display: flex; align-items: flex-start; gap: 10px; }
     .avoid-item .icon { font-size: 18px; flex-shrink: 0; }
-    .avoid-item .text { font-size: 13px; color: #c0a0a0; }
-    .avoid-item .text strong { color: #ff8888; display: block; margin-bottom: 2px; }
+    .avoid-item .text { font-size: 12px; color: #c0a0a0; }
+    .avoid-item .text strong { color: #ff8888; display: block; margin-bottom: 2px; font-size: 13px; }
 
-    /* NO RESULTS */
-    .no-results {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--muted);
-      display: none;
-    }
+    /* ── NO RESULTS ── */
+    .no-results { text-align: center; padding: 60px 20px; color: var(--muted); display: none; }
     .no-results .emoji { font-size: 48px; margin-bottom: 12px; }
 
-    /* FOOTER */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 24px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
+    /* ── BACK TO TOP ── */
+    #backTop { position: fixed; bottom: 24px; right: 24px; background: var(--accent); color: white; border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 18px; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(224,60,47,0.4); transition: transform 0.2s; z-index: 200; }
+    #backTop:hover { transform: scale(1.1); }
+    #backTop.show { display: flex; }
 
-    /* SCROLLBAR */
+    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 24px; text-align: center; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    footer a { color: var(--accent); text-decoration: none; }
+
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-    @media (max-width: 600px) {
-      .header-inner { gap: 10px; }
-      .header-search { max-width: 180px; }
-      .hero { padding: 40px 16px 32px; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .header-search input { width: 160px; }
+      .sort-select { display: none; }
+      .featured-grid { grid-template-columns: 1fr; }
       .game-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 36px 16px 28px; }
+      .header-search input { width: 130px; }
     }
   </style>
 </head>
@@ -409,633 +247,420 @@
       <div class="logo-r">R</div>
       <div class="logo-text">Roblox<span>Picks</span></div>
     </div>
-    <div class="header-search">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search games..." />
+    <nav class="nav-links">
+      <a class="nav-link active" href="#all">All Games</a>
+      <a class="nav-link" href="#featured">Featured</a>
+      <a class="nav-link" href="#gems">Hidden Gems</a>
+      <a class="nav-link" href="#beginners">For Beginners</a>
+      <a class="nav-link" href="#tips">Tips</a>
+    </nav>
+    <div class="header-right">
+      <select class="sort-select" id="sortSelect">
+        <option value="rating">Sort: Top Rated</option>
+        <option value="players">Sort: Most Players</option>
+        <option value="name">Sort: A–Z</option>
+        <option value="new">Sort: Newest</option>
+      </select>
+      <div class="header-search">
+        <span class="si">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search games, genres, tags…" />
+      </div>
     </div>
   </div>
 </header>
 
 <div class="hero">
-  <h1>Discover <em>Quality</em> Roblox Games</h1>
-  <p>Handpicked games with real gameplay, no pay-to-win mechanics, and zero brainrot. Actual fun, actually worth your time.</p>
-  <div class="badge-row">
-    <span class="badge yes">✓ Skill-based gameplay</span>
-    <span class="badge yes">✓ No auto-clicker grind</span>
-    <span class="badge yes">✓ Real content</span>
-    <span class="badge no">✗ No brainrot</span>
-    <span class="badge no">✗ No endless simulators</span>
-    <span class="badge no">✗ No pay-to-win</span>
+  <div class="hero-content">
+    <h1>Discover <em>Quality</em> Roblox Games</h1>
+    <p>60+ handpicked games with real gameplay, no pay-to-win, and zero brainrot. Every genre covered. All skill levels welcome.</p>
+    <div class="badge-row">
+      <span class="badge yes">✓ Skill-based gameplay</span>
+      <span class="badge yes">✓ Real objectives</span>
+      <span class="badge yes">✓ All genres</span>
+      <span class="badge yes">✓ Hidden gems included</span>
+      <span class="badge no">✗ No brainrot</span>
+      <span class="badge no">✗ No P2W</span>
+      <span class="badge no">✗ No idle clickers</span>
+    </div>
   </div>
 </div>
 
 <main>
+  <!-- STATS -->
   <div class="stats-bar">
-    <div class="stat-chip"><span class="num green" id="visibleCount">36</span><span class="lbl">Quality Games</span></div>
-    <div class="stat-chip"><span class="num blue">8</span><span class="lbl">Genres</span></div>
-    <div class="stat-chip"><span class="num red">0</span><span class="lbl">Brainrot Games</span></div>
+    <div class="stat-chip"><div class="icon">🎮</div><div class="info"><div class="num green" id="visibleCount">62</div><div class="lbl">Quality Games</div></div></div>
+    <div class="stat-chip"><div class="icon">🗂️</div><div class="info"><div class="num blue">11</div><div class="lbl">Genres</div></div></div>
+    <div class="stat-chip"><div class="icon">💎</div><div class="info"><div class="num gold">8</div><div class="lbl">Hidden Gems</div></div></div>
+    <div class="stat-chip"><div class="icon">🚫</div><div class="info"><div class="num red">0</div><div class="lbl">Brainrot</div></div></div>
+    <div class="stat-chip"><div class="icon">⭐</div><div class="info"><div class="num gold" id="topCount">15</div><div class="lbl">Top Picks</div></div></div>
   </div>
 
-  <div class="section-header">
-    <div class="section-title">All <span>Quality</span> Games</div>
-    <div class="filter-bar" id="filterBar">
-      <button class="filter-btn active" data-genre="all">All</button>
-      <button class="filter-btn" data-genre="fps">FPS / Combat</button>
-      <button class="filter-btn" data-genre="adventure">Adventure</button>
-      <button class="filter-btn" data-genre="roleplay">Roleplay</button>
-      <button class="filter-btn" data-genre="tycoon">Tycoon</button>
-      <button class="filter-btn" data-genre="horror">Horror</button>
-      <button class="filter-btn" data-genre="social">Social</button>
-      <button class="filter-btn" data-genre="platformer">Platformer</button>
-      <button class="filter-btn" data-genre="strategy">Strategy</button>
+  <!-- FEATURED -->
+  <div id="featured">
+    <div class="section-label">⭐ Editor's Top Picks</div>
+    <div class="featured-grid" id="featuredGrid"></div>
+  </div>
+
+  <!-- ALL GAMES -->
+  <div id="all">
+    <div class="controls">
+      <div class="section-title">All <span>Quality</span> Games</div>
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-genre="all">All <span class="count" id="cnt-all">62</span></button>
+        <button class="filter-btn" data-genre="fps">🔫 FPS <span class="count" id="cnt-fps"></span></button>
+        <button class="filter-btn" data-genre="adventure">⚔️ Adventure <span class="count" id="cnt-adventure"></span></button>
+        <button class="filter-btn" data-genre="roleplay">🎭 Roleplay <span class="count" id="cnt-roleplay"></span></button>
+        <button class="filter-btn" data-genre="horror">👻 Horror <span class="count" id="cnt-horror"></span></button>
+        <button class="filter-btn" data-genre="tycoon">🏗️ Tycoon <span class="count" id="cnt-tycoon"></span></button>
+        <button class="filter-btn" data-genre="platformer">🏃 Platformer <span class="count" id="cnt-platformer"></span></button>
+        <button class="filter-btn" data-genre="social">🎲 Social <span class="count" id="cnt-social"></span></button>
+        <button class="filter-btn" data-genre="strategy">♟️ Strategy <span class="count" id="cnt-strategy"></span></button>
+        <button class="filter-btn" data-genre="racing">🏎️ Racing <span class="count" id="cnt-racing"></span></button>
+        <button class="filter-btn" data-genre="sports">⚽ Sports <span class="count" id="cnt-sports"></span></button>
+        <button class="filter-btn" data-genre="building">🧱 Building <span class="count" id="cnt-building"></span></button>
+      </div>
+    </div>
+    <div class="game-grid" id="gameGrid"></div>
+    <div class="no-results" id="noResults">
+      <div class="emoji">🕹️</div>
+      <div>No games match your search. Try a different term or genre.</div>
     </div>
   </div>
 
-  <div class="game-grid" id="gameGrid"></div>
-  <div class="no-results" id="noResults">
-    <div class="emoji">🕹️</div>
-    <div>No games match your search. Try a different term.</div>
+  <!-- HIDDEN GEMS -->
+  <div class="gems-section" id="gems">
+    <div class="section-label">💎 Hidden Gems — Lesser Known, Totally Worth It</div>
+    <div class="gems-grid" id="gemsGrid"></div>
   </div>
 
+  <!-- BEGINNERS -->
+  <div class="beginner-section" id="beginners">
+    <div class="section-label">🌱 Best For Beginners — Easy to Pick Up</div>
+    <div class="beginner-grid" id="beginnerGrid"></div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="tips-section" id="tips">
+    <div class="section-label">💡 Roblox Tips & Knowledge</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">🛡️</div>
+        <div class="tip-title">Stay Safe Online</div>
+        <div class="tip-body">Never share your Roblox password or personal info in game chat. Enable 2FA on your account. Report anyone asking for account info.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">💰</div>
+        <div class="tip-title">Smart Robux Spending</div>
+        <div class="tip-body">Only buy Robux from the official Roblox site. Free Robux generators are scams 100% of the time. Prioritize cosmetics over gameplay advantages.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🎯</div>
+        <div class="tip-title">Getting Better at FPS</div>
+        <div class="tip-body">Lower your sensitivity, practice in aim trainers, learn map callouts, and focus on positioning before worrying about raw aim.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">👥</div>
+        <div class="tip-title">Private Servers</div>
+        <div class="tip-body">Many games offer free or cheap private servers. Great for learning mechanics without pressure, practicing with friends, or just chilling.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">⚙️</div>
+        <div class="tip-title">Performance Settings</div>
+        <div class="tip-body">Lower graphics quality in competitive games for better FPS. Shift+F5 or the Roblox menu lets you adjust this mid-game without restarting.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📱</div>
+        <div class="tip-title">Mobile vs PC</div>
+        <div class="tip-body">FPS and platformers are significantly easier on PC. Horror and roleplay games work great on mobile. Check if a game has mobile controls before jumping in.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔍</div>
+        <div class="tip-title">Finding New Games</div>
+        <div class="tip-body">Use the "Sort by: Rating" filter instead of "Popular". Popular shows what's trending (often brainrot); rated shows what players actually enjoy.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🗺️</div>
+        <div class="tip-title">Every Game Has a Wiki</div>
+        <div class="tip-body">Stuck in Deepwoken or Doors? Almost every major Roblox game has a community wiki with guides, entity info, and progression maps. Use them.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY NOT BRAINROT -->
   <div class="why-section">
     <h2>What Makes a Game <span>Not Brainrot?</span></h2>
     <div class="criteria-grid">
-      <div class="criterion">
-        <div class="criterion-icon">🧠</div>
-        <div class="criterion-title">Skill Required</div>
-        <div class="criterion-desc">The game rewards practice, strategy, and improvement — not just time spent.</div>
-      </div>
-      <div class="criterion">
-        <div class="criterion-icon">🎮</div>
-        <div class="criterion-title">Real Objectives</div>
-        <div class="criterion-desc">There is something to do beyond clicking repeatedly or waiting for a timer.</div>
-      </div>
-      <div class="criterion">
-        <div class="criterion-icon">⚖️</div>
-        <div class="criterion-title">Fair Progression</div>
-        <div class="criterion-desc">Progress is earned through gameplay, not through purchases or grinding loops.</div>
-      </div>
-      <div class="criterion">
-        <div class="criterion-icon">🔄</div>
-        <div class="criterion-title">Replayability</div>
-        <div class="criterion-desc">Each session is different and interesting, not a copy-paste repeat of the last.</div>
-      </div>
-      <div class="criterion">
-        <div class="criterion-icon">👥</div>
-        <div class="criterion-title">Community Depth</div>
-        <div class="criterion-desc">The game has an engaged community with things to discuss, create, or compete in.</div>
-      </div>
-      <div class="criterion">
-        <div class="criterion-icon">🏗️</div>
-        <div class="criterion-title">Quality Build</div>
-        <div class="criterion-desc">The map, mechanics, and UI show genuine effort from the developers.</div>
-      </div>
+      <div class="criterion"><div class="criterion-icon">🧠</div><div class="criterion-title">Skill Required</div><div class="criterion-desc">The game rewards practice and improvement, not just time spent.</div></div>
+      <div class="criterion"><div class="criterion-icon">🎮</div><div class="criterion-title">Real Objectives</div><div class="criterion-desc">Something meaningful to do beyond clicking or waiting.</div></div>
+      <div class="criterion"><div class="criterion-icon">⚖️</div><div class="criterion-title">Fair Progression</div><div class="criterion-desc">Progress earned through gameplay, not purchases.</div></div>
+      <div class="criterion"><div class="criterion-icon">🔄</div><div class="criterion-title">Replayability</div><div class="criterion-desc">Each session is different and interesting.</div></div>
+      <div class="criterion"><div class="criterion-icon">👥</div><div class="criterion-title">Community Depth</div><div class="criterion-desc">Things to discuss, create, or compete in.</div></div>
+      <div class="criterion"><div class="criterion-icon">🏗️</div><div class="criterion-title">Quality Build</div><div class="criterion-desc">Map, mechanics, and UI show genuine developer effort.</div></div>
     </div>
   </div>
 
+  <!-- AVOID -->
   <div class="avoid-section">
-    <h2>Games We <span>Avoid (Brainrot)</span></h2>
+    <h2>What We <span>Exclude (Brainrot)</span></h2>
     <div class="avoid-list">
-      <div class="avoid-item">
-        <span class="icon">🤖</span>
-        <div class="text"><strong>Auto-clicker Simulators</strong>Tap, collect, upgrade — zero engagement. Designed to waste your time.</div>
-      </div>
-      <div class="avoid-item">
-        <span class="icon">💸</span>
-        <div class="text"><strong>Pay-to-Win Games</strong>Games where Robux purchases give unfair competitive advantages.</div>
-      </div>
-      <div class="avoid-item">
-        <span class="icon">🎰</span>
-        <div class="text"><strong>Gambling Mechanics</strong>Egg hatching, case openings with artificially low odds designed to frustrate.</div>
-      </div>
-      <div class="avoid-item">
-        <span class="icon">🔁</span>
-        <div class="text"><strong>Copy-Paste Obbies</strong>A thousand identical obstacle courses with nothing unique to offer.</div>
-      </div>
-      <div class="avoid-item">
-        <span class="icon">🐾</span>
-        <div class="text"><strong>Pure Pet Collectors</strong>Games whose entire loop is collecting pets with no actual gameplay underneath.</div>
-      </div>
-      <div class="avoid-item">
-        <span class="icon">📈</span>
-        <div class="text"><strong>Incremental Only Games</strong>Number goes up — that's the entire game. No skill, no story, no substance.</div>
-      </div>
+      <div class="avoid-item"><span class="icon">🤖</span><div class="text"><strong>Auto-clicker Simulators</strong>Tap, collect, upgrade — zero engagement, designed to waste time.</div></div>
+      <div class="avoid-item"><span class="icon">💸</span><div class="text"><strong>Pay-to-Win Games</strong>Robux purchases that give unfair competitive advantages.</div></div>
+      <div class="avoid-item"><span class="icon">🎰</span><div class="text"><strong>Gambling Mechanics</strong>Egg hatching with artificially low odds designed to frustrate.</div></div>
+      <div class="avoid-item"><span class="icon">🔁</span><div class="text"><strong>Copy-Paste Obbies</strong>Identical obstacle courses with nothing unique to offer.</div></div>
+      <div class="avoid-item"><span class="icon">🐾</span><div class="text"><strong>Pure Pet Collectors</strong>Collecting pets with no actual gameplay underneath.</div></div>
+      <div class="avoid-item"><span class="icon">📈</span><div class="text"><strong>Incremental Only Games</strong>Number goes up — no skill, no story, no substance.</div></div>
     </div>
   </div>
 </main>
 
+<button id="backTop" title="Back to top">↑</button>
+
 <footer>
-  RobloxPicks — Curated quality games only. Not affiliated with Roblox Corporation. All game names are property of their creators.
+  <div>RobloxPicks — 62 curated quality games, zero brainrot.</div>
+  <div style="margin-top:6px;">Not affiliated with Roblox Corporation. All game names belong to their creators.</div>
+  <div style="margin-top:6px; font-size:11px;">Last updated: May 2025</div>
 </footer>
 
 <script>
+const GENRE_COLORS = {
+  fps:       'linear-gradient(135deg, #0d1a0d, #0a1020)',
+  adventure: 'linear-gradient(135deg, #0d1020, #1a0d20)',
+  roleplay:  'linear-gradient(135deg, #0a1a1a, #0a0a1a)',
+  horror:    'linear-gradient(135deg, #1a0505, #0a0a0a)',
+  tycoon:    'linear-gradient(135deg, #1a1505, #051a05)',
+  platformer:'linear-gradient(135deg, #1a0505, #1a1505)',
+  social:    'linear-gradient(135deg, #05051a, #1a0520)',
+  strategy:  'linear-gradient(135deg, #05100a, #0a0a1a)',
+  racing:    'linear-gradient(135deg, #1a1005, #0a0505)',
+  sports:    'linear-gradient(135deg, #051a05, #051010)',
+  building:  'linear-gradient(135deg, #100510, #0a1010)',
+};
+
 const games = [
-  // FPS / COMBAT
-  {
-    title: "Phantom Forces",
-    creator: "StyLiS Studios",
-    genre: "fps",
-    emoji: "🔫",
-    bg: "linear-gradient(135deg, #1a2a1a, #0d1a2a)",
-    desc: "The gold standard of Roblox FPS. Realistic mechanics, a huge weapon arsenal, diverse maps, and a deep progression system built around actual aim and strategy.",
-    tags: ["Team Deathmatch", "Battle Royale", "Competitive"],
-    rating: 97,
-    players: "~50K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "Arsenal",
-    creator: "ROLVe Community",
-    genre: "fps",
-    emoji: "🪖",
-    bg: "linear-gradient(135deg, #1a1a0d, #2a1a0d)",
-    desc: "Gun game mode done perfectly. Cycle through weapons with each kill, fast-paced matches, and a huge cosmetic system that doesn't affect gameplay balance.",
-    tags: ["Gun Game", "Fast Paced", "Cosmetics"],
-    rating: 94,
-    players: "~30K active",
-    badge: "classic",
-    badgeText: "🏛 Classic"
-  },
-  {
-    title: "Bad Business",
-    creator: "typ_ical",
-    genre: "fps",
-    emoji: "💥",
-    bg: "linear-gradient(135deg, #1a0d0d, #2a1515)",
-    desc: "Clean and smooth FPS with excellent gunplay. Polished hit registration, great map variety, and a fair monetization model that doesn't gate gameplay.",
-    tags: ["TDM", "Smooth Gunplay", "Fair"],
-    rating: 90,
-    players: "~15K active",
-    badge: null
-  },
-  {
-    title: "Entry Point",
-    creator: "Cishshato",
-    genre: "fps",
-    emoji: "🕵️",
-    bg: "linear-gradient(135deg, #0d0d0d, #1a1a2a)",
-    desc: "A genuine stealth-action heist game. Plan missions, coordinate with teammates, and choose between stealth and loud — with meaningful consequences for each choice.",
-    tags: ["Stealth", "Heist", "Cooperative"],
-    rating: 96,
-    players: "~8K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "Counter Blox",
-    creator: "ROLVe Community",
-    genre: "fps",
-    emoji: "🎯",
-    bg: "linear-gradient(135deg, #0a1a0a, #1a2a1a)",
-    desc: "A CS:GO-inspired tactical shooter with bomb defusal, competitive matchmaking, and economy mechanics. One of the most strategically deep Roblox FPS games.",
-    tags: ["Tactical", "Competitive", "Economy"],
-    rating: 88,
-    players: "~5K active",
-    badge: null
-  },
+  // ── FPS / COMBAT ──
+  { title:"Phantom Forces",         creator:"StyLiS Studios",       genre:"fps",       emoji:"🔫", desc:"The gold standard of Roblox FPS. Realistic mechanics, massive weapon arsenal, and deep progression built around actual aim and strategy.", tags:["TDM","Gun Game","Competitive"], rating:97, players:50000, playersLabel:"~50K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:false, gem:false, featured:true, year:2015 },
+  { title:"Arsenal",                creator:"ROLVe Community",      genre:"fps",       emoji:"🪖", desc:"Gun game done perfectly. Cycle through weapons with each kill, fast-paced matches, and cosmetics that don't affect balance.", tags:["Gun Game","Fast Paced","Cosmetics"], rating:94, players:30000, playersLabel:"~30K active", badge:"classic", badgeText:"🏛 Classic", diff:"easy", mp:true, beginner:true, gem:false, featured:true, year:2015 },
+  { title:"Bad Business",           creator:"typ_ical",             genre:"fps",       emoji:"💥", desc:"Clean and smooth FPS with excellent gunplay, polished hit registration, great map variety, and fair monetization.", tags:["TDM","Smooth","Fair"], rating:90, players:15000, playersLabel:"~15K active", badge:null, diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2019 },
+  { title:"Entry Point",            creator:"Cishshato",            genre:"fps",       emoji:"🕵️", desc:"A genuine stealth-action heist game. Plan missions, coordinate teammates, and choose between stealth and loud — consequences matter.", tags:["Stealth","Heist","Co-op"], rating:96, players:8000, playersLabel:"~8K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"hard", mp:true, beginner:false, gem:false, featured:true, year:2018 },
+  { title:"Counter Blox",           creator:"ROLVe Community",      genre:"fps",       emoji:"🎯", desc:"CS:GO-inspired tactical shooter with bomb defusal, competitive matchmaking, and economy mechanics. Deeply strategic.", tags:["Tactical","Economy","Ranked"], rating:88, players:5000, playersLabel:"~5K active", badge:null, diff:"hard", mp:true, beginner:false, gem:false, featured:false, year:2016 },
+  { title:"Strucid",                creator:"Frosted Studios",      genre:"fps",       emoji:"🏗️", desc:"Fortnite-inspired build-and-shoot battle royale. Build structures for cover while fighting — requires both aim and construction skills.", tags:["Battle Royale","Building","BR"], rating:83, players:8000, playersLabel:"~8K active", badge:null, diff:"medium", mp:true, beginner:true, gem:false, featured:false, year:2018 },
+  { title:"Criminality",            creator:"16FLIP",               genre:"fps",       emoji:"🌃", desc:"Gritty street-level FPS with a criminal underworld theme, realistic weapon handling, and an open city environment.", tags:["Open World","Crime","Realistic"], rating:85, players:6000, playersLabel:"~6K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"medium", mp:true, beginner:false, gem:true, featured:false, year:2020 },
+  { title:"BedWars",                creator:"Easy.gg",              genre:"fps",       emoji:"🛏️", desc:"Protect your bed while destroying others. Strategic resource management meets PvP combat in this polished Minecraft-inspired game.", tags:["Strategy","PvP","Destroy Beds"], rating:91, players:40000, playersLabel:"~40K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:true, gem:false, featured:true, year:2021 },
 
-  // ADVENTURE
-  {
-    title: "Deepwoken",
-    creator: "Monad Studios",
-    genre: "adventure",
-    emoji: "⚔️",
-    bg: "linear-gradient(135deg, #0d1a2a, #1a0d2a)",
-    desc: "A hardcore action-RPG with permadeath, deep lore, and skill-based combat. One of Roblox's most ambitious games — genuinely punishing and rewarding.",
-    tags: ["RPG", "Permadeath", "Skill-Based"],
-    rating: 95,
-    players: "~20K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "A Dusty Trip",
-    creator: "AbsintheNoir",
-    genre: "adventure",
-    emoji: "🚗",
-    bg: "linear-gradient(135deg, #2a1a0a, #1a0d0a)",
-    desc: "Drive across a vast post-apocalyptic world, scavenge for fuel and supplies, and survive the wasteland. Atmospheric, open-ended, and genuinely tense.",
-    tags: ["Survival", "Open World", "Atmospheric"],
-    rating: 91,
-    players: "~25K active",
-    badge: "new",
-    badgeText: "🆕 Trending"
-  },
-  {
-    title: "Blox Fruits",
-    creator: "go play blox fruits",
-    genre: "adventure",
-    emoji: "🍎",
-    bg: "linear-gradient(135deg, #1a0a0d, #0d1a2a)",
-    desc: "One Piece-inspired open world combat RPG. Hunt Devil Fruits, fight bosses, level up your character, and master different combat styles across massive seas.",
-    tags: ["RPG", "Anime", "Open World"],
-    rating: 85,
-    players: "~80K active",
-    badge: null
-  },
-  {
-    title: "Kaiju Universe",
-    creator: "Godzilla Fan Club",
-    genre: "adventure",
-    emoji: "🦖",
-    bg: "linear-gradient(135deg, #0a1a0a, #1a2a1a)",
-    desc: "Stomp cities as iconic kaiju monsters, level up your creature, and battle other giant monsters. Unique concept with excellent kaiju model quality.",
-    tags: ["Kaiju", "Destruction", "PvP"],
-    rating: 87,
-    players: "~10K active",
-    badge: null
-  },
-  {
-    title: "World // Zero",
-    creator: "RedManta",
-    genre: "adventure",
-    emoji: "🌍",
-    bg: "linear-gradient(135deg, #0a0a1a, #1a1a2a)",
-    desc: "A full MMORPG experience inside Roblox. Dungeons, raids, crafting, guilds — one of the most feature-complete games on the platform.",
-    tags: ["MMORPG", "Dungeons", "Guilds"],
-    rating: 89,
-    players: "~7K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "Vesteria",
-    creator: "berezaa games",
-    genre: "adventure",
-    emoji: "🏹",
-    bg: "linear-gradient(135deg, #1a1a0a, #0a1a0a)",
-    desc: "A classic fantasy MMORPG with three distinct classes, quests, raids, and a player economy. Built with genuine RPG design philosophy.",
-    tags: ["MMORPG", "Fantasy", "Classes"],
-    rating: 88,
-    players: "~4K active",
-    badge: null
-  },
-  {
-    title: "Arcane Odyssey",
-    creator: "vetexgames",
-    genre: "adventure",
-    emoji: "🌊",
-    bg: "linear-gradient(135deg, #0a0d1a, #1a1a2a)",
-    desc: "Naval exploration RPG with deep magic systems and a handcrafted archipelago to explore. Years in development with exceptional world-building.",
-    tags: ["Naval", "Magic", "Open World"],
-    rating: 93,
-    players: "~18K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
+  // ── ADVENTURE ──
+  { title:"Deepwoken",              creator:"Monad Studios",        genre:"adventure", emoji:"⚔️", desc:"Hardcore action-RPG with permadeath, deep lore, and skill-based combat. Roblox's most ambitious game — genuinely punishing and rewarding.", tags:["RPG","Permadeath","Lore"], rating:95, players:20000, playersLabel:"~20K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"extreme", mp:true, beginner:false, gem:false, featured:true, year:2021 },
+  { title:"Arcane Odyssey",         creator:"vetexgames",           genre:"adventure", emoji:"🌊", desc:"Naval exploration RPG with deep magic systems and a handcrafted archipelago. Years in development with exceptional world-building.", tags:["Naval","Magic","Open World"], rating:93, players:18000, playersLabel:"~18K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"hard", mp:true, beginner:false, gem:false, featured:true, year:2023 },
+  { title:"A Dusty Trip",           creator:"AbsintheNoir",         genre:"adventure", emoji:"🚗", desc:"Drive across a vast post-apocalyptic world, scavenge for fuel and supplies, and survive the wasteland. Atmospheric and genuinely tense.", tags:["Survival","Open World","Scavenging"], rating:91, players:25000, playersLabel:"~25K active", badge:"new", badgeText:"🆕 Trending", diff:"medium", mp:true, beginner:true, gem:false, featured:false, year:2024 },
+  { title:"Blox Fruits",            creator:"go play blox fruits",  genre:"adventure", emoji:"🍎", desc:"One Piece-inspired open world RPG. Hunt Devil Fruits, fight bosses, and master different combat styles across massive seas.", tags:["RPG","Anime","Open World"], rating:85, players:80000, playersLabel:"~80K active", badge:null, diff:"medium", mp:true, beginner:true, gem:false, featured:false, year:2019 },
+  { title:"World // Zero",          creator:"RedManta",             genre:"adventure", emoji:"🌍", desc:"A full MMORPG inside Roblox. Dungeons, raids, crafting, guilds — one of the most feature-complete games on the platform.", tags:["MMORPG","Dungeons","Guilds"], rating:89, players:7000, playersLabel:"~7K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2019 },
+  { title:"Vesteria",               creator:"berezaa games",        genre:"adventure", emoji:"🏹", desc:"Classic fantasy MMORPG with three distinct classes, quests, raids, and a player economy built on genuine RPG design philosophy.", tags:["MMORPG","Fantasy","Classes"], rating:88, players:4000, playersLabel:"~4K active", badge:null, diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2019 },
+  { title:"Project Slayers",        creator:"Xan Studios",          genre:"adventure", emoji:"🔥", desc:"Demon Slayer-inspired action RPG with an extensive breathing style system, clan abilities, and a massive demon/slayer questline.", tags:["Anime","RPG","Demon Slayer"], rating:87, players:15000, playersLabel:"~15K active", badge:null, diff:"hard", mp:true, beginner:false, gem:false, featured:false, year:2022 },
+  { title:"The Wild West",          creator:"Widgeon",              genre:"adventure", emoji:"🤠", desc:"Open world cowboy experience with mining, outlaw raids, bounty hunting, horse riding, and a player-driven economy in the Old West.", tags:["Open World","Western","Economy"], rating:86, players:10000, playersLabel:"~10K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"easy", mp:true, beginner:true, gem:true, featured:false, year:2019 },
+  { title:"Kaiju Universe",         creator:"Godzilla Fan Club",    genre:"adventure", emoji:"🦖", desc:"Stomp cities as iconic kaiju monsters, level up your creature, and battle other giant monsters. Unique concept, excellent model quality.", tags:["Kaiju","Destruction","PvP"], rating:87, players:10000, playersLabel:"~10K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2020 },
+  { title:"Swordburst 2",           creator:"AbstractAlex",         genre:"adventure", emoji:"🗡️", desc:"Sword Art Online inspired dungeon RPG. Clear floors, craft gear, and explore procedurally generated dungeons with a full party system.", tags:["SAO","Dungeon","Crafting"], rating:84, players:5000, playersLabel:"~5K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"medium", mp:true, beginner:false, gem:true, featured:false, year:2017 },
+  { title:"Dragon Adventures",      creator:"Wyrmspire",            genre:"adventure", emoji:"🐉", desc:"Hatch, raise, and ride dragons across unique biomes. Breeding system, elemental dragon types, and large explorable maps.", tags:["Dragons","Breeding","Exploration"], rating:82, players:12000, playersLabel:"~12K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2019 },
 
-  // ROLEPLAY
-  {
-    title: "Work at a Pizza Place",
-    creator: "Dued1",
-    genre: "roleplay",
-    emoji: "🍕",
-    bg: "linear-gradient(135deg, #2a0a0a, #1a1a0a)",
-    desc: "The original Roblox work simulator done right — take orders, cook, deliver, and earn in-game cash to build your dream house. A genuine Roblox classic.",
-    tags: ["Work", "Classic", "Social"],
-    rating: 88,
-    players: "~15K active",
-    badge: "classic",
-    badgeText: "🏛 Classic"
-  },
-  {
-    title: "Brookhaven RP",
-    creator: "Wolfpaq",
-    genre: "roleplay",
-    emoji: "🏘️",
-    bg: "linear-gradient(135deg, #0a1a1a, #0a0a1a)",
-    desc: "A social roleplay town with houses, cars, jobs, and open-ended social play. Great for creative storytelling and hanging out without competitive pressure.",
-    tags: ["Town", "Social", "Housing"],
-    rating: 82,
-    players: "~90K active",
-    badge: null
-  },
-  {
-    title: "Emergency Response: Liberty County",
-    creator: "Polaroid Studios",
-    genre: "roleplay",
-    emoji: "🚓",
-    bg: "linear-gradient(135deg, #0a0a1a, #0d1a1a)",
-    desc: "Play as police, fire fighters, EMS, or civilians in a detailed open world. Serious roleplay with real job mechanics — not just chaos.",
-    tags: ["Emergency", "Serious RP", "Realistic"],
-    rating: 91,
-    players: "~20K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "Jailbreak",
-    creator: "Badimo",
-    genre: "roleplay",
-    emoji: "🚔",
-    bg: "linear-gradient(135deg, #0a0d1a, #1a1a0a)",
-    desc: "The ultimate cops vs criminals experience. Rob banks, escape prison, buy vehicles, and outsmart the police — or catch the criminals as a cop.",
-    tags: ["Cops & Robbers", "Open World", "Vehicles"],
-    rating: 90,
-    players: "~40K active",
-    badge: "classic",
-    badgeText: "🏛 Classic"
-  },
-  {
-    title: "Greenville",
-    creator: "Greenville WI",
-    genre: "roleplay",
-    emoji: "🌆",
-    bg: "linear-gradient(135deg, #0a1a0d, #0d0d1a)",
-    desc: "A detailed suburban American town roleplay with realistic vehicles, a working police force, and a player economy. High production value.",
-    tags: ["Town", "Vehicles", "Economy"],
-    rating: 86,
-    players: "~10K active",
-    badge: null
-  },
+  // ── ROLEPLAY ──
+  { title:"Jailbreak",              creator:"Badimo",               genre:"roleplay",  emoji:"🚔", desc:"The ultimate cops vs criminals experience. Rob banks, escape prison, buy vehicles, and outsmart the police — or catch the criminals.", tags:["Cops & Robbers","Open World","Vehicles"], rating:90, players:40000, playersLabel:"~40K active", badge:"classic", badgeText:"🏛 Classic", diff:"easy", mp:true, beginner:true, gem:false, featured:true, year:2017 },
+  { title:"ER:LC",                  creator:"Polaroid Studios",     genre:"roleplay",  emoji:"🚓", desc:"Emergency Response: Liberty County. Play as police, fire, EMS, or civilian in a detailed open world with serious roleplay mechanics.", tags:["Emergency","Serious RP","Jobs"], rating:91, players:20000, playersLabel:"~20K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2019 },
+  { title:"Work at a Pizza Place",  creator:"Dued1",                genre:"roleplay",  emoji:"🍕", desc:"The original Roblox work simulator done right — take orders, cook, deliver, and earn in-game cash to build your dream house.", tags:["Work","Classic","Social"], rating:88, players:15000, playersLabel:"~15K active", badge:"classic", badgeText:"🏛 Classic", diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2008 },
+  { title:"Greenville",             creator:"Greenville WI",        genre:"roleplay",  emoji:"🌆", desc:"Detailed suburban American town roleplay with realistic vehicles, a working police force, and a player economy. High production value.", tags:["Town","Vehicles","Economy"], rating:86, players:10000, playersLabel:"~10K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2018 },
+  { title:"Brookhaven RP",          creator:"Wolfpaq",              genre:"roleplay",  emoji:"🏘️", desc:"Social roleplay town with houses, cars, jobs, and open-ended storytelling. Great for creative play without competitive pressure.", tags:["Town","Housing","Social"], rating:82, players:90000, playersLabel:"~90K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2020 },
+  { title:"Livetopia",              creator:"Livetopia Studio",     genre:"roleplay",  emoji:"🏙️", desc:"A modern city roleplay with a school, jobs, businesses, and a full real estate system. More polished than most town roleplay games.", tags:["City","Jobs","Real Estate"], rating:84, players:25000, playersLabel:"~25K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2020 },
 
-  // TYCOON
-  {
-    title: "Theme Park Tycoon 2",
-    creator: "Den_S",
-    genre: "tycoon",
-    emoji: "🎢",
-    bg: "linear-gradient(135deg, #1a0a1a, #0a1a1a)",
-    desc: "Build and manage your own theme park with real coaster building tools. Insane creative depth — players have recreated real-world parks inside this game.",
-    tags: ["Building", "Creative", "Management"],
-    rating: 96,
-    players: "~12K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "Retail Tycoon 2",
-    creator: "Widgeon",
-    genre: "tycoon",
-    emoji: "🏪",
-    bg: "linear-gradient(135deg, #0d1a0a, #1a1a0a)",
-    desc: "Build and run a supermarket empire with real restocking mechanics, employee management, and product pricing. Genuinely deep business simulation.",
-    tags: ["Business", "Simulation", "Strategy"],
-    rating: 88,
-    players: "~6K active",
-    badge: null
-  },
-  {
-    title: "Build a Boat for Treasure",
-    creator: "Chillz Studios",
-    genre: "tycoon",
-    emoji: "⛵",
-    bg: "linear-gradient(135deg, #0a1a2a, #0a0a1a)",
-    desc: "Design and build your own boat then sail it through obstacle courses. Physics-based building with satisfying destruction when things go wrong.",
-    tags: ["Physics", "Building", "Obstacles"],
-    rating: 87,
-    players: "~20K active",
-    badge: "classic",
-    badgeText: "🏛 Classic"
-  },
-  {
-    title: "Ro-Ghoul",
-    creator: "SushiWalrus",
-    genre: "tycoon",
-    emoji: "👁️",
-    bg: "linear-gradient(135deg, #1a0a1a, #1a0a0a)",
-    desc: "Tokyo Ghoul inspired action game with real combat systems, kagune upgrades, and faction warfare. Deeper than it looks on the surface.",
-    tags: ["Anime", "Combat", "Progression"],
-    rating: 84,
-    players: "~8K active",
-    badge: null
-  },
+  // ── HORROR ──
+  { title:"Doors",                  creator:"LSPLASH",              genre:"horror",    emoji:"🚪", desc:"Navigate procedurally generated rooms while avoiding terrifying entities. Each door brings new dread. Horror design is genuinely clever.", tags:["Procedural","Entities","Co-op"], rating:96, players:35000, playersLabel:"~35K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:false, gem:false, featured:true, year:2022 },
+  { title:"The Mimic",              creator:"MUCDICH",              genre:"horror",    emoji:"👹", desc:"Japanese folklore horror with multi-chapter storytelling. Atmospheric, disturbing, and story-focused — not just jumpscare bait.", tags:["Japanese","Story","Atmospheric"], rating:92, players:12000, playersLabel:"~12K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2021 },
+  { title:"Apeirophobia",           creator:"Polaroid Studios",     genre:"horror",    emoji:"🌀", desc:"Escape the endless Backrooms through layered liminal environments. High production value, atmospheric dread, creative puzzles.", tags:["Backrooms","Liminal","Puzzle"], rating:90, players:8000, playersLabel:"~8K active", badge:null, diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2022 },
+  { title:"Piggy",                  creator:"MiniToon",             genre:"horror",    emoji:"🐷", desc:"Escape maps while one player hunts as Piggy. Story-driven with actual chapters, lore, and puzzle mechanics beyond just running.", tags:["Story","Escape","Chapters"], rating:87, players:15000, playersLabel:"~15K active", badge:"classic", badgeText:"🏛 Classic", diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2020 },
+  { title:"The Rake: Classic",      creator:"RVVZ",                 genre:"horror",    emoji:"🌲", desc:"Survive the night in a forest while The Rake hunts you. Simple premise, excellent tension. One of Roblox's most iconic horror games.", tags:["Survival","Monster","Night"], rating:83, players:5000, playersLabel:"~5K active", badge:"classic", badgeText:"🏛 Classic", diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2014 },
+  { title:"Dead Silence",           creator:"DoomX10",              genre:"horror",    emoji:"🎭", desc:"Based on the horror film — navigate a haunted theatre and uncover the story of Mary Shaw while avoiding her deadly puppets.", tags:["Film-Based","Puppets","Story"], rating:85, players:4000, playersLabel:"~4K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"hard", mp:true, beginner:false, gem:true, featured:false, year:2018 },
+  { title:"3008",                   creator:"uglyburger0",          genre:"horror",    emoji:"🏪", desc:"Survive inside an infinite IKEA-like store. Scavenge for food, build shelter, and avoid the mannequins that come alive at night.", tags:["Survival","SCP","Infinite Store"], rating:89, players:15000, playersLabel:"~15K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2021 },
 
-  // HORROR
-  {
-    title: "Doors",
-    creator: "LSPLASH",
-    genre: "horror",
-    emoji: "🚪",
-    bg: "linear-gradient(135deg, #0a0a0a, #1a0a0a)",
-    desc: "Navigate procedurally generated rooms while avoiding terrifying entities. Each door brings new dread. The horror design is genuinely clever.",
-    tags: ["Procedural", "Entities", "Cooperative"],
-    rating: 96,
-    players: "~35K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "Piggy",
-    creator: "MiniToon",
-    genre: "horror",
-    emoji: "🐷",
-    bg: "linear-gradient(135deg, #1a0a0a, #0a0a0a)",
-    desc: "Escape maps while one player hunts as Piggy. Story-driven with actual chapter content, lore, and puzzle mechanics beyond just running.",
-    tags: ["Story", "Escape", "Cooperative"],
-    rating: 87,
-    players: "~15K active",
-    badge: "classic",
-    badgeText: "🏛 Classic"
-  },
-  {
-    title: "The Mimic",
-    creator: "MUCDICH",
-    genre: "horror",
-    emoji: "👹",
-    bg: "linear-gradient(135deg, #0d0a0d, #1a0a0a)",
-    desc: "Japanese folklore horror with multi-chapter storytelling. Atmospheric, disturbing, and story-focused — not just jumpscare bait.",
-    tags: ["Japanese Folklore", "Story", "Atmospheric"],
-    rating: 92,
-    players: "~12K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "Apeirophobia",
-    creator: "Polaroid Studios",
-    genre: "horror",
-    emoji: "🌀",
-    bg: "linear-gradient(135deg, #0a0d0d, #0a0a1a)",
-    desc: "Escape the endless Backrooms through layered liminal environments. High production value, atmospheric dread, and creative puzzle mechanics.",
-    tags: ["Backrooms", "Liminal", "Puzzle"],
-    rating: 90,
-    players: "~8K active",
-    badge: null
-  },
-  {
-    title: "The Rake: Classic Edition",
-    creator: "RVVZ",
-    genre: "horror",
-    emoji: "🌲",
-    bg: "linear-gradient(135deg, #0a0a0a, #0a1a0a)",
-    desc: "Survive the night in a forest while The Rake hunts you. Simple premise, excellent tension. One of Roblox's most iconic horror games.",
-    tags: ["Survival", "Classic", "Monster"],
-    rating: 83,
-    players: "~5K active",
-    badge: "classic",
-    badgeText: "🏛 Classic"
-  },
+  // ── TYCOON ──
+  { title:"Theme Park Tycoon 2",    creator:"Den_S",                genre:"tycoon",    emoji:"🎢", desc:"Build and manage your own theme park with real coaster building tools. Insane creative depth — players have recreated real-world parks.", tags:["Building","Creative","Management"], rating:96, players:12000, playersLabel:"~12K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"easy", mp:false, beginner:true, gem:false, featured:false, year:2014 },
+  { title:"Retail Tycoon 2",        creator:"Widgeon",              genre:"tycoon",    emoji:"🏪", desc:"Build and run a supermarket empire with real restocking mechanics, employee management, and product pricing. Genuinely deep simulation.", tags:["Business","Management","Economy"], rating:88, players:6000, playersLabel:"~6K active", badge:null, diff:"medium", mp:false, beginner:false, gem:false, featured:false, year:2019 },
+  { title:"Build a Boat",           creator:"Chillz Studios",       genre:"tycoon",    emoji:"⛵", desc:"Design and build your own boat then sail it through obstacle courses. Physics-based with satisfying destruction when things go wrong.", tags:["Physics","Building","Obstacles"], rating:87, players:20000, playersLabel:"~20K active", badge:"classic", badgeText:"🏛 Classic", diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2016 },
+  { title:"Restaurant Tycoon 2",    creator:"Ultraw",               genre:"tycoon",    emoji:"🍽️", desc:"Design your restaurant interior, hire staff, manage supply chains, and grow from a food stall to a five-star establishment.", tags:["Restaurant","Decoration","Staff"], rating:85, players:8000, playersLabel:"~8K active", badge:null, diff:"easy", mp:false, beginner:true, gem:false, featured:false, year:2018 },
+  { title:"Ro-Ghoul",               creator:"SushiWalrus",          genre:"tycoon",    emoji:"👁️", desc:"Tokyo Ghoul inspired action game with real combat systems, kagune upgrades, and faction warfare. Deeper than it looks.", tags:["Anime","Combat","Faction"], rating:84, players:8000, playersLabel:"~8K active", badge:null, diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2018 },
+  { title:"Anime Dungeon Fighters", creator:"Anime Dungeon",        genre:"tycoon",    emoji:"⚡", desc:"Beat-em-up dungeon crawling across multiple anime universes. No heavy grinding — focused on satisfying combo-based combat.", tags:["Anime","Beat-em-up","Dungeons"], rating:82, players:5000, playersLabel:"~5K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"easy", mp:true, beginner:true, gem:true, featured:false, year:2022 },
 
-  // SOCIAL
-  {
-    title: "Natural Disaster Survival",
-    creator: "Stickmasterluke",
-    genre: "social",
-    emoji: "🌪️",
-    bg: "linear-gradient(135deg, #1a1a0a, #0a1a1a)",
-    desc: "Survive earthquakes, floods, hurricanes, and more with dozens of other players. A pure Roblox classic with genuinely chaotic and fun multiplayer moments.",
-    tags: ["Survival", "Classic", "Multiplayer"],
-    rating: 85,
-    players: "~20K active",
-    badge: "classic",
-    badgeText: "🏛 Classic"
-  },
-  {
-    title: "Murder Mystery 2",
-    creator: "Nikilis",
-    genre: "social",
-    emoji: "🔪",
-    bg: "linear-gradient(135deg, #1a0a0a, #0a0a1a)",
-    desc: "One murderer, one sheriff, the rest are innocents. A social deduction game with excellent weapon cosmetics and a tense, replayable formula.",
-    tags: ["Deduction", "Social", "Deduction"],
-    rating: 88,
-    players: "~30K active",
-    badge: "classic",
-    badgeText: "🏛 Classic"
-  },
-  {
-    title: "Funky Friday",
-    creator: "Labile Group",
-    genre: "social",
-    emoji: "🎵",
-    bg: "linear-gradient(135deg, #1a0a1a, #0a1a1a)",
-    desc: "Friday Night Funkin' inspired rhythm game with a massive custom song library. Pure music-based gameplay — no pay-to-win, just hit the arrows.",
-    tags: ["Rhythm", "Music", "FNF"],
-    rating: 91,
-    players: "~25K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "Epic Minigames",
-    creator: "Thinknoodles",
-    genre: "social",
-    emoji: "🎲",
-    bg: "linear-gradient(135deg, #0a0a1a, #1a0a0a)",
-    desc: "Hundreds of diverse minigames with constantly rotating gameplay. Great for groups — always something different and always fair.",
-    tags: ["Minigames", "Variety", "Party"],
-    rating: 84,
-    players: "~15K active",
-    badge: null
-  },
+  // ── PLATFORMER ──
+  { title:"Tower of Hell",          creator:"YXceptional Studios",  genre:"platformer",emoji:"🗼", desc:"Race to the top of a procedurally assembled tower with no checkpoints. Pure, punishing platforming skill — nothing to buy, everything to earn.", tags:["Obby","Competitive","No Checkpoints"], rating:92, players:40000, playersLabel:"~40K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"hard", mp:true, beginner:false, gem:false, featured:false, year:2018 },
+  { title:"Flood Escape 2",         creator:"Crazyblox Games",      genre:"platformer",emoji:"💧", desc:"Cooperatively escape rising floodwater through beautifully designed maps. Demanding platforming with progression based entirely on skill.", tags:["Co-op","Escape","Skill"], rating:93, players:8000, playersLabel:"~8K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"hard", mp:true, beginner:false, gem:false, featured:false, year:2017 },
+  { title:"A Universal Time",       creator:"Universe Time Studio", genre:"platformer",emoji:"🌟", desc:"Anime-inspired fighting game with a roster of unique Stands and abilities. Deep combat system with extensive move lists and PvP meta.", tags:["Anime","Fighting","Stands"], rating:86, players:12000, playersLabel:"~12K active", badge:null, diff:"hard", mp:true, beginner:false, gem:false, featured:false, year:2020 },
+  { title:"Speed Run 4",            creator:"Vurse",                genre:"platformer",emoji:"⚡", desc:"One of Roblox's oldest and most beloved platformers. 30 unique levels of pure running and jumping skill. A true classic.", tags:["Classic","Levels","Pure Skill"], rating:85, players:6000, playersLabel:"~6K active", badge:"classic", badgeText:"🏛 Classic", diff:"medium", mp:false, beginner:true, gem:false, featured:false, year:2010 },
+  { title:"The Floor is Lava",      creator:"StickyMoose",         genre:"platformer",emoji:"🌋", desc:"Climb, jump, and scramble to high ground as lava slowly rises. Simple, frantic, and endlessly fun with a group.", tags:["Party","Frantic","Rise"], rating:83, players:10000, playersLabel:"~10K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2017 },
+  { title:"Escape Room",            creator:"devzeb",               genre:"platformer",emoji:"🔐", desc:"Logic-based puzzle escape rooms with genuinely clever mechanics. No combat, just brain power — a refreshing change of pace.", tags:["Puzzle","Logic","Brain"], rating:84, players:5000, playersLabel:"~5K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"medium", mp:true, beginner:false, gem:true, featured:false, year:2016 },
 
-  // PLATFORMER
-  {
-    title: "Tower of Hell",
-    creator: "YXceptional Studios",
-    genre: "platformer",
-    emoji: "🗼",
-    bg: "linear-gradient(135deg, #1a0a0a, #1a1a0a)",
-    desc: "Race to the top of a procedurally assembled tower with no checkpoints. Pure, punishing platforming skill — nothing to buy, everything to earn.",
-    tags: ["Obby", "Competitive", "No Checkpoints"],
-    rating: 92,
-    players: "~40K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "Flood Escape 2",
-    creator: "Crazyblox Games",
-    genre: "platformer",
-    emoji: "💧",
-    bg: "linear-gradient(135deg, #0a0a1a, #0a1a1a)",
-    desc: "Cooperatively escape rising floodwater through beautifully designed maps. Demanding platforming with a progression system based entirely on skill.",
-    tags: ["Cooperative", "Escape", "Skill"],
-    rating: 93,
-    players: "~8K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "A Universal Time",
-    creator: "Universe Time Studio",
-    genre: "platformer",
-    emoji: "🌟",
-    bg: "linear-gradient(135deg, #1a0a1a, #0a0a1a)",
-    desc: "Anime-inspired fighting game with a roster of unique Stands and abilities. Deep combat system with extensive move lists and pvp meta.",
-    tags: ["Anime", "Fighting", "Stands"],
-    rating: 86,
-    players: "~12K active",
-    badge: null
-  },
+  // ── SOCIAL ──
+  { title:"Murder Mystery 2",       creator:"Nikilis",              genre:"social",    emoji:"🔪", desc:"One murderer, one sheriff, the rest are innocents. Social deduction with excellent weapon cosmetics and a tense, replayable formula.", tags:["Deduction","Social","Cosmetics"], rating:88, players:30000, playersLabel:"~30K active", badge:"classic", badgeText:"🏛 Classic", diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2014 },
+  { title:"Natural Disaster Survival",creator:"Stickmasterluke",   genre:"social",    emoji:"🌪️", desc:"Survive earthquakes, floods, hurricanes, and more with dozens of players. A pure Roblox classic with genuinely chaotic fun.", tags:["Survival","Classic","Party"], rating:85, players:20000, playersLabel:"~20K active", badge:"classic", badgeText:"🏛 Classic", diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2008 },
+  { title:"Funky Friday",           creator:"Labile Group",        genre:"social",    emoji:"🎵", desc:"Friday Night Funkin' inspired rhythm game with a massive custom song library. Pure music-based gameplay — just hit the arrows.", tags:["Rhythm","Music","FNF"], rating:91, players:25000, playersLabel:"~25K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:true, gem:false, featured:false, year:2021 },
+  { title:"Epic Minigames",         creator:"Alexnewtron",         genre:"social",    emoji:"🎲", desc:"Hundreds of diverse minigames with constantly rotating gameplay. Great for groups — always something different and always fair.", tags:["Minigames","Party","Variety"], rating:84, players:15000, playersLabel:"~15K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2014 },
+  { title:"Survive the Disasters 2",creator:"vyrissOW",            genre:"social",    emoji:"☄️", desc:"Vote on disasters, then frantically survive them. More chaotic and varied than Natural Disaster Survival with 200+ disaster types.", tags:["Chaos","Disasters","Party"], rating:86, players:8000, playersLabel:"~8K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"easy", mp:true, beginner:true, gem:true, featured:false, year:2017 },
+  { title:"Evade",                  creator:"Hexagon Development",  genre:"social",    emoji:"🏃", desc:"Evade AI entities across maps with friends. Smooth movement, great visuals, and genuinely terrifying pursuits. Surprisingly deep.", tags:["Evading","Co-op","Chase"], rating:88, players:20000, playersLabel:"~20K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2022 },
 
-  // STRATEGY
-  {
-    title: "Tower Defense Simulator",
-    creator: "Paradoxum Games",
-    genre: "strategy",
-    emoji: "🏰",
-    bg: "linear-gradient(135deg, #0a1a0a, #0a0a1a)",
-    desc: "Place towers cooperatively to defend against increasingly difficult waves. Genuine tower defense strategy with dozens of tower types and map layouts.",
-    tags: ["Tower Defense", "Cooperative", "Strategy"],
-    rating: 91,
-    players: "~18K active",
-    badge: "quality",
-    badgeText: "⭐ Top Pick"
-  },
-  {
-    title: "RoSim Wars",
-    creator: "Averstance",
-    genre: "strategy",
-    emoji: "🗡️",
-    bg: "linear-gradient(135deg, #0d1a0a, #1a1a0a)",
-    desc: "Real-time strategy battles with resource gathering, base building, and troop commanding. One of the deepest strategy games on Roblox.",
-    tags: ["RTS", "Base Building", "Resource"],
-    rating: 85,
-    players: "~4K active",
-    badge: null
-  },
-  {
-    title: "Booga Booga",
-    creator: "soybeen",
-    genre: "strategy",
-    emoji: "⛏️",
-    bg: "linear-gradient(135deg, #1a1a0a, #0a1a0a)",
-    desc: "Survival crafting on floating islands with tribal warfare, base building, and resource competition. One of Roblox's best survival sandbox games.",
-    tags: ["Survival", "Crafting", "PvP"],
-    rating: 87,
-    players: "~6K active",
-    badge: "classic",
-    badgeText: "🏛 Classic"
-  }
+  // ── STRATEGY ──
+  { title:"Tower Defense Simulator",creator:"Paradoxum Games",     genre:"strategy",  emoji:"🏰", desc:"Place towers cooperatively to defend against waves. Genuine strategy with dozens of tower types, maps, and increasingly brutal difficulty.", tags:["TD","Co-op","Waves"], rating:91, players:18000, playersLabel:"~18K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2019 },
+  { title:"Booga Booga",            creator:"soybeen",              genre:"strategy",  emoji:"⛏️", desc:"Survival crafting on floating islands with tribal warfare, base building, and resource competition. One of Roblox's best sandboxes.", tags:["Survival","Crafting","PvP"], rating:87, players:6000, playersLabel:"~6K active", badge:"classic", badgeText:"🏛 Classic", diff:"medium", mp:true, beginner:false, gem:false, featured:false, year:2018 },
+  { title:"Phantom Armies",         creator:"Phosfor",              genre:"strategy",  emoji:"🪖", desc:"Real-time military strategy with troop placement, resource management, and base assault. Surprisingly deep for a Roblox game.", tags:["RTS","Military","Base"], rating:82, players:2000, playersLabel:"~2K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"hard", mp:true, beginner:false, gem:true, featured:false, year:2019 },
+  { title:"Islands",                creator:"Easy.gg",              genre:"strategy",  emoji:"🏝️", desc:"Build your own island, farm resources, craft machines, and trade with other players. One of Roblox's most satisfying building/economy games.", tags:["Building","Economy","Farming"], rating:88, players:10000, playersLabel:"~10K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2020 },
+
+  // ── RACING ──
+  { title:"Vehicle Simulator",      creator:"Simbuilder",           genre:"racing",    emoji:"🚗", desc:"Buy, tune, and race realistic cars across multiple maps. Actual physics-based driving with a massive vehicle roster and economy.", tags:["Cars","Physics","Tuning"], rating:85, players:12000, playersLabel:"~12K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2016 },
+  { title:"Driving Empire",         creator:"Wayfort",              genre:"racing",    emoji:"🏎️", desc:"Open world driving with hundreds of real car models, a working economy, livery editor, and organized racing events.", tags:["Open World","Cars","Events"], rating:87, players:15000, playersLabel:"~15K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2021 },
+  { title:"Karting World",          creator:"Paced",                genre:"racing",    emoji:"🏁", desc:"Mario Kart-inspired kart racing with items, power-ups, and tight circuits. Chaotic, fair, and great with friends.", tags:["Karts","Items","Party"], rating:84, players:6000, playersLabel:"~6K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"easy", mp:true, beginner:true, gem:true, featured:false, year:2022 },
+  { title:"Road Rage",              creator:"VCaffy",               genre:"racing",    emoji:"💨", desc:"Street racing with a destruction derby twist. Wreck opponents, dodge traffic, and survive increasingly chaotic race scenarios.", tags:["Derby","Street Racing","Chaos"], rating:81, players:4000, playersLabel:"~4K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2017 },
+
+  // ── SPORTS ──
+  { title:"Super Striker League",   creator:"Super Striker League", genre:"sports",    emoji:"⚽", desc:"The most complete football/soccer experience on Roblox. Custom teams, skill-based passing and shooting, and competitive leagues.", tags:["Football","Teams","Skill"], rating:88, players:8000, playersLabel:"~8K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"medium", mp:true, beginner:true, gem:false, featured:false, year:2018 },
+  { title:"Basketball Legends",     creator:"Sport Legends Studio", genre:"sports",    emoji:"🏀", desc:"Skill-based basketball with dribble moves, post play, and competitive ranked matches. Actually resembles real basketball strategy.", tags:["Basketball","Ranked","Skill"], rating:84, players:6000, playersLabel:"~6K active", badge:null, diff:"medium", mp:true, beginner:true, gem:false, featured:false, year:2017 },
+  { title:"Fencing Duel",           creator:"Thinker",              genre:"sports",    emoji:"🤺", desc:"Precise, physics-based fencing duels. One of the most mechanically unique sports games on Roblox — timing is everything.", tags:["Fencing","1v1","Physics"], rating:82, players:2000, playersLabel:"~2K active", badge:"hidden-gem", badgeText:"💎 Gem", diff:"hard", mp:true, beginner:false, gem:true, featured:false, year:2020 },
+
+  // ── BUILDING ──
+  { title:"Lumber Tycoon 2",        creator:"Defaultio",            genre:"building",  emoji:"🪵", desc:"Chop trees, haul lumber, buy upgrades, and build anything. One of the most satisfying and open-ended progression games on Roblox.", tags:["Sandbox","Wood","Progression"], rating:90, players:10000, playersLabel:"~10K active", badge:"classic", badgeText:"🏛 Classic", diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2013 },
+  { title:"Welcome to Bloxburg",    creator:"Coeptus",              genre:"building",  emoji:"🏠", desc:"Build your dream home, work jobs, and live life in Bloxburg. The most polished house-building experience on Roblox.", tags:["Housing","Jobs","Lifestyle"], rating:91, players:50000, playersLabel:"~50K active", badge:"quality", badgeText:"⭐ Top Pick", diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2014 },
+  { title:"Plate Restaurant",       creator:"PlateStudios",         genre:"building",  emoji:"🍳", desc:"Run and decorate your own restaurant with full kitchen gameplay, ordering systems, and a deep decorating toolset.", tags:["Restaurant","Decor","Creative"], rating:80, players:5000, playersLabel:"~5K active", badge:null, diff:"easy", mp:true, beginner:true, gem:false, featured:false, year:2021 },
 ];
 
-function renderGames(list) {
+// ── Utility ──
+function playerSort(a, b) { return b.players - a.players; }
+function ratingSort(a, b) { return b.rating - a.rating; }
+function nameSort(a, b) { return a.title.localeCompare(b.title); }
+function yearSort(a, b) { return b.year - a.year; }
+
+function currentSort() {
+  const v = document.getElementById('sortSelect').value;
+  if (v === 'players') return playerSort;
+  if (v === 'name') return nameSort;
+  if (v === 'new') return yearSort;
+  return ratingSort;
+}
+
+function ratingClass(r) { return r >= 90 ? 'high' : r >= 80 ? 'mid' : 'low'; }
+
+function diffBadge(d) {
+  const map = { easy:'diff-easy', medium:'diff-medium', hard:'diff-hard', extreme:'diff-extreme' };
+  const label = { easy:'Easy', medium:'Medium', hard:'Hard', extreme:'Extreme' };
+  return `<span class="diff-badge ${map[d]}">${label[d]}</span>`;
+}
+
+// ── FEATURED ──
+function renderFeatured() {
+  const top = games.filter(g => g.featured).sort(ratingSort).slice(0, 8);
+  const grid = document.getElementById('featuredGrid');
+  grid.innerHTML = top.map(g => `
+    <div class="featured-card" style="background:${GENRE_COLORS[g.genre]}">
+      <div class="fc-thumb">${g.emoji}</div>
+      <div class="fc-body">
+        <div class="fc-title">${g.title}</div>
+        <div class="fc-creator">by ${g.creator}</div>
+        <div class="fc-desc">${g.desc}</div>
+        <div class="fc-meta">
+          <span class="fc-rating">👍 ${g.rating}%</span>
+          <span class="fc-players">👥 ${g.playersLabel}</span>
+          <span style="color:var(--muted);font-size:10px;text-transform:capitalize;">${g.genre}</span>
+        </div>
+      </div>
+      <div class="fc-crown">TOP PICK</div>
+    </div>
+  `).join('');
+}
+
+// ── GEMS ──
+function renderGems() {
+  const gems = games.filter(g => g.gem).sort(ratingSort);
+  const grid = document.getElementById('gemsGrid');
+  grid.innerHTML = gems.map(g => `
+    <div class="gem-card">
+      <div class="gem-emoji">${g.emoji}</div>
+      <div>
+        <div class="gem-title">${g.title}</div>
+        <div class="gem-desc">${g.desc.split('.')[0]}.</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── BEGINNERS ──
+function renderBeginners() {
+  const beg = games.filter(g => g.beginner).sort(ratingSort).slice(0, 10);
+  const grid = document.getElementById('beginnerGrid');
+  grid.innerHTML = beg.map(g => `
+    <div class="beginner-card">
+      <div class="beginner-emoji">${g.emoji}</div>
+      <div>
+        <div class="beginner-title">${g.title}</div>
+        <div class="beginner-genre">${g.genre}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── GENRE COUNTS ──
+function updateCounts(list) {
+  const genres = ['fps','adventure','roleplay','horror','tycoon','platformer','social','strategy','racing','sports','building'];
+  document.getElementById('cnt-all').textContent = list.length;
+  genres.forEach(g => {
+    const el = document.getElementById('cnt-' + g);
+    if (el) el.textContent = list.filter(x => x.genre === g).length;
+  });
+  document.getElementById('visibleCount').textContent = list.length;
+}
+
+// ── MAIN GRID ──
+let currentGenre = 'all';
+let currentSearch = '';
+
+function getFiltered() {
+  const q = currentSearch.toLowerCase();
+  return games.filter(g => {
+    const matchGenre = currentGenre === 'all' || g.genre === currentGenre;
+    const matchSearch = !q ||
+      g.title.toLowerCase().includes(q) ||
+      g.desc.toLowerCase().includes(q) ||
+      g.tags.some(t => t.toLowerCase().includes(q)) ||
+      g.genre.toLowerCase().includes(q) ||
+      g.creator.toLowerCase().includes(q);
+    return matchGenre && matchSearch;
+  }).sort(currentSort());
+}
+
+function renderGames() {
+  const list = getFiltered();
   const grid = document.getElementById('gameGrid');
   const noRes = document.getElementById('noResults');
   grid.innerHTML = '';
+  updateCounts(list);
 
-  if (list.length === 0) {
-    noRes.style.display = 'block';
-    document.getElementById('visibleCount').textContent = '0';
-    return;
-  }
+  if (list.length === 0) { noRes.style.display = 'block'; return; }
   noRes.style.display = 'none';
-  document.getElementById('visibleCount').textContent = list.length;
 
   list.forEach(g => {
-    const ratingClass = g.rating >= 90 ? 'high' : 'mid';
-    const badgeHtml = g.badge
-      ? `<span class="card-badge ${g.badge}">${g.badgeText}</span>` : '';
-    const tagsHtml = g.tags.map(t => `<span class="tag genre-tag">${t}</span>`).join('');
+    const mpTag = g.mp ? `<span class="tag mp">👥 Multiplayer</span>` : `<span class="tag solo">👤 Solo</span>`;
+    const tagsHtml = g.tags.map(t => `<span class="tag">${t}</span>`).join('') + mpTag;
+    const badgesHtml = g.badge ? `<div class="card-badges"><span class="card-badge ${g.badge}">${g.badgeText}</span></div>` : '';
 
     const card = document.createElement('div');
     card.className = 'game-card';
     card.innerHTML = `
-      <div class="card-thumb" style="background:${g.bg}">
+      <div class="card-thumb" style="background:${GENRE_COLORS[g.genre]}">
         ${g.emoji}
-        ${badgeHtml}
+        ${badgesHtml}
+        ${diffBadge(g.diff)}
       </div>
       <div class="card-body">
         <div class="card-title">${g.title}</div>
         <div class="card-creator">by ${g.creator}</div>
         <div class="card-desc">${g.desc}</div>
-        <div class="card-meta">${tagsHtml}</div>
+        <div class="card-tags">${tagsHtml}</div>
         <div class="card-footer">
-          <span class="rating ${ratingClass}">👍 ${g.rating}%</span>
-          <span class="players">👥 ${g.players}</span>
+          <span class="rating ${ratingClass(g.rating)}">👍 ${g.rating}%</span>
+          <div class="card-footer-right">
+            <span class="players">👥 ${g.playersLabel}</span>
+            <span class="genre-pill">${g.genre}</span>
+          </div>
         </div>
       </div>
     `;
@@ -1043,37 +668,33 @@ function renderGames(list) {
   });
 }
 
-let currentGenre = 'all';
-let currentSearch = '';
-
-function getFiltered() {
-  return games.filter(g => {
-    const matchGenre = currentGenre === 'all' || g.genre === currentGenre;
-    const q = currentSearch.toLowerCase();
-    const matchSearch = !q ||
-      g.title.toLowerCase().includes(q) ||
-      g.desc.toLowerCase().includes(q) ||
-      g.tags.some(t => t.toLowerCase().includes(q)) ||
-      g.genre.toLowerCase().includes(q);
-    return matchGenre && matchSearch;
-  });
-}
-
+// ── EVENTS ──
 document.getElementById('filterBar').addEventListener('click', e => {
   const btn = e.target.closest('.filter-btn');
   if (!btn) return;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   currentGenre = btn.dataset.genre;
-  renderGames(getFiltered());
+  renderGames();
 });
 
 document.getElementById('searchInput').addEventListener('input', e => {
   currentSearch = e.target.value;
-  renderGames(getFiltered());
+  renderGames();
 });
 
-renderGames(games);
+document.getElementById('sortSelect').addEventListener('change', renderGames);
+
+// ── BACK TO TOP ──
+const btt = document.getElementById('backTop');
+window.addEventListener('scroll', () => { btt.classList.toggle('show', window.scrollY > 400); });
+btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// ── INIT ──
+renderFeatured();
+renderGems();
+renderBeginners();
+renderGames();
 </script>
 </body>
 </html>

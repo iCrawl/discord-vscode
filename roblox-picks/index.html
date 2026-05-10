@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Discover 60+ quality Roblox games — no brainrot, no pay-to-win. Real gameplay, all genres." />
+  <title>RobloxPicks — Quality Games Only</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+  <!-- ── SKIP NAV (accessibility) ── -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- ── HEADER ── -->
+  <header class="header" role="banner">
+    <div class="header-inner">
+      <a href="#" class="logo" aria-label="RobloxPicks home">
+        <span class="logo-icon" aria-hidden="true">R</span>
+        <span class="logo-text">Roblox<em>Picks</em></span>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a class="nav-link" href="#featured">Featured</a>
+        <a class="nav-link" href="#all-games">Games</a>
+        <a class="nav-link" href="#gems">Hidden Gems</a>
+        <a class="nav-link" href="#tips">Tips</a>
+        <a class="nav-link" href="#avoid">Avoid</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Search -->
+        <div class="search-wrap" role="search">
+          <span class="search-icon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </span>
+          <input
+            type="search"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search games, genres, tags…"
+            autocomplete="off"
+            aria-label="Search games"
+            spellcheck="false"
+          />
+          <button class="search-clear" id="searchClear" aria-label="Clear search" hidden>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+          <!-- Suggestions dropdown -->
+          <div class="search-suggestions" id="searchSuggestions" role="listbox" aria-label="Search suggestions" hidden></div>
+        </div>
+
+        <!-- Favorites toggle -->
+        <button class="icon-btn" id="favToggle" aria-label="Show favorites" title="Your favorites">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="fav-badge" id="favCount" hidden>0</span>
+        </button>
+
+        <!-- AI chat toggle -->
+        <button class="ai-btn" id="chatToggle" aria-label="Open AI game advisor" title="AI Game Advisor">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          AI Advisor
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero" aria-label="Site introduction">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Curated since 2025</div>
+      <h1 class="hero-title">Find Roblox games<br />that are <em>actually good</em></h1>
+      <p class="hero-sub">60+ handpicked games across 11 genres. Real gameplay, skill-based, zero brainrot. Every pick is chosen by players — not algorithms.</p>
+      <div class="hero-chips">
+        <span class="chip chip-green">✓ Skill-based</span>
+        <span class="chip chip-green">✓ Fair progression</span>
+        <span class="chip chip-green">✓ All genres</span>
+        <span class="chip chip-green">✓ Hidden gems</span>
+        <span class="chip chip-red">✗ No brainrot</span>
+        <span class="chip chip-red">✗ No P2W</span>
+        <span class="chip chip-red">✗ No idle clickers</span>
+      </div>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          Browse All Games
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <button class="btn-ghost" id="heroAiBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+          Ask the AI Advisor
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MAIN ── -->
+  <main id="main">
+
+    <!-- Stats Bar -->
+    <div class="stats-section">
+      <div class="stats-inner">
+        <div class="stat-item">
+          <span class="stat-num" id="statGames">62</span>
+          <span class="stat-lbl">Quality Games</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num stat-blue">11</span>
+          <span class="stat-lbl">Genres Covered</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num stat-gold">8</span>
+          <span class="stat-lbl">Hidden Gems</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num stat-red">0</span>
+          <span class="stat-lbl">Brainrot Games</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num stat-purple" id="statFavs">0</span>
+          <span class="stat-lbl">Your Favorites</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recently Viewed -->
+    <section class="section" id="recentSection" hidden aria-label="Recently viewed games">
+      <div class="section-header">
+        <h2 class="section-title">Recently Viewed</h2>
+        <button class="link-btn" id="clearRecent">Clear</button>
+      </div>
+      <div class="scroll-row" id="recentRow"></div>
+    </section>
+
+    <!-- Featured / Top Picks -->
+    <section class="section" id="featured" aria-label="Editor's top picks">
+      <div class="section-header">
+        <h2 class="section-title"><span class="title-accent">⭐</span> Editor's Top Picks</h2>
+        <span class="section-sub">Hand-selected best-in-class games</span>
+      </div>
+      <div class="featured-grid" id="featuredGrid" aria-live="polite">
+        <!-- Skeleton -->
+        <div class="skeleton-featured"></div>
+        <div class="skeleton-featured"></div>
+        <div class="skeleton-featured"></div>
+      </div>
+    </section>
+
+    <!-- Trending Now -->
+    <section class="section" id="trending" aria-label="Trending games">
+      <div class="section-header">
+        <h2 class="section-title"><span class="title-accent">🔥</span> Trending Now</h2>
+      </div>
+      <div class="scroll-row" id="trendingRow" aria-live="polite"></div>
+    </section>
+
+    <!-- All Games -->
+    <section class="section" id="all-games" aria-label="All quality games">
+      <div class="section-header">
+        <h2 class="section-title">All <em>Quality</em> Games</h2>
+        <div class="controls-right">
+          <select class="select-input" id="sortSelect" aria-label="Sort games">
+            <option value="rating">Top Rated</option>
+            <option value="players">Most Popular</option>
+            <option value="name">A – Z</option>
+            <option value="newest">Newest</option>
+            <option value="difficulty_asc">Easiest First</option>
+            <option value="difficulty_desc">Hardest First</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-section" role="group" aria-label="Genre filters">
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn active" data-genre="all" aria-pressed="true">All <span class="filter-count" id="cnt-all">62</span></button>
+          <button class="filter-btn" data-genre="fps" aria-pressed="false">🔫 FPS <span class="filter-count" id="cnt-fps"></span></button>
+          <button class="filter-btn" data-genre="adventure" aria-pressed="false">⚔️ Adventure <span class="filter-count" id="cnt-adventure"></span></button>
+          <button class="filter-btn" data-genre="roleplay" aria-pressed="false">🎭 Roleplay <span class="filter-count" id="cnt-roleplay"></span></button>
+          <button class="filter-btn" data-genre="horror" aria-pressed="false">👻 Horror <span class="filter-count" id="cnt-horror"></span></button>
+          <button class="filter-btn" data-genre="tycoon" aria-pressed="false">🏗️ Tycoon <span class="filter-count" id="cnt-tycoon"></span></button>
+          <button class="filter-btn" data-genre="platformer" aria-pressed="false">🏃 Platformer <span class="filter-count" id="cnt-platformer"></span></button>
+          <button class="filter-btn" data-genre="social" aria-pressed="false">🎲 Social <span class="filter-count" id="cnt-social"></span></button>
+          <button class="filter-btn" data-genre="strategy" aria-pressed="false">♟️ Strategy <span class="filter-count" id="cnt-strategy"></span></button>
+          <button class="filter-btn" data-genre="racing" aria-pressed="false">🏎️ Racing <span class="filter-count" id="cnt-racing"></span></button>
+          <button class="filter-btn" data-genre="sports" aria-pressed="false">⚽ Sports <span class="filter-count" id="cnt-sports"></span></button>
+          <button class="filter-btn" data-genre="building" aria-pressed="false">🧱 Building <span class="filter-count" id="cnt-building"></span></button>
+        </div>
+
+        <!-- Sub-filters -->
+        <div class="sub-filters">
+          <label class="sub-filter">
+            <input type="checkbox" id="filterFavorites" /> ❤️ My Favorites
+          </label>
+          <label class="sub-filter">
+            <input type="checkbox" id="filterBeginners" /> 🌱 Beginner Friendly
+          </label>
+          <label class="sub-filter">
+            <input type="checkbox" id="filterMultiplayer" /> 👥 Multiplayer
+          </label>
+          <label class="sub-filter">
+            <input type="checkbox" id="filterGems" /> 💎 Hidden Gems
+          </label>
+        </div>
+      </div>
+
+      <!-- Results info -->
+      <div class="results-bar">
+        <span id="resultsText">Showing 62 games</span>
+        <button class="link-btn" id="clearFilters" hidden>Clear filters</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="game-grid" id="gameGrid" role="list" aria-live="polite" aria-atomic="false">
+        <!-- Skeletons shown on first load -->
+        <div class="skeleton-card" role="presentation"></div>
+        <div class="skeleton-card" role="presentation"></div>
+        <div class="skeleton-card" role="presentation"></div>
+        <div class="skeleton-card" role="presentation"></div>
+        <div class="skeleton-card" role="presentation"></div>
+        <div class="skeleton-card" role="presentation"></div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState" hidden role="status">
+        <div class="empty-icon">🕹️</div>
+        <div class="empty-title">No games found</div>
+        <div class="empty-sub">Try a different search or clear your filters.</div>
+        <button class="btn-primary" id="emptyReset">Clear Everything</button>
+      </div>
+
+      <!-- Load More -->
+      <div class="load-more-wrap" id="loadMoreWrap" hidden>
+        <button class="btn-ghost load-more-btn" id="loadMoreBtn">Load More Games</button>
+      </div>
+    </section>
+
+    <!-- Hidden Gems -->
+    <section class="section" id="gems" aria-label="Hidden gem games">
+      <div class="section-header">
+        <h2 class="section-title"><span class="title-accent">💎</span> Hidden Gems</h2>
+        <span class="section-sub">Lesser known — totally worth your time</span>
+      </div>
+      <div class="gems-grid" id="gemsGrid"></div>
+    </section>
+
+    <!-- Beginner Picks -->
+    <section class="section" id="beginners" aria-label="Beginner friendly games">
+      <div class="section-header">
+        <h2 class="section-title"><span class="title-accent">🌱</span> Best For Beginners</h2>
+        <span class="section-sub">Easy to pick up, hard to put down</span>
+      </div>
+      <div class="scroll-row" id="beginnerRow"></div>
+    </section>
+
+    <!-- Tips -->
+    <section class="section" id="tips" aria-label="Roblox tips">
+      <div class="section-header">
+        <h2 class="section-title"><span class="title-accent">💡</span> Roblox Tips & Knowledge</h2>
+      </div>
+      <div class="tips-grid" id="tipsGrid"></div>
+    </section>
+
+    <!-- Why Not Brainrot -->
+    <section class="section why-section" id="criteria" aria-label="Quality criteria">
+      <div class="section-header">
+        <h2 class="section-title">What makes a game <em>worth playing?</em></h2>
+      </div>
+      <div class="criteria-grid" id="criteriaGrid"></div>
+    </section>
+
+    <!-- What We Avoid -->
+    <section class="section" id="avoid" aria-label="Games we avoid">
+      <div class="section-header">
+        <h2 class="section-title">What we <em class="red-em">exclude</em></h2>
+        <span class="section-sub">Brainrot categories and why they made the cut</span>
+      </div>
+      <div class="avoid-grid" id="avoidGrid"></div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon small" aria-hidden="true">R</span>
+        <span class="footer-name">RobloxPicks</span>
+      </div>
+      <p class="footer-copy">Not affiliated with Roblox Corporation. All game names belong to their creators. Last updated May 2025.</p>
+      <p class="footer-note">62 curated quality games · Zero brainrot · AI-powered recommendations</p>
+    </div>
+  </footer>
+
+  <!-- ── GAME DETAIL MODAL ── -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close game details">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ── FAVORITES PANEL ── -->
+  <div class="panel-overlay" id="favPanelOverlay" hidden>
+    <aside class="side-panel" id="favPanel" role="complementary" aria-label="Your favorites">
+      <div class="panel-header">
+        <h2 class="panel-title">Your Favorites</h2>
+        <button class="icon-btn" id="favPanelClose" aria-label="Close favorites">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="panel-body" id="favPanelBody"></div>
+    </aside>
+  </div>
+
+  <!-- ── AI CHAT PANEL ── -->
+  <div class="chat-panel" id="chatPanel" aria-label="AI Game Advisor" hidden>
+    <div class="chat-header">
+      <div class="chat-avatar" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      </div>
+      <div>
+        <div class="chat-name">RobloxAI Advisor</div>
+        <div class="chat-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          Online · Ready to help
+        </div>
+      </div>
+      <button class="icon-btn ml-auto" id="chatClose" aria-label="Close AI chat">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Chat messages"></div>
+    <div class="chat-suggestions" id="chatSuggestions"></div>
+    <div class="chat-input-area">
+      <input
+        type="text"
+        class="chat-input"
+        id="chatInput"
+        placeholder="Ask me anything about Roblox games…"
+        aria-label="Ask the AI advisor"
+        autocomplete="off"
+        maxlength="200"
+      />
+      <button class="chat-send" id="chatSend" aria-label="Send message">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9l20-7z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── BACK TO TOP ── -->
+  <button class="back-top" id="backTop" aria-label="Back to top" hidden>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
+  <!-- ── TOAST ── -->
+  <div class="toast-container" id="toastContainer" aria-live="assertive" role="status"></div>
+
+  <!-- Scripts (order matters) -->
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
