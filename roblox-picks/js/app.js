@@ -143,6 +143,9 @@ function _clearAll() {
   _state.filterMP = false;
   _state.filterGems = false;
 
+  /* Clear mood chip selection */
+  document.querySelectorAll('.mood-chip').forEach(b => b.classList.remove('active'));
+
   /* Reset UI */
   document.querySelectorAll('.filter-btn').forEach(b => {
     b.classList.remove('active');
@@ -166,6 +169,103 @@ function _initSearch() {
     _state.query = query;
     _refresh();
   });
+}
+
+/* ── View Toggle ── */
+function _initViewToggle() {
+  document.getElementById('viewToggle')?.addEventListener('click', e => {
+    const btn = e.target.closest('.view-btn');
+    if (!btn) return;
+    const view = btn.dataset.view;
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b === btn));
+    RP.Render.setView(view);
+    _refresh();
+  });
+}
+
+/* ── Mood Selector ── */
+function _initMoodSelector() {
+  document.getElementById('moodSelector')?.addEventListener('click', e => {
+    const btn = e.target.closest('.mood-chip');
+    if (!btn) return;
+    const mood = btn.dataset.mood;
+    const isActive = btn.classList.contains('active');
+
+    /* Toggle — clicking active chip clears it */
+    document.querySelectorAll('.mood-chip').forEach(b => b.classList.remove('active'));
+    if (!isActive) {
+      btn.classList.add('active');
+      _applyMood(mood);
+    } else {
+      _clearAll();
+    }
+  });
+}
+
+function _applyMood(mood) {
+  /* Reset filters first, keep sort */
+  _state.genre = 'all';
+  _state.query = '';
+  _state.filterFavs = false;
+  _state.filterBeginners = false;
+  _state.filterMP = false;
+  _state.filterGems = false;
+
+  /* Reset UI elements */
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
+  document.querySelector('.filter-btn[data-genre="all"]')?.classList.add('active');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchClear').hidden = true;
+  document.getElementById('filterFavorites').checked = false;
+  document.getElementById('filterBeginners').checked = false;
+  document.getElementById('filterMultiplayer').checked = false;
+  document.getElementById('filterGems').checked = false;
+
+  switch (mood) {
+    case 'horror':
+      _state.genre = 'horror';
+      document.querySelector('.filter-btn[data-genre="horror"]')?.classList.add('active');
+      document.querySelector('.filter-btn[data-genre="all"]')?.classList.remove('active');
+      break;
+    case 'competitive':
+      _state.filterMP = true;
+      _state.sort = 'players';
+      document.getElementById('filterMultiplayer').checked = true;
+      document.getElementById('sortSelect').value = 'players';
+      break;
+    case 'chill':
+      _state.filterBeginners = true;
+      _state.sort = 'rating';
+      document.getElementById('filterBeginners').checked = true;
+      break;
+    case 'friends':
+      _state.filterMP = true;
+      document.getElementById('filterMultiplayer').checked = true;
+      break;
+    case 'gems':
+      _state.filterGems = true;
+      document.getElementById('filterGems').checked = true;
+      break;
+    case 'story':
+      _state.genre = 'adventure';
+      document.querySelector('.filter-btn[data-genre="adventure"]')?.classList.add('active');
+      document.querySelector('.filter-btn[data-genre="all"]')?.classList.remove('active');
+      break;
+    case 'anime':
+      _state.query = 'anime';
+      document.getElementById('searchInput').value = 'anime';
+      document.getElementById('searchClear').hidden = false;
+      break;
+    case 'racing':
+      _state.genre = 'racing';
+      document.querySelector('.filter-btn[data-genre="racing"]')?.classList.add('active');
+      document.querySelector('.filter-btn[data-genre="all"]')?.classList.remove('active');
+      break;
+  }
+  _refresh();
 }
 
 /* ── Load More ── */
@@ -282,14 +382,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   _initNavLinks();
   _initStatsAnimation();
   _initKeyboard();
+  _initViewToggle();
+  _initMoodSelector();
+
+  // Game of the Day + Random Pick
+  RP.Daily.init();
 
   // Fetch Roblox thumbnails in the background (non-blocking)
   RP.API.init().then(() => {
     RP.API.applyImages();
-    // Re-render featured to show images
+    // Re-render sections to show images
     RP.Render.renderFeatured();
     RP.Render.renderTrending();
     RP.History.init();
+    RP.Daily.renderGameOfDay();
     _refresh();
   });
 
@@ -299,5 +405,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     'background:#e8392c;color:white;padding:4px 8px;border-radius:4px 0 0 4px;font-weight:bold',
     'background:#1a1a2a;color:#f0f0f8;padding:4px 8px;border-radius:0 4px 4px 0',
   );
-  console.log(`%c ${RP.GAMES.length} curated games loaded. Press / to search, Ctrl+F to open AI chat.`, 'color:#8888aa');
+  console.log(`%c ${RP.GAMES.length} curated games loaded. Press / to search, Ctrl+F to open AI chat. Today's pick: ${RP.Daily.getGameOfDay()?.title}`, 'color:#8888aa');
 });

@@ -86,9 +86,63 @@ RP.Render = (() => {
       </article>`;
   }
 
+  /* ── LIST CARD ── */
+  function listCard(game) {
+    const isFav = RP.Favorites.has(game.id);
+    return `
+      <article
+        class="list-card"
+        data-id="${game.id}"
+        data-genre="${game.genre}"
+        role="listitem"
+        tabindex="0"
+        aria-label="${game.title} — ${game.genre} game, rated ${game.rating}%"
+      >
+        <div class="list-thumb" style="background:${RP.GENRE_COLORS[game.genre]}">
+          ${_img(game, 'list-thumb-img', 'thumb')}
+          <span class="list-emoji" aria-hidden="true">${game.emoji}</span>
+        </div>
+        <div class="list-body">
+          <div class="list-top">
+            <div class="list-title-group">
+              <h3 class="list-title">${game.title}</h3>
+              <div class="list-creator">by ${game.creator}</div>
+            </div>
+            <div class="list-meta">
+              <span class="card-rating ${_ratingClass(game.rating)}">👍 ${game.rating}%</span>
+              <span class="card-players">👥 ${game.playersLabel}</span>
+              ${_diffBadge(game.diff)}
+              ${_badgePill(game)}
+            </div>
+          </div>
+          <p class="list-desc">${game.desc}</p>
+          <div class="list-tags">
+            ${game.tags.slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('')}
+            ${game.mp ? `<span class="tag tag-mp">👥 Multiplayer</span>` : `<span class="tag tag-solo">👤 Solo</span>`}
+          </div>
+        </div>
+        <button
+          class="card-fav-btn list-fav-btn${isFav ? ' active' : ''}"
+          data-id="${game.id}"
+          aria-label="${isFav ? 'Remove from favorites' : 'Add to favorites'}"
+          title="${isFav ? 'Remove from favorites' : 'Add to favorites'}"
+          style="opacity:1;position:relative;top:auto;left:auto;"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="${isFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+      </article>`;
+  }
+
   /* ── GAME GRID ── */
   let _currentPage = 1;
   let _currentList = [];
+  let _currentView = 'grid';
+
+  function setView(view) {
+    _currentView = view;
+  }
 
   function renderGrid(games) {
     _currentList = games;
@@ -100,6 +154,9 @@ RP.Render = (() => {
 
     if (!grid) return;
 
+    /* Sync view class */
+    grid.classList.toggle('list-view', _currentView === 'list');
+
     if (games.length === 0) {
       grid.innerHTML = '';
       empty.hidden = false;
@@ -110,7 +167,8 @@ RP.Render = (() => {
 
     empty.hidden = true;
     const slice = games.slice(0, PAGE_SIZE);
-    grid.innerHTML = slice.map(gameCard).join('');
+    const cardFn = _currentView === 'list' ? listCard : gameCard;
+    grid.innerHTML = slice.map(cardFn).join('');
     _bindCards(grid);
 
     loadWrap.hidden = games.length <= PAGE_SIZE;
@@ -118,7 +176,6 @@ RP.Render = (() => {
       resultsTxt.textContent = `Showing ${Math.min(slice.length, games.length)} of ${games.length} game${games.length !== 1 ? 's' : ''}`;
     }
 
-    /* Apply any cached thumbnails */
     RP.API.applyImages();
   }
 
@@ -134,7 +191,8 @@ RP.Render = (() => {
 
     const fragment = document.createDocumentFragment();
     const temp = document.createElement('div');
-    temp.innerHTML = slice.map(gameCard).join('');
+    const cardFn = _currentView === 'list' ? listCard : gameCard;
+    temp.innerHTML = slice.map(cardFn).join('');
     while (temp.firstChild) fragment.appendChild(temp.firstChild);
     grid.appendChild(fragment);
 
@@ -370,8 +428,10 @@ RP.Render = (() => {
 
   return {
     gameCard,
+    listCard,
     renderGrid,
     loadMore,
+    setView,
     renderFeatured,
     renderTrending,
     renderGems,

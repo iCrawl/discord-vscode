@@ -139,6 +139,11 @@
 .filter-btn:active { transform: scale(0.96); }
 
 /* Fav toggle shake on no favs */
+@keyframes gotdPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232,57,44,0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(232,57,44,0); }
+}
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   20%       { transform: translateX(-4px); }
@@ -183,6 +188,25 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* GOTD card entrance */
+.gotd-card { animation: scaleIn 0.35s ease both; }
+
+/* List cards */
+.list-card { animation: cardEntrance 0.3s ease both; }
+.game-grid.list-view .list-card:nth-child(1)  { animation-delay: 0.02s; }
+.game-grid.list-view .list-card:nth-child(2)  { animation-delay: 0.04s; }
+.game-grid.list-view .list-card:nth-child(3)  { animation-delay: 0.06s; }
+.game-grid.list-view .list-card:nth-child(4)  { animation-delay: 0.08s; }
+.game-grid.list-view .list-card:nth-child(5)  { animation-delay: 0.10s; }
+.game-grid.list-view .list-card:nth-child(n+6){ animation-delay: 0.12s; }
+
+/* Random pick button spin on click */
+@keyframes randomSpin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.random-btn:active svg { animation: randomSpin 0.35s ease; }
 
 /* ── HOVER MICRO-INTERACTIONS ── */
 
