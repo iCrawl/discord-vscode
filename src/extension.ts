@@ -16,6 +16,7 @@ const config = getConfig();
 let state = {};
 let idle: NodeJS.Timeout | undefined;
 let listeners: { dispose(): any }[] = [];
+let extensionContext: ExtensionContext | undefined;
 
 export function cleanUp() {
 	for (const listener of listeners) listener.dispose();
@@ -25,7 +26,7 @@ export function cleanUp() {
 async function sendActivity() {
 	// eslint-disable-next-line require-atomic-updates
 	state = {
-		...(await activity(state)),
+		...(await activity(state, extensionContext)),
 	};
 	void rpc.user?.setActivity(state);
 }
@@ -75,6 +76,7 @@ async function login() {
 }
 
 export async function activate(context: ExtensionContext) {
+	extensionContext = context;
 	log(LogLevel.Info, 'Discord Presence activated');
 
 	let isWorkspaceExcluded = false;

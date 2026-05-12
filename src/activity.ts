@@ -1,5 +1,5 @@
 import { basename, parse, sep } from 'node:path';
-import type { Selection, TextDocument, Diagnostic } from 'vscode';
+import type { Selection, TextDocument, Diagnostic, ExtensionContext } from 'vscode';
 import { debug, env, window, workspace, languages, DiagnosticSeverity } from 'vscode';
 import {
 	CONFIG_KEYS,
@@ -35,6 +35,28 @@ interface ActivityPayload {
 	startTimestamp?: number | null | undefined;
 	state?: string | undefined;
 	type?: number | undefined;
+}
+
+function updateStreak(context: ExtensionContext): number {
+	const today = new Date().toDateString();
+	const lastDate = context.globalState.get<string>('streakLastDate');
+	const streakCount = context.globalState.get<number>('streakCount') ?? 1;
+
+	if (lastDate === today) return streakCount;
+
+	const yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);
+
+	if (lastDate === yesterday.toDateString()) {
+		const newStreak = streakCount + 1;
+		void context.globalState.update('streakLastDate', today);
+		void context.globalState.update('streakCount', newStreak);
+		return newStreak;
+	}
+
+	void context.globalState.update('streakLastDate', today);
+	void context.globalState.update('streakCount', 1);
+	return 1;
 }
 
 async function fileDetails(_raw: string, document: TextDocument, selection: Selection) {
@@ -113,7 +135,7 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 	return raw;
 }
 
-async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CONFIG_KEYS) {
+async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CONFIG_KEYS, context?: ExtensionContext) {
 	const config = getConfig();
 	let raw = (config[idling] as string).replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
 
@@ -160,13 +182,14 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 			.replace(REPLACE_KEYS.WorkspaceAndFolder, workspaceAndFolder)
 			.replace(REPLACE_KEYS.LanguageLowerCase, toLower(fileIcon))
 			.replace(REPLACE_KEYS.LanguageTitleCase, toTitle(fileIcon))
-			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(fileIcon));
+			.replace(REPLACE_KEYS.LanguageUpperCase, toUpper(fileIcon))
+			.replace(REPLACE_KEYS.Streak, context ? `${updateStreak(context)}x Streak` : '');
 	}
 
 	return raw;
 }
 
-export async function activity(previous: ActivityPayload = {}) {
+export async function activity(previous: ActivityPayload = {}, context?: ExtensionContext) {
 	const config = getConfig();
 	const swapBigAndSmallImage = config[CONFIG_KEYS.SwapBigAndSmallImage];
 
@@ -190,7 +213,7 @@ export async function activity(previous: ActivityPayload = {}) {
 		type: 0,
 		details: removeDetails
 			? undefined
-			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging, context),
 		startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : (previous.startTimestamp ?? Date.now()),
 		largeImageKey: IDLE_IMAGE_KEY,
 		largeImageText: defaultLargeImageText,
@@ -237,13 +260,14 @@ export async function activity(previous: ActivityPayload = {}) {
 			...state,
 			details: removeDetails
 				? undefined
-				: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+				: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging, context),
 			state: removeLowerDetails
 				? undefined
 				: await details(
 						CONFIG_KEYS.LowerDetailsIdling,
 						CONFIG_KEYS.LowerDetailsEditing,
 						CONFIG_KEYS.LowerDetailsDebugging,
+						context,
 					),
 		};
 
