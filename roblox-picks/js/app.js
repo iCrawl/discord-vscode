@@ -388,6 +388,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Game of the Day + Random Pick
   RP.Daily.init();
 
+  // Live Roblox Charts (non-blocking)
+  if (RP.Browse) RP.Browse.init();
+
+  // Search on Roblox button
+  document.getElementById('searchRobloxBtn')?.addEventListener('click', () => {
+    const q = document.getElementById('searchInput')?.value.trim();
+    const url = q
+      ? `https://www.roblox.com/games?keyword=${encodeURIComponent(q)}`
+      : 'https://www.roblox.com/games';
+    window.open(url, '_blank', 'noopener,noreferrer');
+  });
+
   // Fetch Roblox thumbnails in the background (non-blocking)
   RP.API.init().then(() => {
     RP.API.applyImages();

@@ -249,7 +249,7 @@ RP.Chat = (() => {
       };
     }
     return {
-      text: "I don't have info on that specific game. Try asking about one of our 80+ curated games! You can also search using the bar at the top.",
+      text: "I don't have info on that specific game. Try asking about one of our 200+ curated games! You can also search using the bar at the top.",
     };
   }
 

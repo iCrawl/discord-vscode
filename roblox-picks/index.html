@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Discover 80+ quality Roblox games — no brainrot, no pay-to-win. Real gameplay, all genres." />
+  <meta name="description" content="Discover 200+ quality Roblox games — no brainrot, no pay-to-win. Real gameplay, all genres." />
   <title>RobloxPicks — Quality Games Only</title>
 
   <!-- Fonts -->
@@ -59,6 +59,12 @@
           <div class="search-suggestions" id="searchSuggestions" role="listbox" aria-label="Search suggestions" hidden></div>
         </div>
 
+        <!-- Search Roblox button -->
+        <button class="btn-ghost btn-sm search-roblox-btn" id="searchRobloxBtn" title="Search this query on Roblox.com" aria-label="Search on Roblox.com">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Search Roblox
+        </button>
+
         <!-- Favorites toggle -->
         <button class="icon-btn" id="favToggle" aria-label="Show favorites" title="Your favorites">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -84,7 +90,7 @@
     <div class="hero-content">
       <div class="hero-eyebrow">Curated since 2025</div>
       <h1 class="hero-title">Find Roblox games<br />that are <em>actually good</em></h1>
-      <p class="hero-sub">80+ handpicked games across 11 genres. Real gameplay, skill-based, zero brainrot. Every pick is chosen by players — not algorithms.</p>
+      <p class="hero-sub">200+ handpicked games across 11 genres. Real gameplay, skill-based, zero brainrot. Every pick is chosen by players — not algorithms.</p>
       <div class="hero-chips">
         <span class="chip chip-green">✓ Skill-based</span>
         <span class="chip chip-green">✓ Fair progression</span>
@@ -114,7 +120,7 @@
     <div class="stats-section">
       <div class="stats-inner">
         <div class="stat-item">
-          <span class="stat-num" id="statGames">80</span>
+          <span class="stat-num" id="statGames">200</span>
           <span class="stat-lbl">Quality Games</span>
         </div>
         <div class="stat-divider"></div>
@@ -124,7 +130,7 @@
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-num stat-gold">10</span>
+          <span class="stat-num stat-gold">45</span>
           <span class="stat-lbl">Hidden Gems</span>
         </div>
         <div class="stat-divider"></div>
@@ -157,6 +163,32 @@
       </div>
       <div class="gotd-card" id="gameDayCard" role="article" aria-label="Today's featured game">
         <div class="skeleton-gotd"></div>
+      </div>
+    </section>
+
+    <!-- Live Roblox Charts -->
+    <section class="section" id="live-charts" aria-label="Live Roblox Charts">
+      <div class="section-header">
+        <h2 class="section-title"><span class="title-accent">📊</span> Live Roblox Charts</h2>
+        <span class="section-sub" id="chartsTimestamp">Loading live data…</span>
+      </div>
+      <div class="chart-grid" id="liveChartsGrid">
+        <div class="chart-card chart-skeleton"></div>
+        <div class="chart-card chart-skeleton"></div>
+        <div class="chart-card chart-skeleton"></div>
+        <div class="chart-card chart-skeleton"></div>
+        <div class="chart-card chart-skeleton"></div>
+        <div class="chart-card chart-skeleton"></div>
+        <div class="chart-card chart-skeleton"></div>
+        <div class="chart-card chart-skeleton"></div>
+        <div class="chart-card chart-skeleton"></div>
+        <div class="chart-card chart-skeleton"></div>
+      </div>
+      <div class="charts-footer">
+        <a href="https://www.roblox.com/games" target="_blank" rel="noopener noreferrer" class="btn-ghost btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Browse All on Roblox.com
+        </a>
       </div>
     </section>
 
@@ -216,7 +248,7 @@
       <!-- Filters -->
       <div class="filter-section" role="group" aria-label="Genre filters">
         <div class="filter-bar" id="filterBar">
-          <button class="filter-btn active" data-genre="all" aria-pressed="true">All <span class="filter-count" id="cnt-all">80</span></button>
+          <button class="filter-btn active" data-genre="all" aria-pressed="true">All <span class="filter-count" id="cnt-all">200</span></button>
           <button class="filter-btn" data-genre="fps" aria-pressed="false">🔫 FPS <span class="filter-count" id="cnt-fps"></span></button>
           <button class="filter-btn" data-genre="adventure" aria-pressed="false">⚔️ Adventure <span class="filter-count" id="cnt-adventure"></span></button>
           <button class="filter-btn" data-genre="roleplay" aria-pressed="false">🎭 Roleplay <span class="filter-count" id="cnt-roleplay"></span></button>
@@ -250,7 +282,7 @@
       <!-- Results bar -->
       <div class="results-bar">
         <div class="results-left">
-          <span id="resultsText">Showing 80 games</span>
+          <span id="resultsText">Showing 200 games</span>
           <button class="link-btn" id="clearFilters" hidden>Clear filters</button>
         </div>
         <div class="results-right">
@@ -347,7 +379,7 @@
         <span class="footer-name">RobloxPicks</span>
       </div>
       <p class="footer-copy">Not affiliated with Roblox Corporation. All game names belong to their creators. Updated May 2026.</p>
-      <p class="footer-note">80 curated quality games · Zero brainrot · AI-powered recommendations</p>
+      <p class="footer-note">200+ curated quality games · Zero brainrot · AI-powered recommendations</p>
     </div>
   </footer>
 
@@ -427,6 +459,7 @@
   <script src="js/modal.js"></script>
   <script src="js/chat.js"></script>
   <script src="js/daily.js"></script>
+  <script src="js/browse.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

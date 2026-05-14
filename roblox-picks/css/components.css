@@ -1253,3 +1253,122 @@
   .list-card { flex-direction: row; }
   .list-thumb { width: 80px; }
 }
+
+/* ── LIVE CHARTS ── */
+.chart-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.chart-card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
+}
+.chart-card:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+  transform: translateX(3px);
+}
+
+.chart-rank {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 30px;
+  text-align: right;
+}
+.chart-card:nth-child(1) .chart-rank { color: #ffd700; }
+.chart-card:nth-child(2) .chart-rank { color: #c0c0c0; }
+.chart-card:nth-child(3) .chart-rank { color: #cd7f32; }
+
+.chart-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.chart-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chart-curated-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(114, 137, 218, 0.12);
+  border: 1px solid rgba(114, 137, 218, 0.25);
+  border-radius: 4px;
+  padding: 1px 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chart-players {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chart-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2ecc71;
+  animation: statusPulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.chart-skeleton {
+  height: 52px;
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  pointer-events: none;
+}
+.chart-skeleton::after { display: none; }
+
+.charts-footer {
+  margin-top: var(--sp-4);
+  display: flex;
+  justify-content: center;
+}
+
+/* ── BTN-SM variant ── */
+.btn-sm {
+  font-size: 12px;
+  padding: 6px 14px;
+  gap: 6px;
+}
+
+/* ── Search Roblox button ── */
+.search-roblox-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 12px;
+  padding: 6px 12px;
+  gap: 5px;
+}
+@media (max-width: 600px) {
+  .search-roblox-btn span, .search-roblox-btn { font-size: 0; padding: 6px 8px; }
+  .search-roblox-btn svg { font-size: 14px; }
+}
