@@ -365,6 +365,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   RP.Render.renderCriteria();
   RP.Render.renderAvoid();
 
+  // Populate genre explorer counts
+  const GENRES = ['fps','adventure','roleplay','horror','tycoon','platformer','social','strategy','racing','sports','building'];
+  GENRES.forEach(g => {
+    const cnt = RP.GAMES.filter(x => x.genre === g).length;
+    const el = document.getElementById('gc-' + g);
+    if (el) el.textContent = cnt + ' games';
+  });
+
   // Init modules
   RP.Favorites.init();
   RP.History.init();

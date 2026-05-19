@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Discover 200+ quality Roblox games — no brainrot, no pay-to-win. Real gameplay, all genres." />
+  <meta name="description" content="Discover 270+ quality Roblox games — no brainrot, no pay-to-win. Real gameplay, all genres." />
   <title>RobloxPicks — Quality Games Only</title>
 
   <!-- Fonts -->
@@ -90,7 +90,7 @@
     <div class="hero-content">
       <div class="hero-eyebrow">Curated since 2025</div>
       <h1 class="hero-title">Find Roblox games<br />that are <em>actually good</em></h1>
-      <p class="hero-sub">200+ handpicked games across 11 genres. Real gameplay, skill-based, zero brainrot. Every pick is chosen by players — not algorithms.</p>
+      <p class="hero-sub">270+ handpicked games across 11 genres. Real gameplay, skill-based, zero brainrot. Every pick is chosen by players — not algorithms.</p>
       <div class="hero-chips">
         <span class="chip chip-green">✓ Skill-based</span>
         <span class="chip chip-green">✓ Fair progression</span>
@@ -120,7 +120,7 @@
     <div class="stats-section">
       <div class="stats-inner">
         <div class="stat-item">
-          <span class="stat-num" id="statGames">200</span>
+          <span class="stat-num" id="statGames">270</span>
           <span class="stat-lbl">Quality Games</span>
         </div>
         <div class="stat-divider"></div>
@@ -130,7 +130,7 @@
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-num stat-gold">45</span>
+          <span class="stat-num stat-gold">70</span>
           <span class="stat-lbl">Hidden Gems</span>
         </div>
         <div class="stat-divider"></div>
@@ -248,7 +248,7 @@
       <!-- Filters -->
       <div class="filter-section" role="group" aria-label="Genre filters">
         <div class="filter-bar" id="filterBar">
-          <button class="filter-btn active" data-genre="all" aria-pressed="true">All <span class="filter-count" id="cnt-all">200</span></button>
+          <button class="filter-btn active" data-genre="all" aria-pressed="true">All <span class="filter-count" id="cnt-all">270</span></button>
           <button class="filter-btn" data-genre="fps" aria-pressed="false">🔫 FPS <span class="filter-count" id="cnt-fps"></span></button>
           <button class="filter-btn" data-genre="adventure" aria-pressed="false">⚔️ Adventure <span class="filter-count" id="cnt-adventure"></span></button>
           <button class="filter-btn" data-genre="roleplay" aria-pressed="false">🎭 Roleplay <span class="filter-count" id="cnt-roleplay"></span></button>
@@ -282,7 +282,7 @@
       <!-- Results bar -->
       <div class="results-bar">
         <div class="results-left">
-          <span id="resultsText">Showing 200 games</span>
+          <span id="resultsText">Showing 270+ games</span>
           <button class="link-btn" id="clearFilters" hidden>Clear filters</button>
         </div>
         <div class="results-right">
@@ -344,6 +344,71 @@
       <div class="scroll-row" id="beginnerRow"></div>
     </section>
 
+    <!-- Genre Explorer -->
+    <section class="section" id="genre-explorer" aria-label="Browse by genre">
+      <div class="section-header">
+        <h2 class="section-title"><span class="title-accent">🗂️</span> Browse by Genre</h2>
+        <span class="section-sub">Tap a genre to instantly filter all 270+ games</span>
+      </div>
+      <div class="genre-explorer-grid" id="genreExplorerGrid">
+        <button class="genre-card" data-genre="fps" onclick="document.querySelector('.filter-btn[data-genre=fps]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">🔫</span>
+          <span class="genre-card-name">FPS &amp; Combat</span>
+          <span class="genre-card-count" id="gc-fps"></span>
+        </button>
+        <button class="genre-card" data-genre="adventure" onclick="document.querySelector('.filter-btn[data-genre=adventure]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">⚔️</span>
+          <span class="genre-card-name">Adventure &amp; RPG</span>
+          <span class="genre-card-count" id="gc-adventure"></span>
+        </button>
+        <button class="genre-card" data-genre="roleplay" onclick="document.querySelector('.filter-btn[data-genre=roleplay]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">🎭</span>
+          <span class="genre-card-name">Roleplay</span>
+          <span class="genre-card-count" id="gc-roleplay"></span>
+        </button>
+        <button class="genre-card" data-genre="horror" onclick="document.querySelector('.filter-btn[data-genre=horror]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">👻</span>
+          <span class="genre-card-name">Horror</span>
+          <span class="genre-card-count" id="gc-horror"></span>
+        </button>
+        <button class="genre-card" data-genre="tycoon" onclick="document.querySelector('.filter-btn[data-genre=tycoon]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">🏗️</span>
+          <span class="genre-card-name">Tycoon</span>
+          <span class="genre-card-count" id="gc-tycoon"></span>
+        </button>
+        <button class="genre-card" data-genre="platformer" onclick="document.querySelector('.filter-btn[data-genre=platformer]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">🏃</span>
+          <span class="genre-card-name">Platformer &amp; Obby</span>
+          <span class="genre-card-count" id="gc-platformer"></span>
+        </button>
+        <button class="genre-card" data-genre="social" onclick="document.querySelector('.filter-btn[data-genre=social]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">🎲</span>
+          <span class="genre-card-name">Social &amp; Party</span>
+          <span class="genre-card-count" id="gc-social"></span>
+        </button>
+        <button class="genre-card" data-genre="strategy" onclick="document.querySelector('.filter-btn[data-genre=strategy]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">♟️</span>
+          <span class="genre-card-name">Strategy</span>
+          <span class="genre-card-count" id="gc-strategy"></span>
+        </button>
+        <button class="genre-card" data-genre="racing" onclick="document.querySelector('.filter-btn[data-genre=racing]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">🏎️</span>
+          <span class="genre-card-name">Racing</span>
+          <span class="genre-card-count" id="gc-racing"></span>
+        </button>
+        <button class="genre-card" data-genre="sports" onclick="document.querySelector('.filter-btn[data-genre=sports]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">⚽</span>
+          <span class="genre-card-name">Sports</span>
+          <span class="genre-card-count" id="gc-sports"></span>
+        </button>
+        <button class="genre-card" data-genre="building" onclick="document.querySelector('.filter-btn[data-genre=building]').click();document.getElementById('all-games').scrollIntoView({behavior:'smooth'})">
+          <span class="genre-card-icon">🧱</span>
+          <span class="genre-card-name">Building</span>
+          <span class="genre-card-count" id="gc-building"></span>
+        </button>
+      </div>
+    </section>
+
     <!-- Tips -->
     <section class="section" id="tips" aria-label="Roblox tips">
       <div class="section-header">
@@ -379,7 +444,7 @@
         <span class="footer-name">RobloxPicks</span>
       </div>
       <p class="footer-copy">Not affiliated with Roblox Corporation. All game names belong to their creators. Updated May 2026.</p>
-      <p class="footer-note">200+ curated quality games · Zero brainrot · AI-powered recommendations</p>
+      <p class="footer-note">270+ curated quality games · Zero brainrot · AI-powered recommendations</p>
     </div>
   </footer>
 
