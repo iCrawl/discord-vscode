@@ -4,7 +4,7 @@ import type { ExtensionContext, StatusBarItem } from 'vscode';
 import { commands, StatusBarAlignment, window, workspace, debug } from 'vscode';
 import { activity } from './activity';
 import { CLIENT_ID, CONFIG_KEYS } from './constants';
-import { log, LogLevel } from './logger';
+import { log, LogLevel, showLogs } from './logger';
 import { getConfig, getGit } from './util';
 
 const statusBarIcon: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
@@ -140,7 +140,11 @@ export async function activate(context: ExtensionContext) {
 		statusBarIcon.show();
 	});
 
-	context.subscriptions.push(enabler, disabler, reconnecter, disconnect);
+	const logs = commands.registerCommand('discord.showLogs', () => {
+		showLogs();
+	});
+
+	context.subscriptions.push(enabler, disabler, reconnecter, disconnect, logs);
 
 	if (!isWorkspaceExcluded && config[CONFIG_KEYS.Enabled]) {
 		statusBarIcon.show();

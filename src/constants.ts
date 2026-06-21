@@ -17,13 +17,18 @@ export const CURSOR_IMAGE_KEY = 'cursor' as const;
 
 export const UNKNOWN_GIT_BRANCH = 'Unknown' as const;
 export const UNKNOWN_GIT_REPO_NAME = 'Unknown' as const;
+export const PRIVATE_VALUE = 'Private' as const;
 
 export const enum REPLACE_KEYS {
 	AppName = '{app_name}',
 	CurrentColumn = '{current_column}',
+	CurrentErrors = '{current_errors}',
 	CurrentLine = '{current_line}',
+	CurrentProblems = '{current_problems}',
+	CurrentWarnings = '{current_warnings}',
 	DirName = '{dir_name}',
 	Empty = '{empty}',
+	FileExtension = '{file_extension}',
 	FileName = '{file_name}',
 	FileSize = '{file_size}',
 	FullDirName = '{full_dir_name}',
@@ -37,7 +42,6 @@ export const enum REPLACE_KEYS {
 	Workspace = '{workspace}',
 	WorkspaceAndFolder = '{workspace_and_folder}',
 	WorkspaceFolder = '{workspace_folder}',
-	CurrentErrors = '{current_errors}',
 }
 
 export const enum CONFIG_KEYS {
@@ -45,6 +49,7 @@ export const enum CONFIG_KEYS {
 	DetailsEditing = 'detailsEditing',
 	DetailsIdling = 'detailsIdling',
 	Enabled = 'enabled',
+	FileExcludePatterns = 'fileExcludePatterns',
 	IdleTimeout = 'idleTimeout',
 	LargeImage = 'largeImage',
 	LargeImageIdling = 'largeImageIdling',
@@ -52,6 +57,7 @@ export const enum CONFIG_KEYS {
 	LowerDetailsEditing = 'lowerDetailsEditing',
 	LowerDetailsIdling = 'lowerDetailsIdling',
 	LowerDetailsNoWorkspaceFound = 'lowerDetailsNoWorkspaceFound',
+	PrivacyMode = 'privacyMode',
 	RemoveDetails = 'removeDetails',
 	RemoveLowerDetails = 'removeLowerDetails',
 	RemoveRemoteRepository = 'removeRemoteRepository',

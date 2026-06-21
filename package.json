@@ -108,6 +108,11 @@
 				"command": "discord.disconnect",
 				"title": "Disconnect Discord Presence from Discord",
 				"category": "Discord Presence"
+			},
+			{
+				"command": "discord.showLogs",
+				"title": "Show Discord Presence Logs",
+				"category": "Discord Presence"
 			}
 		],
 		"configuration": [
@@ -182,6 +187,23 @@
 						},
 						"default": [],
 						"description": "Patterns of workspaces to ignore"
+					},
+					"discord.fileExcludePatterns": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"default": [
+							"(^|[\\\\/])\\.env($|\\.)",
+							"(^|[\\\\/])secrets?\\.",
+							"\\.(pem|key|p12|pfx)$"
+						],
+						"description": "Regular expression patterns of files to hide from Discord Presence. Matching files are shown as private files."
+					},
+					"discord.privacyMode": {
+						"type": "boolean",
+						"default": false,
+						"description": "Hides file names, folder names, workspace names, Git repository names, and remote repository buttons from Discord Presence."
 					},
 					"discord.swapBigAndSmallImage": {
 						"type": "boolean",

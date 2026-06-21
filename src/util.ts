@@ -12,6 +12,7 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	detailsEditing: string;
 	detailsIdling: string;
 	enabled: boolean;
+	fileExcludePatterns: string[];
 	idleTimeout: number;
 	largeImage: string;
 	largeImageIdling: string;
@@ -19,6 +20,7 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	lowerDetailsEditing: string;
 	lowerDetailsIdling: string;
 	lowerDetailsNoWorkspaceFound: string;
+	privacyMode: boolean;
 	removeDetails: boolean;
 	removeLowerDetails: boolean;
 	removeRemoteRepository: boolean;
