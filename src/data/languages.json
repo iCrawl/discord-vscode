@@ -1123,7 +1123,13 @@
 			"image": "pawn"
 		},
 		".proto": {
-			"image": "manifest"
+			"image": "protobuf"
+		},
+		".textproto": {
+			"image": "protobuf"
+		},
+		".pbtxt": {
+			"image": "protobuf"
 		},
 		".pytb": {
 			"image": "manifest"
