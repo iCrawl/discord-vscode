@@ -1,70 +1,105 @@
-# Discord Presence
+# 🎮 Discord Presence
 
-> Update your discord status with a rich presence.
+**Update your Discord status with a rich presence, straight from VS Code.**
 
-<div align="center">
-	<p>
-		<a href="https://marketplace.visualstudio.com/items?itemName=icrawl.discord-vscode">
-			<img alt="Visual Studio Marketplace Version" src="https://img.shields.io/visual-studio-marketplace/v/icrawl.discord-vscode?label=Visual%20Studio%20Marketplace">
-		</a>
-		<a href="https://marketplace.visualstudio.com/items?itemName=icrawl.discord-vscode">
-			<img alt="Visual Studio Marketplace Downloads" src="https://img.shields.io/visual-studio-marketplace/d/icrawl.discord-vscode">
-		</a>
-		<a href="https://marketplace.visualstudio.com/items?itemName=icrawl.discord-vscode">
-			<img alt="Visual Studio Marketplace Rating" src="https://img.shields.io/visual-studio-marketplace/r/icrawl.discord-vscode">
-		</a>
-	</p>
-	<p>
-		<a href="https://open-vsx.org/extension/icrawl/discord-vscode">
-			<img alt="Open VSX Version" src="https://img.shields.io/open-vsx/v/icrawl/discord-vscode?label=OpenVSX%20Marketplace">
-		</a>
-		<a href="https://open-vsx.org/extension/icrawl/discord-vscode">
-			<img alt="Open VSX Downloads" src="https://img.shields.io/open-vsx/dt/icrawl/discord-vscode">
-		</a>
-		<a href="https://open-vsx.org/extension/icrawl/discord-vscode">
-			<img alt="Open VSX Rating" src="https://img.shields.io/open-vsx/rating/icrawl/discord-vscode">
-		</a>
-	</p>
-	<p>
-		<a href="https://discord.gg/cZSWqAF">
-			<img src="https://canary.discordapp.com/api/guilds/424963290989461514/embed.png" alt="Discord server">
-		</a>
-	</p>
-</div>
+📦 [**Marketplace**](https://marketplace.visualstudio.com/items?itemName=icrawl.discord-vscode) &nbsp;|&nbsp; 🧩 [**Open VSX**](https://open-vsx.org/extension/icrawl/discord-vscode) &nbsp;|&nbsp; 💬 [**Discord**](https://discord.gg/cZSWqAF) &nbsp;|&nbsp; 📄 [**MIT License**](https://github.com/iCrawl/discord-vscode/blob/master/LICENSE)
 
-## Features
+---
 
-- Shows what you are editing in VSCode
-- Support for over 200+ of the most popular languages
-- Enable/Disable Rich Presence for individual workspaces (enabled by default)
-- Custom string support
-- Stable or Insiders build detection
-- Debug mode detection
-- Easily manually reconnect to Discord
+## 📌 About
 
-## Troubleshooting
+**Discord Presence** connects VS Code to your Discord profile using Discord's Rich Presence feature. Once installed, your Discord status automatically updates to show what you're working on in real time — the file you have open, the programming language, your workspace name, and how long you've been coding.
 
-**Windows:** Do not run your VSCode or Discord as admin, there is no reason to and it just further complicates everything down the line.
+Anyone who views your Discord profile can see your live coding activity, for example:
 
-**Linux:** Discord versions installed using `flatpak` or `snap` need modifications in order to support IPC. In order to avoid this (and as Discord itself suggests) you should download it from [discord.com](https://discord.com/download)
+```
+🟢 Editing README.md
+   Workspace: discord-vscode
+   00:12:45 elapsed
+```
 
-References:  
-https://github.com/flathub/com.discordapp.Discord/issues/29  
-https://github.com/iCrawl/discord-vscode/issues/77#issuecomment-435622205  
-https://github.com/iCrawl/discord-vscode/issues/85#issuecomment-417895483
+No manual setup is required beyond installing the extension — it detects your project, language, and editor state automatically, and updates the moment you switch files, start debugging, or go idle.
 
-## Contributing
+---
 
-1. [Fork the repository](https://github.com/iCrawl/discord-vscode/fork)!
-2. Clone your fork: `git clone https://github.com/your-username/discord-vscode.git`
-3. Create your feature branch: `git checkout -b my-new-feature`
-4. Commit your changes: `git commit -am 'Add some feature'`
-5. Push to the branch: `git push origin my-new-feature`
-6. Submit a pull request :D
+## ✨ Features
 
-## Author
+- 🖊️ **Live editing status** — shows the file and workspace you're currently working on
+- 🌐 **200+ languages** — recognizes and displays icons for most popular programming languages
+- 🗂️ **Per-workspace toggle** — enable or disable Rich Presence for individual workspaces (on by default)
+- 📝 **Custom strings** — override the default status text with your own format
+- 🧪 **Build detection** — distinguishes between Stable and Insiders builds automatically
+- 🐞 **Debug mode detection** — shows when you're actively debugging
+- 🔄 **Manual reconnect** — reconnect to Discord on demand without restarting VS Code
 
-**Discord Presence** © [iCrawl](https://github.com/iCrawl).  
+---
+
+## 📦 Installation
+
+**From the Extensions view:**
+1. Open the Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+2. Search for `Discord Presence`
+3. Click **Install**
+
+**From the command line:**
+```bash
+code --install-extension icrawl.discord-vscode
+```
+
+**Quick Open:**
+```
+ext install icrawl.discord-vscode
+```
+
+Also available on [Open VSX](https://open-vsx.org/extension/icrawl/discord-vscode) for VS Code–compatible editors (VSCodium, Gitpod, etc.).
+
+---
+
+## 🛠️ Troubleshooting
+
+### Windows
+Do **not** run VS Code or Discord as administrator. There's no reason to, and it introduces permission mismatches that block the IPC connection between the two apps.
+
+### Linux
+Discord installs from `flatpak` or `snap` sandbox the app and break IPC support, which Rich Presence relies on. Install Discord from the [official website](https://discord.com/download) instead.
+
+**Related reports:**
+- [flathub/com.discordapp.Discord#29](https://github.com/flathub/com.discordapp.Discord/issues/29)
+- [iCrawl/discord-vscode#77](https://github.com/iCrawl/discord-vscode/issues/77#issuecomment-435622205)
+- [iCrawl/discord-vscode#85](https://github.com/iCrawl/discord-vscode/issues/85#issuecomment-417895483)
+
+### Status still not updating?
+1. Confirm Discord is running (not just installed)
+2. Run **Discord Presence: Reconnect** from the Command Palette
+3. Check that Rich Presence is enabled for the current workspace in your settings
+4. Restart VS Code if the connection remains stuck
+
+---
+
+## 🤝 Contributing
+
+```bash
+# 1. Fork the repo on GitHub, then:
+git clone https://github.com/your-username/discord-vscode.git
+cd discord-vscode
+
+# 2. Create a feature branch
+git checkout -b my-new-feature
+
+# 3. Commit your changes
+git commit -am "Add some feature"
+
+# 4. Push and open a PR
+git push origin my-new-feature
+```
+
+Then [open a pull request](https://github.com/iCrawl/discord-vscode/pulls) 🚀
+
+---
+
+## 👤 Author
+
+**Discord Presence** © [iCrawl](https://github.com/iCrawl)
 Authored and maintained by iCrawl.
 
-> GitHub [@iCrawl](https://github.com/iCrawl)
+[GitHub](https://github.com/iCrawl) · [Marketplace](https://marketplace.visualstudio.com/items?itemName=icrawl.discord-vscode) · [Open VSX](https://open-vsx.org/extension/icrawl/discord-vscode) · [Discord](https://discord.gg/cZSWqAF)
