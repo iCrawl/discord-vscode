@@ -10,20 +10,27 @@ export const FAKE_EMPTY = '\u200B\u200B' as const;
 export const FILE_SIZES = [' bytes', 'KB', 'MB', 'GB', 'TB'] as const;
 
 export const IDLE_IMAGE_KEY = 'idle-vscode' as const;
+export const SECRET_IMAGE_KEY = 'secret' as const;
+export const SLEEP_IMAGE_KEY = 'sleep' as const;
 export const DEBUG_IMAGE_KEY = 'debug' as const;
-export const VSCODE_IMAGE_KEY = 'vscode' as const;
-export const VSCODE_INSIDERS_IMAGE_KEY = 'vscode-insiders' as const;
+export const VSCODE_IMAGE_KEY = 'visualstudio' as const;
+export const VSCODE_INSIDERS_IMAGE_KEY = 'visualstudio' as const;
 export const CURSOR_IMAGE_KEY = 'cursor' as const;
 
 export const UNKNOWN_GIT_BRANCH = 'Unknown' as const;
 export const UNKNOWN_GIT_REPO_NAME = 'Unknown' as const;
+export const PRIVATE_VALUE = 'Private' as const;
 
 export const enum REPLACE_KEYS {
 	AppName = '{app_name}',
 	CurrentColumn = '{current_column}',
+	CurrentErrors = '{current_errors}',
 	CurrentLine = '{current_line}',
+	CurrentProblems = '{current_problems}',
+	CurrentWarnings = '{current_warnings}',
 	DirName = '{dir_name}',
 	Empty = '{empty}',
+	FileExtension = '{file_extension}',
 	FileName = '{file_name}',
 	FileSize = '{file_size}',
 	FullDirName = '{full_dir_name}',
@@ -37,7 +44,6 @@ export const enum REPLACE_KEYS {
 	Workspace = '{workspace}',
 	WorkspaceAndFolder = '{workspace_and_folder}',
 	WorkspaceFolder = '{workspace_folder}',
-	CurrentErrors = '{current_errors}',
 }
 
 export const enum CONFIG_KEYS {
@@ -45,6 +51,7 @@ export const enum CONFIG_KEYS {
 	DetailsEditing = 'detailsEditing',
 	DetailsIdling = 'detailsIdling',
 	Enabled = 'enabled',
+	FileExcludePatterns = 'fileExcludePatterns',
 	IdleTimeout = 'idleTimeout',
 	LargeImage = 'largeImage',
 	LargeImageIdling = 'largeImageIdling',
@@ -52,10 +59,15 @@ export const enum CONFIG_KEYS {
 	LowerDetailsEditing = 'lowerDetailsEditing',
 	LowerDetailsIdling = 'lowerDetailsIdling',
 	LowerDetailsNoWorkspaceFound = 'lowerDetailsNoWorkspaceFound',
+	PrivacyDetails = 'privacyDetails',
+	PrivacyLargeImageKey = 'privacyLargeImageKey',
+	PrivacyMode = 'privacyMode',
 	RemoveDetails = 'removeDetails',
 	RemoveLowerDetails = 'removeLowerDetails',
 	RemoveRemoteRepository = 'removeRemoteRepository',
 	RemoveTimestamp = 'removeTimestamp',
+	RepositoryButtonLabel = 'repositoryButtonLabel',
+	ShowIdleImage = 'showIdleImage',
 	SmallImage = 'smallImage',
 	SuppressNotifications = 'suppressNotifications',
 	SwapBigAndSmallImage = 'swapBigAndSmallImage',

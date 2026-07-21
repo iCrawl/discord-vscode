@@ -108,6 +108,11 @@
 				"command": "discord.disconnect",
 				"title": "Disconnect Discord Presence from Discord",
 				"category": "Discord Presence"
+			},
+			{
+				"command": "discord.showLogs",
+				"title": "Show Discord Presence Logs",
+				"category": "Discord Presence"
 			}
 		],
 		"configuration": [
@@ -122,38 +127,38 @@
 					},
 					"discord.detailsIdling": {
 						"type": "string",
-						"default": "Idling",
+						"default": "No active file",
 						"description": "Custom string for the details section of the rich presence when idling\n\t- '{empty}' will be replaced with an empty space."
 					},
 					"discord.detailsEditing": {
 						"type": "string",
-						"default": "Editing {file_name}",
-						"description": "Custom string for the details section of the rich presence\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
+						"default": "File {file_name}",
+						"description": "Custom string for the details section of the rich presence\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{file_extension}' will be replaced with the current file extension.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{current_errors}' will get replaced with the current file's error count.\n\t- '{current_warnings}' will get replaced with the current file's warning count.\n\t- '{current_problems}' will get replaced with the current file's problem count.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
 					},
 					"discord.detailsDebugging": {
 						"type": "string",
 						"default": "Debugging {file_name}",
-						"description": "Custom string for the details section of the rich presence when debugging\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
+						"description": "Custom string for the details section of the rich presence when debugging\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{file_extension}' will be replaced with the current file extension.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{current_errors}' will get replaced with the current file's error count.\n\t- '{current_warnings}' will get replaced with the current file's warning count.\n\t- '{current_problems}' will get replaced with the current file's problem count.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
 					},
 					"discord.lowerDetailsIdling": {
 						"type": "string",
-						"default": "Idling",
+						"default": "Solution {workspace}",
 						"description": "Custom string for the state section of the rich presence when idling\n\t- '{empty}' will be replaced with an empty space."
 					},
 					"discord.lowerDetailsEditing": {
 						"type": "string",
-						"default": "Workspace: {workspace}",
-						"description": "Custom string for the state section of the rich presence\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
+						"default": "Branch {git_branch}",
+						"description": "Custom string for the state section of the rich presence\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{file_extension}' will be replaced with the current file extension.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{current_errors}' will get replaced with the current file's error count.\n\t- '{current_warnings}' will get replaced with the current file's warning count.\n\t- '{current_problems}' will get replaced with the current file's problem count.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
 					},
 					"discord.lowerDetailsDebugging": {
 						"type": "string",
 						"default": "Debugging: {workspace}",
-						"description": "Custom string for the state section of the rich presence when debugging\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
+						"description": "Custom string for the state section of the rich presence when debugging\n\t- '{empty}' will be replaced with an empty space.\n\t- '{file_name}' will be replaced with the current file name.\n\t- '{file_extension}' will be replaced with the current file extension.\n\t- '{dir_name}' will get replaced with the folder name that has the current file.\n\t- '{full_dir_name}' will get replaced with the full directory name without the current file name.\n\t- '{workspace}' will be replaced with the current workspace name, if any.\n\t- '{workspace_folder}' will be replaced with the currently accessed workspace folder, if any.\n\t- '{workspace_and_folder} will be replaced with the currently accessed workspace and workspace folder like this: 'Workspace - WorkspaceFolder'\n\t- '{current_column}' will get replaced with the current column of the current line.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{current_errors}' will get replaced with the current file's error count.\n\t- '{current_warnings}' will get replaced with the current file's warning count.\n\t- '{current_problems}' will get replaced with the current file's problem count.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size.\n\t- '{git_repo_name}' will be replaced with the active Git repository name (from the git URL)\n\t- '{git_branch}' will be replaced with the current active branch name."
 					},
 					"discord.lowerDetailsNoWorkspaceFound": {
 						"type": "string",
 						"default": "No workspace",
-						"description": "Custom string for the state section of the rich presence when no workspace is found.\nIf set to '{empty}', this will be an empty space.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_size}' will get replaced with the current file's size."
+						"description": "Custom string for the state section of the rich presence when no workspace is found.\nIf set to '{empty}', this will be an empty space.\n\t- '{current_line}' will get replaced with the current line number.\n\t- '{current_errors}' will get replaced with the current file's error count.\n\t- '{current_warnings}' will get replaced with the current file's warning count.\n\t- '{current_problems}' will get replaced with the current file's problem count.\n\t- '{total_lines}' will get replaced with the total line number.\n\t- '{file_extension}' will be replaced with the current file extension.\n\t- '{file_size}' will get replaced with the current file's size."
 					},
 					"discord.largeImageIdling": {
 						"type": "string",
@@ -183,6 +188,43 @@
 						"default": [],
 						"description": "Patterns of workspaces to ignore"
 					},
+					"discord.fileExcludePatterns": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"default": [
+							"(^|[\\\\/])\\.env($|\\.)",
+							"(^|[\\\\/])secrets?\\.",
+							"\\.(pem|key|p12|pfx)$"
+						],
+						"description": "Regular expression patterns of files to hide from Discord Presence. Matching files are shown as private files."
+					},
+					"discord.privacyMode": {
+						"type": "boolean",
+						"default": false,
+						"description": "Hides file names, folder names, workspace names, Git repository names, and remote repository buttons from Discord Presence."
+					},
+					"discord.privacyDetails": {
+						"type": "string",
+						"default": "This solution is hidden",
+						"description": "Text shown in the details section when privacy mode is enabled."
+					},
+					"discord.privacyLargeImageKey": {
+						"type": "string",
+						"default": "secret",
+						"description": "Discord Rich Presence asset key used as the large image when privacy mode is enabled."
+					},
+					"discord.repositoryButtonLabel": {
+						"type": "string",
+						"default": "Repository",
+						"description": "Label for the remote repository button."
+					},
+					"discord.showIdleImage": {
+						"type": "boolean",
+						"default": true,
+						"description": "Shows a sleep/idle image instead of the default idle keyboard image when there is no active file."
+					},
 					"discord.swapBigAndSmallImage": {
 						"type": "boolean",
 						"default": false,
@@ -206,7 +248,7 @@
 					"discord.removeRemoteRepository": {
 						"type": "boolean",
 						"default": false,
-						"description": "Removes the View Repository button"
+						"description": "Removes the Repository button"
 					},
 					"discord.idleTimeout": {
 						"type": "number",

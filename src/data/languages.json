@@ -1504,7 +1504,7 @@
 			"image": "stylus"
 		},
 		".sln": {
-			"image": "csproj"
+			"image": "visualstudio"
 		},
 		"/\\.sv(h)?$/i": {
 			"image": "systemverilog"

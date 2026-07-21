@@ -31,3 +31,7 @@ export function log(level: LogLevel, message: Error | string) {
 		} catch {}
 	}
 }
+
+export function showLogs() {
+	outputChannel.show();
+}
