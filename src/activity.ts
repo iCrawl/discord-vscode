@@ -11,6 +11,8 @@ import {
 	IDLE_IMAGE_KEY,
 	PRIVATE_VALUE,
 	REPLACE_KEYS,
+	SECRET_IMAGE_KEY,
+	SLEEP_IMAGE_KEY,
 	UNKNOWN_GIT_BRANCH,
 	UNKNOWN_GIT_REPO_NAME,
 	VSCODE_IMAGE_KEY,
@@ -182,6 +184,10 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CONFIG_KEYS) {
 	const config = getConfig();
 	let raw = (config[idling] as string).replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
+	const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
+	let workspaceFolderName = workspace.workspaceFolders?.[0]?.name ?? noWorkspaceFound;
+	let workspaceName = workspace.name?.replace(REPLACE_KEYS.VSCodeWorkspace, EMPTY) ?? workspaceFolderName;
+	let workspaceAndFolder = `${workspaceName}${workspaceFolderName === FAKE_EMPTY ? '' : ` - ${workspaceFolderName}`}`;
 
 	if (window.activeTextEditor) {
 		const fileName = basename(window.activeTextEditor.document.fileName);
@@ -189,13 +195,10 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 		const split = dir.split(sep);
 		const dirName = split[split.length - 1];
 
-		const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
 		const workspaceFolder = workspace.getWorkspaceFolder(window.activeTextEditor.document.uri);
-		const workspaceFolderName = workspaceFolder?.name ?? noWorkspaceFound;
-		const workspaceName = workspace.name?.replace(REPLACE_KEYS.VSCodeWorkspace, EMPTY) ?? workspaceFolderName;
-		const workspaceAndFolder = `${workspaceName}${
-			workspaceFolderName === FAKE_EMPTY ? '' : ` - ${workspaceFolderName}`
-		}`;
+		workspaceFolderName = workspaceFolder?.name ?? noWorkspaceFound;
+		workspaceName = workspace.name?.replace(REPLACE_KEYS.VSCodeWorkspace, EMPTY) ?? workspaceFolderName;
+		workspaceAndFolder = `${workspaceName}${workspaceFolderName === FAKE_EMPTY ? '' : ` - ${workspaceFolderName}`}`;
 
 		const fileIcon = resolveFileIcon(window.activeTextEditor.document);
 		const privateDocument = isPrivateDocument(window.activeTextEditor.document);
@@ -239,7 +242,10 @@ async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CON
 			.replaceAll(REPLACE_KEYS.LanguageUpperCase, toUpper(fileIcon));
 	}
 
-	return raw;
+	return raw
+		.replaceAll(REPLACE_KEYS.Workspace, workspaceName)
+		.replaceAll(REPLACE_KEYS.WorkspaceFolder, workspaceFolderName)
+		.replaceAll(REPLACE_KEYS.WorkspaceAndFolder, workspaceAndFolder);
 }
 
 export async function activity(previous: ActivityPayload = {}) {
@@ -259,6 +265,7 @@ export async function activity(previous: ActivityPayload = {}) {
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
 	const removeLowerDetails = config[CONFIG_KEYS.RemoveLowerDetails];
 	const removeRemoteRepository = config[CONFIG_KEYS.RemoveRemoteRepository];
+	const privacyMode = config[CONFIG_KEYS.PrivacyMode];
 
 	const git = await getGit();
 
@@ -266,13 +273,23 @@ export async function activity(previous: ActivityPayload = {}) {
 		type: 0,
 		details: removeDetails
 			? undefined
-			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+			: privacyMode
+				? config[CONFIG_KEYS.PrivacyDetails]
+				: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
 		startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : (previous.startTimestamp ?? Date.now()),
-		largeImageKey: IDLE_IMAGE_KEY,
+		largeImageKey: privacyMode
+			? config[CONFIG_KEYS.PrivacyLargeImageKey] || SECRET_IMAGE_KEY
+			: config[CONFIG_KEYS.ShowIdleImage]
+				? SLEEP_IMAGE_KEY
+				: IDLE_IMAGE_KEY,
 		largeImageText: defaultLargeImageText,
 		smallImageKey: defaultSmallImageKey,
 		smallImageText: defaultSmallImageText,
 	};
+
+	if (privacyMode) {
+		return state;
+	}
 
 	if (swapBigAndSmallImage) {
 		state = {
@@ -284,19 +301,19 @@ export async function activity(previous: ActivityPayload = {}) {
 		};
 	}
 
-	if (!removeRemoteRepository && !config[CONFIG_KEYS.PrivacyMode] && git?.repositories.length) {
+	if (!removeRemoteRepository && git?.repositories.length) {
 		let repo = git.repositories.find((repo) => repo.ui.selected)?.state.remotes[0]?.fetchUrl;
 
 		if (repo) {
 			if (repo.startsWith('git@') || repo.startsWith('ssh://')) {
 				repo = repo.replace('ssh://', '').replace(':', '/').replace('git@', 'https://').replace('.git', '');
 			} else {
-				repo = repo.replace(/(https:\/\/)([^@]*)@(.*?$)/, '$1$3').replace('.git', '');
+				repo = repo.replace(/(?<protocol>https:\/\/)[^@]*@(?<host>.*?$)/, '$<protocol>$<host>').replace('.git', '');
 			}
 
 			state = {
 				...state,
-				buttons: [{ label: 'View Repository', url: repo }],
+				buttons: [{ label: config[CONFIG_KEYS.RepositoryButtonLabel], url: repo }],
 			};
 		}
 	}

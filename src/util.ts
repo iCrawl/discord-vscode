@@ -20,11 +20,15 @@ type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
 	lowerDetailsEditing: string;
 	lowerDetailsIdling: string;
 	lowerDetailsNoWorkspaceFound: string;
+	privacyDetails: string;
+	privacyLargeImageKey: string;
 	privacyMode: boolean;
 	removeDetails: boolean;
 	removeLowerDetails: boolean;
 	removeRemoteRepository: boolean;
 	removeTimestamp: boolean;
+	repositoryButtonLabel: string;
+	showIdleImage: boolean;
 	smallImage: string;
 	suppressNotifications: boolean;
 	swapBigAndSmallImage: boolean;
@@ -48,12 +52,12 @@ export function resolveFileIcon(document: TextDocument) {
 			return true;
 		}
 
-		const match = /^\/(.*)\/([gimy]+)$/.exec(key);
+		const match = /^\/(?<pattern>.*)\/(?<flags>[gimy]+)$/.exec(key);
 		if (!match) {
 			return false;
 		}
 
-		const regex = new RegExp(match[1] as string, match[2] as string);
+		const regex = new RegExp(match.groups?.pattern as string, match.groups?.flags as string);
 		return regex.test(filename);
 	});
 	const findKnownLanguage = KNOWN_LANGUAGES.find((key) => key.language === document.languageId);

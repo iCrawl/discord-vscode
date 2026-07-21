@@ -74,6 +74,8 @@ async function login() {
 	}
 }
 
+
+
 export async function activate(context: ExtensionContext) {
 	log(LogLevel.Info, 'Discord Presence activated');
 
@@ -172,6 +174,7 @@ export async function activate(context: ExtensionContext) {
 
 	await getGit();
 }
+
 
 export function deactivate() {
 	cleanUp();
