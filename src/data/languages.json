@@ -17,6 +17,10 @@
 			"image": "bat"
 		},
 		{
+            "language": "raven",
+            "image": "raven"
+      },
+		{
 			"language": "bazel",
 			"image": "bazel"
 		},
@@ -531,6 +535,9 @@
 		".as": {
 			"image": "as"
 		},
+		".rv": {
+           "image": "raven"
+        },
 		".jsfl": {
 			"image": "as"
 		},
