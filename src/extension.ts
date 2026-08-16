@@ -46,8 +46,15 @@ async function login() {
 		const onChangeTextDocument = workspace.onDidChangeTextDocument(throttle(async () => sendActivity(), 2_000));
 		const onStartDebugSession = debug.onDidStartDebugSession(async () => sendActivity());
 		const onTerminateDebugSession = debug.onDidTerminateDebugSession(async () => sendActivity());
+		const onChangeTabs = window.tabGroups.onDidChangeTabs(throttle(async () => sendActivity(), 2_000));
 
-		listeners.push(onChangeActiveTextEditor, onChangeTextDocument, onStartDebugSession, onTerminateDebugSession);
+		listeners.push(
+			onChangeActiveTextEditor,
+			onChangeTextDocument,
+			onStartDebugSession,
+			onTerminateDebugSession,
+			onChangeTabs,
+		);
 	});
 
 	rpc.on('disconnected', () => {
