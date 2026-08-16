@@ -14,11 +14,17 @@ export const DEBUG_IMAGE_KEY = 'debug' as const;
 export const VSCODE_IMAGE_KEY = 'vscode' as const;
 export const VSCODE_INSIDERS_IMAGE_KEY = 'vscode-insiders' as const;
 export const CURSOR_IMAGE_KEY = 'cursor' as const;
+export const AI_CHAT_IMAGE_KEYS: readonly string[] = ['claude', 'continue', 'roo-code'];
 
 export const UNKNOWN_GIT_BRANCH = 'Unknown' as const;
 export const UNKNOWN_GIT_REPO_NAME = 'Unknown' as const;
 
+// `TabInputWebview` prefixes the view type an extension registered, so `claudeVSCodePanel` reads back
+// as `mainThreadWebview-claudeVSCodePanel`.
+export const WEBVIEW_TAB_VIEW_TYPE_PREFIX = 'mainThreadWebview-' as const;
+
 export const enum REPLACE_KEYS {
+	AiName = '{ai_name}',
 	AppName = '{app_name}',
 	CurrentColumn = '{current_column}',
 	CurrentErrors = '{current_errors}',
@@ -41,13 +47,17 @@ export const enum REPLACE_KEYS {
 }
 
 export const enum CONFIG_KEYS {
+	AiChatViewTypes = 'aiChatViewTypes',
+	DetailsAiChat = 'detailsAiChat',
 	DetailsDebugging = 'detailsDebugging',
 	DetailsEditing = 'detailsEditing',
 	DetailsIdling = 'detailsIdling',
 	Enabled = 'enabled',
 	IdleTimeout = 'idleTimeout',
 	LargeImage = 'largeImage',
+	LargeImageAiChat = 'largeImageAiChat',
 	LargeImageIdling = 'largeImageIdling',
+	LowerDetailsAiChat = 'lowerDetailsAiChat',
 	LowerDetailsDebugging = 'lowerDetailsDebugging',
 	LowerDetailsEditing = 'lowerDetailsEditing',
 	LowerDetailsIdling = 'lowerDetailsIdling',

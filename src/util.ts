@@ -1,20 +1,31 @@
 import { basename } from 'node:path';
 import type { TextDocument, WorkspaceConfiguration } from 'vscode';
-import { workspace, extensions } from 'vscode';
+import { workspace, extensions, window, TabInputWebview } from 'vscode';
 import type { API, GitExtension } from './@types/git';
-import { KNOWN_EXTENSIONS, KNOWN_LANGUAGES } from './constants';
+import {
+	AI_CHAT_IMAGE_KEYS,
+	CONFIG_KEYS,
+	IDLE_IMAGE_KEY,
+	KNOWN_EXTENSIONS,
+	KNOWN_LANGUAGES,
+	WEBVIEW_TAB_VIEW_TYPE_PREFIX,
+} from './constants';
 import { log, LogLevel } from './logger';
 
 let git: API | null | undefined;
 
 type WorkspaceExtensionConfiguration = WorkspaceConfiguration & {
+	aiChatViewTypes: Record<string, string>;
+	detailsAiChat: string;
 	detailsDebugging: string;
 	detailsEditing: string;
 	detailsIdling: string;
 	enabled: boolean;
 	idleTimeout: number;
 	largeImage: string;
+	largeImageAiChat: string;
 	largeImageIdling: string;
+	lowerDetailsAiChat: string;
 	lowerDetailsDebugging: string;
 	lowerDetailsEditing: string;
 	lowerDetailsIdling: string;
@@ -62,6 +73,35 @@ export function resolveFileIcon(document: TextDocument) {
 			: null;
 
 	return typeof fileIcon === 'string' ? fileIcon : (fileIcon?.image ?? 'text');
+}
+
+export function resolveAiChat() {
+	const input = window.tabGroups.activeTabGroup?.activeTab?.input;
+	if (!(input instanceof TabInputWebview)) {
+		return undefined;
+	}
+
+	const viewType = input.viewType.startsWith(WEBVIEW_TAB_VIEW_TYPE_PREFIX)
+		? input.viewType.slice(WEBVIEW_TAB_VIEW_TYPE_PREFIX.length)
+		: input.viewType;
+
+	const match = Object.entries(getConfig()[CONFIG_KEYS.AiChatViewTypes]).find(([pattern]) => {
+		try {
+			return new RegExp(pattern).test(viewType);
+		} catch {
+			log(LogLevel.Error, `Invalid pattern in discord.aiChatViewTypes: ${pattern}`);
+			return false;
+		}
+	});
+
+	if (!match) {
+		return undefined;
+	}
+
+	const [, name] = match;
+	const image = toLower(name).replaceAll(' ', '-');
+
+	return { name, image: AI_CHAT_IMAGE_KEYS.includes(image) ? image : IDLE_IMAGE_KEY };
 }
 
 export async function getGit() {

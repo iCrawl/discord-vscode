@@ -16,7 +16,7 @@ import {
 	VSCODE_INSIDERS_IMAGE_KEY,
 } from './constants';
 import { log, LogLevel } from './logger';
-import { getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
+import { getConfig, getGit, resolveAiChat, resolveFileIcon, toLower, toTitle, toUpper } from './util';
 
 interface ActivityPayload {
 	buttons?: { label: string; url: string }[] | undefined;
@@ -113,9 +113,21 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 	return raw;
 }
 
-async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CONFIG_KEYS) {
+async function details(idling: CONFIG_KEYS, editing: CONFIG_KEYS, debugging: CONFIG_KEYS, aiChat: CONFIG_KEYS) {
 	const config = getConfig();
 	let raw = (config[idling] as string).replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
+
+	const chat = resolveAiChat();
+
+	if (chat) {
+		const noWorkspaceFound = config[CONFIG_KEYS.LowerDetailsNoWorkspaceFound].replace(REPLACE_KEYS.Empty, FAKE_EMPTY);
+		const workspaceName = workspace.name?.replace(REPLACE_KEYS.VSCodeWorkspace, EMPTY) ?? noWorkspaceFound;
+
+		return (config[aiChat] as string)
+			.replace(REPLACE_KEYS.Empty, FAKE_EMPTY)
+			.replace(REPLACE_KEYS.AiName, chat.name)
+			.replace(REPLACE_KEYS.Workspace, workspaceName);
+	}
 
 	if (window.activeTextEditor) {
 		const fileName = basename(window.activeTextEditor.document.fileName);
@@ -179,7 +191,11 @@ export async function activity(previous: ActivityPayload = {}) {
 				? VSCODE_INSIDERS_IMAGE_KEY
 				: VSCODE_IMAGE_KEY;
 	const defaultSmallImageText = config[CONFIG_KEYS.SmallImage].replace(REPLACE_KEYS.AppName, appName);
-	const defaultLargeImageText = config[CONFIG_KEYS.LargeImageIdling];
+	const aiChat = resolveAiChat();
+	const defaultLargeImageKey = aiChat?.image ?? IDLE_IMAGE_KEY;
+	const defaultLargeImageText = aiChat
+		? config[CONFIG_KEYS.LargeImageAiChat].replace(REPLACE_KEYS.AiName, aiChat.name)
+		: config[CONFIG_KEYS.LargeImageIdling];
 	const removeDetails = config[CONFIG_KEYS.RemoveDetails];
 	const removeLowerDetails = config[CONFIG_KEYS.RemoveLowerDetails];
 	const removeRemoteRepository = config[CONFIG_KEYS.RemoveRemoteRepository];
@@ -190,9 +206,14 @@ export async function activity(previous: ActivityPayload = {}) {
 		type: 0,
 		details: removeDetails
 			? undefined
-			: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+			: await details(
+					CONFIG_KEYS.DetailsIdling,
+					CONFIG_KEYS.DetailsEditing,
+					CONFIG_KEYS.DetailsDebugging,
+					CONFIG_KEYS.DetailsAiChat,
+				),
 		startTimestamp: config[CONFIG_KEYS.RemoveTimestamp] ? undefined : (previous.startTimestamp ?? Date.now()),
-		largeImageKey: IDLE_IMAGE_KEY,
+		largeImageKey: defaultLargeImageKey,
 		largeImageText: defaultLargeImageText,
 		smallImageKey: defaultSmallImageKey,
 		smallImageText: defaultSmallImageText,
@@ -203,7 +224,7 @@ export async function activity(previous: ActivityPayload = {}) {
 			...state,
 			largeImageKey: defaultSmallImageKey,
 			largeImageText: defaultSmallImageText,
-			smallImageKey: IDLE_IMAGE_KEY,
+			smallImageKey: defaultLargeImageKey,
 			smallImageText: defaultLargeImageText,
 		};
 	}
@@ -225,6 +246,18 @@ export async function activity(previous: ActivityPayload = {}) {
 		}
 	}
 
+	if (aiChat && !removeLowerDetails) {
+		state = {
+			...state,
+			state: await details(
+				CONFIG_KEYS.LowerDetailsIdling,
+				CONFIG_KEYS.LowerDetailsEditing,
+				CONFIG_KEYS.LowerDetailsDebugging,
+				CONFIG_KEYS.LowerDetailsAiChat,
+			),
+		};
+	}
+
 	if (window.activeTextEditor) {
 		const largeImageKey = resolveFileIcon(window.activeTextEditor.document);
 		const largeImageText = config[CONFIG_KEYS.LargeImage]
@@ -237,13 +270,19 @@ export async function activity(previous: ActivityPayload = {}) {
 			...state,
 			details: removeDetails
 				? undefined
-				: await details(CONFIG_KEYS.DetailsIdling, CONFIG_KEYS.DetailsEditing, CONFIG_KEYS.DetailsDebugging),
+				: await details(
+						CONFIG_KEYS.DetailsIdling,
+						CONFIG_KEYS.DetailsEditing,
+						CONFIG_KEYS.DetailsDebugging,
+						CONFIG_KEYS.DetailsAiChat,
+					),
 			state: removeLowerDetails
 				? undefined
 				: await details(
 						CONFIG_KEYS.LowerDetailsIdling,
 						CONFIG_KEYS.LowerDetailsEditing,
 						CONFIG_KEYS.LowerDetailsDebugging,
+						CONFIG_KEYS.LowerDetailsAiChat,
 					),
 		};
 

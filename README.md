@@ -40,6 +40,7 @@
 - Custom string support
 - Stable or Insiders build detection
 - Debug mode detection
+- AI chat detection
 - Easily manually reconnect to Discord
 
 ## Troubleshooting
