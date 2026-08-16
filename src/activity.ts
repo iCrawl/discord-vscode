@@ -16,7 +16,7 @@ import {
 	VSCODE_INSIDERS_IMAGE_KEY,
 } from './constants';
 import { log, LogLevel } from './logger';
-import { getConfig, getGit, resolveFileIcon, toLower, toTitle, toUpper } from './util';
+import { getConfig, getGit, getGitRepoName, resolveFileIcon, toLower, toTitle, toUpper } from './util';
 
 interface ActivityPayload {
 	buttons?: { label: string; url: string }[] | undefined;
@@ -98,13 +98,8 @@ async function fileDetails(_raw: string, document: TextDocument, selection: Sele
 
 	if (raw.includes(REPLACE_KEYS.GitRepoName)) {
 		if (git?.repositories.length) {
-			raw = raw.replace(
-				REPLACE_KEYS.GitRepoName,
-				git.repositories
-					?.find((repo) => repo.ui.selected)
-					?.state.remotes[0]?.fetchUrl?.split('/')[1]
-					?.replace('.git', '') ?? FAKE_EMPTY,
-			);
+			const repoUrl = git.repositories?.find((repo) => repo.ui.selected)?.state.remotes[0]?.fetchUrl;
+			raw = raw.replace(REPLACE_KEYS.GitRepoName, repoUrl ? getGitRepoName(repoUrl) : FAKE_EMPTY);
 		} else {
 			raw = raw.replace(REPLACE_KEYS.GitRepoName, UNKNOWN_GIT_REPO_NAME);
 		}

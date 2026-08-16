@@ -87,3 +87,15 @@ export async function getGit() {
 
 	return git;
 }
+
+export function getGitRepoName(url: string): string {
+	return (
+		url
+			.replace(/\.git$/, '')
+			.replace(/\\/g, '/')
+			.split('/')
+			.pop()
+			?.split(':')
+			.pop() ?? ''
+	);
+}
