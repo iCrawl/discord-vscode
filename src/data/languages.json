@@ -1,6 +1,10 @@
 {
 	"KNOWN_LANGUAGES": [
 		{
+			"language": "ada",
+			"image": "ada"
+		},
+		{
 			"language": "abap",
 			"image": "text"
 		},
@@ -485,6 +489,12 @@
 		},
 		"babel.config.js": {
 			"image": "babel"
+		},
+		".adb": {
+			"image": "ada"
+		},
+		".ads": {
+			"image": "ada"
 		},
 		".ahk": {
 			"image": "ahk"
