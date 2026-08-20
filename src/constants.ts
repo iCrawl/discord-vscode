@@ -1,6 +1,6 @@
 import LANG from './data/languages.json';
 
-export const CLIENT_ID = '383226320970055681' as const;
+export const CLIENT_ID = '1131225312726892614' as const;
 
 export const KNOWN_EXTENSIONS: { [key: string]: { image: string } } = LANG.KNOWN_EXTENSIONS;
 export const KNOWN_LANGUAGES: { image: string; language: string }[] = LANG.KNOWN_LANGUAGES;
